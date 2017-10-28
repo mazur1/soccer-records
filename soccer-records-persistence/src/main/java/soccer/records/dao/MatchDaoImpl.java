@@ -6,6 +6,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 import soccer.records.entity.Match;
+import soccer.records.entity.Team;
 
 
 /**
@@ -15,29 +16,37 @@ import soccer.records.entity.Match;
 @Repository
 public class MatchDaoImpl implements MatchDao {
     
-    	@PersistenceContext
-        private EntityManager em;
+    @PersistenceContext
+    private EntityManager em;
+                
+    @Override        
+    public void create(Match m){
+        em.persist(m);
+    }
         
-        @Override
-        public Match findById(Long id){
-            return em.find(Match.class, id);
-        }
+    @Override
+    public void update(Match m) {
+        em.persist(m);
+    }
+    
+    @Override
+    public void delete(Match m) {
+        em.remove(m);
+    }
         
-        @Override        
-        public void create(Match m){
-            em.persist(m);
-        }
+    @Override
+    public Match findById(Long id){
+        return em.find(Match.class, id);
+    }
         
-        @Override
-        public void delete(Match m) {
-            em.remove(m);
-        }
-        
-        @Override        
-        public List<Match> findAll() {
-            return em.createQuery("select m from Match m", Match.class).getResultList();
-        }
-        
+    @Override        
+    public List<Match> findAll() {
+        return em.createQuery("select m from Match m", Match.class).getResultList();
+    }
 
+    @Override
+    public List<Match> findByTeam(Team t) {
+       return em.createQuery("select m from Match m WHERE m.teamOne = :teamId OR m.teamTwo = :teamId", Match.class).setParameter(":teamId", t.getId()).getResultList(); 
+    }
     
 }
