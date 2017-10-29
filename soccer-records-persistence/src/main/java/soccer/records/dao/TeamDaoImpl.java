@@ -41,7 +41,7 @@ public class TeamDaoImpl implements TeamDao {
     @Override
     public Team findByName(String name) {
         try {
-                return em.createQuery("select t from Team t where t.name = :name",Team.class).setParameter(":name", name).getSingleResult();
+                return em.createQuery("select t from Team t where t.name = :name",Team.class).setParameter("name", name).getSingleResult();
             } catch (NoResultException nrf) {
                 return null;
             }
