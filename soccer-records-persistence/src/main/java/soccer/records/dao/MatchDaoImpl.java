@@ -25,7 +25,7 @@ public class MatchDaoImpl implements MatchDao {
         
     @Override
     public void update(Match m) {
-        em.persist(m);
+        em.persist(m);//em.merge
     }
     
     @Override

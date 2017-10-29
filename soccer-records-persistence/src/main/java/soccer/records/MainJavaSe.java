@@ -22,7 +22,7 @@ public class MainJavaSe {
 	public static void main(String[] args) throws SQLException {
             
 		// start up a in-memory database
-		new AnnotationConfigApplicationContext(InMemoryDatabaseSpring.class);
+		AnnotationConfigApplicationContext appContext = new AnnotationConfigApplicationContext(InMemoryDatabaseSpring.class);
 
 		emf = Persistence.createEntityManagerFactory("default");
 
@@ -33,6 +33,7 @@ public class MainJavaSe {
 		// soccer records end
                 
 		emf.close();
+                appContext.close();
 	}
 
 

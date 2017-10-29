@@ -4,7 +4,6 @@ import soccer.records.dao.PlayerDao;
 import soccer.records.entity.Player;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -16,7 +15,6 @@ public class PlayerServiceImpl {
     
     @Autowired
     private PlayerDao playerDao;
-
 
     public void create(Player p) {
         playerDao.create(p);
