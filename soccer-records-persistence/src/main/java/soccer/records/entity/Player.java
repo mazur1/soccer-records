@@ -10,8 +10,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
+
+/**
+ *
+ * @author Tomas Mazurek
+ */
 
 @Entity
 public class Player {
@@ -23,6 +29,12 @@ public class Player {
 	@NotNull
 	@Column(nullable=false,unique=true)
 	private String name;
+        
+        @ManyToOne()
+        private Team team;
+        
+        @OneToMany()
+        private Set<PlayerResult> playerResults = new HashSet<PlayerResult>();
 
 	public Player(Long playerId) {
 		this.id = playerId; 
@@ -43,6 +55,22 @@ public class Player {
 	public Long getId() {
 		return id;
 	}
+        
+        public void setId(Long playerId) {
+            this.id = playerId; 
+        }
+        
+        public Long getTeamId() {
+            return team.getId();
+        }
+        
+        public void setTeamId(Long teamId) {
+            this.team.setId(teamId);
+        }
+        
+        public Team team() {
+            return this.team;
+        }
 
 	@Override
 	public int hashCode() {
