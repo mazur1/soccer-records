@@ -255,12 +255,12 @@ public class Match {
 	return "Match{" +
 		"id=" + id +
 		"dateAndTime=" + dateAndTime +
-                "address=" + location +
+                "location=" + location +
                 "teamHomeScoredHalf=" + teamHomeGoalsScoredHalf +
                 "teamAwayScoredHalf=" + teamAwayGoalsScoredHalf +
                 "teamHomeScoredTotal=" + teamHomeGoalsScored +
                 "teamAwayScoredTotal=" + teamAwayGoalsScored +
 		"}";
-	}
+    }
 }
 
