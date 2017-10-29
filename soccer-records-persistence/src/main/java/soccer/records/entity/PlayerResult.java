@@ -14,8 +14,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 import soccer.records.entity.Player;
@@ -37,11 +36,11 @@ public class PlayerResult {
     private int goalsScored;
 
     @NotNull
-    @OneToMany(mappedBy = "Player")
+    @ManyToOne
     private Set<Player> players = new HashSet<Player>();
 
     @NotNull
-    @OneToMany(mappedBy = "Match")
+    @ManyToOne
     private Set<Match> matches = new HashSet<Match>();
 
     public PlayerResult() {
