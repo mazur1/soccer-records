@@ -37,18 +37,18 @@ public class PlayerResult {
 
     @NotNull
     @ManyToOne
-    private Set<Player> players = new HashSet<Player>();
+    private Player player;
 
     @NotNull
     @ManyToOne
-    private Set<Match> matches = new HashSet<Match>();
+    private Match match;
 
     public PlayerResult() {
     }
 
     public PlayerResult(Player p, Match m) {
-        this.addMatch(m);
-        this.addPlayer(p);
+        this.setPlayer(p);
+        this.setMatch(m);
     }
 
     public int getGoalsScored() {
@@ -59,20 +59,20 @@ public class PlayerResult {
         this.goalsScored = goalsScored;
     }
 
-    public void addPlayer(Player p) {
-        this.players.add(p);
+    public Player getPlayer() {
+        return player;
     }
 
-    public Set<Player> getPlayers() {
-        return Collections.unmodifiableSet(players);
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 
-    public void addMatch(Match m) {
-        this.matches.add(m);
+    public Match getMatch() {
+        return match;
     }
 
-    public Set<Match> getMatches() {
-        return Collections.unmodifiableSet(matches);
+    public void setMatch(Match match) {
+        this.match = match;
     }
 
     public Long getId() {
