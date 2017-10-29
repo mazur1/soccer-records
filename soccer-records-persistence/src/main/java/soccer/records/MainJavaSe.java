@@ -16,6 +16,7 @@ import soccer.records.services.PlayerServiceImpl;
 import soccer.records.services.TeamServiceImpl;
 
 public class MainJavaSe {
+    
 	private static EntityManagerFactory emf;
 
 	public static void main(String[] args) throws SQLException {

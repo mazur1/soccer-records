@@ -18,7 +18,6 @@ public class PlayerDaoImpl implements PlayerDao {
 	@PersistenceContext
         private EntityManager em;
 
-
         @Override
 	public Player findById(Long id) {
             return em.find(Player.class, id);

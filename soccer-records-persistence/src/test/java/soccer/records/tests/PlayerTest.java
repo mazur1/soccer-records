@@ -9,14 +9,19 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import soccer.records.PersistenceContext;
 import soccer.records.entity.Player;
 import soccer.records.services.PlayerServiceImpl;
 
-public class PlayerTest {
+@ContextConfiguration(classes = soccer.records.PersistenceAppContext.class)
+public class PlayerTest extends AbstractTestNGSpringContextTests {
 
     @PersistenceUnit
     private EntityManagerFactory emf;
+
+    /*
+    @Autowired
+    private PlayerServiceImpl playerService;
+    */
 
     @Test
     public void playerTest() {
