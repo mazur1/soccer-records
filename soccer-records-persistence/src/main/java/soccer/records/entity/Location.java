@@ -60,4 +60,5 @@ public class Location {
         this.zip = zip;
     }
     
+    // + hash a equals
 }
