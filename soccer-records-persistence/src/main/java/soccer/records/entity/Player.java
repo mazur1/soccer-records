@@ -33,7 +33,7 @@ public class Player {
         @ManyToOne()
         private Team team;
         
-        @OneToMany()
+        @OneToMany(mappedBy = "player")
         private Set<PlayerResult> playerResults = new HashSet<PlayerResult>();
 
 	public Player(Long playerId) {
@@ -66,6 +66,14 @@ public class Player {
         
         public void setTeamId(Long teamId) {
             this.team.setId(teamId);
+        }
+        
+        public Team getTeam() {
+            return team;
+        }
+        
+        public void setTeam(Team team) {
+            this.team = team;
         }
         
         public Team team() {

@@ -46,17 +46,22 @@ public class PlayerResultDaoImpl implements PlayerResultDao {
 
     @Override
     public List<PlayerResult> findByPlayer(Player p) {
-        return em.createQuery("select pr from PlayerResult pr WHERE pr.player = :playerId", PlayerResult.class).setParameter(":playerId", p.getId()).getResultList();
+        return em.createQuery("select pr from PlayerResult pr WHERE pr.player = :player", PlayerResult.class).setParameter("player", p).getResultList();
     }
 
     @Override
     public List<PlayerResult> findByMatch(Match m) {
-        return em.createQuery("select pr from PlayerResult pr WHERE pr.match = :matchId", PlayerResult.class).setParameter(":matchId", m.getId()).getResultList();
+        return em.createQuery("select pr from PlayerResult pr WHERE pr.match = :match", PlayerResult.class).setParameter("match", m).getResultList();
     }
     
     @Override
     public PlayerResult findByBoth(Player p, Match m){
-        return em.createQuery("select pr from PlayerResult pr WHERE pr.player =:playerId AND pr.match =:matchId", PlayerResult.class).setParameter(":playerId", p.getId()).setParameter(":matchId", m.getId()).getSingleResult();
+        return em.createQuery("select pr from PlayerResult pr WHERE pr.player =:player AND pr.match =:match", PlayerResult.class).setParameter("player", p).setParameter("match", m).getSingleResult();
+    }
+
+    @Override
+    public List<PlayerResult> findAll() {
+        return em.createQuery("select pr from PlayerResult pr", PlayerResult.class).getResultList();
     }
 
 }

@@ -25,7 +25,7 @@ public class MatchDaoImpl implements MatchDao {
         
     @Override
     public void update(Match m) {
-        em.persist(m);//em.merge
+        em.merge(m);
     }
     
     @Override
@@ -45,7 +45,7 @@ public class MatchDaoImpl implements MatchDao {
 
     @Override
     public List<Match> findByTeam(Team t) {
-       return em.createQuery("select m from SoccerMatch m WHERE m.teamHome = :teamId OR m.teamAway = :teamId", Match.class).setParameter(":teamId", t.getId()).getResultList(); 
+       return em.createQuery("select m from SoccerMatch m WHERE m.teamHome = :team OR m.teamAway = :team", Match.class).setParameter("team", t).getResultList(); 
     }
     
 }
