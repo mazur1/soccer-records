@@ -46,7 +46,7 @@ public class MatchDaoImpl implements MatchDao {
 
     @Override
     public List<Match> findByTeam(Team t) {
-       return em.createQuery("select m from Match m WHERE m.teamOne = :teamId OR m.teamTwo = :teamId", Match.class).setParameter(":teamId", t.getId()).getResultList(); 
+       return em.createQuery("select m from Match m WHERE m.teamHome = :teamId OR m.teamAway = :teamId", Match.class).setParameter(":teamId", t.getId()).getResultList(); 
     }
     
 }

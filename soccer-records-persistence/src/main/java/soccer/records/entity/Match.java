@@ -33,35 +33,35 @@ public class Match {
     @NotNull
     @Embedded 
     private Location location;
-    private Integer teamOneGoalsScored;
-    private Integer teamTwoGoalsScored;
-    private Integer teamOneGoalsScoredHalf;
-    private Integer teamTwoGoalsScoredHalf;
+    private Integer teamHomeGoalsScored;
+    private Integer teamAwayGoalsScored;
+    private Integer teamHomeGoalsScoredHalf;
+    private Integer teamAwayGoalsScoredHalf;
     @NotNull
     @ManyToOne
-    private Team teamOne;
+    private Team teamHome;
     @NotNull
     @ManyToOne
-    private Team teamTwo;
+    private Team teamAway;
     @NotNull
     @OneToMany(mappedBy = "match") 
     @OrderBy("name")
     private List<PlayerResult> playerResults = new ArrayList<PlayerResult>();
     
-    public Team getTeamOne() {
-        return teamOne;
+    public Team getTeamHome() {
+        return teamHome;
     }
 
-    public void setTeamOne(Team teamOne) {
-        this.teamOne = teamOne;
+    public void setTeamHome(Team teamHome) {
+        this.teamHome = teamHome;
     }
 
     public Team getTeamTwo() {
-        return teamTwo;
+        return teamAway;
     }
 
-    public void setTeamTwo(Team teamTwo) {
-        this.teamTwo = teamTwo;
+    public void setTeamTwo(Team teamAway) {
+        this.teamAway = teamAway;
     }
     public List<PlayerResult> getPlayerResults() {
         return Collections.unmodifiableList(playerResults);
@@ -96,43 +96,43 @@ public class Match {
     }
 
     public Integer getTeamOneGoalsScored() {
-        return teamOneGoalsScored;
+        return teamHomeGoalsScored;
     }
 
-    public void setTeamOneGoalsScored(int teamOneGoalsScored) {
-        this.teamOneGoalsScored = teamOneGoalsScored;
+    public void setTeamOneGoalsScored(int teamHomeGoalsScored) {
+        this.teamHomeGoalsScored = teamHomeGoalsScored;
     }
 
     public Integer getTeamTwoGoalsScored() {
-        return teamTwoGoalsScored;
+        return teamAwayGoalsScored;
     }
 
-    public void setTeamTwoGoalsScored(int teamTwoGoalsScored) {
-        this.teamTwoGoalsScored = teamTwoGoalsScored;
+    public void setTeamTwoGoalsScored(int teamAwayGoalsScored) {
+        this.teamAwayGoalsScored = teamAwayGoalsScored;
     }
 
     public Integer getTeamOneGoalsScoredHalf() {
-        return teamOneGoalsScoredHalf;
+        return teamHomeGoalsScoredHalf;
     }
 
-    public void setTeamOneGoalsScoredHalf(int teamOneGoalsScoredHalf) {
-        this.teamOneGoalsScoredHalf = teamOneGoalsScoredHalf;
+    public void setTeamOneGoalsScoredHalf(int teamHomeGoalsScoredHalf) {
+        this.teamHomeGoalsScoredHalf = teamHomeGoalsScoredHalf;
     }
 
     public Integer getTeamTwoGoalsScoredHalf() {
-        return teamTwoGoalsScoredHalf;
+        return teamAwayGoalsScoredHalf;
     }
 
-    public void setTeamTwoGoalsScoredHalf(int teamTwoGoalsScoredHalf) {
-        this.teamTwoGoalsScoredHalf = teamTwoGoalsScoredHalf;
+    public void setTeamTwoGoalsScoredHalf(int teamAwayGoalsScoredHalf) {
+        this.teamAwayGoalsScoredHalf = teamAwayGoalsScoredHalf;
     }
         
     public Integer getTeamOneGoalsReceived() {
-        return teamTwoGoalsScored;
+        return teamAwayGoalsScored;
     }
     
     public Integer getTeamTwoGoalsReceived() {
-        return teamOneGoalsScored;
+        return teamHomeGoalsScored;
     }
     
     public Match(Long id) {
@@ -149,8 +149,8 @@ public class Match {
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + ((dateAndTime == null) ? 0 : dateAndTime.hashCode());
         result = prime * result + ((location == null) ? 0 : location.hashCode());
-        result = prime * result + ((teamOne == null) ? 0 : teamOne.hashCode());
-        result = prime * result + ((teamTwo == null) ? 0 : teamTwo.hashCode());
+        result = prime * result + ((teamHome == null) ? 0 : teamHome.hashCode());
+        result = prime * result + ((teamAway == null) ? 0 : teamAway.hashCode());
         //+ goals
         return result;
     }
@@ -177,19 +177,19 @@ public class Match {
             return false;
         }
         
-        if (teamOne == null) {
-            if (other.teamOne != null) { //@notnull?
+        if (teamHome == null) {
+            if (other.teamHome != null) { //@notnull?
                 return false;
             }
-        } else if (!teamOne.equals(other.teamOne)) {
+        } else if (!teamHome.equals(other.teamHome)) {
             return false;
         }
         
-        if (teamTwo == null) {
-            if (other.teamTwo != null) {
+        if (teamAway == null) {
+            if (other.teamAway != null) {
                 return false;
             }
-        } else if (!teamTwo.equals(other.teamTwo)) {
+        } else if (!teamAway.equals(other.teamAway)) {
             return false;
         }
         
@@ -209,35 +209,35 @@ public class Match {
             return false;
         }
         
-        if (teamOneGoalsScored == null) {
-            if (other.teamOneGoalsScored != null) {
+        if (teamHomeGoalsScored == null) {
+            if (other.teamHomeGoalsScored != null) {
                 return false;
             }
-        } else if (!teamOneGoalsScored.equals(other.teamOneGoalsScored)) {
+        } else if (!teamHomeGoalsScored.equals(other.teamHomeGoalsScored)) {
             return false;
         }
         
-        if (teamOneGoalsScoredHalf == null) {
-            if (other.teamOneGoalsScoredHalf != null) {
+        if (teamHomeGoalsScoredHalf == null) {
+            if (other.teamHomeGoalsScoredHalf != null) {
                 return false;
             }
-        } else if (!teamOneGoalsScoredHalf.equals(other.teamOneGoalsScoredHalf)) {
+        } else if (!teamHomeGoalsScoredHalf.equals(other.teamHomeGoalsScoredHalf)) {
             return false;
         }
         
-        if (teamTwoGoalsScored == null) {
-            if (other.teamTwoGoalsScored != null) {
+        if (teamAwayGoalsScored == null) {
+            if (other.teamAwayGoalsScored != null) {
                 return false;
             }
-        } else if (!teamTwoGoalsScored.equals(other.teamTwoGoalsScored)) {
+        } else if (!teamAwayGoalsScored.equals(other.teamAwayGoalsScored)) {
             return false;
         }
         
-        if (teamTwoGoalsScoredHalf == null) {
-            if (other.teamTwoGoalsScoredHalf != null) {
+        if (teamAwayGoalsScoredHalf == null) {
+            if (other.teamAwayGoalsScoredHalf != null) {
                 return false;
             }
-        } else if (!teamTwoGoalsScoredHalf.equals(other.teamTwoGoalsScoredHalf)) {
+        } else if (!teamAwayGoalsScoredHalf.equals(other.teamAwayGoalsScoredHalf)) {
             return false;
         }
                 
@@ -250,10 +250,10 @@ public class Match {
 		"id=" + id +
 		"dateAndTime=" + dateAndTime +
                 "address=" + location +
-                "teamOneScoredHalf=" + teamOneGoalsScoredHalf +
-                "teamTwoScoredHalf=" + teamTwoGoalsScoredHalf +
-                "teamOneScoredTotal=" + teamOneGoalsScored +
-                "teamTwoScoredTotal=" + teamTwoGoalsScored +
+                "teamHomeScoredHalf=" + teamHomeGoalsScoredHalf +
+                "teamAwayScoredHalf=" + teamAwayGoalsScoredHalf +
+                "teamHomeScoredTotal=" + teamHomeGoalsScored +
+                "teamAwayScoredTotal=" + teamAwayGoalsScored +
 		"}";
 	}
 }
