@@ -27,4 +27,6 @@ public interface PlayerResultDao {
 
     public List<PlayerResult> findByMatch(Match m);
 
+    public PlayerResult findByBoth(Player p, Match m);
+    
 }

@@ -40,5 +40,9 @@ public class PlayerResultServiceImpl {
     public List<PlayerResult> findByMatch(Match m){
          return playerResultDao.findByMatch(m);
     }
+ 
+    public PlayerResult findByBoth(Player p, Match m){
+         return playerResultDao.findByBoth(p,m);
+    }
     
 }
