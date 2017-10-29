@@ -2,7 +2,6 @@ package soccer.records.dao;
 
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 import soccer.records.entity.Match;
@@ -26,7 +25,7 @@ public class MatchDaoImpl implements MatchDao {
         
     @Override
     public void update(Match m) {
-        em.persist(m);
+        em.persist(m);//em.merge
     }
     
     @Override
@@ -41,12 +40,12 @@ public class MatchDaoImpl implements MatchDao {
         
     @Override        
     public List<Match> findAll() {
-        return em.createQuery("select m from Match m", Match.class).getResultList();
+        return em.createQuery("select m from SoccerMatch m", Match.class).getResultList();
     }
 
     @Override
     public List<Match> findByTeam(Team t) {
-       return em.createQuery("select m from Match m WHERE m.teamHome = :teamId OR m.teamAway = :teamId", Match.class).setParameter(":teamId", t.getId()).getResultList(); 
+       return em.createQuery("select m from SoccerMatch m WHERE m.teamHome = :teamId OR m.teamAway = :teamId", Match.class).setParameter(":teamId", t.getId()).getResultList(); 
     }
     
 }

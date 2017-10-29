@@ -41,7 +41,7 @@ public class PlayerDaoImpl implements PlayerDao {
 	@Override
 	public List<Player> findByName(String name) {
             try {
-                return em.createQuery("select p from Player p where p.name = :name",Player.class).setParameter(":name", name).getResultList();
+                return em.createQuery("select p from Player p where p.name = :name",Player.class).setParameter("name", name).getResultList();
             } catch (NoResultException nrf) {
                 return null;
             }

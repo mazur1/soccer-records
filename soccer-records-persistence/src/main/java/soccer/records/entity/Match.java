@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
@@ -22,6 +23,7 @@ import javax.validation.constraints.NotNull;
  * @author Tomas
  */
 @Entity
+@Table(name="SoccerMatch")
 public class Match {
     
     @Id
@@ -56,11 +58,11 @@ public class Match {
         this.teamHome = teamHome;
     }
 
-    public Team getTeamTwo() {
+    public Team getTeamAway() {
         return teamAway;
     }
 
-    public void setTeamTwo(Team teamAway) {
+    public void setTeamAway(Team teamAway) {
         this.teamAway = teamAway;
     }
     public List<PlayerResult> getPlayerResults() {
@@ -95,43 +97,43 @@ public class Match {
         this.location = location;
     }
 
-    public Integer getTeamOneGoalsScored() {
+    public Integer getTeamHomeGoalsScored() {
         return teamHomeGoalsScored;
     }
 
-    public void setTeamOneGoalsScored(int teamHomeGoalsScored) {
+    public void setTeamHomeGoalsScored(int teamHomeGoalsScored) {
         this.teamHomeGoalsScored = teamHomeGoalsScored;
     }
 
-    public Integer getTeamTwoGoalsScored() {
+    public Integer getTeamAwayGoalsScored() {
         return teamAwayGoalsScored;
     }
 
-    public void setTeamTwoGoalsScored(int teamAwayGoalsScored) {
+    public void setTeamAwayGoalsScored(int teamAwayGoalsScored) {
         this.teamAwayGoalsScored = teamAwayGoalsScored;
     }
 
-    public Integer getTeamOneGoalsScoredHalf() {
+    public Integer getTeamHomeGoalsScoredHalf() {
         return teamHomeGoalsScoredHalf;
     }
 
-    public void setTeamOneGoalsScoredHalf(int teamHomeGoalsScoredHalf) {
+    public void setTeamHomeGoalsScoredHalf(int teamHomeGoalsScoredHalf) {
         this.teamHomeGoalsScoredHalf = teamHomeGoalsScoredHalf;
     }
 
-    public Integer getTeamTwoGoalsScoredHalf() {
+    public Integer getTeamAwayGoalsScoredHalf() {
         return teamAwayGoalsScoredHalf;
     }
 
-    public void setTeamTwoGoalsScoredHalf(int teamAwayGoalsScoredHalf) {
+    public void setTeamAwayGoalsScoredHalf(int teamAwayGoalsScoredHalf) {
         this.teamAwayGoalsScoredHalf = teamAwayGoalsScoredHalf;
     }
         
-    public Integer getTeamOneGoalsReceived() {
+    public Integer getTeamHomeGoalsReceived() {
         return teamAwayGoalsScored;
     }
     
-    public Integer getTeamTwoGoalsReceived() {
+    public Integer getTeamAwayGoalsReceived() {
         return teamHomeGoalsScored;
     }
     
@@ -151,7 +153,11 @@ public class Match {
         result = prime * result + ((location == null) ? 0 : location.hashCode());
         result = prime * result + ((teamHome == null) ? 0 : teamHome.hashCode());
         result = prime * result + ((teamAway == null) ? 0 : teamAway.hashCode());
-        //+ goals
+        result = prime * result + ((teamHomeGoalsScored == null) ? 0 : teamHomeGoalsScored.hashCode());
+        result = prime * result + ((teamHomeGoalsScoredHalf == null) ? 0 : teamHomeGoalsScoredHalf.hashCode());
+        result = prime * result + ((teamAwayGoalsScored == null) ? 0 : teamAwayGoalsScored.hashCode());
+        result = prime * result + ((teamAwayGoalsScoredHalf == null) ? 0 : teamAwayGoalsScoredHalf.hashCode());
+        
         return result;
     }
 
@@ -178,66 +184,66 @@ public class Match {
         }
         
         if (teamHome == null) {
-            if (other.teamHome != null) { //@notnull?
+            if (other.getTeamHome() != null) { //@notnull?
                 return false;
             }
-        } else if (!teamHome.equals(other.teamHome)) {
+        } else if (!teamHome.equals(other.getTeamHome())) {
             return false;
         }
         
         if (teamAway == null) {
-            if (other.teamAway != null) {
+            if (other.getTeamAway() != null) {
                 return false;
             }
-        } else if (!teamAway.equals(other.teamAway)) {
+        } else if (!teamAway.equals(other.getTeamAway())) {
             return false;
         }
         
         if (dateAndTime == null) {
-            if (other.dateAndTime != null) {
+            if (other.getDateAndTime() != null) {
                 return false;
             }
-        } else if (!dateAndTime.equals(other.dateAndTime)) {
+        } else if (!dateAndTime.equals(other.getDateAndTime())) {
             return false;
         }
         
         if (location == null) {
-            if (other.location != null) {
+            if (other.getLocation() != null) {
                 return false;
             }
-        } else if (!location.equals(other.location)) {
+        } else if (!location.equals(other.getLocation())) {
             return false;
         }
         
         if (teamHomeGoalsScored == null) {
-            if (other.teamHomeGoalsScored != null) {
+            if (other.getTeamHomeGoalsScored() != null) {
                 return false;
             }
-        } else if (!teamHomeGoalsScored.equals(other.teamHomeGoalsScored)) {
+        } else if (!teamHomeGoalsScored.equals(other.getTeamHomeGoalsScored())) {
             return false;
         }
         
         if (teamHomeGoalsScoredHalf == null) {
-            if (other.teamHomeGoalsScoredHalf != null) {
+            if (other.getTeamHomeGoalsScoredHalf() != null) {
                 return false;
             }
-        } else if (!teamHomeGoalsScoredHalf.equals(other.teamHomeGoalsScoredHalf)) {
+        } else if (!teamHomeGoalsScoredHalf.equals(other.getTeamHomeGoalsScoredHalf())) {
             return false;
         }
         
         if (teamAwayGoalsScored == null) {
-            if (other.teamAwayGoalsScored != null) {
+            if (other.getTeamAwayGoalsScored() != null) {
                 return false;
             }
-        } else if (!teamAwayGoalsScored.equals(other.teamAwayGoalsScored)) {
+        } else if (!teamAwayGoalsScored.equals(other.getTeamAwayGoalsScored())) {
             return false;
         }
         
         if (teamAwayGoalsScoredHalf == null) {
-            if (other.teamAwayGoalsScoredHalf != null) {
+            if (other.getTeamAwayGoalsScoredHalf() != null) {
                 return false;
             }
-        } else if (!teamAwayGoalsScoredHalf.equals(other.teamAwayGoalsScoredHalf)) {
+        } else if (!teamAwayGoalsScoredHalf.equals(other.getTeamAwayGoalsScoredHalf())) {
             return false;
         }
                 
@@ -249,12 +255,12 @@ public class Match {
 	return "Match{" +
 		"id=" + id +
 		"dateAndTime=" + dateAndTime +
-                "address=" + location +
+                "location=" + location +
                 "teamHomeScoredHalf=" + teamHomeGoalsScoredHalf +
                 "teamAwayScoredHalf=" + teamAwayGoalsScoredHalf +
                 "teamHomeScoredTotal=" + teamHomeGoalsScored +
                 "teamAwayScoredTotal=" + teamAwayGoalsScored +
 		"}";
-	}
+    }
 }
 
