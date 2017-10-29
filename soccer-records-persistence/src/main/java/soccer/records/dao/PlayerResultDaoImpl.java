@@ -36,12 +36,12 @@ public class PlayerResultDaoImpl implements PlayerResultDao {
 
     @Override
     public void update(PlayerResult pr) {
-        em.persist(pr);
+        em.merge(pr);
     }
 
     @Override
     public void delete(PlayerResult pr) {
-        em.remove(pr);
+        em.remove(em.merge(pr));
     }
 
     @Override

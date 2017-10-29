@@ -33,9 +33,14 @@ public class PlayerDaoImpl implements PlayerDao {
             em.persist(c);
 	}
 
+        @Override
+	public void update(Player c) {
+            em.merge(c);
+	}
+        
 	@Override
 	public void delete(Player c) {
-            em.remove(c);
+            em.remove(em.merge(c));
 	}
 
 	@Override

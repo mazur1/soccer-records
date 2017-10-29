@@ -28,6 +28,10 @@ public class PlayerServiceImpl {
         return playerDao.findById(id);
     }
 
+    public void update(Player p) {
+        playerDao.update(p);
+    }
+    
     public void remove(Player p) throws IllegalArgumentException {
         playerDao.delete(p);
     }
