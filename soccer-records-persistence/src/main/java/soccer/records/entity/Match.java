@@ -29,10 +29,8 @@ public class Match {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
-    @NotNull
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateAndTime;
-    @NotNull
     @Embedded 
     private Location location;
     private Integer teamHomeGoalsScored;
@@ -45,9 +43,7 @@ public class Match {
     @NotNull
     @ManyToOne
     private Team teamAway;
-    @NotNull
-    @OneToMany(mappedBy = "match") 
-    @OrderBy("name")
+    @OneToMany(mappedBy = "match")
     private List<PlayerResult> playerResults = new ArrayList<PlayerResult>();
     
     public Team getTeamHome() {

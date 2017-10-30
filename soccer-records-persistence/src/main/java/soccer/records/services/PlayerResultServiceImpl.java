@@ -45,4 +45,8 @@ public class PlayerResultServiceImpl {
          return playerResultDao.findByBoth(p,m);
     }
     
+    public List<PlayerResult> findAll() {
+        return playerResultDao.findAll();
+    }
+    
 }

@@ -14,7 +14,6 @@ import soccer.records.entity.Team;
  * @author Tomas
  */
 @Service
-@Transactional
 public class MatchServiceImpl {
     
     @Autowired
