@@ -36,7 +36,7 @@ public class PlayerServiceImpl {
         playerDao.delete(p);
     }
 
-    public List<Player> findByName(String name) {
-        return playerDao.findByName(name);
+    public List<Player> findByName(String name, String surname) {
+        return playerDao.findByName(name, surname);
     }
 }
