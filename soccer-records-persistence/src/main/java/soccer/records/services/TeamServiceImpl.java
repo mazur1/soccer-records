@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import soccer.records.dao.TeamDao;
+import soccer.records.entity.Match;
 import soccer.records.entity.Team;
 
 
@@ -21,6 +22,10 @@ public class TeamServiceImpl {
 
     public void create(Team t) {
         teamDao.create(t);
+    }
+    
+    public void update(Team t){
+        teamDao.update(t);
     }
 
     public List<Team> findAll() {

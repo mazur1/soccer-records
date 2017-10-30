@@ -3,6 +3,7 @@ package soccer.records.tests;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
+import javax.validation.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.test.context.ContextConfiguration;
@@ -17,8 +18,13 @@ import soccer.records.PersistenceAppContext;
 import soccer.records.dao.PlayerDao;
 
 import soccer.records.entity.Player;
+import soccer.records.enums.PlayerPost;
 import soccer.records.services.PlayerServiceImpl;
 
+/**
+ *
+ * @author Radim Vidlák
+ */
 @ContextConfiguration(classes = PersistenceAppContext.class)
 @TestExecutionListeners(TransactionalTestExecutionListener.class)
 @Transactional
@@ -37,15 +43,41 @@ public class PlayerTest extends AbstractTestNGSpringContextTests {
         this.pl = new Player();       
     } 
     
+    @Test(expectedExceptions = ConstraintViolationException.class)
+    public void notNullTest(){
+        
+        this.pl.setName("Karel");
+        this.playerService.create(pl);
+
+        this.pl.setSurname("Dvoøák");
+        this.playerService.create(pl);        
+
+        this.pl.setAge(30);
+        this.playerService.create(pl); 
+
+        this.pl.setPost(PlayerPost.ATTACKER);
+        this.playerService.create(pl); 
+        
+        /* correct
+        this.pl.setCaptian(false);
+        this.playerService.create(pl); 
+        */
+    }
+    
     @Test
     public void playerCreateTest() {
 
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
     
-        this.pl.setName("Karel Novák");
+        this.pl.setName("Karel");
+        this.pl.setSurname("Novák");
+        this.pl.setAge(30);
+        this.pl.setPost(PlayerPost.GOLMAN);
+        this.pl.setCaptian(false);
+        
         playerService.create(this.pl);
-        Assert.assertEquals(this.pl.getName(), playerService.findByName("Karel Novák").get(0).getName());
+        Assert.assertEquals(this.pl.getName(), playerService.findByName("Karel","Novák").get(0).getName());
         
         em.getTransaction().commit();
         em.close();
@@ -58,9 +90,10 @@ public class PlayerTest extends AbstractTestNGSpringContextTests {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
 
-        this.pl.setName("Karel Bureš");       
+        this.pl.setName("Karel");
+        this.pl.setSurname("Bureš");
         playerService.update(this.pl);
-        Assert.assertEquals(this.pl.getName(), playerService.findByName("Karel Bureš").get(0).getName());
+        Assert.assertEquals(this.pl.getName(), playerService.findByName("Karel","Bureš").get(0).getName());
         
         em.getTransaction().commit();
         em.close();

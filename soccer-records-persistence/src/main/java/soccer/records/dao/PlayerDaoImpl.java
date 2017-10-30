@@ -22,6 +22,11 @@ public class PlayerDaoImpl implements PlayerDao {
 	public Player findById(Long id) {
             return em.find(Player.class, id);
 	}
+        
+        @Override
+        public Player findByPlayer(Player p){
+            return em.find(Player.class, p.getId());
+        }
 
 	@Override
 	public List<Player> findAll() {
@@ -44,9 +49,9 @@ public class PlayerDaoImpl implements PlayerDao {
 	}
 
 	@Override
-	public List<Player> findByName(String name) {
+	public List<Player> findByName(String name,  String surname) {
             try {
-                return em.createQuery("select p from Player p where p.name = :name",Player.class).setParameter("name", name).getResultList();
+                return em.createQuery("select p from Player p where p.name = :name AND p.surname = :surname",Player.class).setParameter("name", name).setParameter("surname", surname).getResultList();
             } catch (NoResultException nrf) {
                 return null;
             }
