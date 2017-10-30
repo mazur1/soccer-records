@@ -6,9 +6,10 @@ import soccer.records.entity.Player;
 
 public interface PlayerDao {
     public Player findById(Long id);
+    public Player findByPlayer(Player p);
     public void create(Player c);
     public void update(Player c);
     public void delete(Player c);
     public List<Player> findAll();
-    public List<Player> findByName(String name);
+    public List<Player> findByName(String name,  String surname);
 }
