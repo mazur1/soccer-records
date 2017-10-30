@@ -28,7 +28,9 @@ import soccer.records.services.MatchServiceImpl;
 import soccer.records.services.PlayerServiceImpl;
 
 /**
- *
+ * Testing CRUD methods in PlayerResultService 
+ * (and, by extension, PlayerResultDao)
+ * 
  * @author Michaela Bocanova
  */
 
@@ -39,7 +41,6 @@ public class PlayerResultTest extends AbstractTestNGSpringContextTests {
    
     @PersistenceUnit
     private EntityManagerFactory emf;
-
     
     @Autowired
     private PlayerResultServiceImpl playerResultService;
@@ -53,6 +54,7 @@ public class PlayerResultTest extends AbstractTestNGSpringContextTests {
     /*@Autowired
     private PlayerDao playerDao;*/
     
+    // helper methods with sample data
     private Player newPlayerA() {
         Player p = new Player();
         p.setName("Ján Suchý");
@@ -77,7 +79,10 @@ public class PlayerResultTest extends AbstractTestNGSpringContextTests {
         
         return t;
     }
-        
+       
+    /**
+     * Creates a new result and checks if exists
+     */
     @Test
     public void createAndFindPlayerResult() {
 
@@ -108,6 +113,9 @@ public class PlayerResultTest extends AbstractTestNGSpringContextTests {
         em.close();
     }
     
+    /**
+     * Updates a result
+     */
     @Test
     public void createAndUpdatePlayerResult() {
 
@@ -142,6 +150,9 @@ public class PlayerResultTest extends AbstractTestNGSpringContextTests {
         em.close();
     }
     
+    /**
+     * Deletes a result
+     */
     @Test
     public void createAndDeletePlayerResult() {
 
@@ -174,6 +185,9 @@ public class PlayerResultTest extends AbstractTestNGSpringContextTests {
         em.close();
     }
     
+    /**
+     * Finds results of a specific player
+     */
     @Test
     public void createAndFindByPlayer() {
 
@@ -206,6 +220,9 @@ public class PlayerResultTest extends AbstractTestNGSpringContextTests {
         em.close();
     }
     
+    /**
+     * Finds results for specific match
+     */
     @Test
     public void createAndFindByMatch() {
 
@@ -238,6 +255,9 @@ public class PlayerResultTest extends AbstractTestNGSpringContextTests {
         em.close();
     }
     
+    /**
+     * Finds results of player of specific match
+     */
     @Test
     public void createAndFindByPlayerAndMatch() {
 
@@ -274,6 +294,9 @@ public class PlayerResultTest extends AbstractTestNGSpringContextTests {
  
     }*/
     
+    /**
+     * Retrieves all results
+     */
     @Test
     public void createAndFindAllPlayerResults() {
         

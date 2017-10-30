@@ -8,7 +8,8 @@ package soccer.records.entity;
 import javax.persistence.Embeddable;
 
 /**
- *
+ * Composite value type for location of match
+ * 
  * @author Michaela Bocanova
  */
 @Embeddable

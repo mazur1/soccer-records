@@ -5,8 +5,9 @@ import soccer.records.entity.Match;
 import soccer.records.entity.Team;
 
 /**
- *
- * @author Tomas
+ * CRUD functionality in a repository
+ * 
+ * @author Michaela Bocanova
  */
 public interface MatchDao {
     
@@ -15,5 +16,10 @@ public interface MatchDao {
     public void delete(Match m);
     public Match findById(Long id);
     public List<Match> findAll();
+    /**
+     * Finds all matches the team participated in
+     * @param t
+     * @return 
+     */
     public List<Match> findByTeam(Team t);
 }
