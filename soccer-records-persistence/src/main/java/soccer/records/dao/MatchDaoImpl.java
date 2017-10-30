@@ -40,12 +40,12 @@ public class MatchDaoImpl implements MatchDao {
         
     @Override        
     public List<Match> findAll() {
-        return em.createQuery("select m from SoccerMatch m", Match.class).getResultList();
+        return em.createQuery("select m from Match m", Match.class).getResultList();
     }
 
     @Override
     public List<Match> findByTeam(Team t) {
-       return em.createQuery("select m from SoccerMatch m WHERE m.teamHome = :team OR m.teamAway = :team", Match.class).setParameter("team", t).getResultList(); 
+       return em.createQuery("select m from Match m WHERE m.teamHome = :team OR m.teamAway = :team", Match.class).setParameter("team", t).getResultList(); 
     }
     
 }
