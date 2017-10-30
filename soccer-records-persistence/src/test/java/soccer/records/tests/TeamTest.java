@@ -25,6 +25,7 @@ import soccer.records.entity.Match;
 
 import soccer.records.entity.Player;
 import soccer.records.entity.Team;
+import soccer.records.enums.PlayerPost;
 import soccer.records.services.MatchServiceImpl;
 import soccer.records.services.PlayerServiceImpl;
 import soccer.records.services.TeamServiceImpl;
@@ -55,9 +56,13 @@ public class TeamTest extends AbstractTestNGSpringContextTests {
         return testTeam;
     }
     
-    private Player createPlayer(String name) {
+    private Player createPlayer(String name, String surname, PlayerPost post, int age, boolean captain) {
         Player testPlayer = new Player();
         testPlayer.setName(name);
+        testPlayer.setAge(age);
+        testPlayer.setCaptian(false);
+        testPlayer.setSurname(surname);
+        testPlayer.setPost(post);
         return testPlayer;
     }
     
@@ -124,7 +129,7 @@ public class TeamTest extends AbstractTestNGSpringContextTests {
         
         Team testTeam = createTeam(TEST_TEAM_NAME);
         teamService.create(testTeam);
-        Player testPlayer = createPlayer(TEST_PLAYER_NAME);
+        Player testPlayer = createPlayer(TEST_PLAYER_NAME, "surname", PlayerPost.ATTACKER, 22, false);
         testPlayer.setTeam(testTeam);
         testTeam.teamPlayers().add(testPlayer);
         playerService.create(testPlayer);
