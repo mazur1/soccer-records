@@ -1,14 +1,17 @@
 package soccer.records.entity;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 /**
  *
@@ -27,13 +30,16 @@ public class Team {
     private String name;
     
     @OneToMany(mappedBy="team")
-    private Set<Player> players = new HashSet<Player>();
+    @Cascade({CascadeType.SAVE_UPDATE})
+    private List<Player> players = new ArrayList<Player>();
     
     @OneToMany(mappedBy="teamHome")
-    private Set<Match> matchesHome = new HashSet<Match>();
+    @Cascade({CascadeType.SAVE_UPDATE})
+    private List<Match> matchesHome = new ArrayList<Match>();
         
     @OneToMany(mappedBy="teamAway")
-    private Set<Match> matchesAway = new HashSet<Match>();
+    @Cascade({CascadeType.SAVE_UPDATE})
+    private List<Match> matchesAway = new ArrayList<Match>();
         
     public Team(Long teamId) {
         this.id = teamId; 
@@ -58,15 +64,15 @@ public class Team {
 	this.id = teamId; 
     }
     
-    public Set<Player> teamPlayers() {
+    public List<Player> teamPlayers() {
         return this.players;
     }
     
-    public Set<Match> matchesHome() {
+    public List<Match> matchesHome() {
         return this.matchesHome;
     }
     
-    public Set<Match> matchesAway() {
+    public List<Match> matchesAway() {
         return this.matchesAway;
     }
 

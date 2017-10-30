@@ -17,15 +17,14 @@ public class TeamDaoImpl implements TeamDao {
     @PersistenceContext
     private EntityManager em;
     
-    
-    @Override
-    public Team findById(Long id) {
-        return em.find(Team.class, id);
-    }
-    
     @Override
     public void create(Team t) {
         em.persist(t);
+    }
+    
+    @Override
+    public void update(Team t) {
+        em.merge(t);
     }
     
     @Override
@@ -36,6 +35,11 @@ public class TeamDaoImpl implements TeamDao {
     @Override
     public List<Team> findAll() {
         return em.createQuery("select t from Team t", Team.class).getResultList();
+    }
+    
+    @Override
+    public Team findById(Long id) {
+        return em.find(Team.class, id);
     }
     
     @Override
