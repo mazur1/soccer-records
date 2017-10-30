@@ -22,6 +22,7 @@ import soccer.records.entity.Match;
 import soccer.records.entity.Player;
 import soccer.records.entity.PlayerResult;
 import soccer.records.entity.Team;
+import soccer.records.enums.PlayerPost;
 import soccer.records.services.PlayerResultServiceImpl;
 import soccer.records.services.TeamServiceImpl;
 import soccer.records.services.MatchServiceImpl;
@@ -57,13 +58,21 @@ public class PlayerResultTest extends AbstractTestNGSpringContextTests {
     // helper methods with sample data
     private Player newPlayerA() {
         Player p = new Player();
-        p.setName("Ján Suchý");
+        p.setName("Ján");
+        p.setAge(22);
+        p.setCaptian(false);
+        p.setSurname("Suchý");
+        p.setPost(PlayerPost.GOLMAN);
         
         return p;
     }
     private Player newPlayerB() {
         Player p = new Player();
-        p.setName("Igor Vysoký");
+        p.setName("Igor");
+        p.setAge(21);
+        p.setCaptian(false);
+        p.setSurname("Vysoký");
+        p.setPost(PlayerPost.GOLMAN);
         
         return p;
     }
