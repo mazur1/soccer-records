@@ -19,8 +19,10 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 /**
- *
- * @author Tomas
+ * Entity representing a match between two soccer teams 
+ * containing info about location, date and time, score
+ * 
+ * @author Michaela Bocanova
  */
 @Entity
 @Table(name="SoccerMatch")
@@ -133,10 +135,24 @@ public class Match {
         return teamHomeGoalsScored;
     }
     
+    /**
+     * Constructor assigns a specific id
+     * @param id 
+     */
     public Match(Long id) {
          this.id = id;
     }
 
+    /**
+     * Constructor sets both notNull properties
+     * @param teamHome
+     * @param teamAway 
+     */
+    public Match(Team teamHome, Team teamAway) {
+        this.teamHome = teamHome;
+        this.teamAway = teamAway;
+    } 
+    
     public Match() {
     }       
       
@@ -180,7 +196,7 @@ public class Match {
         }
         
         if (teamHome == null) {
-            if (other.getTeamHome() != null) { //@notnull?
+            if (other.getTeamHome() != null) { 
                 return false;
             }
         } else if (!teamHome.equals(other.getTeamHome())) {

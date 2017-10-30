@@ -9,8 +9,9 @@ import soccer.records.entity.Team;
 
 
 /**
- *
- * @author Tomas
+ * Implemented CRUD functionality in a repository
+ * 
+ * @author Michaela Bocanova
  */
 @Repository
 public class MatchDaoImpl implements MatchDao {

@@ -10,8 +10,9 @@ import soccer.records.entity.Team;
 
 
 /**
- *
- * @author Tomas
+ * CRUD methods in service layer using MatchDao repository
+ * 
+ * @author Michaela Bocanova
  */
 @Service
 public class MatchServiceImpl {
