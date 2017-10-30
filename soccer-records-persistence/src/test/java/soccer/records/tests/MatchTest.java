@@ -101,10 +101,10 @@ public class MatchTest extends AbstractTestNGSpringContextTests {
         
         match.setTeamHome(homeTeam);
         match.setTeamAway(awayTeam);
-        match.setTeamHomeGoalsScored(2);
-        match.setTeamHomeGoalsScoredHalf(1);
-        match.setTeamAwayGoalsScored(1);
-        match.setTeamHomeGoalsScoredHalf(0);
+        match.setTeamHomeGoalsScored(2, false);
+        match.setTeamHomeGoalsScored(1, true);
+        match.setTeamAwayGoalsScored(1, false);
+        match.setTeamHomeGoalsScored(0, true);
         match.setLocation(location);
         match.setDateAndTime(cal.getTime());
         
@@ -123,8 +123,8 @@ public class MatchTest extends AbstractTestNGSpringContextTests {
         
         Assert.assertEquals(findResult, match);
         Assert.assertEquals(findAllResult.size(), 1);
-        Assert.assertEquals(findResult.getTeamHomeGoalsScored(), findResult.getTeamAwayGoalsReceived());
-        Assert.assertEquals(findResult.getTeamAwayGoalsScored(), findResult.getTeamHomeGoalsReceived());
+        Assert.assertEquals(findResult.getTeamHomeGoalsScored(false), findResult.getTeamAwayGoalsReceived(false));
+        Assert.assertEquals(findResult.getTeamAwayGoalsScored(false), findResult.getTeamHomeGoalsReceived(false));
         
         em.getTransaction().commit();
         em.close();

@@ -95,43 +95,41 @@ public class Match {
         this.location = location;
     }
 
-    public Integer getTeamHomeGoalsScored() {
+    public Integer getTeamHomeGoalsScored(boolean halftime) {
+        if (halftime)
+            return teamHomeGoalsScoredHalf;
         return teamHomeGoalsScored;
     }
 
-    public void setTeamHomeGoalsScored(int teamHomeGoalsScored) {
-        this.teamHomeGoalsScored = teamHomeGoalsScored;
+    public void setTeamHomeGoalsScored(int teamHomeGoalsScored, boolean halftime) {
+        if (halftime)
+            this.teamHomeGoalsScoredHalf = teamHomeGoalsScored;
+        else
+            this.teamHomeGoalsScored = teamHomeGoalsScored;
     }
 
-    public Integer getTeamAwayGoalsScored() {
+    public Integer getTeamAwayGoalsScored(boolean halftime) {
+        if (halftime)
+            return teamAwayGoalsScoredHalf;
         return teamAwayGoalsScored;
     }
 
-    public void setTeamAwayGoalsScored(int teamAwayGoalsScored) {
-        this.teamAwayGoalsScored = teamAwayGoalsScored;
-    }
-
-    public Integer getTeamHomeGoalsScoredHalf() {
-        return teamHomeGoalsScoredHalf;
-    }
-
-    public void setTeamHomeGoalsScoredHalf(int teamHomeGoalsScoredHalf) {
-        this.teamHomeGoalsScoredHalf = teamHomeGoalsScoredHalf;
-    }
-
-    public Integer getTeamAwayGoalsScoredHalf() {
-        return teamAwayGoalsScoredHalf;
-    }
-
-    public void setTeamAwayGoalsScoredHalf(int teamAwayGoalsScoredHalf) {
-        this.teamAwayGoalsScoredHalf = teamAwayGoalsScoredHalf;
+    public void setTeamAwayGoalsScored(int teamAwayGoalsScored, boolean halftime) {
+        if (halftime)
+            this.teamAwayGoalsScoredHalf = teamAwayGoalsScored;
+        else
+            this.teamAwayGoalsScored = teamAwayGoalsScored;
     }
         
-    public Integer getTeamHomeGoalsReceived() {
+    public Integer getTeamHomeGoalsReceived(boolean halftime) {
+        if (halftime)
+            return teamAwayGoalsScoredHalf;
         return teamAwayGoalsScored;
     }
     
-    public Integer getTeamAwayGoalsReceived() {
+    public Integer getTeamAwayGoalsReceived(boolean halftime) {
+        if (halftime)
+            return teamHomeGoalsScoredHalf;
         return teamHomeGoalsScored;
     }
     
@@ -228,34 +226,34 @@ public class Match {
         }
         
         if (teamHomeGoalsScored == null) {
-            if (other.getTeamHomeGoalsScored() != null) {
+            if (other.getTeamHomeGoalsScored(false) != null) {
                 return false;
             }
-        } else if (!teamHomeGoalsScored.equals(other.getTeamHomeGoalsScored())) {
+        } else if (!teamHomeGoalsScored.equals(other.getTeamHomeGoalsScored(false))) {
             return false;
         }
         
         if (teamHomeGoalsScoredHalf == null) {
-            if (other.getTeamHomeGoalsScoredHalf() != null) {
+            if (other.getTeamHomeGoalsScored(true) != null) {
                 return false;
             }
-        } else if (!teamHomeGoalsScoredHalf.equals(other.getTeamHomeGoalsScoredHalf())) {
+        } else if (!teamHomeGoalsScoredHalf.equals(other.getTeamHomeGoalsScored(true))) {
             return false;
         }
         
         if (teamAwayGoalsScored == null) {
-            if (other.getTeamAwayGoalsScored() != null) {
+            if (other.getTeamAwayGoalsScored(false) != null) {
                 return false;
             }
-        } else if (!teamAwayGoalsScored.equals(other.getTeamAwayGoalsScored())) {
+        } else if (!teamAwayGoalsScored.equals(other.getTeamAwayGoalsScored(false))) {
             return false;
         }
         
         if (teamAwayGoalsScoredHalf == null) {
-            if (other.getTeamAwayGoalsScoredHalf() != null) {
+            if (other.getTeamAwayGoalsScored(true) != null) {
                 return false;
             }
-        } else if (!teamAwayGoalsScoredHalf.equals(other.getTeamAwayGoalsScoredHalf())) {
+        } else if (!teamAwayGoalsScoredHalf.equals(other.getTeamAwayGoalsScored(true))) {
             return false;
         }
                 
