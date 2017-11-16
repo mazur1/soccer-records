@@ -5,10 +5,16 @@
  */
 package soccer.records.facade;
 
+import java.util.List;
+import soccer.records.dto.MatchDto;
+
 /**
  *
- * @author 
+ * @author Michaela Bocanova
  */
-public class MatchFacade {
-    
+public interface MatchFacade {
+    public Long createMatch(MatchDto m);
+    public void deleteMatch(Long id);
+    public List<MatchDto> getAllMatches();
+    public MatchDto getMatchById(Long id);
 }

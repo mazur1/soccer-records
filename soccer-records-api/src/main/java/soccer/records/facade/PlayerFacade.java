@@ -9,6 +9,6 @@ package soccer.records.facade;
  *
  * @author 
  */
-public class PlayerFacade {
+public interface PlayerFacade {
     
 }

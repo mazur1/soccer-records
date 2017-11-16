@@ -7,7 +7,7 @@ package soccer.records.dto;
 
 /**
  *
- * @author 
+ * @author Michaela Bocanova
  */
 public class MatchDto {
     
