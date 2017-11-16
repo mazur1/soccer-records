@@ -4,8 +4,9 @@
     <groupId>soccer.records</groupId>
     <artifactId>soccer-records</artifactId>
     <packaging>pom</packaging>
-    <version>1.0</version>
+    <version>1.0-SNAPSHOT</version>
     <name>soccer Records</name>
+    
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -36,6 +37,7 @@
     <modules>
         <module>soccer-records-persistence</module>
         <module>soccer-records-api</module>
+        <module>soccer-records-service</module>
     </modules>
 
     <dependencies>
