@@ -12,8 +12,6 @@ import javax.persistence.PersistenceException;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import soccer.records.entity.Player;
 import soccer.records.entity.Team;
-import soccer.records.services.PlayerServiceImpl;
-import soccer.records.services.TeamServiceImpl;
 
 public class MainJavaSe {
     

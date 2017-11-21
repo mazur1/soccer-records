@@ -16,35 +16,42 @@ import soccer.records.entity.PlayerResult;
  */
 
 @Service
-public class PlayerResultServiceImpl {
+public class PlayerResultServiceImpl implements PlayerResultService {
     
     @Autowired
     private PlayerResultDao playerResultDao;
 
+    @Override
     public void create(PlayerResult pr){
         playerResultDao.create(pr);
     }
 
+    @Override
     public void update(PlayerResult pr){
         playerResultDao.update(pr);
     }
 
+    @Override
     public void delete(PlayerResult pr){
         playerResultDao.delete(pr);
     }
 
+    @Override
     public List<PlayerResult> findByPlayer(Player p){
         return playerResultDao.findByPlayer(p);
     }
 
+    @Override
     public List<PlayerResult> findByMatch(Match m){
          return playerResultDao.findByMatch(m);
     }
  
+    @Override
     public PlayerResult findByBoth(Player p, Match m){
          return playerResultDao.findByBoth(p,m);
     }
     
+    @Override
     public List<PlayerResult> findAll() {
         return playerResultDao.findAll();
     }
