@@ -131,15 +131,15 @@ public class TeamTest extends AbstractTestNGSpringContextTests {
         teamService.create(testTeam);
         Player testPlayer = createPlayer(TEST_PLAYER_NAME, "surname", PlayerPost.ATTACKER, 22, false);
         testPlayer.setTeam(testTeam);
-        testTeam.teamPlayers().add(testPlayer);
+        testTeam.getTeamPlayers().add(testPlayer);
         playerService.create(testPlayer);
         
         List<Team> rows = teamService.findAll();
         Assert.assertEquals(rows.size(), 1);
         Assert.assertEquals(testTeam, rows.get(0));
         
-        Assert.assertEquals(rows.get(0).teamPlayers().size(), 1);
-        Assert.assertEquals(rows.get(0).teamPlayers().get(0), testPlayer);
+        Assert.assertEquals(rows.get(0).getTeamPlayers().size(), 1);
+        Assert.assertEquals(rows.get(0).getTeamPlayers().get(0), testPlayer);
         
         em.getTransaction().commit();
         em.close();
@@ -189,13 +189,13 @@ public class TeamTest extends AbstractTestNGSpringContextTests {
         matchService.create(match2);
         matchService.create(match3);
         
-        testTeam1.matchesHome().add(match1);
-        testTeam1.matchesHome().add(match2);
-        testTeam1.matchesAway().add(match3);
+        testTeam1.getMatchesHome().add(match1);
+        testTeam1.getMatchesHome().add(match2);
+        testTeam1.getMatchesAway().add(match3);
         
-        testTeam2.matchesAway().add(match1);
-        testTeam2.matchesAway().add(match2);
-        testTeam2.matchesHome().add(match3);
+        testTeam2.getMatchesAway().add(match1);
+        testTeam2.getMatchesAway().add(match2);
+        testTeam2.getMatchesHome().add(match3);
         
         List<Team> teamsRows = teamService.findAll();
         Assert.assertEquals(teamsRows.size(), 2);
@@ -203,11 +203,11 @@ public class TeamTest extends AbstractTestNGSpringContextTests {
         List<Match> matchesRows = matchService.findAll();
         Assert.assertEquals(matchesRows.size(), 3);
         
-        Assert.assertEquals(teamsRows.get(0).matchesHome().size(), 2);
-        Assert.assertEquals(teamsRows.get(0).matchesAway().size(), 1);
+        Assert.assertEquals(teamsRows.get(0).getMatchesHome().size(), 2);
+        Assert.assertEquals(teamsRows.get(0).getMatchesAway().size(), 1);
         
-        Assert.assertEquals(teamsRows.get(1).matchesHome().size(), 1);
-        Assert.assertEquals(teamsRows.get(1).matchesAway().size(), 2);
+        Assert.assertEquals(teamsRows.get(1).getMatchesHome().size(), 1);
+        Assert.assertEquals(teamsRows.get(1).getMatchesAway().size(), 2);
         
         em.getTransaction().commit();
         em.close();

@@ -164,29 +164,71 @@ public class Player {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((name == null) ? 0 : name.hashCode());
+        result = prime * result + ((surname == null) ? 0 : surname.hashCode());
+        result = prime * result + age;
+        result = prime * result + ((post == null) ? 0 : post.hashCode());
+        result = prime * result + (captian ? 1 : 0);        
+        result = prime * result + ((country == null) ? 0 : country.hashCode());
+        result = prime * result + ((city == null) ? 0 : city.hashCode());
+        result = prime * result + ((team == null) ? 0 : team.hashCode());
+        result = prime * result + ((playerResults == null) ? 0 : playerResults.hashCode());
         return result;
     }
-
+ 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
+        
+        if (this == obj)
             return true;
-        }
-        if (obj == null) {
+        
+        if (obj == null)
             return false;
-        }
-        if (!(obj instanceof Player)) {
+        
+        if (getClass() != obj.getClass())
             return false;
-        }
+        
         Player other = (Player) obj;
-        if (name == null) {
-            if (other.getName() != null) {
-                return false;
-            }
-        } else if (!name.equals(other.getName())) {
+        
+        if (!name.equals(other.getName())){
             return false;
         }
+
+        if (!surname.equals(other.getSurname())){
+            return false;
+        }
+
+        if (age != other.getAge()){
+            return false;
+        }
+
+        if (!post.equals(other.getPost())){
+            return false;
+        }
+        
+        if (captian != other.isCaptian()){
+            return false;
+        }       
+  
+        if (!country.equals(other.getCountry())){
+            return false;
+        }
+
+        if (!city.equals(other.getCity())){
+            return false;
+        }
+
+        if (team == null) {
+            if (other.getTeam()!= null)
+                return false;
+        } else if (!team.equals(other.getTeam())){
+            return false;
+        }        
+        
+        if (!playerResults.equals(other.getPlayerResults())){
+            return false;
+        }
+
         return true;
     }
-
+    
 }
