@@ -87,32 +87,42 @@ public class PlayerResult {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((player == null) ? 0 : player.hashCode());
+        result = prime * result + ((match == null) ? 0 : match.hashCode());
+        result = prime * result + goalsScored;
         return result;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
+        
+        if (this == obj)
             return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (!(obj instanceof PlayerResult)) {
-            return false;
-        }
-        PlayerResult other = (PlayerResult) obj;
         
-        if (id == null) {
-            if (other.getId()!= null) {
+        if (obj == null)
+            return false;
+        
+        if (getClass() != obj.getClass())
+            return false;
+        
+        PlayerResult other = (PlayerResult) obj;      
+
+        if (player == null) {
+            if (other.getPlayer()!= null)
                 return false;
-            }
-        } else if (!id.equals(other.getGoalsScored())) {
+        } else if (!player.equals(other.getPlayer())){
             return false;
-        }
-        
-        return true;
+        }        
+
+        if (match == null) {
+            if (other.getMatch()!= null)
+                return false;
+        } else if (!match.equals(other.getMatch())){
+            return false;
+        }      
+
+        return true;        
+
     }
 
 }
