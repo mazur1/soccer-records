@@ -45,18 +45,23 @@ public class PlayerResultDaoImpl implements PlayerResultDao {
     }
 
     @Override
-    public List<PlayerResult> findByPlayer(Player p) {
-        return em.createQuery("select pr from PlayerResult pr WHERE pr.player = :player", PlayerResult.class).setParameter("player", p).getResultList();
-    }
-
-    @Override
-    public List<PlayerResult> findByMatch(Match m) {
-        return em.createQuery("select pr from PlayerResult pr WHERE pr.match = :match", PlayerResult.class).setParameter("match", m).getResultList();
+    public PlayerResult findByID(Long id) {
+        return em.createQuery("select pr from PlayerResult pr WHERE pr.id = :id", PlayerResult.class).setParameter("id", id).getSingleResult();
     }
     
     @Override
-    public PlayerResult findByBoth(Player p, Match m){
-        return em.createQuery("select pr from PlayerResult pr WHERE pr.player =:player AND pr.match =:match", PlayerResult.class).setParameter("player", p).setParameter("match", m).getSingleResult();
+    public List<PlayerResult> findByPlayerID(Long id) {
+        return em.createQuery("select pr from PlayerResult pr WHERE pr.player = :player", PlayerResult.class).setParameter("player", id).getResultList();
+    }
+
+    @Override
+    public List<PlayerResult> findByMatchID(Long id) {
+        return em.createQuery("select pr from PlayerResult pr WHERE pr.match = :match", PlayerResult.class).setParameter("match", id).getResultList();
+    }
+    
+    @Override
+    public PlayerResult findByBoth(Long playerID, Long machId){
+        return em.createQuery("select pr from PlayerResult pr WHERE pr.player =:player AND pr.match =:match", PlayerResult.class).setParameter("player", playerID).setParameter("match", machId).getSingleResult();
     }
 
     @Override
