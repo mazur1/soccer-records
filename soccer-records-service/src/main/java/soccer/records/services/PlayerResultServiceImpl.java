@@ -10,6 +10,7 @@ import java.util.List;
 import soccer.records.dao.PlayerResultDao;
 import soccer.records.entity.Match;
 import soccer.records.entity.PlayerResult;
+import soccer.records.exceptions.ServiceException;
 
 /**
  * Created by ... on 24.10.2017
@@ -35,25 +36,40 @@ public class PlayerResultServiceImpl implements PlayerResultService {
     public void delete(PlayerResult pr){
         playerResultDao.delete(pr);
     }
+    
+    @Override
+    public PlayerResult findByID(Long id){
+        return playerResultDao.findByID(id);
+    }
 
     @Override
     public List<PlayerResult> findByPlayer(Player p){
-        return playerResultDao.findByPlayer(p);
+        return playerResultDao.findByPlayerID(p.getId());
     }
 
     @Override
     public List<PlayerResult> findByMatch(Match m){
-         return playerResultDao.findByMatch(m);
+         return playerResultDao.findByMatchID(m.getId());
     }
  
     @Override
     public PlayerResult findByBoth(Player p, Match m){
-         return playerResultDao.findByBoth(p,m);
+         return playerResultDao.findByBoth(p.getId(),m.getId());
     }
     
     @Override
     public List<PlayerResult> findAll() {
         return playerResultDao.findAll();
+    }
+    
+    @Override
+    public void changeGoals(PlayerResult pr, int goals){
+        
+        if(goals <= 0){
+            throw new ServiceException("Poèet gólù nemùže být Záporný ani nulový");
+        }
+        
+        pr.setGoalsScored(goals);
     }
     
 }
