@@ -5,6 +5,7 @@
  */
 package soccer.records.facade;
 
+import java.util.List;
 import javax.inject.Inject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,8 @@ import soccer.records.services.BeanMappingService;
 import soccer.records.services.PlayerService;
 import soccer.records.services.MatchService;
 import soccer.records.services.PlayerResultService;
+
+import soccer.records.entity.PlayerResult;
 
 /**
  *
@@ -38,21 +41,33 @@ public class PlayerResultFacadeImpl implements PlayerResultFacade{
 
     @Override
     public void addGoal(Long matchID, Long playerID, int goals){
-        
+        playerResult.changeGoals(playerResult.findByBoth(player.findById(playerID), match.findById(matchID)), goals);
     }
     
     @Override
     public void removeGaol(Long matchID, Long playerID){
-        
+        playerResult.delete(playerResult.findByBoth(player.findById(playerID), match.findById(matchID)));
     }
     
     @Override
     public void removePlayerGoals(Long playerID){
         
+        List<PlayerResult> pr = playerResult.findByPlayer(player.findById(playerID));
+        
+        for (PlayerResult e : pr) {
+            playerResult.delete(e);
+        }
+        
     }
     
     @Override
     public void removeMatchGoals(Long matchID){
+        
+        List<PlayerResult> pr = playerResult.findByMatch(match.findById(matchID));
+        
+        for (PlayerResult e : pr) {
+            playerResult.delete(e);
+        }
         
     }
     
