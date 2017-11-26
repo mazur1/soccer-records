@@ -15,6 +15,7 @@ import soccer.records.dto.MatchDto;
 public interface MatchFacade {
     public Long createMatch(MatchDto m);
     public void deleteMatch(Long id);
-    public List<MatchDto> getAllMatches();
-    public MatchDto getMatchById(Long id);
+    public List<MatchDto> findAllMatches();
+    public MatchDto findMatchById(Long id);
+    void addPlayerResult(Long m, Long r);
 }

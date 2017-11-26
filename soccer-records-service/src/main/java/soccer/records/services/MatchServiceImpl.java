@@ -2,16 +2,16 @@ package soccer.records.services;
 
 import java.util.List;
 import javax.inject.Inject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import soccer.records.dao.MatchDao;
 import soccer.records.entity.Match;
+import soccer.records.entity.PlayerResult;
 import soccer.records.entity.Team;
+import soccer.records.exceptions.SoccerServiceException;
 
 
 /**
- * CRUD methods in service layer using MatchDao repository
+ * Implementation of business logic using repository MatchDao.
  * 
  * @author Michaela Bocanova
  */
@@ -23,8 +23,9 @@ public class MatchServiceImpl implements MatchService {
 
 
     @Override
-    public void create(Match m) {
+    public Long create(Match m) {
         matchDao.create(m);
+        return m.getId();
     }
 
     @Override
@@ -50,5 +51,15 @@ public class MatchServiceImpl implements MatchService {
     @Override
     public List<Match> findByTeam(Team t) {
        return matchDao.findByTeam(t);
+    }
+    
+    @Override
+    public void addPlayerResult(Match m, PlayerResult r) {
+	if (m.getPlayerResults().contains(r)) {
+            throw new SoccerServiceException("Match already contais this player result. \n" +
+                                        "Match: " + m.getId() + "\n" +
+                                        "Player result: " + r.getId());
+	}
+	m.addPlayerResult(r);
     }
 }

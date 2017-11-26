@@ -7,6 +7,7 @@ package soccer.records.services;
 
 import java.util.List;
 import soccer.records.entity.Match;
+import soccer.records.entity.PlayerResult;
 import soccer.records.entity.Team;
 
 /**
@@ -15,7 +16,7 @@ import soccer.records.entity.Team;
  */
 public interface MatchService {
 
-    void create(Match m);
+    Long create(Match m);
 
     void delete(Match m);
 
@@ -27,4 +28,5 @@ public interface MatchService {
 
     void update(Match m);
     
+    void addPlayerResult(Match m, PlayerResult r);
 }

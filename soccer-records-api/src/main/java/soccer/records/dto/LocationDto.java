@@ -3,18 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package soccer.records.entity;
+package soccer.records.dto;
 
-import javax.persistence.Embeddable;
+import javax.validation.constraints.NotNull;
 
 /**
- * Composite value type for location of match
- * 
+ *
  * @author Michaela Bocanova
  */
-@Embeddable
-public class Location {
+public class LocationDto {
     
+    @NotNull
     private String name;
     private String street;
     private String city;
@@ -65,7 +64,7 @@ public class Location {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((name == null) ? 0 :name.hashCode());
+        result = prime * result + ((name == null) ? 0 :name.hashCode()); 
         result = prime * result + ((street == null) ? 0 : street.hashCode());
         result = prime * result + ((city == null) ? 0 : city.hashCode());
         result = prime * result + ((state == null) ? 0 : state.hashCode());
@@ -86,7 +85,7 @@ public class Location {
             return false;
         }
         
-        Location other = (Location) obj;        
+        LocationDto other = (LocationDto) obj;        
         
         if (name == null) {
             if (other.getName()!= null) {
@@ -133,7 +132,7 @@ public class Location {
     
     @Override
     public String toString() {
-	return "Location{" +
+	return "LocationDto{" +
 		"name=" + name + '\'' +
 		"street=" + street + '\'' +
                 "address=" + city + '\'' +

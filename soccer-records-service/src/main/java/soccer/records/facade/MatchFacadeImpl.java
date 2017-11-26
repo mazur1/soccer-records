@@ -13,8 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import soccer.records.dto.MatchDto;
+import soccer.records.entity.Match;
+import soccer.records.entity.PlayerResult;
 import soccer.records.services.BeanMappingService;
 import soccer.records.services.MatchService;
+import soccer.records.services.PlayerResultService;
 
 /**
  *
@@ -29,28 +32,37 @@ public class MatchFacadeImpl implements MatchFacade {
 
     @Inject
     private MatchService matchService;
-	
+    @Inject
+    private PlayerResultService resultService;
     @Autowired
     private BeanMappingService beanMappingService;
         
     @Override
     public Long createMatch(MatchDto m) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Match mapped = beanMappingService.mapTo(m, Match.class);
+        //mapped.addPlayerResult();
+        return matchService.create(mapped);
     }
+    
+    //public void update(Match m){}
 
     @Override
     public void deleteMatch(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        matchService.delete(new Match(id));
     }
 
     @Override
-    public List<MatchDto> getAllMatches() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<MatchDto> findAllMatches() {
+        return beanMappingService.mapTo(matchService.findAll(), MatchDto.class);
     }
 
     @Override
-    public MatchDto getMatchById(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public MatchDto findMatchById(Long id) {
+        return beanMappingService.mapTo(matchService.findById(id), MatchDto.class);
     }
     
+    @Override
+    public void addPlayerResult(Long m, Long r) {
+        //matchService.addPlayerResults(matchService.findById(m), resultService.findById(r));
+    }
 }

@@ -31,7 +31,7 @@ public class MatchDaoImpl implements MatchDao {
     
     @Override
     public void delete(Match m) {
-        em.remove(m);
+        em.remove(findById(m.getId()));
     }
         
     @Override
