@@ -21,6 +21,4 @@ public interface MatchFacade {
     List<MatchDto> findAllMatches();
     MatchDto findMatchById(Long id);
     
-    void addPlayerResult(Long m, Long r);
-    String matchResult(Long m);
 }
