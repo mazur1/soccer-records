@@ -24,14 +24,11 @@ public interface PlayerService {
     List<Player> findByName(String name, String surname);
 
     void addPlayerResult(Player p, PlayerResult r);
-    
     void removePlayerResult(Player p, PlayerResult r);
     
     void remove(Player p) throws IllegalArgumentException;
 
     void update(Player p);
-    
-    void addPlayerResult(Player p, PlayerResult r);
-    void removePlayerResult(Player p, PlayerResult r);
+   
     
 }
