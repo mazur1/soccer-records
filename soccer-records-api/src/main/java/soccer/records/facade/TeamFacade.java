@@ -5,10 +5,16 @@
  */
 package soccer.records.facade;
 
+import java.util.List;
+import soccer.records.dto.TeamDto;
+
 /**
  *
- * @author 
+ * @author Tomas Mazurek
  */
 public interface TeamFacade {
-    
+    public Long createTeam(TeamDto t);
+    public void deleteTeam(Long id);
+    List<TeamDto> findAllTeams();
+    TeamDto findTeamById(Long id);
 }

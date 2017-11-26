@@ -15,7 +15,7 @@ import soccer.records.entity.Match;
  */
 public interface TeamService {
 
-    void create(Team t);
+    Long create(Team t);
 
     List<Team> findAll();
 
