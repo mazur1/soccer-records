@@ -25,8 +25,12 @@ public interface MatchService {
     Match findById(Long id);
 
     List<Match> findByTeam(Team t);
+    
+    List<Match> findByTeams(Team t1, Team t2);
 
     void update(Match m);
     
     void addPlayerResult(Match m, PlayerResult r);
+    
+    String matchResult(Match m);
 }

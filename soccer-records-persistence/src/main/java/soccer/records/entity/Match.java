@@ -16,6 +16,7 @@ import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -35,10 +36,14 @@ public class Match {
     private Date dateAndTime;
     @Embedded 
     private Location location;
-    private Integer teamHomeGoalsScored;
-    private Integer teamAwayGoalsScored;
-    private Integer teamHomeGoalsScoredHalf;
-    private Integer teamAwayGoalsScoredHalf;
+    @Min(0)
+    private Integer teamHomeGoalsScored=0;
+    @Min(0)
+    private Integer teamAwayGoalsScored=0;
+    @Min(0)
+    private Integer teamHomeGoalsScoredHalf=0;
+    @Min(0)
+    private Integer teamAwayGoalsScoredHalf=0;
     @NotNull
     @ManyToOne
     private Team teamHome;

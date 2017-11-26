@@ -5,7 +5,10 @@
  */
 package soccer.records.dto;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
@@ -29,6 +32,7 @@ public class MatchCreateDto {
     private TeamDto teamHome;
     @NotNull
     private TeamDto teamAway;
+    private List<PlayerResultDto> playerResults = new ArrayList<PlayerResultDto>();
     
     public TeamDto getTeamHome() {
         return teamHome;
@@ -44,6 +48,13 @@ public class MatchCreateDto {
 
     public void setTeamAway(TeamDto teamAway) {
         this.teamAway = teamAway;
+    }
+    public List<PlayerResultDto> getPlayerResults() {
+        return Collections.unmodifiableList(playerResults);
+    }
+    
+    public void addPlayerResult(PlayerResultDto r) {
+        playerResults.add(r);
     }
 
     public Date getDateAndTime() {
@@ -88,18 +99,6 @@ public class MatchCreateDto {
             this.teamAwayGoalsScored = teamAwayGoalsScored;
     }
         
-    public Integer getTeamHomeGoalsReceived(boolean halftime) {
-        if (halftime)
-            return teamAwayGoalsScoredHalf;
-        return teamAwayGoalsScored;
-    }
-    
-    public Integer getTeamAwayGoalsReceived(boolean halftime) {
-        if (halftime)
-            return teamHomeGoalsScoredHalf;
-        return teamHomeGoalsScored;
-    }
-
     /**
      * Constructor sets both notNull properties
      * @param teamHome
@@ -143,7 +142,7 @@ public class MatchCreateDto {
         }
         
         MatchCreateDto other = (MatchCreateDto) obj;        
-        
+                
         if (teamHome == null) {
             if (other.getTeamHome() != null) { 
                 return false;
@@ -213,7 +212,7 @@ public class MatchCreateDto {
     
     @Override
     public String toString() {
-	return "MatchCreateDto{" +
+	return "MatchDto{" +
 		"dateAndTime=" + dateAndTime + '\'' +
                 "location=" + location + '\'' +
                 "teamHomeScoredHalf=" + teamHomeGoalsScoredHalf + '\'' +

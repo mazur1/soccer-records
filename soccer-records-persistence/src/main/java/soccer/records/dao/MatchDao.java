@@ -22,4 +22,11 @@ public interface MatchDao {
      * @return 
      */
     public List<Match> findByTeam(Team t);
+    /**
+     * Finds all matches between two teams
+     * @param t1
+     * @param t2
+     * @return 
+     */
+    public List<Match> findByTeams(Team t1, Team t2);
 }

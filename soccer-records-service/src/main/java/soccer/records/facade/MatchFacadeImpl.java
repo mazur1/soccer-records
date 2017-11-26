@@ -12,7 +12,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import soccer.records.dto.MatchCreateDto;
 import soccer.records.dto.MatchDto;
+import soccer.records.dto.MatchEditDto;
 import soccer.records.entity.Match;
 import soccer.records.entity.PlayerResult;
 import soccer.records.services.BeanMappingService;
@@ -38,13 +40,16 @@ public class MatchFacadeImpl implements MatchFacade {
     private BeanMappingService beanMappingService;
         
     @Override
-    public Long createMatch(MatchDto m) {
+    public Long createMatch(MatchCreateDto m) {
         Match mapped = beanMappingService.mapTo(m, Match.class);
-        //mapped.addPlayerResult();
         return matchService.create(mapped);
     }
     
-    //public void update(Match m){}
+    @Override
+    public void updateMatch(MatchEditDto m) {
+        Match mapped = beanMappingService.mapTo(m, Match.class);
+        matchService.update(mapped);
+    }
 
     @Override
     public void deleteMatch(Long id) {
@@ -64,5 +69,10 @@ public class MatchFacadeImpl implements MatchFacade {
     @Override
     public void addPlayerResult(Long m, Long r) {
         //matchService.addPlayerResults(matchService.findById(m), resultService.findById(r));
+    }
+    
+    @Override
+    public String matchResult(Long m) {
+        return matchService.matchResult(matchService.findById(m));
     }
 }
