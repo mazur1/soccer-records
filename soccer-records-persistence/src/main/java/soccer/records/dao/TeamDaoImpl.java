@@ -29,7 +29,7 @@ public class TeamDaoImpl implements TeamDao {
     
     @Override
     public void delete(Team t) {
-        em.remove(t);
+        em.remove(findById(t.getId()));
     }
     
     @Override

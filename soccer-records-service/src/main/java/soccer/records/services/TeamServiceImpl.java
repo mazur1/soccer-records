@@ -13,7 +13,7 @@ import soccer.records.exceptions.ServiceException;
 
 /**
  *
- * @author Tomas
+ * @author Tomas Mazurek
  */
 @Service
 public class TeamServiceImpl implements TeamService {
@@ -23,8 +23,9 @@ public class TeamServiceImpl implements TeamService {
 
 
     @Override
-    public void create(Team t) {
+    public Long create(Team t) {
         teamDao.create(t);
+        return t.getId();
     }
     
     @Override
