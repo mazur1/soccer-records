@@ -16,6 +16,7 @@ import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -35,10 +36,14 @@ public class Match {
     private Date dateAndTime;
     @Embedded 
     private Location location;
-    private Integer teamHomeGoalsScored;
-    private Integer teamAwayGoalsScored;
-    private Integer teamHomeGoalsScoredHalf;
-    private Integer teamAwayGoalsScoredHalf;
+    @Min(0)
+    private Integer teamHomeGoalsScored=0;
+    @Min(0)
+    private Integer teamAwayGoalsScored=0;
+    @Min(0)
+    private Integer teamHomeGoalsScoredHalf=0;
+    @Min(0)
+    private Integer teamAwayGoalsScoredHalf=0;
     @NotNull
     @ManyToOne
     private Team teamHome;
@@ -63,10 +68,11 @@ public class Match {
     public void setTeamAway(Team teamAway) {
         this.teamAway = teamAway;
     }
+    
     public List<PlayerResult> getPlayerResults() {
         return Collections.unmodifiableList(playerResults);
     }
-    
+        
     public void addPlayerResult(PlayerResult r) {
         playerResults.add(r);
     }
@@ -158,7 +164,9 @@ public class Match {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        if(id != null)
+            return prime * result + id.hashCode();
+        
         result = prime * result + ((dateAndTime == null) ? 0 : dateAndTime.hashCode());
         result = prime * result + ((location == null) ? 0 : location.hashCode());
         result = prime * result + ((teamHome == null) ? 0 : teamHome.hashCode());
@@ -189,9 +197,7 @@ public class Match {
             if (other.getId()!= null) {
                 return false;
             }
-        } else if (!id.equals(other.getId())) {
-            return false;
-        }
+        } else return id.equals(other.getId());
         
         if (teamHome == null) {
             if (other.getTeamHome() != null) { 
@@ -263,13 +269,13 @@ public class Match {
     @Override
     public String toString() {
 	return "Match{" +
-		"id=" + id +
-		"dateAndTime=" + dateAndTime +
-                "location=" + location +
-                "teamHomeScoredHalf=" + teamHomeGoalsScoredHalf +
-                "teamAwayScoredHalf=" + teamAwayGoalsScoredHalf +
-                "teamHomeScoredTotal=" + teamHomeGoalsScored +
-                "teamAwayScoredTotal=" + teamAwayGoalsScored +
+		"id=" + id + '\'' +
+		"dateAndTime=" + dateAndTime + '\'' +
+                "location=" + location + '\'' +
+                "teamHomeScoredHalf=" + teamHomeGoalsScoredHalf + '\'' +
+                "teamAwayScoredHalf=" + teamAwayGoalsScoredHalf + '\'' +
+                "teamHomeScoredTotal=" + teamHomeGoalsScored + '\'' +
+                "teamAwayScoredTotal=" + teamAwayGoalsScored + '\'' +
 		"}";
     }
 }

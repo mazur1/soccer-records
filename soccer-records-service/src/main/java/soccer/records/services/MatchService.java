@@ -7,6 +7,7 @@ package soccer.records.services;
 
 import java.util.List;
 import soccer.records.entity.Match;
+import soccer.records.entity.PlayerResult;
 import soccer.records.entity.Team;
 
 /**
@@ -15,7 +16,7 @@ import soccer.records.entity.Team;
  */
 public interface MatchService {
 
-    void create(Match m);
+    Long create(Match m);
 
     void delete(Match m);
 
@@ -24,7 +25,12 @@ public interface MatchService {
     Match findById(Long id);
 
     List<Match> findByTeam(Team t);
+    
+    List<Match> findByTeams(Team t1, Team t2);
 
     void update(Match m);
     
+    void addPlayerResult(Match m, PlayerResult r);
+    
+    String matchResult(Match m);
 }

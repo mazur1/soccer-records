@@ -1,5 +1,6 @@
 package soccer.records.dao;
 
+import java.util.Arrays;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -31,7 +32,7 @@ public class MatchDaoImpl implements MatchDao {
     
     @Override
     public void delete(Match m) {
-        em.remove(m);
+        em.remove(findById(m.getId()));
     }
         
     @Override
@@ -47,6 +48,11 @@ public class MatchDaoImpl implements MatchDao {
     @Override
     public List<Match> findByTeam(Team t) {
        return em.createQuery("select m from Match m WHERE m.teamHome = :team OR m.teamAway = :team", Match.class).setParameter("team", t).getResultList(); 
+    }
+    
+    @Override
+    public List<Match> findByTeams(Team t1, Team t2) {
+       return em.createQuery("select m from Match m WHERE m.teamHome IN (:teams) AND m.teamAway IN (:teams)", Match.class).setParameter("teams", Arrays.asList(t1, t2)).getResultList(); 
     }
     
 }

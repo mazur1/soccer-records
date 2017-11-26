@@ -16,9 +16,8 @@ import javax.validation.constraints.NotNull;
  *
  * @author Michaela Bocanova
  */
-public class MatchDto {
+public class MatchCreateDto {
     
-    private Long id;
     private Date dateAndTime;
     private LocationDto location;
     @Min(0)
@@ -56,14 +55,6 @@ public class MatchDto {
     
     public void addPlayerResult(PlayerResultDto r) {
         playerResults.add(r);
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public Date getDateAndTime() {
@@ -108,45 +99,23 @@ public class MatchDto {
             this.teamAwayGoalsScored = teamAwayGoalsScored;
     }
         
-    public Integer getTeamHomeGoalsReceived(boolean halftime) {
-        if (halftime)
-            return teamAwayGoalsScoredHalf;
-        return teamAwayGoalsScored;
-    }
-    
-    public Integer getTeamAwayGoalsReceived(boolean halftime) {
-        if (halftime)
-            return teamHomeGoalsScoredHalf;
-        return teamHomeGoalsScored;
-    }
-    
-    /**
-     * Constructor assigns a specific id
-     * @param id 
-     */
-    public MatchDto(Long id) {
-         this.id = id;
-    }
-
     /**
      * Constructor sets both notNull properties
      * @param teamHome
      * @param teamAway 
      */
-    public MatchDto(TeamDto teamHome, TeamDto teamAway) {
+    public MatchCreateDto(TeamDto teamHome, TeamDto teamAway) {
         this.teamHome = teamHome;
         this.teamAway = teamAway;
     } 
     
-    public MatchDto() {
+    public MatchCreateDto() {
     }       
       
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        if(id != null)
-            return prime * result + id.hashCode();
         
         result = prime * result + ((dateAndTime == null) ? 0 : dateAndTime.hashCode());
         result = prime * result + ((location == null) ? 0 : location.hashCode());
@@ -172,14 +141,8 @@ public class MatchDto {
             return false;
         }
         
-        MatchDto other = (MatchDto) obj;        
-        
-        if (id == null) {
-            if (other.getId()!= null) {
-                return false;
-            }
-        } else return id.equals(other.getId());
-        
+        MatchCreateDto other = (MatchCreateDto) obj;        
+                
         if (teamHome == null) {
             if (other.getTeamHome() != null) { 
                 return false;
@@ -250,7 +213,6 @@ public class MatchDto {
     @Override
     public String toString() {
 	return "MatchDto{" +
-		"id=" + id + '\'' +
 		"dateAndTime=" + dateAndTime + '\'' +
                 "location=" + location + '\'' +
                 "teamHomeScoredHalf=" + teamHomeGoalsScoredHalf + '\'' +
