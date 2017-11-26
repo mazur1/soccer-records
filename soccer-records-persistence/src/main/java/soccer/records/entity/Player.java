@@ -137,7 +137,14 @@ public class Player {
         this.playerResults = playerResults;
     }
     
-    
+    public void addPlayerResult(PlayerResult r)
+    {
+        playerResults.add(r);
+    }
+    public void removePlayerResult(PlayerResult r)
+    {
+        playerResults.remove(r);
+    }
 
     public Long getTeamId() {
         return team.getId();
