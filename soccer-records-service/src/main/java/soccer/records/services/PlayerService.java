@@ -7,6 +7,7 @@ package soccer.records.services;
 
 import java.util.List;
 import soccer.records.entity.Player;
+import soccer.records.entity.PlayerResult;
 
 /**
  *
@@ -22,6 +23,10 @@ public interface PlayerService {
 
     List<Player> findByName(String name, String surname);
 
+    void addPlayerResult(Player p, PlayerResult r);
+    
+    void removePlayerResult(Player p, PlayerResult r);
+    
     void remove(Player p) throws IllegalArgumentException;
 
     void update(Player p);

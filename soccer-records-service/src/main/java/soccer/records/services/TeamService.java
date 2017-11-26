@@ -6,8 +6,9 @@
 package soccer.records.services;
 
 import java.util.List;
+import soccer.records.entity.Player;
 import soccer.records.entity.Team;
-
+import soccer.records.entity.Match;
 /**
  *
  * @author 
@@ -25,5 +26,14 @@ public interface TeamService {
     void remove(Team t) throws IllegalArgumentException;
 
     void update(Team t);
+    
+    public void addPlayer(Team t, Player p);
+    public void removePlayer(Team t, Player p);
+    
+    public void addMatchHome(Team t, Match m);
+    public void removeMatchHome(Team t, Match m);
+    
+    public void addMatchAway(Team t, Match m);
+    public void removeMatchAway(Team t, Match m);
     
 }
