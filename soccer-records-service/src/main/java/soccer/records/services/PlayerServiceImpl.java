@@ -2,10 +2,12 @@ package soccer.records.services;
 
 import soccer.records.dao.PlayerDao;
 import soccer.records.entity.Player;
+import soccer.records.entity.PlayerResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import soccer.records.exceptions.ServiceException;
 
 /**
  * Created by ... on 24.10.2017
@@ -40,6 +42,26 @@ public class PlayerServiceImpl implements PlayerService {
     public void remove(Player p) throws IllegalArgumentException {
         playerDao.delete(p);
     }
+    
+    @Override
+    public void addPlayerResult(Player p, PlayerResult r) {
+	if (p.getPlayerResults().contains(r)) {
+            throw new ServiceException("Player already contais this player result. \n" +
+                                        "Match: " + p.getId() + "\n" +
+                                        "Player result: " + r.getId());
+	}
+	p.addPlayerResult(r);
+    }
+
+    @Override
+    public void removePlayerResult(Player p, PlayerResult r) {
+	if (!p.getPlayerResults().contains(r)) {
+            throw new ServiceException("Player hasn't contains this player result. \n" +
+                                        "Match: " + p.getId() + "\n" +
+                                        "Player result: " + r.getId());
+	}
+	p.removePlayerResult(r);
+    }    
 
     @Override
     public List<Player> findByName(String name, String surname) {
