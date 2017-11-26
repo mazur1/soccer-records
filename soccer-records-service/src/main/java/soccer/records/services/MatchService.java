@@ -32,5 +32,9 @@ public interface MatchService {
     
     void addPlayerResult(Match m, PlayerResult r);
     
-    String matchResult(Match m);
+    void removePlayerResult(Match m, PlayerResult r);
+            
+    MatchServiceImpl.MatchResult getMatchResult(Match m);
+    
+    MatchServiceImpl.TeamResult getTeamResult(Team t);
 }
