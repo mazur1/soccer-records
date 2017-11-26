@@ -51,17 +51,17 @@ public class PlayerResultDaoImpl implements PlayerResultDao {
     
     @Override
     public List<PlayerResult> findByPlayerID(Long id) {
-        return em.createQuery("select pr from PlayerResult pr WHERE pr.player = :player", PlayerResult.class).setParameter("player", id).getResultList();
+        return em.createQuery("select pr from PlayerResult pr WHERE pr.player.id = :player", PlayerResult.class).setParameter("player", id).getResultList();
     }
 
     @Override
     public List<PlayerResult> findByMatchID(Long id) {
-        return em.createQuery("select pr from PlayerResult pr WHERE pr.match = :match", PlayerResult.class).setParameter("match", id).getResultList();
+        return em.createQuery("select pr from PlayerResult pr WHERE pr.match.id = :match", PlayerResult.class).setParameter("match", id).getResultList();
     }
     
     @Override
     public PlayerResult findByBoth(Long playerID, Long machId){
-        return em.createQuery("select pr from PlayerResult pr WHERE pr.player =:player AND pr.match =:match", PlayerResult.class).setParameter("player", playerID).setParameter("match", machId).getSingleResult();
+        return em.createQuery("select pr from PlayerResult pr WHERE pr.player.id =:player AND pr.match.id =:match", PlayerResult.class).setParameter("player", playerID).setParameter("match", machId).getSingleResult();
     }
 
     @Override

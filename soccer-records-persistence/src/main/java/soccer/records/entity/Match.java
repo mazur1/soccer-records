@@ -76,6 +76,10 @@ public class Match {
     public void addPlayerResult(PlayerResult r) {
         playerResults.add(r);
     }
+    
+    public void removePlayerResult(PlayerResult r) {
+        playerResults.remove(r);
+    }
 
     public Long getId() {
         return id;

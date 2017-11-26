@@ -31,4 +31,7 @@ public interface PlayerService {
 
     void update(Player p);
     
+    void addPlayerResult(Player p, PlayerResult r);
+    void removePlayerResult(Player p, PlayerResult r);
+    
 }

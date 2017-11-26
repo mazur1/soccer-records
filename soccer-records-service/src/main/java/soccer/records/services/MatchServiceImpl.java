@@ -1,6 +1,9 @@
 package soccer.records.services;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 import soccer.records.dao.MatchDao;
@@ -82,11 +85,139 @@ public class MatchServiceImpl implements MatchService {
 	m.addPlayerResult(r);
     }
     
-    public String matchResult(Match m) {
-        if(m.getTeamHomeGoalsScored(false) > m.getTeamHomeGoalsReceived(false))
-            return "Team " + m.getTeamHome() + " won.";
-        if(m.getTeamAwayGoalsScored(false) > m.getTeamAwayGoalsReceived(false))
-            return "Team " + m.getTeamAway() + "won.";
-        return "Tie.";
+    @Override
+    public void removePlayerResult(Match m, PlayerResult r) {
+        
+	m.removePlayerResult(r);
     }
+    
+    static class MatchResult {
+        
+        private Match match;
+        private Team winner;
+        private Team looser;
+        private boolean tie=false;
+
+        public MatchResult() {
+        }
+        
+        public Match getMatch() {
+            return match;
+        }
+
+        public void setMatch(Match match) {
+            this.match = match;
+        }
+
+        public Team getWinner() {
+            return winner;
+        }
+
+        public void setWinner(Team winner) {
+            this.winner = winner;
+        }
+
+        public Team getLooser() {
+            return looser;
+        }
+
+        public void setLooser(Team looser) {
+            this.looser = looser;
+        }
+
+        public boolean isTie() {
+            return tie;
+        }
+
+        public void setTie(boolean tie) {
+            this.tie = tie;
+        }
+        
+    }
+    
+    static class TeamResult {
+
+        private Team team;
+        private int wins=0;
+        private int losses=0;
+        private int ties=0;
+        
+        public TeamResult() {
+        }
+        
+        public Team getTeam() {
+            return team;
+        }
+
+        public void setTeam(Team team) {
+            this.team = team;
+        }
+
+        public int getWins() {
+            return wins;
+        }
+
+        public void setWins(int wins) {
+            this.wins = wins;
+        }
+
+        public int getLosses() {
+            return losses;
+        }
+
+        public void setLosses(int losses) {
+            this.losses = losses;
+        }
+
+        public int getTies() {
+            return ties;
+        }
+
+        public void setTies(int ties) {
+            this.ties = ties;
+        }
+                
+    }
+    
+    @Override
+    public MatchResult getMatchResult(Match m) {
+        MatchResult result = new MatchResult();
+        result.match = m;
+        
+        if(m.getTeamHomeGoalsScored(false) > m.getTeamHomeGoalsReceived(false)) {
+            result.winner = m.getTeamHome();
+            result.looser = m.getTeamAway();
+        }
+        else if(m.getTeamAwayGoalsScored(false) > m.getTeamAwayGoalsReceived(false)) {
+            result.winner= m.getTeamAway();
+            result.looser=m.getTeamHome();
+        }
+        else result.tie = true;
+        
+        return result;
+    }
+    
+    @Override
+    public TeamResult getTeamResult(Team t) {
+        /*Map<Team, Map<String, Integer>> map = new HashMap<>();
+        Map<String, Integer> sub = new HashMap<>();*/
+        TeamResult tResult = new TeamResult();
+        tResult.team = t;
+        List<Match> matches = matchDao.findByTeam(t);
+        
+        int wins=0, losses=0,ties=0;
+        for(Match m : matches) {
+            MatchResult mResult = getMatchResult(m);
+            if (mResult.tie)
+                tResult.ties++;
+            else if (mResult.winner != null && mResult.winner.equals(t))
+                tResult.wins++;
+            else if (mResult.looser != null && mResult.looser.equals(t))
+                tResult.losses++;
+        }
+        
+        return tResult;
+    }
+
+    
 }

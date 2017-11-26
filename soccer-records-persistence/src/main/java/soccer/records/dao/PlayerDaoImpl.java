@@ -11,6 +11,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import org.springframework.stereotype.Repository;
 
 import soccer.records.entity.Player;
+import soccer.records.entity.PlayerResult;
 
 @Repository
 public class PlayerDaoImpl implements PlayerDao {
@@ -56,4 +57,14 @@ public class PlayerDaoImpl implements PlayerDao {
                 return null;
             }
 	}
+        
+        public void addPlayerResult(PlayerResult r)
+        {
+            
+        }
+        
+        public void removePlayerResult(PlayerResult r)
+        {
+        
+        }
 }

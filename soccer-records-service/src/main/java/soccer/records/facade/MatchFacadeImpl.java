@@ -16,7 +16,6 @@ import soccer.records.dto.MatchCreateDto;
 import soccer.records.dto.MatchDto;
 import soccer.records.dto.MatchEditDto;
 import soccer.records.entity.Match;
-import soccer.records.entity.PlayerResult;
 import soccer.records.services.BeanMappingService;
 import soccer.records.services.MatchService;
 import soccer.records.services.PlayerResultService;
@@ -53,7 +52,7 @@ public class MatchFacadeImpl implements MatchFacade {
 
     @Override
     public void deleteMatch(Long id) {
-        matchService.delete(new Match(id));
+        matchService.delete(matchService.findById(id));
     }
 
     @Override
@@ -66,13 +65,4 @@ public class MatchFacadeImpl implements MatchFacade {
         return beanMappingService.mapTo(matchService.findById(id), MatchDto.class);
     }
     
-    @Override
-    public void addPlayerResult(Long m, Long r) {
-        //matchService.addPlayerResults(matchService.findById(m), resultService.findById(r));
-    }
-    
-    @Override
-    public String matchResult(Long m) {
-        return matchService.matchResult(matchService.findById(m));
-    }
 }
