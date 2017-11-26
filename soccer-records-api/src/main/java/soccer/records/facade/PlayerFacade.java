@@ -5,10 +5,18 @@
  */
 package soccer.records.facade;
 
+import java.util.List;
+import soccer.records.dto.PlayerDto;
+
 /**
  *
  * @author 
  */
 public interface PlayerFacade {
+ 
+    public Long createPlayer(PlayerDto t);
+    public void deletePlayer(Long id);
+    List<PlayerDto> findAllPlayer();
+    PlayerDto findPlayerById(Long id);
     
 }
