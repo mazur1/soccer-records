@@ -7,7 +7,7 @@ import soccer.records.dao.MatchDao;
 import soccer.records.entity.Match;
 import soccer.records.entity.PlayerResult;
 import soccer.records.entity.Team;
-import soccer.records.exceptions.SoccerServiceException;
+import soccer.records.exceptions.ServiceException;
 
 
 /**
@@ -56,7 +56,7 @@ public class MatchServiceImpl implements MatchService {
     @Override
     public void addPlayerResult(Match m, PlayerResult r) {
 	if (m.getPlayerResults().contains(r)) {
-            throw new SoccerServiceException("Match already contais this player result. \n" +
+            throw new ServiceException("Match already contais this player result. \n" +
                                         "Match: " + m.getId() + "\n" +
                                         "Player result: " + r.getId());
 	}

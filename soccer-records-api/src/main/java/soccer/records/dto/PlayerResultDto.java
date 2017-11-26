@@ -12,7 +12,6 @@ package soccer.records.dto;
  */
 public class PlayerResultDto {
     
-  
     private Long id;
 
     private int goalsScored;
