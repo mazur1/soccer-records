@@ -75,7 +75,31 @@ public class Team {
     public List<Match> getMatchesAway() {
         return this.matchesAway;
     }
+    
+    public void addPlayer(Player p){
+        players.add(p);
+    }
+    
+    public void removePlayer(Player p){
+        players.remove(p);
+    }
 
+    public void addMatchHome(Match m){
+        matchesHome.add(m);
+    }
+    
+    public void removeMatchHome(Match m){
+        matchesHome.remove(m);
+    }
+
+    public void addMatchAway(Match m){
+        matchesAway.add(m);
+    }
+    
+    public void removeMatchAway(Match m){
+        matchesAway.remove(m);
+    }
+    
     @Override
     public int hashCode() {
         final int prime = 31;
