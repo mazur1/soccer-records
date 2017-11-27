@@ -74,7 +74,6 @@ public class PlayerResultFacadeImpl implements PlayerResultFacade{
 
     @Override
     public Long createPlayerResult(PlayerResultDto t) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         PlayerResult mapped = beanMappingService.mapTo(t, PlayerResult.class);
         return playerResult.create(mapped);
     }

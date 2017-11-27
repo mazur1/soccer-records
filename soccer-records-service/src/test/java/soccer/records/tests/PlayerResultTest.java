@@ -5,6 +5,7 @@
  */
 package soccer.records.tests;
 
+import java.util.Arrays;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -41,6 +42,7 @@ import static org.mockito.Matchers.any;
 import org.mockito.Mockito;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import org.testng.annotations.BeforeTest;
 import soccer.records.config.ServiceConfiguration;
 import soccer.records.dao.MatchDao;
 import soccer.records.dao.PlayerDao;
@@ -62,91 +64,114 @@ public class PlayerResultTest extends AbstractTestNGSpringContextTests {
     @InjectMocks
     private PlayerResultService playerResultService;   
     
-    @Mock
+    /*@Mock
     private TeamDao teamDao;
     @Mock
     private PlayerDao playerDao;
     @Mock
-    private MatchDao matchDao;
+    private MatchDao matchDao;*/
        
     @BeforeClass
     public void setup() throws ServiceException {
         MockitoAnnotations.initMocks(this);
     }
-    
-    private Team t1 = new Team();
-    private Team t2 = new Team();
-    private Player p1 = new Player();
-    private Player p2 = new Player();
-    private Match m1 = new Match();
-    private PlayerResult pr1 = new PlayerResult();
-    private PlayerResult pr2 = new PlayerResult();
     @BeforeMethod
+    public void resetMock() {
+        Mockito.reset(playerResultDao);
+    }
+    
+    private Team t1;
+    private Team t2;
+    private Player p1;
+    private Player p2;
+    private Match m1;
+    private Match m2;
+    private PlayerResult pr1;
+    private PlayerResult pr2;
+    
+    @BeforeTest 
     public void preparePlayerResults() {
+        t1 = new Team();
         t1.setId(1L);
         t1.setName("A");
-        teamDao.create(t1);        
+        //teamDao.create(t1);  
+        t2 = new Team();
         t2.setId(2L);
         t2.setName("H");
-        teamDao.create(t2);
+        //teamDao.create(t2);
+        p1 = new Player();
         p1.setId(1L);
         p1.setName("Ján");
         p1.setAge(22);
         p1.setCaptian(false);
         p1.setSurname("Suchý");
         p1.setPost(PlayerPost.GOLMAN);
-        p1.setTeam(teamDao.findById(1L));
-        playerDao.create(p1);
+        p1.setTeam(t1);
+        //playerDao.create(p1);
+        p2 = new Player();
         p2.setId(2L);
         p2.setName("Igor");
         p2.setAge(21);
         p2.setCaptian(false);
         p2.setSurname("Vysoký");
         p2.setPost(PlayerPost.GOLMAN);
-        p2.setTeam(teamDao.findById(2L));
-        playerDao.create(p2);
+        p2.setTeam(t2);
+        //playerDao.create(p2);
+        m1 = new Match();
         m1.setId(1L);
-        m1.setTeamAway(teamDao.findById(1L));
-        m1.setTeamHome(teamDao.findById(2L));
-        matchDao.create(m1);
+        m1.setTeamAway(t1);
+        m1.setTeamHome(t2);
+        //matchDao.create(m1);
+        m2 = new Match();
+        m2.setId(2L);
+        m2.setTeamAway(t2);
+        m2.setTeamHome(t1);
+        //matchDao.create(m2);
+        pr1 = new PlayerResult();
         pr1.setId(1L);
-        pr1.setMatch(matchDao.findById(1L));
-        pr1.setPlayer(playerDao.findById(1L));
-        //playerResultService.create(pr1);
+        pr1.setMatch(m1);
+        pr1.setPlayer(p1);
+        //playerResultDao.create(pr1);
+        pr2 = new PlayerResult();
         pr2.setId(2L);
-        pr2.setMatch(matchDao.findById(1L));
-        pr2.setPlayer(playerDao.findById(2L));
-        //playerResultService.create(pr2);
+        pr2.setMatch(m1);
+        pr2.setPlayer(p2);
+        //playerResultDao.create(pr2);
     }        
        
     /**
      * Creates a new result 
      */
     @Test
-    public void createPlayerResult() {
-        ArgumentCaptor<PlayerResult> arg = ArgumentCaptor.forClass(PlayerResult.class);
-        playerResultService.create(pr1);
-        Mockito.verify(playerResultDao, Mockito.times(1)).create(pr1);
+    public void createPlayerResult() {        
+        //ArgumentCaptor<PlayerResult> arg = ArgumentCaptor.forClass(PlayerResult.class);
+        List<PlayerResult> rows = playerResultService.findAll();
+        //Assert.assertEquals(rows.size(), 0);
         
-        //List<PlayerResult> rows = playerResultService.findAll();
-        //Assert.assertEquals(rows.size(), 2);
-
+        playerResultService.create(pr1);
+        Mockito.verify(playerResultDao).create(pr1);
+        
+        List<PlayerResult> rows2 = playerResultService.findAll();
+        //Assert.assertEquals(rows2.size(), 1);
     }
     
     /**
      * Updates a result
      */
-    //@Test
+    @Test
     public void updatePlayerResult() {
         
         List<PlayerResult> rows = playerResultService.findAll();
-        Assert.assertEquals(rows.size(), 2);
+        //Assert.assertEquals(rows.size(), 2);
+        
         pr1.setGoalsScored(3);
         playerResultService.update(pr1);
+        ArgumentCaptor<PlayerResult> arg = ArgumentCaptor.forClass(PlayerResult.class);
+        verify(playerResultDao).update(pr1);
+        //Assert.assertTrue(!arg.getAllValues().isEmpty() && arg.getValue().equals(pr1));
         
         List<PlayerResult> rows2 = playerResultService.findAll();
-        Assert.assertEquals(rows2.size(), 2);
-        Assert.assertEquals(playerResultService.findByID(pr1.getId()), pr1);
+        //Assert.assertEquals(rows2.size(), 2);
     }
     
     /**
@@ -154,14 +179,17 @@ public class PlayerResultTest extends AbstractTestNGSpringContextTests {
      */
     //@Test
     public void deletePlayerResult() {
-           
+        
         List<PlayerResult> rows = playerResultService.findAll();
         Assert.assertEquals(rows.size(), 2);
         
         playerResultService.delete(pr1);
-        List<PlayerResult> rows2 = playerResultService.findAll();
-        Assert.assertEquals(rows2.size(), 1);
+        ArgumentCaptor<PlayerResult> arg = ArgumentCaptor.forClass(PlayerResult.class);
+        Mockito.verify(playerResultDao, Mockito.atLeast(0)).delete(arg.capture());
+        Assert.assertTrue(!arg.getAllValues().isEmpty() && arg.getValue().equals(pr1));
         
+        List<PlayerResult> rows2 = playerResultService.findAll();
+        Assert.assertEquals(rows2.size(), 1);     
     }
     
     /**
@@ -173,10 +201,11 @@ public class PlayerResultTest extends AbstractTestNGSpringContextTests {
         List<PlayerResult> rows = playerResultService.findAll();
         Assert.assertEquals(rows.size(), 2);
         
-        List<PlayerResult> rows2 = playerResultService.findByPlayer(pr1.getPlayer());
-        Assert.assertEquals(rows2.size(), 1);
-        Assert.assertEquals(rows2.get(0), pr1);
-       
+        when(playerResultDao.findByPlayerID(p1.getId())).thenReturn(Arrays.asList(pr1));
+        List<PlayerResult> actual = playerResultService.findByPlayer(p1);
+        
+        Assert.assertEquals(actual.size(), 1);
+        Assert.assertEquals(actual, Arrays.asList(pr1));       
     }
     
     /**
@@ -188,27 +217,32 @@ public class PlayerResultTest extends AbstractTestNGSpringContextTests {
         List<PlayerResult> rows = playerResultService.findAll();
         Assert.assertEquals(rows.size(), 2);
         
-        List<PlayerResult> rows2 = playerResultService.findByMatch(pr1.getMatch());
-        Assert.assertEquals(rows2.size(), 2);
+        when(playerResultDao.findByMatchID(m1.getId())).thenReturn(Arrays.asList(pr1, pr2));
+        List<PlayerResult> actual = playerResultService.findByMatch(m1);
         
+        Assert.assertEquals(actual.size(), 2);   
+        Assert.assertEquals(actual, Arrays.asList(pr1, pr2));   
     }
     
     /**
      * Finds results of player of specific match
      */
-    //@Test
+    @Test
     public void FindByPlayerAndMatch() {
  
         List<PlayerResult> rows = playerResultService.findAll();
-        Assert.assertEquals(rows.size(), 2);
+        //Assert.assertEquals(rows.size(), 2);
         
-        PlayerResult row2 = playerResultService.findByBoth(pr1.getPlayer(), pr1.getMatch());
-        Assert.assertEquals(row2, pr1);
+        when(playerResultDao.findByBoth(p1.getId(), m1.getId())).thenReturn(pr1);
+        PlayerResult actual = playerResultService.findByBoth(p1, m1);
+        
+        Assert.assertEquals(actual, pr1);
         
     }
     
-    //@Test
+    @Test
     public void FindByIdPlayerResult() {
+        when(playerResultDao.findByID(pr1.getId())).thenReturn(pr1);
         PlayerResult actual = playerResultService.findByID(pr1.getId());
         Assert.assertEquals(actual, pr1);
     }
@@ -216,11 +250,14 @@ public class PlayerResultTest extends AbstractTestNGSpringContextTests {
     /**
      * Retrieves all results
      */
-    //@Test
+    @Test
     public void FindAllPlayerResults() {
-        
-        List<PlayerResult> rows = playerResultService.findAll();
-        Assert.assertEquals(rows.size(), 2);
-        
+                
+        when(playerResultDao.findAll()).thenReturn(Arrays.asList(pr1, pr2));
+
+        List<PlayerResult> actual = playerResultService.findAll();
+
+        Assert.assertEquals(actual.size(), 2);   
+        Assert.assertEquals(actual, Arrays.asList(pr1, pr2));  
     }
 }
