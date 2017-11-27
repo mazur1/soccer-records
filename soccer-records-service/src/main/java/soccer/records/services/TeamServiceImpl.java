@@ -8,7 +8,7 @@ import soccer.records.dao.TeamDao;
 import soccer.records.entity.Match;
 import soccer.records.entity.Team;
 import soccer.records.entity.Player;
-import soccer.records.exceptions.ServiceException;
+import soccer.records.exceptions.service.ServiceException;
 
 
 /**
