@@ -10,10 +10,10 @@ import java.util.List;
 import soccer.records.dao.PlayerResultDao;
 import soccer.records.entity.Match;
 import soccer.records.entity.PlayerResult;
-import soccer.records.exceptions.service.ServiceException;
+import soccer.records.exceptions.service.SoccerServiceException;
 
 /**
- * Created by ... on 24.10.2017
+ * Created by ?, Michaela Bocanova on 24.10.2017
  */
 
 @Service
@@ -22,8 +22,20 @@ public class PlayerResultServiceImpl implements PlayerResultService {
     @Autowired
     private PlayerResultDao playerResultDao;
 
+    /**
+     * Helper method to validate match before create/update
+     * @return 
+     */
+    private void validate(PlayerResult pr) {
+        if(pr.getMatch() == null)
+            throw new SoccerServiceException("Can't create a player result without a match");
+        if(pr.getPlayer() == null)
+            throw new SoccerServiceException("Can't create a player result without a player");   
+    }
+    
     @Override
     public Long create(PlayerResult pr){
+        validate(pr);
         playerResultDao.create(pr);
         return pr.getId();
     }
@@ -67,7 +79,7 @@ public class PlayerResultServiceImpl implements PlayerResultService {
     public void changeGoals(PlayerResult pr, int goals){
         
         if(goals <= 0){
-            throw new ServiceException("Poèet gólù nemùže být Záporný ani nulový");
+            throw new SoccerServiceException("Poèet gólù nemùže být Záporný ani nulový");
         }
         
         pr.setGoalsScored(goals);

@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import soccer.records.exceptions.service.ServiceException;
+import soccer.records.exceptions.service.SoccerServiceException;
 
 /**
  * Created by ... on 24.10.2017
@@ -46,7 +46,7 @@ public class PlayerServiceImpl implements PlayerService {
     @Override
     public void addPlayerResult(Player p, PlayerResult r) {
 	if (p.getPlayerResults().contains(r)) {
-            throw new ServiceException("Player already contais this player result. \n" +
+            throw new SoccerServiceException("Player already contais this player result. \n" +
                                         "Match: " + p.getId() + "\n" +
                                         "Player result: " + r.getId());
 	}
@@ -56,7 +56,7 @@ public class PlayerServiceImpl implements PlayerService {
     @Override
     public void removePlayerResult(Player p, PlayerResult r) {
 	if (!p.getPlayerResults().contains(r)) {
-            throw new ServiceException("Player hasn't contains this player result. \n" +
+            throw new SoccerServiceException("Player hasn't contains this player result. \n" +
                                         "Match: " + p.getId() + "\n" +
                                         "Player result: " + r.getId());
 	}

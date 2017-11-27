@@ -8,7 +8,7 @@ import soccer.records.dao.TeamDao;
 import soccer.records.entity.Match;
 import soccer.records.entity.Team;
 import soccer.records.entity.Player;
-import soccer.records.exceptions.service.ServiceException;
+import soccer.records.exceptions.service.SoccerServiceException;
 
 
 /**
@@ -56,7 +56,7 @@ public class TeamServiceImpl implements TeamService {
     @Override
     public void addPlayer(Team t, Player p) {
 	if (t.getTeamPlayers().contains(p)) {
-            throw new ServiceException("Team already contais this player. \n" +
+            throw new SoccerServiceException("Team already contais this player. \n" +
                                         "Team: " + t.getId() + "\n" +
                                         "Player: " + p.getId());
 	}
@@ -66,7 +66,7 @@ public class TeamServiceImpl implements TeamService {
     @Override
     public void removePlayer(Team t, Player p) {
 	if (!t.getTeamPlayers().contains(p)) {
-            throw new ServiceException("Team hasn't contains this player. \n" +
+            throw new SoccerServiceException("Team hasn't contains this player. \n" +
                                         "Team: " + t.getId() + "\n" +
                                         "Player: " + p.getId());
 	}
@@ -77,7 +77,7 @@ public class TeamServiceImpl implements TeamService {
     @Override
     public void addMatchHome(Team t, Match m) {
 	if (t.getMatchesHome().contains(m)) {
-            throw new ServiceException("Team already contais this match home. \n" +
+            throw new SoccerServiceException("Team already contais this match home. \n" +
                                         "Team: " + t.getId() + "\n" +
                                         "Match: " + m.getId());
 	}
@@ -87,7 +87,7 @@ public class TeamServiceImpl implements TeamService {
     @Override
     public void removeMatchHome(Team t, Match m) {
 	if (!t.getMatchesHome().contains(m)) {
-            throw new ServiceException("Team hasn't contains this match home. \n" +
+            throw new SoccerServiceException("Team hasn't contains this match home. \n" +
                                         "Team: " + t.getId() + "\n" +
                                         "Match: " + m.getId());
 	}
@@ -98,7 +98,7 @@ public class TeamServiceImpl implements TeamService {
     @Override
     public void addMatchAway(Team t, Match m) {
 	if (t.getMatchesAway().contains(m)) {
-            throw new ServiceException("Team already contais this match home. \n" +
+            throw new SoccerServiceException("Team already contais this match home. \n" +
                                         "Team: " + t.getId() + "\n" +
                                         "Match: " + m.getId());
 	}
@@ -108,7 +108,7 @@ public class TeamServiceImpl implements TeamService {
     @Override
     public void removeMatchAway(Team t, Match m) {
 	if (!t.getMatchesAway().contains(m)) {
-            throw new ServiceException("Team hasn't contains this player. \n" +
+            throw new SoccerServiceException("Team hasn't contains this player. \n" +
                                         "Team: " + t.getId() + "\n" +
                                         "Match: " + m.getId());
 	}
