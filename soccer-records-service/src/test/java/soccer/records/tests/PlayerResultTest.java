@@ -8,6 +8,7 @@ package soccer.records.tests;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceUnit;
 import soccer.records.PersistenceAppContext;
 import soccer.records.dao.PlayerResultDao;
@@ -25,6 +26,7 @@ import soccer.records.services.PlayerService;
 import soccer.records.services.PlayerServiceImpl;
 import soccer.records.services.TeamService;
 import org.hibernate.service.spi.ServiceException;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -36,9 +38,13 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import static org.mockito.Matchers.any;
+import org.mockito.Mockito;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import soccer.records.config.ServiceConfiguration;
+import soccer.records.dao.MatchDao;
+import soccer.records.dao.PlayerDao;
+import soccer.records.dao.TeamDao;
 
 /**
  * Service tests
@@ -54,91 +60,76 @@ public class PlayerResultTest extends AbstractTestNGSpringContextTests {
     
     @Autowired
     @InjectMocks
-    private PlayerResultService playerResultService;
+    private PlayerResultService playerResultService;   
     
     @Mock
-    private TeamService teamService;
+    private TeamDao teamDao;
     @Mock
-    private MatchService matchService;
+    private PlayerDao playerDao;
     @Mock
-    private PlayerService playerService;
+    private MatchDao matchDao;
        
     @BeforeClass
     public void setup() throws ServiceException {
         MockitoAnnotations.initMocks(this);
     }
     
-    private Team t1;
+    private Team t1 = new Team();
+    private Team t2 = new Team();
+    private Player p1 = new Player();
+    private Player p2 = new Player();
+    private Match m1 = new Match();
+    private PlayerResult pr1 = new PlayerResult();
+    private PlayerResult pr2 = new PlayerResult();
     @BeforeMethod
-    public void createTeam1() {
-        t1 = new Team();
+    public void preparePlayerResults() {
+        t1.setId(1L);
         t1.setName("A");
-        teamService.create(t1);        
-    }
-    private Team t2;
-    @BeforeMethod
-    public void createTeam2() {
-        t2 = new Team();
+        teamDao.create(t1);        
+        t2.setId(2L);
         t2.setName("H");
-        teamService.create(t2);
-    }
-    private Player p1;
-    @BeforeMethod
-    public void createPlayer1() {
-        p1 = new Player();
+        teamDao.create(t2);
+        p1.setId(1L);
         p1.setName("Ján");
         p1.setAge(22);
         p1.setCaptian(false);
         p1.setSurname("Suchý");
         p1.setPost(PlayerPost.GOLMAN);
-        p1.setTeamId(t1.getId());
-        playerService.create(p1);
-    }
-    private Player p2;
-    @BeforeMethod
-    public void createPlayer2() {
-        p2 = new Player();
+        p1.setTeam(teamDao.findById(1L));
+        playerDao.create(p1);
+        p2.setId(2L);
         p2.setName("Igor");
         p2.setAge(21);
         p2.setCaptian(false);
         p2.setSurname("Vysoký");
         p2.setPost(PlayerPost.GOLMAN);
-        p2.setTeamId(t2.getId());
-        playerService.create(p2);
-    }
-    private Match m1;
-    @BeforeMethod
-    public void createMatch1() {
-        m1 = new Match();
-        m1.setTeamAway(t1);
-        m1.setTeamHome(t2);
-        matchService.create(m1);
-    }
-    private PlayerResult pr1;
-    @BeforeMethod
-    public void createPlayerResult1() {
-        pr1 = new PlayerResult();
-        pr1.setMatch(m1);
-        pr1.setPlayer(p1);
-        playerResultService.create(pr1);
-    }
-    private PlayerResult pr2;
-    @BeforeMethod
-    public void createPlayerResult2() {
-        pr2 = new PlayerResult();
-        pr2.setMatch(m1);
-        pr2.setPlayer(p2);
-        playerResultService.create(pr2);
+        p2.setTeam(teamDao.findById(2L));
+        playerDao.create(p2);
+        m1.setId(1L);
+        m1.setTeamAway(teamDao.findById(1L));
+        m1.setTeamHome(teamDao.findById(2L));
+        matchDao.create(m1);
+        pr1.setId(1L);
+        pr1.setMatch(matchDao.findById(1L));
+        pr1.setPlayer(playerDao.findById(1L));
+        //playerResultService.create(pr1);
+        pr2.setId(2L);
+        pr2.setMatch(matchDao.findById(1L));
+        pr2.setPlayer(playerDao.findById(2L));
+        //playerResultService.create(pr2);
     }        
        
     /**
      * Creates a new result 
      */
-    //@Test
+    @Test
     public void createPlayerResult() {
+        ArgumentCaptor<PlayerResult> arg = ArgumentCaptor.forClass(PlayerResult.class);
+        playerResultService.create(pr1);
+        Mockito.verify(playerResultDao, Mockito.times(1)).create(pr1);
         
-        List<PlayerResult> rows = playerResultService.findAll();
-        Assert.assertEquals(rows.size(), 2);
+        //List<PlayerResult> rows = playerResultService.findAll();
+        //Assert.assertEquals(rows.size(), 2);
 
     }
     

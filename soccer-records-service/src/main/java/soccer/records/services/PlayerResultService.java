@@ -21,7 +21,7 @@ public interface PlayerResultService {
     List<PlayerResult> findByMatch(Match m);
     List<PlayerResult> findByPlayer(Player p);
     List<PlayerResult> findAll();   
-    void create(PlayerResult pr);
+    Long create(PlayerResult pr);
     void delete(PlayerResult pr);    
     void update(PlayerResult pr);
     void changeGoals(PlayerResult pr, int goal);
