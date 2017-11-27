@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import soccer.records.exceptions.ServiceException;
+import soccer.records.exceptions.service.ServiceException;
 
 /**
  * Created by ... on 24.10.2017
