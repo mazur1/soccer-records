@@ -5,6 +5,9 @@
  */
 package soccer.records.facade;
 
+import java.util.List;
+import soccer.records.dto.PlayerResultDto;
+
 /**
  *
  * @author radim
@@ -15,5 +18,10 @@ public interface PlayerResultFacade {
     void removeGaol(Long matchID, Long playerID);
     void removePlayerGoals(Long playerID);
     void removeMatchGoals(Long matchID);
+    
+    public Long createPlayerResult(PlayerResultDto t);
+    public void deletePlayerResult(Long id);
+    List<PlayerResultDto> findAllPlayerResults();
+    PlayerResultDto findPlayerResultById(Long id);
     
 }

@@ -8,49 +8,55 @@ package soccer.records.tests;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceUnit;
-import org.hibernate.service.spi.ServiceException;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
-import org.springframework.transaction.annotation.Transactional;
-import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
 import soccer.records.PersistenceAppContext;
+import soccer.records.dao.PlayerResultDao;
 import soccer.records.entity.Match;
 import soccer.records.entity.Player;
 import soccer.records.entity.PlayerResult;
 import soccer.records.entity.Team;
 import soccer.records.enums.PlayerPost;
 import soccer.records.services.MatchService;
-import soccer.records.services.PlayerService;
-import soccer.records.services.TeamService;
+import soccer.records.services.PlayerResultServiceImpl;
+import soccer.records.services.TeamServiceImpl;
+import soccer.records.services.MatchServiceImpl;
 import soccer.records.services.PlayerResultService;
+import soccer.records.services.PlayerService;
+import soccer.records.services.PlayerServiceImpl;
+import soccer.records.services.TeamService;
+import org.hibernate.service.spi.ServiceException;
+import org.mockito.ArgumentCaptor;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+import static org.mockito.Matchers.any;
+import org.mockito.Mockito;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import soccer.records.config.ServiceConfiguration;
+import soccer.records.dao.MatchDao;
+import soccer.records.dao.PlayerDao;
+import soccer.records.dao.TeamDao;
 
 import soccer.records.config.ServiceConfiguration;
 import soccer.records.dao.PlayerResultDao;
 /**
- * Testing CRUD methods in PlayerResultService 
- * (and, by extension, PlayerResultDao)
+ * Service tests
  * 
  * @author Michaela Bocanova
  */
 
-@Transactional
-@ContextConfiguration(classes=ServiceConfiguration.class)
+@ContextConfiguration(classes = ServiceConfiguration.class)
 public class PlayerResultTest extends AbstractTestNGSpringContextTests {
    
-    @PersistenceUnit
-    private EntityManagerFactory emf;
-
     @Mock
     private PlayerResultDao playerResultDao;
     
@@ -58,310 +64,165 @@ public class PlayerResultTest extends AbstractTestNGSpringContextTests {
     @InjectMocks
     private PlayerResultService playerResultService;   
     
-    private PlayerResult playerResult;
-        
+    @Mock
+    private TeamDao teamDao;
+    @Mock
+    private PlayerDao playerDao;
+    @Mock
+    private MatchDao matchDao;
+       
     @BeforeClass
-    public void setUp() throws ServiceException {      
+    public void setup() throws ServiceException {
         MockitoAnnotations.initMocks(this);
     }
     
+    private Team t1 = new Team();
+    private Team t2 = new Team();
+    private Player p1 = new Player();
+    private Player p2 = new Player();
+    private Match m1 = new Match();
+    private PlayerResult pr1 = new PlayerResult();
+    private PlayerResult pr2 = new PlayerResult();
     @BeforeMethod
-    public void init(){
-        playerResult = new PlayerResult();
-    }
-    
-    // helper methods with sample data
-    private Player newPlayerA() {
-        Player p = new Player();
-        p.setName("Ján");
-        p.setAge(22);
-        p.setCaptian(false);
-        p.setSurname("Suchý");
-        p.setPost(PlayerPost.GOLMAN);
-        
-        return p;
-    }
-    private Player newPlayerB() {
-        Player p = new Player();
-        p.setName("Igor");
-        p.setAge(21);
-        p.setCaptian(false);
-        p.setSurname("Vysoký");
-        p.setPost(PlayerPost.GOLMAN);
-        
-        return p;
-    }
-    private Team newTeamA() {
-        Team t = new Team();
-        t.setName("A");
-        
-        return t;
-    }    
-    private Team newTeamB() {
-        Team t = new Team();
-        t.setName("H");
-        
-        return t;
-    }
+    public void preparePlayerResults() {
+        t1.setId(1L);
+        t1.setName("A");
+        teamDao.create(t1);        
+        t2.setId(2L);
+        t2.setName("H");
+        teamDao.create(t2);
+        p1.setId(1L);
+        p1.setName("Ján");
+        p1.setAge(22);
+        p1.setCaptian(false);
+        p1.setSurname("Suchý");
+        p1.setPost(PlayerPost.GOLMAN);
+        p1.setTeam(teamDao.findById(1L));
+        playerDao.create(p1);
+        p2.setId(2L);
+        p2.setName("Igor");
+        p2.setAge(21);
+        p2.setCaptian(false);
+        p2.setSurname("Vysoký");
+        p2.setPost(PlayerPost.GOLMAN);
+        p2.setTeam(teamDao.findById(2L));
+        playerDao.create(p2);
+        m1.setId(1L);
+        m1.setTeamAway(teamDao.findById(1L));
+        m1.setTeamHome(teamDao.findById(2L));
+        matchDao.create(m1);
+        pr1.setId(1L);
+        pr1.setMatch(matchDao.findById(1L));
+        pr1.setPlayer(playerDao.findById(1L));
+        //playerResultService.create(pr1);
+        pr2.setId(2L);
+        pr2.setMatch(matchDao.findById(1L));
+        pr2.setPlayer(playerDao.findById(2L));
+        //playerResultService.create(pr2);
+    }        
        
     /**
-     * Creates a new result and checks if exists
+     * Creates a new result 
      */
     @Test
-    public void createAndFindPlayerResult() {
+    public void createPlayerResult() {
+        ArgumentCaptor<PlayerResult> arg = ArgumentCaptor.forClass(PlayerResult.class);
+        playerResultService.create(pr1);
+        Mockito.verify(playerResultDao, Mockito.times(1)).create(pr1);
+        
+        //List<PlayerResult> rows = playerResultService.findAll();
+        //Assert.assertEquals(rows.size(), 2);
 
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-           
-        Team tA = newTeamA();
-        Team tB = newTeamB();
-        em.persist(tA);
-        em.persist(tB);
-        
-        Player pA = newPlayerA();
-        pA.setTeam(tA);
-        em.persist(pA);
-        
-        Match m = new Match();
-        m.setTeamAway(tA);
-        m.setTeamHome(tB);
-        em.persist(m);
-        
-        playerResult.setMatch(m);
-        playerResult.setPlayer(pA);
-        playerResult.setGoalsScored(2);       
-        playerResultService.create(playerResult); 
-        
-        List<PlayerResult> rows = playerResultService.findAll();
-        Assert.assertEquals(rows.size(), 1);
-
-        Assert.assertEquals(playerResult, rows.get(0));
-
-        em.getTransaction().commit();
-        em.close();
     }
     
     /**
      * Updates a result
      */
-    @Test
-    public void createAndUpdatePlayerResult() {
-
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-          
-        Team tA = newTeamA();
-        Team tB = newTeamB();
-
-        Player pA =newPlayerA();
-        pA.setTeam(tA);
+    //@Test
+    public void updatePlayerResult() {
         
-        Match m = new Match();
-        m.setTeamAway(tA);
-        m.setTeamHome(tB);
-        
-        playerResult.setMatch(m);
-        playerResult.setPlayer(pA);       
-        playerResult.setGoalsScored(2);
-        
-        playerResultService.create(playerResult);
         List<PlayerResult> rows = playerResultService.findAll();
-        Assert.assertEquals(rows.size(), 1);
-        
-        playerResult.setGoalsScored(3);
-        
-        playerResultService.update(playerResult);
+        Assert.assertEquals(rows.size(), 2);
+        pr1.setGoalsScored(3);
+        playerResultService.update(pr1);
         
         List<PlayerResult> rows2 = playerResultService.findAll();
-        Assert.assertEquals(rows2.size(), 1);
-        
-        Assert.assertEquals(rows2.get(0), playerResult);
-        
-        em.getTransaction().commit();
-        em.close();
+        Assert.assertEquals(rows2.size(), 2);
+        Assert.assertEquals(playerResultService.findByID(pr1.getId()), pr1);
     }
     
     /**
      * Deletes a result
      */
-    @Test
-    public void createAndDeletePlayerResult() {
-
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-            
-        Team tA = newTeamA();
-        Team tB = newTeamB();
-
-        Player pA =newPlayerA();
-        pA.setTeam(tA);
-  
-        Match m = new Match();
-        m.setTeamAway(tA);
-        m.setTeamHome(tB);
-       
-        playerResult.setMatch(m);
-        playerResult.setPlayer(pA);
-        playerResult.setGoalsScored(2);   
-        
-        playerResultService.create(playerResult);
+    //@Test
+    public void deletePlayerResult() {
+           
         List<PlayerResult> rows = playerResultService.findAll();
-        Assert.assertEquals(rows.size(), 1);
+        Assert.assertEquals(rows.size(), 2);
         
-        playerResultService.delete(playerResult);
+        playerResultService.delete(pr1);
         List<PlayerResult> rows2 = playerResultService.findAll();
-        Assert.assertEquals(rows2.size(), 0);
+        Assert.assertEquals(rows2.size(), 1);
         
-        em.getTransaction().commit();
-        em.close();
     }
     
     /**
      * Finds results of a specific player
      */
-    @Test
-    public void createAndFindByPlayer() {
-
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-            
-        Team tA = newTeamA();
-        Team tB = newTeamB();
-
-        Player pA =newPlayerA();
-        pA.setTeam(tA);
-    
-        Match m = new Match();
-        m.setTeamAway(tA);
-        m.setTeamHome(tB);
-      
-        playerResult.setMatch(m);
-        playerResult.setPlayer(pA);
-        playerResult.setGoalsScored(2);     
-        
-        playerResultService.create(playerResult);
+    //@Test
+    public void findByPlayer() {
+ 
         List<PlayerResult> rows = playerResultService.findAll();
-        Assert.assertEquals(rows.size(), 1);
+        Assert.assertEquals(rows.size(), 2);
         
-        List<PlayerResult> rows2 = playerResultService.findByPlayer(playerResult.getPlayer());
+        List<PlayerResult> rows2 = playerResultService.findByPlayer(pr1.getPlayer());
         Assert.assertEquals(rows2.size(), 1);
-        Assert.assertEquals(rows2.get(0), playerResult);
-        
-        em.getTransaction().commit();
-        em.close();
+        Assert.assertEquals(rows2.get(0), pr1);
+       
     }
     
     /**
      * Finds results for specific match
      */
-    @Test
-    public void createAndFindByMatch() {
-
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-            
-        Team tA = newTeamA();
-        Team tB = newTeamB();
-
-        Player pA =newPlayerA();
-        pA.setTeam(tA);
-     
-        Match m = new Match();
-        m.setTeamAway(tA);
-        m.setTeamHome(tB);
+    //@Test
+    public void findByMatch() {
         
-        playerResult.setMatch(m);
-        playerResult.setPlayer(pA);
-        playerResult.setGoalsScored(2);   
-        
-        playerResultService.create(playerResult);
         List<PlayerResult> rows = playerResultService.findAll();
-        Assert.assertEquals(rows.size(), 1);
+        Assert.assertEquals(rows.size(), 2);
         
-        List<PlayerResult> rows2 = playerResultService.findByMatch(playerResult.getMatch());
-        Assert.assertEquals(rows2.size(), 1);
-        Assert.assertEquals(rows2.get(0), playerResult);
+        List<PlayerResult> rows2 = playerResultService.findByMatch(pr1.getMatch());
+        Assert.assertEquals(rows2.size(), 2);
         
-        em.getTransaction().commit();
-        em.close();
     }
     
     /**
      * Finds results of player of specific match
      */
-    @Test
-    public void createAndFindByPlayerAndMatch() {
-
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-            
-        Team tA = newTeamA();
-        Team tB = newTeamB();
-
-        Player pA =newPlayerA();
-        pA.setTeam(tA);
-
-        Match m = new Match();
-        m.setTeamAway(tA);
-        m.setTeamHome(tB);
-    
-        playerResult.setMatch(m);
-        playerResult.setPlayer(pA);
-        playerResult.setGoalsScored(2);  
-        playerResult.setGoalsScored(2);   
-        
-        playerResultService.create(playerResult);
+    //@Test
+    public void FindByPlayerAndMatch() {
+ 
         List<PlayerResult> rows = playerResultService.findAll();
-        Assert.assertEquals(rows.size(), 1);
+        Assert.assertEquals(rows.size(), 2);
         
-        PlayerResult row2 = playerResultService.findByBoth(playerResult.getPlayer(), playerResult.getMatch());
-        Assert.assertEquals(row2, playerResult);
+        PlayerResult row2 = playerResultService.findByBoth(pr1.getPlayer(), pr1.getMatch());
+        Assert.assertEquals(row2, pr1);
         
-        em.getTransaction().commit();
-        em.close();
     }
     
-    /*@Test
-    public void createAndFindByIdPlayerResult() {
- 
-    }*/
+    //@Test
+    public void FindByIdPlayerResult() {
+        PlayerResult actual = playerResultService.findByID(pr1.getId());
+        Assert.assertEquals(actual, pr1);
+    }
     
     /**
      * Retrieves all results
      */
-    @Test
-    public void createAndFindAllPlayerResults() {
+    //@Test
+    public void FindAllPlayerResults() {
         
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-            
-        Team tA = newTeamA();
-        Team tB = newTeamB();
-
-        Player pA =newPlayerA();
-        pA.setTeam(tA);
-
-        Match m = new Match();
-        m.setTeamAway(tA);
-        m.setTeamHome(tB);
-        
-        Player pB =newPlayerB();
-        pB.setTeam(tB);
-
-        playerResult.setMatch(m);
-        playerResult.setPlayer(pB);
-        playerResult.setGoalsScored(2);   
-        
-        PlayerResult playerResult2 = new PlayerResult(pB, m);
-        playerResult2.setGoalsScored(1);
-        
-        playerResultService.create(playerResult);
-        playerResultService.create(playerResult2);
         List<PlayerResult> rows = playerResultService.findAll();
         Assert.assertEquals(rows.size(), 2);
-                
-        em.getTransaction().commit();
-        em.close();
         
     }
 }

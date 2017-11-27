@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import soccer.records.dto.PlayerResultDto;
 import soccer.records.services.BeanMappingService;
 
 import soccer.records.services.PlayerService;
@@ -69,6 +70,28 @@ public class PlayerResultFacadeImpl implements PlayerResultFacade{
             playerResult.delete(e);
         }
         
+    }
+
+    @Override
+    public Long createPlayerResult(PlayerResultDto t) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        PlayerResult mapped = beanMappingService.mapTo(t, PlayerResult.class);
+        return playerResult.create(mapped);
+    }
+
+    @Override
+    public void deletePlayerResult(Long id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<PlayerResultDto> findAllPlayerResults() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public PlayerResultDto findPlayerResultById(Long id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

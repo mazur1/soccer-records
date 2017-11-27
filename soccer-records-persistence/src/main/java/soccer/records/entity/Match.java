@@ -51,7 +51,7 @@ public class Match {
     @ManyToOne
     private Team teamAway;
     @OneToMany(mappedBy = "match")
-    private List<PlayerResult> playerResults = new ArrayList<PlayerResult>();
+    private List<PlayerResult> playerResults = new ArrayList<>();
     
     public Team getTeamHome() {
         return teamHome;
@@ -71,6 +71,10 @@ public class Match {
     
     public List<PlayerResult> getPlayerResults() {
         return Collections.unmodifiableList(playerResults);
+    }
+    
+    public void setPlayerResults(List<PlayerResult> playerResults) {
+        this.playerResults = playerResults;
     }
         
     public void addPlayerResult(PlayerResult r) {
@@ -176,6 +180,8 @@ public class Match {
         result = prime * result + ((location == null) ? 0 : location.hashCode());
         result = prime * result + ((teamHome == null) ? 0 : teamHome.hashCode());
         result = prime * result + ((teamAway == null) ? 0 : teamAway.hashCode());
+        
+        //netreba
         result = prime * result + ((teamHomeGoalsScored == null) ? 0 : teamHomeGoalsScored.hashCode());
         result = prime * result + ((teamHomeGoalsScoredHalf == null) ? 0 : teamHomeGoalsScoredHalf.hashCode());
         result = prime * result + ((teamAwayGoalsScored == null) ? 0 : teamAwayGoalsScored.hashCode());
@@ -235,6 +241,8 @@ public class Match {
         } else if (!location.equals(other.getLocation())) {
             return false;
         }
+        
+        //if(dateAndTime != null && location != null) return true;
         
         if (teamHomeGoalsScored == null) {
             if (other.getTeamHomeGoalsScored(false) != null) {
