@@ -5,26 +5,26 @@
  */
 package soccer.records.exceptions.service;
 
-public class ServiceException extends RuntimeException{
+public class SoccerServiceException extends RuntimeException{
 
-    public ServiceException() {
+    public SoccerServiceException() {
         super();
     }
 
-    public ServiceException(String message, Throwable cause,
+    public SoccerServiceException(String message, Throwable cause,
             boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
 
-    public ServiceException(String message, Throwable cause) {
+    public SoccerServiceException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public ServiceException(String message) {
+    public SoccerServiceException(String message) {
         super(message);
     }
 
-    public ServiceException(Throwable cause) {
+    public SoccerServiceException(Throwable cause) {
         super(cause);
     }
 

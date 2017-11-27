@@ -53,4 +53,51 @@ public class TeamResult {
     public void setTies(int ties) {
         this.ties = ties;
     }
+    
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((team == null) ? 0 :team.hashCode());
+        
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        
+        TeamResult other = (TeamResult) obj;        
+       
+        if (team == null) {
+            if (other.getTeam()!= null) {
+                return false;
+            }
+        } else if (!team.equals(other.getTeam())) {
+            return false;
+        }
+        
+        if (wins != other.getWins()) {
+                return false;
+        }
+        
+        if (losses != other.getLosses()) {
+                return false;
+        }
+        
+        if (ties != other.getTies()) {
+                return false;
+        }
+                        
+        return true;
+    }
+    
 }

@@ -10,7 +10,7 @@ import soccer.records.dao.MatchDao;
 import soccer.records.entity.Match;
 import soccer.records.entity.PlayerResult;
 import soccer.records.entity.Team;
-import soccer.records.exceptions.service.ServiceException;
+import soccer.records.exceptions.service.SoccerServiceException;
 
 
 /**
@@ -30,10 +30,10 @@ public class MatchServiceImpl implements MatchService {
      */
     private void validate(Match m) {
         if(m.getTeamAway().equals(m.getTeamHome()))
-            throw new ServiceException("Can't create a match between the same teams");
+            throw new SoccerServiceException("Can't create a match between the same teams");
         if(m.getTeamHomeGoalsScored(true) > m.getTeamHomeGoalsScored(false) 
                 || m.getTeamAwayGoalsScored(true) > m.getTeamAwayGoalsScored(false))
-            throw new ServiceException("Number of goals scored during halftime cannot be bigger than total");
+            throw new SoccerServiceException("Number of goals scored during halftime cannot be bigger than total");
         
     }
     
@@ -78,7 +78,7 @@ public class MatchServiceImpl implements MatchService {
     @Override
     public void addPlayerResult(Match m, PlayerResult r) {
 	if (m.getPlayerResults().contains(r)) {
-            throw new ServiceException("Match already contains this player result. \n" +
+            throw new SoccerServiceException("Match already contains this player result. \n" +
                                         "Match: " + m.getId() + "\n" +
                                         "Player result: " + r.getId());
 	}
@@ -88,7 +88,7 @@ public class MatchServiceImpl implements MatchService {
     @Override
     public void removePlayerResult(Match m, PlayerResult r) {
         if (!m.getPlayerResults().contains(r)) {
-            throw new ServiceException("Match doesn't contain this player result. \n" +
+            throw new SoccerServiceException("Match doesn't contain this player result. \n" +
                                         "Match: " + m.getId() + "\n" +
                                         "Player result: " + r.getId());
 	}

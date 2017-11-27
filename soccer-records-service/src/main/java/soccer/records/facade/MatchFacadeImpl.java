@@ -16,7 +16,7 @@ import soccer.records.dto.MatchCreateDto;
 import soccer.records.dto.MatchDto;
 import soccer.records.dto.MatchEditDto;
 import soccer.records.entity.Match;
-import soccer.records.exceptions.service.ServiceException;
+import soccer.records.exceptions.service.SoccerServiceException;
 import soccer.records.services.BeanMappingService;
 import soccer.records.services.MatchService;
 import soccer.records.services.PlayerResultService;

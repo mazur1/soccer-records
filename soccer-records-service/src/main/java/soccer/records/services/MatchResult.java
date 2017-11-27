@@ -53,4 +53,14 @@ public class MatchResult {
     public void setTie(boolean tie) {
         this.tie = tie;
     }
+    
+    /*@Override
+    public int hashCode() {
+        
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        
+    }*/
 }

@@ -1,6 +1,6 @@
 /**
  *
- * @author Filip Sutovsky
+ * @author Filip Sutovsky, Michaela Bocanova
  */
 package soccer.records.tests;
 

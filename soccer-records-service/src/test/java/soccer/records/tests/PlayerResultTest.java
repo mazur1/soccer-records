@@ -34,6 +34,7 @@ import org.testng.annotations.BeforeTest;
 
 import soccer.records.config.ServiceConfiguration;
 import soccer.records.dao.PlayerResultDao;
+import soccer.records.exceptions.service.SoccerServiceException;
 
 /**
  * Service tests
@@ -134,9 +135,28 @@ public class PlayerResultTest extends AbstractTestNGSpringContextTests {
         //ArgumentCaptor<PlayerResult> arg = ArgumentCaptor.forClass(PlayerResult.class);
         //List<PlayerResult> rows = playerResultService.findAll();
         //Assert.assertEquals(rows.size(), 0);
-        
-        playerResultService.create(pr1);
+        try {
+            playerResultService.create(pr1);
+        } catch(SoccerServiceException e) {
+            fail("service exception is not supposed to occure");
+        }
         Mockito.verify(playerResultDao).create(pr1);
+        
+        //List<PlayerResult> rows2 = playerResultService.findAll();
+        //Assert.assertEquals(rows2.size(), 1);
+    }
+   
+    @Test//(expected = ServiceException)
+    public void createPlayerResultNoMatchOrPlayer() {        
+        //ArgumentCaptor<PlayerResult> arg = ArgumentCaptor.forClass(PlayerResult.class);
+        //List<PlayerResult> rows = playerResultService.findAll();
+        //Assert.assertEquals(rows.size(), 0);
+        PlayerResult pr = new PlayerResult();
+        try {
+            playerResultService.create(pr);
+            fail("service exception is supposed to occure");
+        } catch(SoccerServiceException e) {
+        }
         
         //List<PlayerResult> rows2 = playerResultService.findAll();
         //Assert.assertEquals(rows2.size(), 1);
@@ -324,7 +344,7 @@ public class PlayerResultTest extends AbstractTestNGSpringContextTests {
         try {
             playerResultService.changeGoals(pr1, 2);
         
-        } catch(ServiceException e) {
+        } catch(SoccerServiceException e) {
             fail("service exception is not supposed to occure");
         }        
     }
@@ -334,7 +354,7 @@ public class PlayerResultTest extends AbstractTestNGSpringContextTests {
         try {
             playerResultService.changeGoals(pr1, -2);
             fail("service exception is supposed to occure");
-        } catch(ServiceException e) {  
+        } catch(SoccerServiceException e) {  
             
         } 
     }
