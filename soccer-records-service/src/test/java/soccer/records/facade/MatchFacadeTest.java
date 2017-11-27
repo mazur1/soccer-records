@@ -9,6 +9,6 @@ package soccer.records.facade;
  *
  * @author 
  */
-public class MatchFacadeImpl {
+public class MatchFacadeTest {
         
 }

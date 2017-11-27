@@ -43,13 +43,13 @@ public class MatchFacadeImpl implements MatchFacade {
     private BeanMappingService beanMappingService;
             
     @Override
-    public Long createMatch(MatchCreateDto m) {
+    public Long createMatch(MatchDto m) {
         Match mapped = beanMappingService.mapTo(m, Match.class);
         return matchService.create(mapped);
     }
     
     @Override
-    public void updateMatch(MatchEditDto m) {
+    public void updateMatch(MatchDto m) {
         Match mapped = beanMappingService.mapTo(m, Match.class);
         matchService.update(mapped);
     }

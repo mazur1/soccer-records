@@ -5,11 +5,18 @@
  */
 package soccer.records.dao;
 
+import java.util.List;
 import javax.inject.Inject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
+import org.springframework.transaction.annotation.Transactional;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import soccer.records.PersistenceAppContext;
 import soccer.records.entity.Match;
 import soccer.records.entity.Player;
 import soccer.records.entity.PlayerResult;
@@ -17,21 +24,26 @@ import soccer.records.entity.Team;
 import soccer.records.enums.PlayerPost;
 
 /**
- *
+ * Dao tests
+ * 
  * @author Michaela Bocanova
  */
+
+@ContextConfiguration(classes = PersistenceAppContext.class)
+@TestExecutionListeners(TransactionalTestExecutionListener.class)
+@Transactional
 public class PlayerResultDaoTest extends AbstractTestNGSpringContextTests {
     
-    @Inject
+    @Autowired
     private PlayerResultDao playerResultDao;
-    @Inject
+    @Autowired
     private PlayerDao playerDao;
-    @Inject
+    @Autowired
     private TeamDao teamDao;
-    @Inject
+    @Autowired
     private MatchDao matchDao;
     
-    private PlayerResult pr1;
+    private PlayerResult pr1, pr2;
     
     @BeforeMethod
     public void setUp() {
@@ -65,19 +77,38 @@ public class PlayerResultDaoTest extends AbstractTestNGSpringContextTests {
         m1.setTeamHome(t2);
         matchDao.create(m1);
         
-        PlayerResult pr1 = new PlayerResult();
+        pr1 = new PlayerResult();
         pr1.setMatch(m1);
         pr1.setPlayer(p1);
         playerResultDao.create(pr1);
+        pr2 = new PlayerResult();
+        pr2.setMatch(m1);
+        pr2.setPlayer(p2);
+        playerResultDao.create(pr2);
     }
     
     @Test
-    public void testNonExistingResultReturnsNull() {
-        Assert.assertNull(playerResultDao.findByID(123l));
+    public void findByPlayer() {
+        List<PlayerResult> actual = playerResultDao.findByPlayerID(pr1.getPlayer().getId());
+        Assert.assertEquals(actual.size(), 1);
+        Assert.assertEquals(actual.get(0), pr1);
     }
-
+    
     @Test
-    public void testExistingResult() {
+    public void findByMatch() {
+        List<PlayerResult> actual = playerResultDao.findByMatchID(pr1.getMatch().getId());
+        Assert.assertEquals(actual.size(), 2);
+        //Assert.assertEquals(actual.get(0), pr1);
+    }
+    
+    @Test
+    public void findByPlayerMatch() {
+        PlayerResult actual = playerResultDao.findByBoth(pr1.getPlayer().getId(), pr1.getMatch().getId());
+        Assert.assertEquals(actual, pr1);
+    }
+    
+    @Test
+    public void findById() {
         PlayerResult actual = playerResultDao.findByID(pr1.getId());
         Assert.assertEquals(actual, pr1);
     }
