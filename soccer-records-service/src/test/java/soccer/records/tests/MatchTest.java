@@ -5,13 +5,20 @@
  */
 package soccer.records.tests;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
+import org.mockito.ArgumentCaptor;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -21,11 +28,18 @@ import org.springframework.test.context.transaction.TransactionalTestExecutionLi
 import org.springframework.transaction.annotation.Transactional;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import soccer.records.PersistenceAppContext;
+import soccer.records.config.ServiceConfiguration;
+import soccer.records.dao.MatchDao;
 import soccer.records.entity.Location;
 import soccer.records.entity.Match;
+import soccer.records.entity.Player;
+import soccer.records.entity.PlayerResult;
 import soccer.records.entity.Team;
+import soccer.records.services.MatchResult;
 import soccer.records.services.MatchService;
 import soccer.records.services.TeamService;
 
@@ -33,23 +47,61 @@ import soccer.records.services.TeamService;
  *
  * @author Tomas Mazurek
  */
-@ContextConfiguration(classes = PersistenceAppContext.class)
-@TestExecutionListeners(TransactionalTestExecutionListener.class)
-@Transactional
+@ContextConfiguration(classes = ServiceConfiguration.class)
 public class MatchTest extends AbstractTestNGSpringContextTests {
     
-    @PersistenceUnit
-    private EntityManagerFactory emf;
     
     @Mock
-    private MatchService matchService;
+    private MatchDao matchDao;
 
-    @Mock
-    private TeamService teamService;
+    @Autowired
+    @InjectMocks
+    private MatchService matchService;   
     
     @BeforeClass
     public void setUp() {
         MockitoAnnotations.initMocks(this);
+    }
+    
+    @BeforeMethod
+    public void resetMock() {
+        Mockito.reset(matchDao);
+    }
+    
+    private Match testMatch;
+    private Match testMatch2;
+    
+    private Player testPlayer;
+    private PlayerResult testPlayerResult;
+    
+    @BeforeTest
+    private void createTestMatch() {
+        Team teamHome = newTeam("teamHome");
+        Team teamAway = newTeam("teamAway");
+        
+        testMatch = new Match();
+        testMatch.setTeamHome(teamHome);
+        testMatch.setTeamAway(teamAway);
+        
+        Team teamHome2 = newTeam("teamHome2");
+        Team teamAway2 = newTeam("teamAway2");
+        
+        testMatch2 = new Match();
+        testMatch2.setTeamHome(teamHome2);
+        testMatch2.setTeamAway(teamAway2);
+        
+        testPlayer = new Player();
+        testPlayer.setName("Honza");
+        testPlayer.setTeam(teamHome);
+        
+        testPlayerResult = new PlayerResult(testPlayer, testMatch);
+        testPlayerResult.setGoalsScored(1);
+        
+        List<PlayerResult> playerResultsL = new ArrayList<>();
+        playerResultsL.add(testPlayerResult);
+        testMatch.setPlayerResults(playerResultsL);
+        
+        
     }
     
     private Team newTeam (String name) {
@@ -59,175 +111,40 @@ public class MatchTest extends AbstractTestNGSpringContextTests {
     }
     
     @Test
-    public void createEmptyMatch() {
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
+    public void createMatch() {
         
-        Match match = new Match();
+        matchService.create(testMatch);
+        Mockito.verify(matchDao).create(testMatch);
         
-        Team homeTeam = newTeam("Barcelona");
-        Team awayTeam = newTeam("RealMadrid");
-        
-        match.setTeamHome(homeTeam);
-        match.setTeamAway(awayTeam);
-
-        teamService.create(homeTeam);
-        teamService.create(awayTeam);        
-        matchService.create(match);
-
-        Long matchId = match.getId();        
-        Assert.assertEquals(matchId, matchService.findById(matchId).getId());
-        
-        em.getTransaction().commit();
-        em.close();
+        matchService.create(testMatch2);
+        Mockito.verify(matchDao).create(testMatch2);
     }
     
     @Test
-    public void createFilledMatch() {
-
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-
-        Match match = new Match();
+    public void updateMatch() {
         
-        Team homeTeam = newTeam("Barcelona");
-        Team awayTeam = newTeam("RealMadrid");
+        Team newAwayTeam = newTeam("new");
         
-        Calendar cal = Calendar.getInstance();
-        Date f = cal.getTime();
-        System.out.print("time: ");
-        System.out.println(f);
+        testMatch.setTeamAway(newAwayTeam);
         
-        Location location = new Location();
-        location.setCity("Barcelona");
-        location.setState("Spain");
-        location.setStreet("Main");
-        location.setName("Arena");
-        location.setZip("6372");
-        
-        match.setTeamHome(homeTeam);
-        match.setTeamAway(awayTeam);
-        match.setTeamHomeGoalsScored(2, false);
-        match.setTeamHomeGoalsScored(1, true);
-        match.setTeamAwayGoalsScored(1, false);
-        match.setTeamHomeGoalsScored(0, true);
-        match.setLocation(location);
-        match.setDateAndTime(cal.getTime());
-        
-        
-        teamService.create(awayTeam);
-        teamService.create(homeTeam);
-        matchService.create(match);
-
-        Long matchId = match.getId(); 
-        Assert.assertEquals(matchService.findById(matchId), match);
-        
-        
-        //get match by findAll()
-        List<Match> findAllResult = matchService.findAll();
-        Match findResult = findAllResult.get(0);
-        
-        Assert.assertEquals(findResult, match);
-        Assert.assertEquals(findAllResult.size(), 1);
-        Assert.assertEquals(findResult.getTeamHomeGoalsScored(false), findResult.getTeamAwayGoalsReceived(false));
-        Assert.assertEquals(findResult.getTeamAwayGoalsScored(false), findResult.getTeamHomeGoalsReceived(false));
-        
-        em.getTransaction().commit();
-        em.close();
+        matchService.update(testMatch);
+        verify(matchDao).update(testMatch);
 
     }
     
     @Test
-    public void DeleteMatch() {
+    public void findAllMatches() {
+            
+        when(matchDao.findAll()).thenReturn(Arrays.asList(testMatch, testMatch2));
 
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
+        List<Match> actual = matchService.findAll();
 
-        Match match = new Match();
+        Assert.assertEquals(actual.size(), 2);   
+        Assert.assertEquals(actual, Arrays.asList(testMatch, testMatch2));  
         
-        Team homeTeam = newTeam("Barcelona");
-        Team awayTeam = newTeam("RealMadrid");
-        
-        match.setTeamHome(homeTeam);
-        match.setTeamAway(awayTeam);
-
-        teamService.create(homeTeam);
-        teamService.create(awayTeam);        
-        matchService.create(match);
-        
-        matchService.delete(match);
-              
-        Assert.assertEquals(true, matchService.findAll().isEmpty());
-        
-        em.getTransaction().commit();
-        em.close();
-
+        verify(matchDao).findAll();
     }
     
-    @Test
-    public void UpdateMatch() {
-        
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-        
-        Match match = new Match();
-        Team homeTeam = newTeam("Barcelona");
-        Team awayTeam = newTeam("RealMadrid");
-        match.setTeamHome(homeTeam);
-        match.setTeamAway(awayTeam);
-        
-        teamService.create(homeTeam);
-        teamService.create(awayTeam); 
-        matchService.create(match);
-        Long matchId = match.getId();
-        Team homeTeam2 = newTeam("Chelsea");
-        match.setTeamHome(homeTeam2);     
-        matchService.update(match);
-        
-        Assert.assertEquals("Chelsea", matchService.findById(matchId).getTeamHome().getName());
-        Assert.assertEquals("RealMadrid", matchService.findById(matchId).getTeamAway().getName());
-        
-        em.getTransaction().commit();
-        em.close();
-        
-        
-    }
+
     
-    @Test
-    public void findByTeamTest() {
-        
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-        
-        //first match
-        Match match = new Match();
-        Team homeTeam = newTeam("Barcelona");
-        Team awayTeam = newTeam("RealMadrid");
-        match.setTeamHome(homeTeam);
-        match.setTeamAway(awayTeam);
-        
-        teamService.create(homeTeam);
-        teamService.create(awayTeam); 
-        matchService.create(match);
-        
-        //second match
-        Match match2 = new Match();
-        Team homeTeam2 = newTeam("Chelsea");
-        Team awayTeam2 = newTeam("Juventus");
-        match2.setTeamHome(homeTeam2);
-        match2.setTeamAway(awayTeam2);
-        
-        teamService.create(homeTeam2);
-        teamService.create(awayTeam2); 
-        matchService.create(match2);
-        
-        List<Match> matches = matchService.findByTeam(awayTeam2);
-        Assert.assertEquals(matches.size(),1);
-        Assert.assertEquals(match2, matches.get(0));
-        
-        em.getTransaction().commit();
-        em.close();
-        
-        
-    }
 }
