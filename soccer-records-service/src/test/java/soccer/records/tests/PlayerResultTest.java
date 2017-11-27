@@ -7,25 +7,12 @@ package soccer.records.tests;
 
 import java.util.Arrays;
 import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceUnit;
-import soccer.records.PersistenceAppContext;
-import soccer.records.dao.PlayerResultDao;
 import soccer.records.entity.Match;
 import soccer.records.entity.Player;
 import soccer.records.entity.PlayerResult;
 import soccer.records.entity.Team;
 import soccer.records.enums.PlayerPost;
-import soccer.records.services.MatchService;
-import soccer.records.services.PlayerResultServiceImpl;
-import soccer.records.services.TeamServiceImpl;
-import soccer.records.services.MatchServiceImpl;
 import soccer.records.services.PlayerResultService;
-import soccer.records.services.PlayerService;
-import soccer.records.services.PlayerServiceImpl;
-import soccer.records.services.TeamService;
 import org.hibernate.service.spi.ServiceException;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
@@ -38,18 +25,14 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import static org.mockito.Matchers.any;
 import org.mockito.Mockito;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.testng.annotations.BeforeTest;
-import soccer.records.config.ServiceConfiguration;
-import soccer.records.dao.MatchDao;
-import soccer.records.dao.PlayerDao;
-import soccer.records.dao.TeamDao;
 
 import soccer.records.config.ServiceConfiguration;
 import soccer.records.dao.PlayerResultDao;
+
 /**
  * Service tests
  * 
