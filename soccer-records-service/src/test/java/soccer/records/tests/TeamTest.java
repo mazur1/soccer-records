@@ -9,6 +9,8 @@ import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.test.context.ContextConfiguration;
@@ -17,6 +19,7 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import soccer.records.PersistenceAppContext;
@@ -26,8 +29,11 @@ import soccer.records.entity.Match;
 import soccer.records.entity.Player;
 import soccer.records.entity.Team;
 import soccer.records.enums.PlayerPost;
+import soccer.records.services.MatchService;
 import soccer.records.services.MatchServiceImpl;
+import soccer.records.services.PlayerService;
 import soccer.records.services.PlayerServiceImpl;
+import soccer.records.services.TeamService;
 import soccer.records.services.TeamServiceImpl;
 
 @ContextConfiguration(classes = PersistenceAppContext.class)
@@ -41,14 +47,19 @@ public class TeamTest extends AbstractTestNGSpringContextTests {
     @PersistenceUnit
     private EntityManagerFactory emf;
     
-    @Autowired
-    private TeamServiceImpl teamService;
+    @Mock
+    private MatchService matchService;
+
+    @Mock
+    private TeamService teamService;
     
-    @Autowired
-    private PlayerServiceImpl playerService;
+    @Mock
+    private PlayerService playerService;
     
-    @Autowired
-    private MatchServiceImpl matchService;
+    @BeforeClass
+    public void setUp() {
+        MockitoAnnotations.initMocks(this);
+    }   
     
     private Team createTeam(String name) {
         Team testTeam = new Team();

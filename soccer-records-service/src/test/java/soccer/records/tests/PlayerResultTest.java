@@ -48,6 +48,8 @@ import soccer.records.dao.MatchDao;
 import soccer.records.dao.PlayerDao;
 import soccer.records.dao.TeamDao;
 
+import soccer.records.config.ServiceConfiguration;
+import soccer.records.dao.PlayerResultDao;
 /**
  * Service tests
  * 
