@@ -15,22 +15,29 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import soccer.records.PersistenceAppContext;
+import soccer.records.dao.PlayerResultDao;
 import soccer.records.entity.Match;
 import soccer.records.entity.Player;
 import soccer.records.entity.PlayerResult;
 import soccer.records.entity.Team;
 import soccer.records.enums.PlayerPost;
+import soccer.records.services.MatchService;
 import soccer.records.services.PlayerResultServiceImpl;
 import soccer.records.services.TeamServiceImpl;
 import soccer.records.services.MatchServiceImpl;
+import soccer.records.services.PlayerResultService;
+import soccer.records.services.PlayerService;
 import soccer.records.services.PlayerServiceImpl;
+import soccer.records.services.TeamService;
 
 /**
- * Testing CRUD methods in PlayerResultService 
- * (and, by extension, PlayerResultDao)
+ * Service tests
  * 
  * @author Michaela Bocanova
  */
@@ -43,18 +50,18 @@ public class PlayerResultTest extends AbstractTestNGSpringContextTests {
     @PersistenceUnit
     private EntityManagerFactory emf;
     
-    @Autowired
-    private PlayerResultServiceImpl playerResultService;
-    @Autowired
-    private TeamServiceImpl teamService;
-    @Autowired
-    private MatchServiceImpl matchService;
-    @Autowired
-    private PlayerServiceImpl playerService;
+    @Mock
+    private PlayerResultDao playerResultDao;
     
-    /*@Autowired
-    private PlayerDao playerDao;*/
-    
+    @Autowired
+    private PlayerResultService playerResultService;
+    @Autowired
+    private TeamService teamService;
+    @Autowired
+    private MatchService matchService;
+    @Autowired
+    private PlayerService playerService;
+        
     // helper methods with sample data
     private Player newPlayerA() {
         Player p = new Player();

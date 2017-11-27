@@ -16,9 +16,11 @@ import soccer.records.dto.MatchCreateDto;
 import soccer.records.dto.MatchDto;
 import soccer.records.dto.MatchEditDto;
 import soccer.records.entity.Match;
+import soccer.records.exceptions.ServiceException;
 import soccer.records.services.BeanMappingService;
 import soccer.records.services.MatchService;
 import soccer.records.services.PlayerResultService;
+import soccer.records.services.TeamService;
 
 /**
  *
@@ -34,10 +36,12 @@ public class MatchFacadeImpl implements MatchFacade {
     @Inject
     private MatchService matchService;
     @Inject
+    private TeamService teamService;
+    @Inject
     private PlayerResultService resultService;
     @Autowired
     private BeanMappingService beanMappingService;
-        
+            
     @Override
     public Long createMatch(MatchCreateDto m) {
         Match mapped = beanMappingService.mapTo(m, Match.class);

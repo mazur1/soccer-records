@@ -58,7 +58,7 @@ public class PlayerDaoImpl implements PlayerDao {
             }
 	}
         
-        public void addPlayerResult(PlayerResult r)
+        /*public void addPlayerResult(PlayerResult r)
         {
             
         }
@@ -66,5 +66,5 @@ public class PlayerDaoImpl implements PlayerDao {
         public void removePlayerResult(PlayerResult r)
         {
         
-        }
+        }*/
 }

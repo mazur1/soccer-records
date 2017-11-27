@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package soccer.records.tests.dao;
+package soccer.records.facade;
 
 /**
  *
- * @author 
+ * @author Michaela Bocanova
  */
-public class TeamDaoTest {
+public class PlayerResultFacadeTest {
     
 }

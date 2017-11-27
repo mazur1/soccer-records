@@ -78,7 +78,7 @@ public class MatchServiceImpl implements MatchService {
     @Override
     public void addPlayerResult(Match m, PlayerResult r) {
 	if (m.getPlayerResults().contains(r)) {
-            throw new ServiceException("Match already contais this player result. \n" +
+            throw new ServiceException("Match already contains this player result. \n" +
                                         "Match: " + m.getId() + "\n" +
                                         "Player result: " + r.getId());
 	}
@@ -87,134 +87,51 @@ public class MatchServiceImpl implements MatchService {
     
     @Override
     public void removePlayerResult(Match m, PlayerResult r) {
-        
+        if (!m.getPlayerResults().contains(r)) {
+            throw new ServiceException("Match doesn't contain this player result. \n" +
+                                        "Match: " + m.getId() + "\n" +
+                                        "Player result: " + r.getId());
+	}
 	m.removePlayerResult(r);
     }
-    
-    static class MatchResult {
         
-        private Match match;
-        private Team winner;
-        private Team looser;
-        private boolean tie=false;
-
-        public MatchResult() {
-        }
-        
-        public Match getMatch() {
-            return match;
-        }
-
-        public void setMatch(Match match) {
-            this.match = match;
-        }
-
-        public Team getWinner() {
-            return winner;
-        }
-
-        public void setWinner(Team winner) {
-            this.winner = winner;
-        }
-
-        public Team getLooser() {
-            return looser;
-        }
-
-        public void setLooser(Team looser) {
-            this.looser = looser;
-        }
-
-        public boolean isTie() {
-            return tie;
-        }
-
-        public void setTie(boolean tie) {
-            this.tie = tie;
-        }
-        
-    }
-    
-    static class TeamResult {
-
-        private Team team;
-        private int wins=0;
-        private int losses=0;
-        private int ties=0;
-        
-        public TeamResult() {
-        }
-        
-        public Team getTeam() {
-            return team;
-        }
-
-        public void setTeam(Team team) {
-            this.team = team;
-        }
-
-        public int getWins() {
-            return wins;
-        }
-
-        public void setWins(int wins) {
-            this.wins = wins;
-        }
-
-        public int getLosses() {
-            return losses;
-        }
-
-        public void setLosses(int losses) {
-            this.losses = losses;
-        }
-
-        public int getTies() {
-            return ties;
-        }
-
-        public void setTies(int ties) {
-            this.ties = ties;
-        }
-                
-    }
-    
     @Override
     public MatchResult getMatchResult(Match m) {
         MatchResult result = new MatchResult();
-        result.match = m;
+        result.setMatch(m);
         
         if(m.getTeamHomeGoalsScored(false) > m.getTeamHomeGoalsReceived(false)) {
-            result.winner = m.getTeamHome();
-            result.looser = m.getTeamAway();
+            result.setWinner(m.getTeamHome());
+            result.setLooser(m.getTeamAway());
         }
         else if(m.getTeamAwayGoalsScored(false) > m.getTeamAwayGoalsReceived(false)) {
-            result.winner= m.getTeamAway();
-            result.looser=m.getTeamHome();
+            result.setWinner(m.getTeamAway());
+            result.setLooser(m.getTeamHome());
         }
-        else result.tie = true;
+        else result.setTie(true);
         
         return result;
     }
     
     @Override
     public TeamResult getTeamResult(Team t) {
-        /*Map<Team, Map<String, Integer>> map = new HashMap<>();
-        Map<String, Integer> sub = new HashMap<>();*/
         TeamResult tResult = new TeamResult();
-        tResult.team = t;
+        tResult.setTeam(t);
         List<Match> matches = matchDao.findByTeam(t);
         
         int wins=0, losses=0,ties=0;
         for(Match m : matches) {
             MatchResult mResult = getMatchResult(m);
-            if (mResult.tie)
-                tResult.ties++;
-            else if (mResult.winner != null && mResult.winner.equals(t))
-                tResult.wins++;
-            else if (mResult.looser != null && mResult.looser.equals(t))
-                tResult.losses++;
+            if (mResult.isTie())
+                ties++;
+            else if (mResult.getWinner() != null && mResult.getWinner().equals(t))
+                wins++;
+            else if (mResult.getLooser() != null && mResult.getLooser().equals(t))
+                losses++;
         }
+        tResult.setLosses(losses);
+        tResult.setTies(ties);
+        tResult.setWins(wins);
         
         return tResult;
     }
