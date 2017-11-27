@@ -29,6 +29,7 @@ import org.testng.annotations.Test;
 import org.mockito.Mockito;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.testng.Assert.fail;
 import org.testng.annotations.BeforeTest;
 
 import soccer.records.config.ServiceConfiguration;
@@ -316,6 +317,26 @@ public class PlayerResultTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(actual.size(), 0);     
         
         verify(playerResultDao).findAll();
+    }
+    
+    @Test
+    public void changeGoalsValid() {
+        try {
+            playerResultService.changeGoals(pr1, 2);
+        
+        } catch(ServiceException e) {
+            fail("service exception is not supposed to occure");
+        }        
+    }
+    
+    @Test
+    public void changeGoalsInValid() {
+        try {
+            playerResultService.changeGoals(pr1, -2);
+            fail("service exception is supposed to occure");
+        } catch(ServiceException e) {  
+            
+        } 
     }
     
 }
