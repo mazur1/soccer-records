@@ -4,6 +4,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
 import javax.validation.ConstraintViolationException;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +19,16 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import soccer.records.PersistenceAppContext;
-import soccer.records.dao.PlayerDao;
+import soccer.records.entity.Location;
 
+import soccer.records.entity.PlayerResult;
 import soccer.records.entity.Player;
+import soccer.records.entity.Team;
+import soccer.records.entity.Match;
 import soccer.records.enums.PlayerPost;
 import soccer.records.services.PlayerService;
-import soccer.records.services.PlayerServiceImpl;
+
+import soccer.records.exceptions.dao.DataAccessExceptions;
 
 /**
  *
@@ -34,94 +39,103 @@ import soccer.records.services.PlayerServiceImpl;
 @Transactional
 public class PlayerTest extends AbstractTestNGSpringContextTests {
 
-    @PersistenceUnit
-    private EntityManagerFactory emf;
-   
-    private Player pl;
-    
     @Mock
+    private Player playerResultDao;
+
+    @Autowired
+    @InjectMocks
     private PlayerService playerService;
-    
+
     @BeforeClass
     public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
-    
-    @BeforeTest
-    public void init(){      
-        this.pl = new Player();       
-    } 
-    
-    @Test(expectedExceptions = ConstraintViolationException.class)
-    public void notNullTest(){
-        
-        this.pl.setName("Karel");
-        this.playerService.create(pl);
 
-        this.pl.setSurname("Dvoøák");
-        this.playerService.create(pl);        
+    private Player createPlayer() {
+        Player p1 = new Player();
+        p1.setName("Karel");
+        p1.setSurname("Novák");
+        p1.setAge(10);
+        p1.setCaptian(true);
+        p1.setCity("Jihlava");
+        p1.setCountry("Czech Republic");
+        p1.setPost(PlayerPost.GOLMAN);
 
-        this.pl.setAge(30);
-        this.playerService.create(pl); 
-
-        this.pl.setPost(PlayerPost.ATTACKER);
-        this.playerService.create(pl); 
-        
-        /* correct
-        this.pl.setCaptian(false);
-        this.playerService.create(pl); 
-        */
+        return p1;
     }
-    
+
+    private Team createTeam(String name) {
+        Team t1 = new Team();
+        t1.setName(name);
+
+        return t1;
+    }
+
+    private Match createMatch(Team t1, Team t2) {
+
+        Location l = new Location();
+        l.setCity("Jihlava");
+        l.setState("Czech republic");
+        l.setStreet("ulice");
+        l.setZip("586 01");
+
+        Match m1 = new Match();
+        m1.setLocation(l);
+        m1.setTeamAway(t1);
+        m1.setTeamHome(t2);
+        m1.setTeamAwayGoalsScored(1, false);
+        m1.setTeamAwayGoalsScored(2, false);
+
+        return m1;
+    }
+
+    private PlayerResult createPlayerResult(Match m, Player p, int goals) {
+
+        PlayerResult pr = new PlayerResult(p, m);
+        pr.setGoalsScored(goals);
+
+        return pr;
+    }
+
+    @Test(expectedExceptions = DataAccessExceptions.class)
+    public void notNullTest() {
+        playerService.create(null);
+    }
+
     @Test
     public void playerCreateTest() {
 
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-    
-        this.pl.setName("Karel");
-        this.pl.setSurname("Novák");
-        this.pl.setAge(30);
-        this.pl.setPost(PlayerPost.GOLMAN);
-        this.pl.setCaptian(false);
-        
-        playerService.create(this.pl);
-        Assert.assertEquals(this.pl.getName(), playerService.findByName("Karel","Novák").get(0).getName());
-        
-        em.getTransaction().commit();
-        em.close();
+        Player pl = createPlayer();
+
+        playerService.create(pl);
+        Assert.assertEquals(pl.getName(), playerService.findByName("Karel", "Novák").get(0).getName());
 
     }
 
     @Test
     public void playerUpdateTest() {
 
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
+        Player p = createPlayer();
+        playerService.create(p);
 
-        this.pl.setName("Karel");
-        this.pl.setSurname("Bureš");
-        playerService.update(this.pl);
-        Assert.assertEquals(this.pl.getName(), playerService.findByName("Karel","Bureš").get(0).getName());
-        
-        em.getTransaction().commit();
-        em.close();
+        p.setName("Matìj");
+        p.setCity("Semerád");
 
+        playerService.update(p);
+
+        Assert.assertEquals(p.getName(), playerService.findByName("Matìj", "Semerád").get(0).getName());
+        Assert.assertEquals(p.getSurname(), playerService.findByName("Matìj", "Semerád").get(0).getSurname());
     }
-    
+
     @Test
     public void playerDeleteTest() {
 
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-        
-        playerService.remove(this.pl);
-        Assert.assertEquals(true, playerService.findAll().isEmpty());
-        
-        em.getTransaction().commit();
-        em.close();
+        Player p = createPlayer();
+        playerService.create(p);
 
-    }    
-    
-    
+        playerService.remove(p);
+        Assert.assertEquals(0, playerService.findAll().size());
+
+    }
+
 }
