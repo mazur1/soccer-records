@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import soccer.records.entity.Match;
 import soccer.records.entity.Team;
 
+import soccer.records.exceptions.dao.DataAccessExceptions;
 
 /**
  * Implemented CRUD functionality in a repository
@@ -22,37 +23,65 @@ public class MatchDaoImpl implements MatchDao {
                 
     @Override        
     public void create(Match m){
-        em.persist(m);
+        try {
+            em.persist(m);
+        } catch(Exception e){
+            throw new DataAccessExceptions(e.getMessage());          
+        }
     }
         
     @Override
     public void update(Match m) {
-        em.merge(m);
+        try {
+            em.merge(m);
+        } catch(Exception e){
+            throw new DataAccessExceptions(e.getMessage());          
+        }        
     }
     
     @Override
     public void delete(Match m) {
-        em.remove(findById(m.getId()));
+        try {
+            em.remove(findById(m.getId()));
+        } catch(Exception e){
+            throw new DataAccessExceptions(e.getMessage());          
+        }
     }
         
     @Override
     public Match findById(Long id){
-        return em.find(Match.class, id);
+        try {
+            return em.find(Match.class, id);
+        } catch(Exception e){
+            throw new DataAccessExceptions(e.getMessage());          
+        }
     }
         
     @Override        
     public List<Match> findAll() {
-        return em.createQuery("select m from Match m", Match.class).getResultList();
+        try{
+            return em.createQuery("select m from Match m", Match.class).getResultList();
+        } catch(Exception e){
+            throw new DataAccessExceptions(e.getMessage());          
+        }        
     }
 
     @Override
     public List<Match> findByTeam(Team t) {
-       return em.createQuery("select m from Match m WHERE m.teamHome = :team OR m.teamAway = :team", Match.class).setParameter("team", t).getResultList(); 
+        try{
+            return em.createQuery("select m from Match m WHERE m.teamHome = :team OR m.teamAway = :team", Match.class).setParameter("team", t).getResultList(); 
+        } catch(Exception e){
+            throw new DataAccessExceptions(e.getMessage());          
+        }
     }
     
     @Override
     public List<Match> findByTeams(Team t1, Team t2) {
-       return em.createQuery("select m from Match m WHERE m.teamHome IN (:teams) AND m.teamAway IN (:teams)", Match.class).setParameter("teams", Arrays.asList(t1, t2)).getResultList(); 
+        try{
+            return em.createQuery("select m from Match m WHERE m.teamHome IN (:teams) AND m.teamAway IN (:teams)", Match.class).setParameter("teams", Arrays.asList(t1, t2)).getResultList(); 
+        } catch(Exception e){
+            throw new DataAccessExceptions(e.getMessage());          
+        }        
     }
     
 }
