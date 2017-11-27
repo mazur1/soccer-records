@@ -15,8 +15,8 @@ import soccer.records.dto.MatchEditDto;
  * @author Michaela Bocanova
  */
 public interface MatchFacade {
-    Long createMatch(MatchCreateDto m);
-    void updateMatch(MatchEditDto m);
+    Long createMatch(MatchDto m);
+    void updateMatch(MatchDto m);
     void deleteMatch(Long id);
     List<MatchDto> findAllMatches();
     MatchDto findMatchById(Long id);

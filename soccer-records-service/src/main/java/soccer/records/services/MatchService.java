@@ -11,7 +11,8 @@ import soccer.records.entity.PlayerResult;
 import soccer.records.entity.Team;
 
 /**
- *
+ * Match service interface
+ * 
  * @author Michaela Bocanova
  */
 public interface MatchService {
@@ -34,7 +35,17 @@ public interface MatchService {
     
     void removePlayerResult(Match m, PlayerResult r);
             
-    MatchServiceImpl.MatchResult getMatchResult(Match m);
+    /**
+     * Computes result of the match
+     * @param m
+     * @return 
+     */
+    MatchResult getMatchResult(Match m);
     
-    MatchServiceImpl.TeamResult getTeamResult(Team t);
+    /**
+     * Computes result for the team from match results
+     * @param t
+     * @return 
+     */
+    TeamResult getTeamResult(Team t);
 }

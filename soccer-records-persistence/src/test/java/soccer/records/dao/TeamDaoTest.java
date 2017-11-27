@@ -3,12 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package soccer.records.tests.dao;
+package soccer.records.dao;
+
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 
 /**
  *
  * @author 
  */
-public class TeamDaoTest {
+public class TeamDaoTest extends AbstractTestNGSpringContextTests {
     
 }
