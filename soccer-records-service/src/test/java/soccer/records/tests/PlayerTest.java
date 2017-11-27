@@ -4,8 +4,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
 import javax.validation.ConstraintViolationException;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
+import static org.mockito.Mockito.verify;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -19,6 +22,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import soccer.records.PersistenceAppContext;
+import soccer.records.dao.PlayerDao;
 import soccer.records.entity.Location;
 
 import soccer.records.entity.PlayerResult;
@@ -30,17 +34,18 @@ import soccer.records.services.PlayerService;
 
 import soccer.records.exceptions.dao.DataAccessExceptions;
 
+import soccer.records.config.ServiceConfiguration;
+
 /**
  *
  * @author Radim Vidlák
  */
-@ContextConfiguration(classes = PersistenceAppContext.class)
-@TestExecutionListeners(TransactionalTestExecutionListener.class)
-@Transactional
+
+@ContextConfiguration(classes = ServiceConfiguration.class)
 public class PlayerTest extends AbstractTestNGSpringContextTests {
 
     @Mock
-    private Player playerResultDao;
+    private PlayerDao playerDao;
 
     @Autowired
     @InjectMocks
@@ -97,18 +102,12 @@ public class PlayerTest extends AbstractTestNGSpringContextTests {
         return pr;
     }
 
-    @Test(expectedExceptions = DataAccessExceptions.class)
-    public void notNullTest() {
-        playerService.create(null);
-    }
-
     @Test
     public void playerCreateTest() {
 
         Player pl = createPlayer();
-
         playerService.create(pl);
-        Assert.assertEquals(pl.getName(), playerService.findByName("Karel", "Novák").get(0).getName());
+        Mockito.verify(playerDao).create(pl);
 
     }
 
@@ -116,15 +115,17 @@ public class PlayerTest extends AbstractTestNGSpringContextTests {
     public void playerUpdateTest() {
 
         Player p = createPlayer();
+        
         playerService.create(p);
+        Mockito.verify(playerDao).create(p);
 
         p.setName("Matìj");
         p.setCity("Semerád");
 
         playerService.update(p);
+        ArgumentCaptor<Player> arg = ArgumentCaptor.forClass(Player.class);
+        verify(playerDao).update(p);
 
-        Assert.assertEquals(p.getName(), playerService.findByName("Matìj", "Semerád").get(0).getName());
-        Assert.assertEquals(p.getSurname(), playerService.findByName("Matìj", "Semerád").get(0).getSurname());
     }
 
     @Test
@@ -132,10 +133,13 @@ public class PlayerTest extends AbstractTestNGSpringContextTests {
 
         Player p = createPlayer();
         playerService.create(p);
-
+        Mockito.verify(playerDao).create(p);        
+        
         playerService.remove(p);
-        Assert.assertEquals(0, playerService.findAll().size());
-
+        ArgumentCaptor<Player> arg = ArgumentCaptor.forClass(Player.class);
+        Mockito.verify(playerDao, Mockito.atLeast(0)).delete(arg.capture());
+        Assert.assertTrue(!arg.getAllValues().isEmpty() && arg.getValue().equals(p));
+        
     }
 
 }
