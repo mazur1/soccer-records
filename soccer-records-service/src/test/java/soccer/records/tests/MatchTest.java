@@ -11,6 +11,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -18,13 +20,14 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import soccer.records.PersistenceAppContext;
 import soccer.records.entity.Location;
 import soccer.records.entity.Match;
 import soccer.records.entity.Team;
-import soccer.records.services.MatchServiceImpl;
-import soccer.records.services.TeamServiceImpl;
+import soccer.records.services.MatchService;
+import soccer.records.services.TeamService;
 
 /**
  *
@@ -38,19 +41,22 @@ public class MatchTest extends AbstractTestNGSpringContextTests {
     @PersistenceUnit
     private EntityManagerFactory emf;
     
-    @Autowired
-    private MatchServiceImpl matchService;
+    @Mock
+    private MatchService matchService;
+
+    @Mock
+    private TeamService teamService;
     
-    @Autowired
-    private TeamServiceImpl teamService;
+    @BeforeClass
+    public void setUp() {
+        MockitoAnnotations.initMocks(this);
+    }
     
     private Team newTeam (String name) {
         Team homeTeam = new Team();
         homeTeam.setName(name);
         return homeTeam;
     }
-    
-
     
     @Test
     public void createEmptyMatch() {

@@ -4,6 +4,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
 import javax.validation.ConstraintViolationException;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.test.context.ContextConfiguration;
@@ -12,6 +14,7 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import soccer.records.PersistenceAppContext;
@@ -19,6 +22,7 @@ import soccer.records.dao.PlayerDao;
 
 import soccer.records.entity.Player;
 import soccer.records.enums.PlayerPost;
+import soccer.records.services.PlayerService;
 import soccer.records.services.PlayerServiceImpl;
 
 /**
@@ -35,8 +39,13 @@ public class PlayerTest extends AbstractTestNGSpringContextTests {
    
     private Player pl;
     
-    @Autowired
-    private PlayerServiceImpl playerService;
+    @Mock
+    private PlayerService playerService;
+    
+    @BeforeClass
+    public void setUp() {
+        MockitoAnnotations.initMocks(this);
+    }
     
     @BeforeTest
     public void init(){      

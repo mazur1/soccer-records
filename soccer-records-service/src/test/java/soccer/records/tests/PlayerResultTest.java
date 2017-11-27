@@ -9,6 +9,10 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
+import org.hibernate.service.spi.ServiceException;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -16,6 +20,9 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import soccer.records.PersistenceAppContext;
 import soccer.records.entity.Match;
@@ -23,11 +30,13 @@ import soccer.records.entity.Player;
 import soccer.records.entity.PlayerResult;
 import soccer.records.entity.Team;
 import soccer.records.enums.PlayerPost;
-import soccer.records.services.PlayerResultServiceImpl;
-import soccer.records.services.TeamServiceImpl;
-import soccer.records.services.MatchServiceImpl;
-import soccer.records.services.PlayerServiceImpl;
+import soccer.records.services.MatchService;
+import soccer.records.services.PlayerService;
+import soccer.records.services.TeamService;
+import soccer.records.services.PlayerResultService;
 
+import soccer.records.config.ServiceConfiguration;
+import soccer.records.dao.PlayerResultDao;
 /**
  * Testing CRUD methods in PlayerResultService 
  * (and, by extension, PlayerResultDao)
@@ -35,25 +44,31 @@ import soccer.records.services.PlayerServiceImpl;
  * @author Michaela Bocanova
  */
 
-@ContextConfiguration(classes = PersistenceAppContext.class)
-@TestExecutionListeners(TransactionalTestExecutionListener.class)
 @Transactional
+@ContextConfiguration(classes=ServiceConfiguration.class)
 public class PlayerResultTest extends AbstractTestNGSpringContextTests {
    
     @PersistenceUnit
     private EntityManagerFactory emf;
+
+    @Mock
+    private PlayerResultDao playerResultDao;
     
     @Autowired
-    private PlayerResultServiceImpl playerResultService;
-    @Autowired
-    private TeamServiceImpl teamService;
-    @Autowired
-    private MatchServiceImpl matchService;
-    @Autowired
-    private PlayerServiceImpl playerService;
+    @InjectMocks
+    private PlayerResultService playerResultService;   
     
-    /*@Autowired
-    private PlayerDao playerDao;*/
+    private PlayerResult playerResult;
+        
+    @BeforeClass
+    public void setUp() throws ServiceException {      
+        MockitoAnnotations.initMocks(this);
+    }
+    
+    @BeforeMethod
+    public void init(){
+        playerResult = new PlayerResult();
+    }
     
     // helper methods with sample data
     private Player newPlayerA() {
@@ -100,23 +115,27 @@ public class PlayerResultTest extends AbstractTestNGSpringContextTests {
            
         Team tA = newTeamA();
         Team tB = newTeamB();
-        teamService.create(tA);        
-        teamService.create(tB);
-        Player pA =newPlayerA();
+        em.persist(tA);
+        em.persist(tB);
+        
+        Player pA = newPlayerA();
         pA.setTeam(tA);
-        playerService.create(pA);
+        em.persist(pA);
+        
         Match m = new Match();
         m.setTeamAway(tA);
         m.setTeamHome(tB);
-        matchService.create(m);
-        PlayerResult pr = new PlayerResult(pA, m);
-        pr.setGoalsScored(2);
+        em.persist(m);
         
-        playerResultService.create(pr);        
+        playerResult.setMatch(m);
+        playerResult.setPlayer(pA);
+        playerResult.setGoalsScored(2);       
+        playerResultService.create(playerResult); 
+        
         List<PlayerResult> rows = playerResultService.findAll();
         Assert.assertEquals(rows.size(), 1);
 
-        Assert.assertEquals(pr, rows.get(0));
+        Assert.assertEquals(playerResult, rows.get(0));
 
         em.getTransaction().commit();
         em.close();
@@ -133,27 +152,30 @@ public class PlayerResultTest extends AbstractTestNGSpringContextTests {
           
         Team tA = newTeamA();
         Team tB = newTeamB();
-        teamService.create(tA);        
-        teamService.create(tB);
+
         Player pA =newPlayerA();
         pA.setTeam(tA);
-        playerService.create(pA);
+        
         Match m = new Match();
         m.setTeamAway(tA);
         m.setTeamHome(tB);
-        matchService.create(m);
-        PlayerResult pr = new PlayerResult(pA, m);
-        pr.setGoalsScored(2);
         
-        playerResultService.create(pr);
+        playerResult.setMatch(m);
+        playerResult.setPlayer(pA);       
+        playerResult.setGoalsScored(2);
+        
+        playerResultService.create(playerResult);
         List<PlayerResult> rows = playerResultService.findAll();
         Assert.assertEquals(rows.size(), 1);
-        pr.setGoalsScored(3);
-        playerResultService.update(pr);
+        
+        playerResult.setGoalsScored(3);
+        
+        playerResultService.update(playerResult);
+        
         List<PlayerResult> rows2 = playerResultService.findAll();
         Assert.assertEquals(rows2.size(), 1);
         
-        Assert.assertEquals(rows2.get(0), pr);
+        Assert.assertEquals(rows2.get(0), playerResult);
         
         em.getTransaction().commit();
         em.close();
@@ -170,23 +192,23 @@ public class PlayerResultTest extends AbstractTestNGSpringContextTests {
             
         Team tA = newTeamA();
         Team tB = newTeamB();
-        teamService.create(tA);        
-        teamService.create(tB);
+
         Player pA =newPlayerA();
         pA.setTeam(tA);
-        playerService.create(pA);
+  
         Match m = new Match();
         m.setTeamAway(tA);
         m.setTeamHome(tB);
-        matchService.create(m);
-        PlayerResult pr = new PlayerResult(pA, m);
-        pr.setGoalsScored(2);   
+       
+        playerResult.setMatch(m);
+        playerResult.setPlayer(pA);
+        playerResult.setGoalsScored(2);   
         
-        playerResultService.create(pr);
+        playerResultService.create(playerResult);
         List<PlayerResult> rows = playerResultService.findAll();
         Assert.assertEquals(rows.size(), 1);
         
-        playerResultService.delete(pr);
+        playerResultService.delete(playerResult);
         List<PlayerResult> rows2 = playerResultService.findAll();
         Assert.assertEquals(rows2.size(), 0);
         
@@ -205,25 +227,25 @@ public class PlayerResultTest extends AbstractTestNGSpringContextTests {
             
         Team tA = newTeamA();
         Team tB = newTeamB();
-        teamService.create(tA);        
-        teamService.create(tB);
+
         Player pA =newPlayerA();
         pA.setTeam(tA);
-        playerService.create(pA);
+    
         Match m = new Match();
         m.setTeamAway(tA);
         m.setTeamHome(tB);
-        matchService.create(m);
-        PlayerResult pr = new PlayerResult(pA, m);
-        pr.setGoalsScored(2);     
+      
+        playerResult.setMatch(m);
+        playerResult.setPlayer(pA);
+        playerResult.setGoalsScored(2);     
         
-        playerResultService.create(pr);
+        playerResultService.create(playerResult);
         List<PlayerResult> rows = playerResultService.findAll();
         Assert.assertEquals(rows.size(), 1);
         
-        List<PlayerResult> rows2 = playerResultService.findByPlayer(pr.getPlayer());
+        List<PlayerResult> rows2 = playerResultService.findByPlayer(playerResult.getPlayer());
         Assert.assertEquals(rows2.size(), 1);
-        Assert.assertEquals(rows2.get(0), pr);
+        Assert.assertEquals(rows2.get(0), playerResult);
         
         em.getTransaction().commit();
         em.close();
@@ -240,25 +262,25 @@ public class PlayerResultTest extends AbstractTestNGSpringContextTests {
             
         Team tA = newTeamA();
         Team tB = newTeamB();
-        teamService.create(tA);        
-        teamService.create(tB);
+
         Player pA =newPlayerA();
         pA.setTeam(tA);
-        playerService.create(pA);
+     
         Match m = new Match();
         m.setTeamAway(tA);
         m.setTeamHome(tB);
-        matchService.create(m);
-        PlayerResult pr = new PlayerResult(pA, m);
-        pr.setGoalsScored(2);  
         
-        playerResultService.create(pr);
+        playerResult.setMatch(m);
+        playerResult.setPlayer(pA);
+        playerResult.setGoalsScored(2);   
+        
+        playerResultService.create(playerResult);
         List<PlayerResult> rows = playerResultService.findAll();
         Assert.assertEquals(rows.size(), 1);
         
-        List<PlayerResult> rows2 = playerResultService.findByMatch(pr.getMatch());
+        List<PlayerResult> rows2 = playerResultService.findByMatch(playerResult.getMatch());
         Assert.assertEquals(rows2.size(), 1);
-        Assert.assertEquals(rows2.get(0), pr);
+        Assert.assertEquals(rows2.get(0), playerResult);
         
         em.getTransaction().commit();
         em.close();
@@ -275,24 +297,25 @@ public class PlayerResultTest extends AbstractTestNGSpringContextTests {
             
         Team tA = newTeamA();
         Team tB = newTeamB();
-        teamService.create(tA);        
-        teamService.create(tB);
+
         Player pA =newPlayerA();
         pA.setTeam(tA);
-        playerService.create(pA);
+
         Match m = new Match();
         m.setTeamAway(tA);
         m.setTeamHome(tB);
-        matchService.create(m);
-        PlayerResult pr = new PlayerResult(pA, m);
-        pr.setGoalsScored(2);   
+    
+        playerResult.setMatch(m);
+        playerResult.setPlayer(pA);
+        playerResult.setGoalsScored(2);  
+        playerResult.setGoalsScored(2);   
         
-        playerResultService.create(pr);
+        playerResultService.create(playerResult);
         List<PlayerResult> rows = playerResultService.findAll();
         Assert.assertEquals(rows.size(), 1);
         
-        PlayerResult row2 = playerResultService.findByBoth(pr.getPlayer(), pr.getMatch());
-        Assert.assertEquals(row2, pr);
+        PlayerResult row2 = playerResultService.findByBoth(playerResult.getPlayer(), playerResult.getMatch());
+        Assert.assertEquals(row2, playerResult);
         
         em.getTransaction().commit();
         em.close();
@@ -314,26 +337,26 @@ public class PlayerResultTest extends AbstractTestNGSpringContextTests {
             
         Team tA = newTeamA();
         Team tB = newTeamB();
-        teamService.create(tA);        
-        teamService.create(tB);
+
         Player pA =newPlayerA();
         pA.setTeam(tA);
-        playerService.create(pA);
+
         Match m = new Match();
         m.setTeamAway(tA);
         m.setTeamHome(tB);
-        matchService.create(m);
-        PlayerResult prA = new PlayerResult(pA, m);
-        prA.setGoalsScored(2);
         
         Player pB =newPlayerB();
         pB.setTeam(tB);
-        playerService.create(pB);
-        PlayerResult prB = new PlayerResult(pB, m);
-        prB.setGoalsScored(1);
+
+        playerResult.setMatch(m);
+        playerResult.setPlayer(pB);
+        playerResult.setGoalsScored(2);   
         
-        playerResultService.create(prA);
-        playerResultService.create(prB);
+        PlayerResult playerResult2 = new PlayerResult(pB, m);
+        playerResult2.setGoalsScored(1);
+        
+        playerResultService.create(playerResult);
+        playerResultService.create(playerResult2);
         List<PlayerResult> rows = playerResultService.findAll();
         Assert.assertEquals(rows.size(), 2);
                 
