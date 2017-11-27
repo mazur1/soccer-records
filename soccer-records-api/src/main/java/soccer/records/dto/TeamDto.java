@@ -25,7 +25,7 @@ public class TeamDto {
         return this.id;
     }
     
-    void setId (Long id) {
+    public void setId (Long id) {
         this.id = id;
     }
     
