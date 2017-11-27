@@ -5,6 +5,7 @@
  */
 package soccer.records.tests;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import soccer.records.entity.Match;
@@ -28,6 +29,7 @@ import org.testng.annotations.Test;
 import org.mockito.Mockito;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.testng.Assert.fail;
 import org.testng.annotations.BeforeTest;
 
 import soccer.records.config.ServiceConfiguration;
@@ -130,13 +132,13 @@ public class PlayerResultTest extends AbstractTestNGSpringContextTests {
     @Test
     public void createPlayerResult() {        
         //ArgumentCaptor<PlayerResult> arg = ArgumentCaptor.forClass(PlayerResult.class);
-        List<PlayerResult> rows = playerResultService.findAll();
+        //List<PlayerResult> rows = playerResultService.findAll();
         //Assert.assertEquals(rows.size(), 0);
         
         playerResultService.create(pr1);
         Mockito.verify(playerResultDao).create(pr1);
         
-        List<PlayerResult> rows2 = playerResultService.findAll();
+        //List<PlayerResult> rows2 = playerResultService.findAll();
         //Assert.assertEquals(rows2.size(), 1);
     }
     
@@ -146,7 +148,7 @@ public class PlayerResultTest extends AbstractTestNGSpringContextTests {
     @Test
     public void updatePlayerResult() {
         
-        List<PlayerResult> rows = playerResultService.findAll();
+        //List<PlayerResult> rows = playerResultService.findAll();
         //Assert.assertEquals(rows.size(), 2);
         
         pr1.setGoalsScored(3);
@@ -155,88 +157,145 @@ public class PlayerResultTest extends AbstractTestNGSpringContextTests {
         verify(playerResultDao).update(pr1);
         //Assert.assertTrue(!arg.getAllValues().isEmpty() && arg.getValue().equals(pr1));
         
-        List<PlayerResult> rows2 = playerResultService.findAll();
+        //List<PlayerResult> rows2 = playerResultService.findAll();
         //Assert.assertEquals(rows2.size(), 2);
     }
     
     /**
      * Deletes a result
      */
-    //@Test
+    @Test
     public void deletePlayerResult() {
         
-        List<PlayerResult> rows = playerResultService.findAll();
-        Assert.assertEquals(rows.size(), 2);
+        //List<PlayerResult> rows = playerResultService.findAll();
+        //Assert.assertEquals(rows.size(), 2);
         
         playerResultService.delete(pr1);
         ArgumentCaptor<PlayerResult> arg = ArgumentCaptor.forClass(PlayerResult.class);
         Mockito.verify(playerResultDao, Mockito.atLeast(0)).delete(arg.capture());
         Assert.assertTrue(!arg.getAllValues().isEmpty() && arg.getValue().equals(pr1));
         
-        List<PlayerResult> rows2 = playerResultService.findAll();
-        Assert.assertEquals(rows2.size(), 1);     
+        //List<PlayerResult> rows2 = playerResultService.findAll();
+        //Assert.assertEquals(rows2.size(), 1);     
     }
     
     /**
      * Finds results of a specific player
      */
-    //@Test
+    @Test
     public void findByPlayer() {
  
-        List<PlayerResult> rows = playerResultService.findAll();
-        Assert.assertEquals(rows.size(), 2);
+        //List<PlayerResult> rows = playerResultService.findAll();
+        //Assert.assertEquals(rows.size(), 2);
         
         when(playerResultDao.findByPlayerID(p1.getId())).thenReturn(Arrays.asList(pr1));
         List<PlayerResult> actual = playerResultService.findByPlayer(p1);
         
         Assert.assertEquals(actual.size(), 1);
-        Assert.assertEquals(actual, Arrays.asList(pr1));       
+        Assert.assertEquals(actual, Arrays.asList(pr1));   
+        
+        verify(playerResultDao).findByPlayerID(p1.getId());
+    }
+    
+    @Test
+    public void findByPlayerNone() {
+ 
+        //List<PlayerResult> rows = playerResultService.findAll();
+        //Assert.assertEquals(rows.size(), 2);
+        
+        when(playerResultDao.findByPlayerID(123L)).thenReturn(null);//empptu list?
+        Player p = new Player();
+        p.setId(123L);
+        Assert.assertNull(playerResultService.findByPlayer(p));
+        
+        verify(playerResultDao).findByPlayerID(123L);      
     }
     
     /**
      * Finds results for specific match
      */
-    //@Test
+    @Test
     public void findByMatch() {
         
-        List<PlayerResult> rows = playerResultService.findAll();
-        Assert.assertEquals(rows.size(), 2);
+        //List<PlayerResult> rows = playerResultService.findAll();
+        //Assert.assertEquals(rows.size(), 2);
         
         when(playerResultDao.findByMatchID(m1.getId())).thenReturn(Arrays.asList(pr1, pr2));
         List<PlayerResult> actual = playerResultService.findByMatch(m1);
         
         Assert.assertEquals(actual.size(), 2);   
         Assert.assertEquals(actual, Arrays.asList(pr1, pr2));   
+        
+        verify(playerResultDao).findByMatchID(m1.getId());
+    }
+    
+    @Test
+    public void findByMatchNone() {
+        
+        //List<PlayerResult> rows = playerResultService.findAll();
+        //Assert.assertEquals(rows.size(), 2);
+        
+        when(playerResultDao.findByMatchID(123L)).thenReturn(null);
+        Match m = new Match();
+        m.setId(123L);
+        Assert.assertNull(playerResultService.findByMatch(m));
+        
+        verify(playerResultDao).findByMatchID(123L);
     }
     
     /**
      * Finds results of player of specific match
      */
     @Test
-    public void FindByPlayerAndMatch() {
+    public void findByPlayerAndMatch() {
  
-        List<PlayerResult> rows = playerResultService.findAll();
+        //List<PlayerResult> rows = playerResultService.findAll();
         //Assert.assertEquals(rows.size(), 2);
         
         when(playerResultDao.findByBoth(p1.getId(), m1.getId())).thenReturn(pr1);
         PlayerResult actual = playerResultService.findByBoth(p1, m1);
         
         Assert.assertEquals(actual, pr1);
+        verify(playerResultDao).findByBoth(p1.getId(), m1.getId());
+    }
+    
+    @Test
+    public void findByPlayerAndMatchNone() {
+ 
+        //List<PlayerResult> rows = playerResultService.findAll();
+        //Assert.assertEquals(rows.size(), 2);
+        
+        when(playerResultDao.findByBoth(p1.getId(), 123L)).thenReturn(null);
+        Match m =new Match();
+        m.setId(123L);
+        Assert.assertNull(playerResultService.findByBoth(p1, m));
+        
+        verify(playerResultDao).findByBoth(p1.getId(), 123L);
         
     }
     
     @Test
-    public void FindByIdPlayerResult() {
+    public void findByIdPlayerResult() {
         when(playerResultDao.findByID(pr1.getId())).thenReturn(pr1);
         PlayerResult actual = playerResultService.findByID(pr1.getId());
         Assert.assertEquals(actual, pr1);
+        
+        verify(playerResultDao).findByID(pr1.getId());
+    }
+    
+    @Test
+    public void findByIdPlayerResultNone() {
+        Mockito.when(playerResultDao.findByID(123L)).thenReturn(null);
+        Assert.assertNull(playerResultService.findByID(123L));
+        
+        verify(playerResultDao).findByID(123L);
     }
     
     /**
      * Retrieves all results
      */
     @Test
-    public void FindAllPlayerResults() {
+    public void findAllPlayerResults() {
                 
         when(playerResultDao.findAll()).thenReturn(Arrays.asList(pr1, pr2));
 
@@ -244,5 +303,40 @@ public class PlayerResultTest extends AbstractTestNGSpringContextTests {
 
         Assert.assertEquals(actual.size(), 2);   
         Assert.assertEquals(actual, Arrays.asList(pr1, pr2));  
+        
+        verify(playerResultDao).findAll();
     }
+    
+    @Test
+    public void findAllPlayerResultsNone() {
+                
+        when(playerResultDao.findAll()).thenReturn(new ArrayList<>());
+
+        List<PlayerResult> actual = playerResultService.findAll();
+
+        Assert.assertEquals(actual.size(), 0);     
+        
+        verify(playerResultDao).findAll();
+    }
+    
+    @Test
+    public void changeGoalsValid() {
+        try {
+            playerResultService.changeGoals(pr1, 2);
+        
+        } catch(ServiceException e) {
+            fail("service exception is not supposed to occure");
+        }        
+    }
+    
+    @Test
+    public void changeGoalsInValid() {
+        try {
+            playerResultService.changeGoals(pr1, -2);
+            fail("service exception is supposed to occure");
+        } catch(ServiceException e) {  
+            
+        } 
+    }
+    
 }
