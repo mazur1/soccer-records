@@ -20,6 +20,7 @@ public interface PlayerResultFacade {
     void removeMatchGoals(Long matchID);
     
     public Long createPlayerResult(PlayerResultDto t);
+    public void updatePlayerResult(PlayerResultDto t);
     public void deletePlayerResult(Long id);
     List<PlayerResultDto> findAllPlayerResults();
     PlayerResultDto findPlayerResultById(Long id);

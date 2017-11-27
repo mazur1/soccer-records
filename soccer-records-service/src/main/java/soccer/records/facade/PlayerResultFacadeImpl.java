@@ -92,5 +92,10 @@ public class PlayerResultFacadeImpl implements PlayerResultFacade{
     public PlayerResultDto findPlayerResultById(Long id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public void updatePlayerResult(PlayerResultDto t) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }
