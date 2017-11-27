@@ -172,7 +172,7 @@ public class PlayerResultTest extends AbstractTestNGSpringContextTests {
         
         playerResultService.delete(pr1);
         ArgumentCaptor<PlayerResult> arg = ArgumentCaptor.forClass(PlayerResult.class);
-        Mockito.verify(playerResultDao, Mockito.atLeast(0)).delete(arg.capture());
+        Mockito.verify(playerResultDao).delete(arg.capture());
         Assert.assertTrue(!arg.getAllValues().isEmpty() && arg.getValue().equals(pr1));
         
         //List<PlayerResult> rows2 = playerResultService.findAll();

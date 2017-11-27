@@ -50,11 +50,11 @@ import soccer.records.services.PlayerServiceImpl;
 import soccer.records.services.TeamService;
 import soccer.records.services.TeamServiceImpl;
 
-/*@ContextConfiguration(classes = ServiceConfiguration.class)
+@ContextConfiguration(classes = ServiceConfiguration.class)
 public class TeamTest extends AbstractTestNGSpringContextTests {
    
     @Mock
-    private TeamDao playerResultDao;
+    private TeamDao teamDao;
     
     @Autowired
     @InjectMocks
@@ -75,8 +75,6 @@ public class TeamTest extends AbstractTestNGSpringContextTests {
     private Player p2;
     private Match m1;
     private Match m2;
-    private Team pr1;
-    private Team pr2;
     
     @BeforeTest 
     public void prepareTeams() {
@@ -116,47 +114,37 @@ public class TeamTest extends AbstractTestNGSpringContextTests {
         m2.setTeamAway(t2);
         m2.setTeamHome(t1);
         //matchDao.create(m2);
-        pr1 = new Team();
-        pr1.setId(1L);
-        pr1.setMatch(m1);
-        pr1.setPlayer(p1);
-        //teamDao.create(pr1);
-        pr2 = new Team();
-        pr2.setId(2L);
-        pr2.setMatch(m1);
-        pr2.setPlayer(p2);
-        //teamDao.create(pr2);
     }        
        
     /**
-     * Creates a new result 
+     * Creates a new team
      */
-    /*@Test
+    @Test
     public void createTeam() {        
         //ArgumentCaptor<Team> arg = ArgumentCaptor.forClass(Team.class);
         //List<Team> rows = teamService.findAll();
         //Assert.assertEquals(rows.size(), 0);
         
-        teamService.create(pr1);
-        Mockito.verify(teamDao).create(pr1);
+        teamService.create(t1);
+        Mockito.verify(teamDao).create(t1);
         
         //List<Team> rows2 = teamService.findAll();
         //Assert.assertEquals(rows2.size(), 1);
     }
     
     /**
-     * Updates a result
+     * Updates a team
      */
-    /*@Test
+    @Test
     public void updateTeam() {
         
         //List<Team> rows = teamService.findAll();
         //Assert.assertEquals(rows.size(), 2);
         
-        pr1.setGoalsScored(3);
-        teamService.update(pr1);
+        t1.setName("lala");
+        teamService.update(t1);
         ArgumentCaptor<Team> arg = ArgumentCaptor.forClass(Team.class);
-        verify(teamDao).update(pr1);
+        verify(teamDao).update(t1);
         //Assert.assertTrue(!arg.getAllValues().isEmpty() && arg.getValue().equals(pr1));
         
         //List<Team> rows2 = teamService.findAll();
@@ -164,147 +152,83 @@ public class TeamTest extends AbstractTestNGSpringContextTests {
     }
     
     /**
-     * Deletes a result
+     * Deletes a team
      */
-    /*@Test
+    @Test
     public void deleteTeam() {
         
         //List<Team> rows = teamService.findAll();
         //Assert.assertEquals(rows.size(), 2);
         
-        teamService.delete(pr1);
+        teamService.remove(t1);
         ArgumentCaptor<Team> arg = ArgumentCaptor.forClass(Team.class);
-        Mockito.verify(teamDao, Mockito.atLeast(0)).delete(arg.capture());
-        Assert.assertTrue(!arg.getAllValues().isEmpty() && arg.getValue().equals(pr1));
+        Mockito.verify(teamDao).delete(arg.capture());
+        Assert.assertTrue(!arg.getAllValues().isEmpty() && arg.getValue().equals(t1));
         
         //List<Team> rows2 = teamService.findAll();
         //Assert.assertEquals(rows2.size(), 1);     
     }
     
     /**
-     * Finds results of a specific player
+     * Finds a team by its name
      */
-    /*@Test
-    public void findByPlayer() {
+    @Test
+    public void findByName() {
  
         //List<Team> rows = teamService.findAll();
         //Assert.assertEquals(rows.size(), 2);
         
-        when(teamDao.findByPlayerID(p1.getId())).thenReturn(Arrays.asList(pr1));
-        List<Team> actual = teamService.findByPlayer(p1);
+        when(teamDao.findByName(t1.getName())).thenReturn(t1);
+        Team actual = teamService.findByName(t1.getName());
         
-        Assert.assertEquals(actual.size(), 1);
-        Assert.assertEquals(actual, Arrays.asList(pr1));   
+        Assert.assertEquals(actual, t1);   
         
-        verify(teamDao).findByPlayerID(p1.getId());
+        verify(teamDao).findByName(t1.getName());
     }
     
     @Test
-    public void findByPlayerNone() {
+    public void findByNameNone() {
  
         //List<Team> rows = teamService.findAll();
         //Assert.assertEquals(rows.size(), 2);
         
-        when(teamDao.findByPlayerID(123L)).thenReturn(null);//empptu list?
-        Player p = new Player();
-        p.setId(123L);
-        Assert.assertNull(teamService.findByPlayer(p));
+        when(teamDao.findByName("lala")).thenReturn(null);
+        Assert.assertNull(teamService.findByName("lala"));
         
-        verify(teamDao).findByPlayerID(123L);      
-    }
-    
-    /**
-     * Finds results for specific match
-     */
-    /*@Test
-    public void findByMatch() {
-        
-        //List<Team> rows = teamService.findAll();
-        //Assert.assertEquals(rows.size(), 2);
-        
-        when(teamDao.findByMatchID(m1.getId())).thenReturn(Arrays.asList(pr1, pr2));
-        List<Team> actual = teamService.findByMatch(m1);
-        
-        Assert.assertEquals(actual.size(), 2);   
-        Assert.assertEquals(actual, Arrays.asList(pr1, pr2));   
-        
-        verify(teamDao).findByMatchID(m1.getId());
-    }
-    
-    @Test
-    public void findByMatchNone() {
-        
-        //List<Team> rows = teamService.findAll();
-        //Assert.assertEquals(rows.size(), 2);
-        
-        when(teamDao.findByMatchID(123L)).thenReturn(null);
-        Match m = new Match();
-        m.setId(123L);
-        Assert.assertNull(teamService.findByMatch(m));
-        
-        verify(teamDao).findByMatchID(123L);
-    }
-    
-    /**
-     * Finds results of player of specific match
-     */
-    /*@Test
-    public void findByPlayerAndMatch() {
- 
-        //List<Team> rows = teamService.findAll();
-        //Assert.assertEquals(rows.size(), 2);
-        
-        when(teamDao.findByBoth(p1.getId(), m1.getId())).thenReturn(pr1);
-        Team actual = teamService.findByBoth(p1, m1);
-        
-        Assert.assertEquals(actual, pr1);
-        verify(teamDao).findByBoth(p1.getId(), m1.getId());
-    }
-    
-    @Test
-    public void findByPlayerAndMatchNone() {
- 
-        //List<Team> rows = teamService.findAll();
-        //Assert.assertEquals(rows.size(), 2);
-        
-        when(teamDao.findByBoth(p1.getId(), 123L)).thenReturn(null);
-        Match m =new Match();
-        m.setId(123L);
-        Assert.assertNull(teamService.findByBoth(p1, m));
-        
-        verify(teamDao).findByBoth(p1.getId(), 123L);
-        
+        verify(teamDao).findByName("lala");      
     }
     
     @Test
     public void findByIdTeam() {
-        when(teamDao.findByID(pr1.getId())).thenReturn(pr1);
-        Team actual = teamService.findByID(pr1.getId());
-        Assert.assertEquals(actual, pr1);
         
-        verify(teamDao).findByID(pr1.getId());
+        when(teamDao.findById(t1.getId())).thenReturn(t1);
+        Team actual = teamService.findById(t1.getId());
+        Assert.assertEquals(actual, t1);
+        
+        verify(teamDao).findById(t1.getId());
     }
     
     @Test
     public void findByIdTeamNone() {
-        Mockito.when(teamDao.findByID(123L)).thenReturn(null);
-        Assert.assertNull(teamService.findByID(123L));
         
-        verify(teamDao).findByID(123L);
+        Mockito.when(teamDao.findById(123L)).thenReturn(null);
+        Assert.assertNull(teamService.findById(123L));
+        
+        verify(teamDao).findById(123L);
     }
     
     /**
-     * Retrieves all results
+     * Retrieves all teams
      */
-    /*@Test
+    @Test
     public void findAllTeams() {
                 
-        when(teamDao.findAll()).thenReturn(Arrays.asList(pr1, pr2));
+        when(teamDao.findAll()).thenReturn(Arrays.asList(t1, t2));
 
         List<Team> actual = teamService.findAll();
 
         Assert.assertEquals(actual.size(), 2);   
-        Assert.assertEquals(actual, Arrays.asList(pr1, pr2));  
+        Assert.assertEquals(actual, Arrays.asList(t1, t2));  
         
         verify(teamDao).findAll();
     }
@@ -321,29 +245,9 @@ public class TeamTest extends AbstractTestNGSpringContextTests {
         verify(teamDao).findAll();
     }
     
-    @Test
-    public void changeGoalsValid() {
-        try {
-            teamService.changeGoals(pr1, 2);
-        
-        } catch(ServiceException e) {
-            fail("service exception is not supposed to occure");
-        }        
-    }
-    
-    @Test
-    public void changeGoalsInValid() {
-        try {
-            teamService.changeGoals(pr1, -2);
-            fail("service exception is supposed to occure");
-        } catch(ServiceException e) {  
-            
-        } 
-    }
-    
-}*/
+}
 
-@ContextConfiguration(classes = PersistenceAppContext.class)
+/*@ContextConfiguration(classes = PersistenceAppContext.class)
 @TestExecutionListeners(TransactionalTestExecutionListener.class)
 @Transactional
 public class TeamTest extends AbstractTestNGSpringContextTests {
@@ -530,4 +434,4 @@ public class TeamTest extends AbstractTestNGSpringContextTests {
         em.getTransaction().commit();
         em.close();
     }
-}
+}*/
