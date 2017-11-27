@@ -10,7 +10,7 @@ import java.util.List;
 import soccer.records.dao.PlayerResultDao;
 import soccer.records.entity.Match;
 import soccer.records.entity.PlayerResult;
-import soccer.records.exceptions.ServiceException;
+import soccer.records.exceptions.service.ServiceException;
 
 /**
  * Created by ... on 24.10.2017
