@@ -19,9 +19,9 @@ public interface PlayerResultFacade {
     void removePlayerGoals(Long playerID);
     void removeMatchGoals(Long matchID);
     
-    public Long createPlayerResult(PlayerResultDto t);
-    public void updatePlayerResult(PlayerResultDto t);
-    public void deletePlayerResult(Long id);
+    Long createPlayerResult(PlayerResultDto t);
+    void updatePlayerResult(PlayerResultDto t);
+    void deletePlayerResult(Long id);
     List<PlayerResultDto> findAllPlayerResults();
     PlayerResultDto findPlayerResultById(Long id);
     

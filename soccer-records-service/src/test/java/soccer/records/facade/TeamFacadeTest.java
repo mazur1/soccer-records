@@ -65,10 +65,10 @@ public class TeamFacadeTest extends AbstractTestNGSpringContextTests {
         Mockito.verify(teamService).create(pr1);
     }
     
-    //@Test
+    @Test
     public void updateTeam() {
         Mockito.when(teamService.findById(pr1.getId())).thenReturn(pr1);
-        //teamFacade.updateTeam(pr1Dto);
+        teamFacade.updateTeam(pr1Dto);
         Mockito.verify(teamService).update(pr1);
     }
     

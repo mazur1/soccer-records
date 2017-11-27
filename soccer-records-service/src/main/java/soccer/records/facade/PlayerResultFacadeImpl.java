@@ -80,22 +80,23 @@ public class PlayerResultFacadeImpl implements PlayerResultFacade{
 
     @Override
     public void deletePlayerResult(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        playerResult.delete(playerResult.findByID(id));
     }
 
     @Override
     public List<PlayerResultDto> findAllPlayerResults() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return beanMappingService.mapTo(playerResult.findAll(), PlayerResultDto.class);
     }
 
     @Override
     public PlayerResultDto findPlayerResultById(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return beanMappingService.mapTo(playerResult.findByID(id), PlayerResultDto.class);
     }
 
     @Override
     public void updatePlayerResult(PlayerResultDto t) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        PlayerResult mapped = beanMappingService.mapTo(t, PlayerResult.class);
+        playerResult.update(mapped);
     }
-    
+
 }
