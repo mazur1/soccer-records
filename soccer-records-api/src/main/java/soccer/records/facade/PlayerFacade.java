@@ -14,8 +14,9 @@ import soccer.records.dto.PlayerDto;
  */
 public interface PlayerFacade {
  
-    public Long createPlayer(PlayerDto t);
-    public void deletePlayer(Long id);
+    Long createPlayer(PlayerDto t);
+    void updatePlayer(PlayerDto t);
+    void deletePlayer(Long id);
     List<PlayerDto> findAllPlayer();
     PlayerDto findPlayerById(Long id);
     

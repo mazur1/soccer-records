@@ -65,10 +65,10 @@ public class PlayerFacadeTest extends AbstractTestNGSpringContextTests {
         Mockito.verify(playerService).create(pr1);
     }
     
-    //@Test
+    @Test
     public void updatePlayer() {
         Mockito.when(playerService.findById(pr1.getId())).thenReturn(pr1);
-        //playerFacade.updatePlayer(pr1Dto);
+        playerFacade.updatePlayer(pr1Dto);
         Mockito.verify(playerService).update(pr1);
     }
     

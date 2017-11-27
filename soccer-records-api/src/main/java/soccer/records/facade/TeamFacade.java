@@ -13,8 +13,9 @@ import soccer.records.dto.TeamDto;
  * @author Tomas Mazurek
  */
 public interface TeamFacade {
-    public Long createTeam(TeamDto t);
-    public void deleteTeam(Long id);
+    Long createTeam(TeamDto t);
+    void updateTeam(TeamDto t);
+    void deleteTeam(Long id);
     List<TeamDto> findAllTeams();
     TeamDto findTeamById(Long id);
 }
