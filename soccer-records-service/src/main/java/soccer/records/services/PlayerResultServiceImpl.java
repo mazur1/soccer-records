@@ -23,8 +23,9 @@ public class PlayerResultServiceImpl implements PlayerResultService {
     private PlayerResultDao playerResultDao;
 
     @Override
-    public void create(PlayerResult pr){
+    public Long create(PlayerResult pr){
         playerResultDao.create(pr);
+        return pr.getId();
     }
 
     @Override

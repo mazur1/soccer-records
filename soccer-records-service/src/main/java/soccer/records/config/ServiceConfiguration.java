@@ -17,7 +17,7 @@ public class ServiceConfiguration {
 	@Bean
 	public Mapper dozer(){
 		DozerBeanMapper dozer = new DozerBeanMapper();		
-		dozer.addMapping(new DozerCustomConfig());
+		//dozer.addMapping(new DozerCustomConfig());
 		return dozer;
 	}
 	
