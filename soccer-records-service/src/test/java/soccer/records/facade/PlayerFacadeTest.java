@@ -39,9 +39,9 @@ public class PlayerFacadeTest extends AbstractTestNGSpringContextTests {
     @Mock
     private BeanMappingService mappingService;
     
-    @Autowired
+    //@Autowired
     @InjectMocks
-    private PlayerFacade playerFacade;
+    private PlayerFacadeImpl playerFacade;
                
     @BeforeClass
     public void setup() //throws FacadeException 
@@ -67,14 +67,14 @@ public class PlayerFacadeTest extends AbstractTestNGSpringContextTests {
     
     @Test
     public void updatePlayer() {
-        Mockito.when(playerService.findById(pr1.getId())).thenReturn(pr1);
+        Mockito.when(mappingService.mapTo(pr1Dto, Player.class)).thenReturn(pr1);
         playerFacade.updatePlayer(pr1Dto);
         Mockito.verify(playerService).update(pr1);
     }
     
     @Test
     public void deletePlayer() {
-        Mockito.when(mappingService.mapTo(pr1Dto, Player.class)).thenReturn(pr1);
+        Mockito.when(playerService.findById(pr1.getId())).thenReturn(pr1);
         playerFacade.deletePlayer(pr1.getId());
         Mockito.verify(playerService).remove(pr1);
     }
@@ -87,7 +87,7 @@ public class PlayerFacadeTest extends AbstractTestNGSpringContextTests {
         List<PlayerDto> listDto = Arrays.asList(pr1Dto);
         Mockito.when(mappingService.mapTo(list, PlayerDto.class)).thenReturn(listDto);
         
-        List<PlayerDto> actual = playerFacade.findAllPlayer();
+        List<PlayerDto> actual = playerFacade.findAllPlayers();
         Mockito.verify(playerService).findAll();
         Mockito.verify(mappingService).mapTo(list, PlayerDto.class);
         

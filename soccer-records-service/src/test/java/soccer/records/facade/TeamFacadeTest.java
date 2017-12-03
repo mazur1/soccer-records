@@ -39,9 +39,9 @@ public class TeamFacadeTest extends AbstractTestNGSpringContextTests {
     @Mock
     private BeanMappingService mappingService;
     
-    @Autowired
+    //@Autowired
     @InjectMocks
-    private TeamFacade teamFacade;
+    private TeamFacadeImpl teamFacade;
                
     @BeforeClass
     public void setup() //throws FacadeException 
@@ -67,14 +67,14 @@ public class TeamFacadeTest extends AbstractTestNGSpringContextTests {
     
     @Test
     public void updateTeam() {
-        Mockito.when(teamService.findById(pr1.getId())).thenReturn(pr1);
+        Mockito.when(mappingService.mapTo(pr1Dto, Team.class)).thenReturn(pr1);
         teamFacade.updateTeam(pr1Dto);
         Mockito.verify(teamService).update(pr1);
     }
     
     @Test
     public void deleteTeam() {
-        Mockito.when(mappingService.mapTo(pr1Dto, Team.class)).thenReturn(pr1);
+        Mockito.when(teamService.findById(pr1.getId())).thenReturn(pr1);
         teamFacade.deleteTeam(pr1.getId());
         Mockito.verify(teamService).remove(pr1);
     }
