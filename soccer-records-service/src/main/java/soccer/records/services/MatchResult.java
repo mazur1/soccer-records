@@ -54,13 +54,49 @@ public class MatchResult {
         this.tie = tie;
     }
     
-    /*@Override
+    @Override
     public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((match == null) ? 0 :match.hashCode());
         
+        return result;
     }
 
     @Override
     public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
         
-    }*/
+        MatchResult other = (MatchResult) obj;        
+       
+        if (winner == null) {
+            if (other.getWinner()!= null) {
+                return false;
+            }
+        } else if (!winner.equals(other.getWinner())) {
+            return false;
+        }
+        
+        if (looser == null) {
+            if (other.getLooser()!= null) {
+                return false;
+            }
+        } else if (!looser.equals(other.getLooser())) {
+            return false;
+        }
+        
+        if (tie != other.isTie()) {
+                return false;
+        }
+                        
+        return true;
+    }
 }

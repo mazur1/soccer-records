@@ -58,9 +58,9 @@ public class PlayerResultFacadeTest extends AbstractTestNGSpringContextTests {
     @Mock
     private BeanMappingService mappingService;
     
-    @Autowired
+    //@Autowired
     @InjectMocks
-    private PlayerResultFacade playerResultFacade;
+    private PlayerResultFacadeImpl playerResultFacade;
     
     @Mock
     private TeamService teamService;
@@ -139,14 +139,14 @@ public class PlayerResultFacadeTest extends AbstractTestNGSpringContextTests {
     
     @Test
     public void updatePlayerResult() {
-        Mockito.when(playerResultService.findByID(pr1.getId())).thenReturn(pr1);
+        Mockito.when(mappingService.mapTo(pr1Dto, PlayerResult.class)).thenReturn(pr1);
         playerResultFacade.updatePlayerResult(pr1Dto);
         Mockito.verify(playerResultService).update(pr1);
     }
     
     @Test
     public void deletePlayerResult() {
-        Mockito.when(mappingService.mapTo(pr1Dto, PlayerResult.class)).thenReturn(pr1);
+        Mockito.when(playerResultService.findByID(pr1.getId())).thenReturn(pr1);
         playerResultFacade.deletePlayerResult(pr1.getId());
         Mockito.verify(playerResultService).delete(pr1);
     }

@@ -39,9 +39,9 @@ public class MatchFacadeTest extends AbstractTestNGSpringContextTests {
     @Mock
     private BeanMappingService mappingService;
     
-    @Autowired
+    //@Autowired
     @InjectMocks
-    private MatchFacade matchFacade;
+    private MatchFacadeImpl matchFacade;
                
     @BeforeClass
     public void setup() //throws FacadeException 
@@ -66,15 +66,15 @@ public class MatchFacadeTest extends AbstractTestNGSpringContextTests {
     }
     
     @Test
-    public void updateMatch() {
-        Mockito.when(matchService.findById(pr1.getId())).thenReturn(pr1);
+    public void updateMatch() {        
+        Mockito.when(mappingService.mapTo(pr1Dto, Match.class)).thenReturn(pr1);
         matchFacade.updateMatch(pr1Dto);
         Mockito.verify(matchService).update(pr1);
     }
     
     @Test
     public void deleteMatch() {
-        Mockito.when(mappingService.mapTo(pr1Dto, Match.class)).thenReturn(pr1);
+        Mockito.when(matchService.findById(pr1.getId())).thenReturn(pr1);
         matchFacade.deleteMatch(pr1.getId());
         Mockito.verify(matchService).delete(pr1);
     }
