@@ -11,7 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import soccer.records.dto.AppUserAuthentisationDto;
+import soccer.records.dto.AppUserAuthenticationDto;
 import soccer.records.dto.AppUserDto;
 import soccer.records.entity.AppUser;
 import soccer.records.services.AppUserService;
@@ -58,7 +58,7 @@ public class AppUserFacadeImpl implements AppUserFacade {
     }
 
     @Override
-    public boolean authenticate(AppUserAuthentisationDto u) {
+    public boolean authenticate(AppUserAuthenticationDto u) {
         return userService.authenticate(
                 userService.findById(u.getUserId()), u.getPassword());
     }

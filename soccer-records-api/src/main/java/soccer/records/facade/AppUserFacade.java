@@ -1,7 +1,7 @@
 package soccer.records.facade;
 
 import java.util.Collection;
-import soccer.records.dto.AppUserAuthentisationDto;
+import soccer.records.dto.AppUserAuthenticationDto;
 import soccer.records.dto.AppUserDto;
 
 /**
@@ -10,7 +10,7 @@ import soccer.records.dto.AppUserDto;
  */
 public interface AppUserFacade {
 
-    boolean authenticate(AppUserAuthentisationDto u);
+    boolean authenticate(AppUserAuthenticationDto u);
 
     Collection<AppUserDto> findAllUsers();
 

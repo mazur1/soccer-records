@@ -4,7 +4,7 @@ package soccer.records.dto;
  *
  * @author Michaela Bocanova
  */
-public class AppUserAuthentisationDto {
+public class AppUserAuthenticationDto {
     
     private Long userId;
     private String password;
