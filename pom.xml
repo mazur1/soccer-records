@@ -38,6 +38,7 @@
         <module>soccer-records-persistence</module>
         <module>soccer-records-api</module>
         <module>soccer-records-service</module>
+        <module>soccer-records-angular</module>
     </modules>
 
     <dependencies>
