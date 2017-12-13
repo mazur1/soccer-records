@@ -1,0 +1,12 @@
+
+main{
+    min-height: 700px;
+}
+
+footer{
+    background-color: #2E2E2E;
+    color: #fff;
+    min-height: 120px;
+    line-height: 120px;
+    text-align: center;
+}
