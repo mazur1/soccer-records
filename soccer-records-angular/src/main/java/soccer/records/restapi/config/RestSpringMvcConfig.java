@@ -3,7 +3,7 @@ package soccer.records.restapi.config;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-//import cz.muni.fi.pa165.sampledata.EshopWithSampleDataConfiguration;
+import soccer.records.sampledata.SRWithSampleDataConfiguration;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -29,7 +29,7 @@ import static org.springframework.hateoas.config.EnableHypermediaSupport.Hyperme
 @EnableHypermediaSupport(type = HypermediaType.HAL)
 @EnableWebMvc
 @Configuration
-//@Import({EshopWithSampleDataConfiguration.class})
+@Import({SRWithSampleDataConfiguration.class})
 @ComponentScan(basePackages = {"soccer.records.restapi.controllers", "soccer.records.restapi.hateoas"})
 public class RestSpringMvcConfig extends WebMvcConfigurerAdapter {
 
