@@ -13,6 +13,12 @@
 	<name>Web front end implemented in AngularJS</name>
 
     <dependencies>
+        <dependency>
+            <groupId>soccer.records</groupId>
+            <artifactId>soccer-records-sample-data</artifactId>
+            <version>${project.parent.version}</version>
+
+        </dependency>
 
         <!-- servlet, JSP, JSTL -->
         <!-- must be this instead of javaee-web for the springmvc-tests to succeed -->
