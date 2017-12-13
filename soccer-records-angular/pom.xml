@@ -14,8 +14,6 @@
 
     <dependencies>
 
-
-        
         <!-- servlet, JSP, JSTL -->
         <!-- must be this instead of javaee-web for the springmvc-tests to succeed -->
         <dependency>
