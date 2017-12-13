@@ -14,22 +14,21 @@ import soccer.records.entity.PlayerResult;
 import soccer.records.entity.Team;
 import soccer.records.enums.PlayerPost;
 import soccer.records.services.PlayerResultService;
-import org.hibernate.service.spi.ServiceException;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.mockito.Mockito;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 import static org.testng.Assert.fail;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 
 import soccer.records.config.ServiceConfiguration;
@@ -60,7 +59,7 @@ public class PlayerResultTest extends AbstractTestNGSpringContextTests {
     private MatchDao matchDao;*/
        
     @BeforeClass
-    public void setup() throws ServiceException {
+    public void setup() /*throws ServiceException*/ {
         MockitoAnnotations.initMocks(this);
     }
     @BeforeMethod
@@ -296,19 +295,19 @@ public class PlayerResultTest extends AbstractTestNGSpringContextTests {
     
     @Test
     public void findByIdPlayerResult() {
-        when(playerResultDao.findByID(pr1.getId())).thenReturn(pr1);
+        when(playerResultDao.findById(pr1.getId())).thenReturn(pr1);
         PlayerResult actual = playerResultService.findByID(pr1.getId());
         Assert.assertEquals(actual, pr1);
         
-        verify(playerResultDao).findByID(pr1.getId());
+        verify(playerResultDao).findById(pr1.getId());
     }
     
     @Test
     public void findByIdPlayerResultNone() {
-        Mockito.when(playerResultDao.findByID(123L)).thenReturn(null);
+        Mockito.when(playerResultDao.findById(123L)).thenReturn(null);
         Assert.assertNull(playerResultService.findByID(123L));
         
-        verify(playerResultDao).findByID(123L);
+        verify(playerResultDao).findById(123L);
     }
     
     /**

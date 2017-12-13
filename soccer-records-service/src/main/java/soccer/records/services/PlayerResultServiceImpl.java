@@ -1,12 +1,10 @@
 package soccer.records.services;
 
-import soccer.records.dao.PlayerDao;
 import soccer.records.entity.Player;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import javax.inject.Inject;
 import soccer.records.dao.PlayerResultDao;
 import soccer.records.entity.Match;
 import soccer.records.entity.PlayerResult;
@@ -19,7 +17,7 @@ import soccer.records.exceptions.service.SoccerServiceException;
 @Service
 public class PlayerResultServiceImpl implements PlayerResultService {
     
-    @Autowired
+    @Inject
     private PlayerResultDao playerResultDao;
 
     /**
@@ -52,7 +50,7 @@ public class PlayerResultServiceImpl implements PlayerResultService {
     
     @Override
     public PlayerResult findByID(Long id){
-        return playerResultDao.findByID(id);
+        return playerResultDao.findById(id);
     }
 
     @Override

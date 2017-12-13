@@ -33,7 +33,7 @@ public class MatchDto {
     private TeamDto teamHome;
     @NotNull
     private TeamDto teamAway;
-    private List<PlayerResultDto> playerResults = new ArrayList<PlayerResultDto>();
+    private List<PlayerResultDto> playerResults = new ArrayList<>();
     
     public TeamDto getTeamHome() {
         return teamHome;

@@ -7,11 +7,11 @@ package soccer.records.facade;
 
 import java.util.Arrays;
 import java.util.List;
+import javax.inject.Inject;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
@@ -39,9 +39,9 @@ public class MatchFacadeTest extends AbstractTestNGSpringContextTests {
     @Mock
     private BeanMappingService mappingService;
     
-    //@Autowired
+    @Inject
     @InjectMocks
-    private MatchFacadeImpl matchFacade;
+    private MatchFacade matchFacade;
                
     @BeforeClass
     public void setup() //throws FacadeException 
@@ -74,8 +74,8 @@ public class MatchFacadeTest extends AbstractTestNGSpringContextTests {
     
     @Test
     public void deleteMatch() {
-        Mockito.when(matchService.findById(pr1.getId())).thenReturn(pr1);
-        matchFacade.deleteMatch(pr1.getId());
+        Mockito.when(matchService.findById(1L)).thenReturn(pr1);
+        matchFacade.deleteMatch(1L);
         Mockito.verify(matchService).delete(pr1);
     }
     
@@ -96,11 +96,11 @@ public class MatchFacadeTest extends AbstractTestNGSpringContextTests {
     
     @Test
     public void findMatchById() {
-        Mockito.when(matchService.findById(pr1.getId())).thenReturn(pr1);
+        Mockito.when(matchService.findById(1L)).thenReturn(pr1);
         Mockito.when(mappingService.mapTo(pr1, MatchDto.class)).thenReturn(pr1Dto);
         
-        MatchDto actual = matchFacade.findMatchById(pr1.getId());
-        Mockito.verify(matchService).findById(pr1.getId());
+        MatchDto actual = matchFacade.findMatchById(1L);
+        Mockito.verify(matchService).findById(1L);
         Mockito.verify(mappingService).mapTo(pr1, MatchDto.class);
         
         Assert.assertEquals(actual, pr1Dto);

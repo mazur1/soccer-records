@@ -7,7 +7,7 @@ package soccer.records.facade;
 
 import java.util.List;
 import javax.inject.Inject;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import soccer.records.dto.PlayerDto;
 import soccer.records.entity.Player;
 import soccer.records.services.BeanMappingService;
@@ -17,35 +17,39 @@ import soccer.records.services.PlayerService;
  *
  * @author 
  */
-public class PlayerFacadeImpl {
-    
+@Service
+public class PlayerFacadeImpl implements PlayerFacade {
         
     @Inject
     private PlayerService playerService;
     
-    @Autowired
-    
+    @Inject    
     private BeanMappingService beanMappingService;
     
-    public void createPlayer(PlayerDto p) {
+    @Override
+    public Long createPlayer(PlayerDto p) {
         Player player = beanMappingService.mapTo(p, Player.class);
-        playerService.create(player); // create musi vratit id
+        return playerService.create(player); 
     }
     
+    @Override
     public void updatePlayer(PlayerDto p) {
         Player mapped = beanMappingService.mapTo(p, Player.class);
         playerService.update(mapped);
     }
     
+    @Override
     public void deletePlayer(Long id) {
         playerService.remove(playerService.findById(id));
     }
 
-    List<PlayerDto> findAllPlayers() {
+    @Override
+    public List<PlayerDto> findAllPlayers() {
         return beanMappingService.mapTo(playerService.findAll(), PlayerDto.class);
     }
     
-    PlayerDto findPlayerById(Long id) {
+    @Override
+    public PlayerDto findPlayerById(Long id) {
         return beanMappingService.mapTo(playerService.findById(id), PlayerDto.class);
     }
     

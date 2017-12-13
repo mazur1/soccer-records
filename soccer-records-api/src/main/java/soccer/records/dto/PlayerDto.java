@@ -6,6 +6,7 @@
 package soccer.records.dto;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import soccer.records.enums.PlayerPost;
 
@@ -155,11 +156,11 @@ public class PlayerDto {
         result = prime * result + ((country == null) ? 0 : country.hashCode());
         result = prime * result + ((city == null) ? 0 : city.hashCode());
         result = prime * result + ((team == null) ? 0 : team.hashCode());
-        result = prime * result + ((playerResults == null) ? 0 : playerResults.hashCode());
+        //result = prime * result + ((playerResults == null) ? 0 : playerResults.hashCode());
         return result;
     }
  
-    @Override
+    /*@Override
     public boolean equals(Object obj) {
         
         if (this == obj)
@@ -212,6 +213,45 @@ public class PlayerDto {
             return false;
         }
 
+        return true;
+    }*/
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final PlayerDto other = (PlayerDto) obj;
+        if (this.age != other.age) {
+            return false;
+        }
+        if (this.captian != other.captian) {
+            return false;
+        }
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        if (!Objects.equals(this.surname, other.surname)) {
+            return false;
+        }
+        if (!Objects.equals(this.country, other.country)) {
+            return false;
+        }
+        if (!Objects.equals(this.city, other.city)) {
+            return false;
+        }
+        if (this.post != other.post) {
+            return false;
+        }
+        if (!Objects.equals(this.team, other.team)) {
+            return false;
+        }
         return true;
     }
     

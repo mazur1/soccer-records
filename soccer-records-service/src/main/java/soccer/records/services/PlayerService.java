@@ -15,7 +15,7 @@ import soccer.records.entity.PlayerResult;
  */
 public interface PlayerService {
 
-    void create(Player p);
+    Long create(Player p);
 
     List<Player> findAll();
 

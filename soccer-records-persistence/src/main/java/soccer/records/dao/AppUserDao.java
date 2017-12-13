@@ -8,25 +8,28 @@ package soccer.records.dao;
 import java.util.List;
 import soccer.records.entity.AppUser;
 import soccer.records.enums.AppRole;
+import soccer.records.exceptions.dao.DataAccessExceptions;
 
 /**
  *
  * @author Michaela Bocanova
  */
-public interface AppUserDao {
+public interface AppUserDao extends DefaultCrudDao<AppUser,Long> {
 
-    void create(AppUser u);
+    /**
+     * finds user by its username
+     * @param name
+     * @return
+     * @throws DataAccessExceptions 
+     */
+    AppUser findByUsername(String name) throws DataAccessExceptions;
 
-    void delete(AppUser u);
-
-    List<AppUser> findAll();
-
-    AppUser findById(Long id);
-
-    void update(AppUser u);
-
-    AppUser findByUsername(String name);
-
-    List<AppUser> findByRole(AppRole role);
+    /**
+     * finds users with given role
+     * @param role
+     * @return
+     * @throws DataAccessExceptions 
+     */
+    List<AppUser> findByRole(AppRole role) throws DataAccessExceptions;
     
 }

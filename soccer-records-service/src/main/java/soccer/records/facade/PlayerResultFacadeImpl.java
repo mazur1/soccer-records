@@ -7,9 +7,7 @@ package soccer.records.facade;
 
 import java.util.List;
 import javax.inject.Inject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import soccer.records.dto.PlayerResultDto;
 import soccer.records.services.BeanMappingService;
 
@@ -25,7 +23,6 @@ import soccer.records.entity.PlayerResult;
  */
 
 @Service
-@Transactional
 public class PlayerResultFacadeImpl implements PlayerResultFacade{
  
     @Inject
@@ -37,7 +34,7 @@ public class PlayerResultFacadeImpl implements PlayerResultFacade{
     @Inject
     private PlayerResultService playerResult;
     
-    @Autowired
+    @Inject
     private BeanMappingService beanMappingService;
 
     @Override

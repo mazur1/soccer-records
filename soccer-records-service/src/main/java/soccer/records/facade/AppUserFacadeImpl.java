@@ -10,7 +10,6 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import soccer.records.dto.AppUserAuthenticationDto;
 import soccer.records.dto.AppUserDto;
 import soccer.records.entity.AppUser;
@@ -22,7 +21,6 @@ import soccer.records.services.BeanMappingService;
  * @author Michaela Bocanova
  */
 @Service
-@Transactional
 public class AppUserFacadeImpl implements AppUserFacade {
     
     final static Logger log = LoggerFactory.getLogger(AppUserFacadeImpl.class);

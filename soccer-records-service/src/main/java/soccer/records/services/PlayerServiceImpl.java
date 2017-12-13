@@ -3,10 +3,10 @@ package soccer.records.services;
 import soccer.records.dao.PlayerDao;
 import soccer.records.entity.Player;
 import soccer.records.entity.PlayerResult;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import javax.inject.Inject;
 import soccer.records.exceptions.service.SoccerServiceException;
 
 /**
@@ -15,12 +15,13 @@ import soccer.records.exceptions.service.SoccerServiceException;
 @Service
 public class PlayerServiceImpl implements PlayerService {
     
-    @Autowired
+    @Inject
     private PlayerDao playerDao;
 
     @Override
-    public void create(Player p) {
+    public Long create(Player p) {
         playerDao.create(p);
+        return p.getId();
     }
 
     @Override

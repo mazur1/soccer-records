@@ -7,18 +7,11 @@ package soccer.records.dao;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
 
 import soccer.records.exceptions.dao.DataAccessExceptions;
 
 import org.springframework.stereotype.Repository;
 
-import soccer.records.entity.Player;
-import soccer.records.entity.Match;
 import soccer.records.entity.PlayerResult;
 
 /**
@@ -26,12 +19,16 @@ import soccer.records.entity.PlayerResult;
  * @author Radim Vidlák
  */
 @Repository
-public class PlayerResultDaoImpl implements PlayerResultDao {
+public class PlayerResultDaoImpl extends DefaultCrudDaoImpl<PlayerResult,Long> implements PlayerResultDao {
 
-    @PersistenceContext
-    private EntityManager em;
+    /*@PersistenceContext
+    private EntityManager em;*/
 
-    @Override
+    public PlayerResultDaoImpl() {        
+        super(PlayerResult.class, Long.class);
+    }
+
+    /*@Override
     public void create(PlayerResult pr) {
         try{
             em.persist(pr);
@@ -59,16 +56,16 @@ public class PlayerResultDaoImpl implements PlayerResultDao {
     }
 
     @Override
-    public PlayerResult findByID(Long id) {
+    public PlayerResult findById(Long id) {
         try {
             return em.createQuery("select pr from PlayerResult pr WHERE pr.id = :id", PlayerResult.class).setParameter("id", id).getSingleResult();
         } catch(Exception e){
             throw new DataAccessExceptions(e.getMessage());  
         }  
-    }
+    }*/
     
     @Override
-    public List<PlayerResult> findByPlayerID(Long id) {
+    public List<PlayerResult> findByPlayerID(Long id) throws DataAccessExceptions {
         try{
             return em.createQuery("select pr from PlayerResult pr WHERE pr.player.id = :player", PlayerResult.class).setParameter("player", id).getResultList();
         } catch(Exception e){
@@ -77,7 +74,7 @@ public class PlayerResultDaoImpl implements PlayerResultDao {
     }
 
     @Override
-    public List<PlayerResult> findByMatchID(Long id) {
+    public List<PlayerResult> findByMatchID(Long id) throws DataAccessExceptions {
         try {
             return em.createQuery("select pr from PlayerResult pr WHERE pr.match.id = :match", PlayerResult.class).setParameter("match", id).getResultList();
         } catch(Exception e){
@@ -86,7 +83,7 @@ public class PlayerResultDaoImpl implements PlayerResultDao {
     }
     
     @Override
-    public PlayerResult findByBoth(Long playerID, Long machId){        
+    public PlayerResult findByBoth(Long playerID, Long machId) throws DataAccessExceptions {        
         try{
             return em.createQuery("select pr from PlayerResult pr WHERE pr.player.id =:player AND pr.match.id =:match", PlayerResult.class).setParameter("player", playerID).setParameter("match", machId).getSingleResult();
         } catch(Exception e){
@@ -95,7 +92,7 @@ public class PlayerResultDaoImpl implements PlayerResultDao {
     }
 
     @Override
-    public List<PlayerResult> findAll() {
+    public List<PlayerResult> findAll() throws DataAccessExceptions {
         try {
             return em.createQuery("select pr from PlayerResult pr", PlayerResult.class).getResultList();
         } catch(Exception e){
