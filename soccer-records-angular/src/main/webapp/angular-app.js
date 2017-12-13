@@ -2,7 +2,7 @@
 
 /* Defines application and its dependencies */
 
-var soccerRecordspApp = angular.module('soccerRecordspApp', ['ngRoute', 'eshopControllers']);
+var soccerRecordspApp = angular.module('soccerRecordspApp', ['ngRoute', 'soccerControllers']);
 var soccerControllers = angular.module('soccerControllers', []);
 
 /* Configures URL fragment routing, e.g. #/product/1  */
