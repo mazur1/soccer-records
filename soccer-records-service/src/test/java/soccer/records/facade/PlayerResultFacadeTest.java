@@ -8,40 +8,26 @@ package soccer.records.facade;
 //import org.hibernate.service.spi.FacadeException;
 import java.util.Arrays;
 import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceUnit;
+import javax.inject.Inject;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
-import org.springframework.transaction.annotation.Transactional;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
-import soccer.records.PersistenceAppContext;
 import soccer.records.config.ServiceConfiguration;
 import soccer.records.dto.MatchDto;
 import soccer.records.dto.PlayerDto;
 import soccer.records.dto.PlayerResultDto;
 import soccer.records.dto.TeamDto;
-import soccer.records.entity.Match;
-import soccer.records.entity.Player;
 import soccer.records.entity.PlayerResult;
-import soccer.records.entity.Team;
 import soccer.records.enums.PlayerPost;
 import soccer.records.services.BeanMappingService;
-import soccer.records.services.MatchService;
 import soccer.records.services.PlayerResultService;
-import soccer.records.services.PlayerService;
-import soccer.records.services.TeamService;
 
 /**
  * Facade tests
@@ -52,23 +38,16 @@ import soccer.records.services.TeamService;
 @ContextConfiguration(classes = ServiceConfiguration.class)
 public class PlayerResultFacadeTest extends AbstractTestNGSpringContextTests {
     
-    @Mock 
+    @Mock
     private PlayerResultService playerResultService;
-    
+        
     @Mock
     private BeanMappingService mappingService;
     
-    //@Autowired
+    @Inject
     @InjectMocks
-    private PlayerResultFacadeImpl playerResultFacade;
-    
-    @Mock
-    private TeamService teamService;
-    @Mock
-    private MatchService matchService;
-    @Mock
-    private PlayerService playerService;
-           
+    private PlayerResultFacade playerResultFacade;
+                   
     @BeforeClass
     public void setup() //throws FacadeException 
     {
@@ -84,50 +63,50 @@ public class PlayerResultFacadeTest extends AbstractTestNGSpringContextTests {
     @Mock
     private PlayerResult pr1;
     
-    private Team t1;
-    private Team t2;
-    private Player p1;
-    private Player p2;
-    private Match m1;
+    private TeamDto t1Dto;
+    private TeamDto t2Dto;
+    private PlayerDto p1Dto;
+    private PlayerDto p2Dto;
+    private MatchDto m1Dto;
     
-    @BeforeTest 
+    @BeforeMethod 
     public void preparePlayerResults() {
-        t1 = new Team();
-        t1.setId(1L);
-        t1.setName("A");
-        //teamDao.create(t1);  
-        t2 = new Team();
-        t2.setId(2L);
-        t2.setName("H");
-        //teamDao.create(t2);
-        p1 = new Player();
-        p1.setId(1L);
-        p1.setName("Ján");
-        p1.setAge(22);
-        p1.setCaptian(false);
-        p1.setSurname("Suchý");
-        p1.setPost(PlayerPost.GOLMAN);
-        p1.setTeam(t1);
+        t1Dto = new TeamDto();
+        t1Dto.setId(1L);
+        t1Dto.setName("A");
+        //teamFacade.create(t1Dto);  
+        t2Dto = new TeamDto();
+        t2Dto.setId(2L);
+        t2Dto.setName("H");
+        //teamService.create(t2Dto);
+        p1Dto = new PlayerDto();
+        p1Dto.setId(1L);
+        p1Dto.setName("Ján");
+        p1Dto.setAge(22);
+        p1Dto.setCaptian(false);
+        p1Dto.setSurname("Suchý");
+        p1Dto.setPost(PlayerPost.GOLMAN);
+        p1Dto.setTeam(t1Dto);
         //playerDao.create(p1);
-        p2 = new Player();
-        p2.setId(2L);
-        p2.setName("Igor");
-        p2.setAge(21);
-        p2.setCaptian(false);
-        p2.setSurname("Vysoký");
-        p2.setPost(PlayerPost.GOLMAN);
-        p2.setTeam(t2);
+        p2Dto = new PlayerDto();
+        p2Dto.setId(2L);
+        p2Dto.setName("Igor");
+        p2Dto.setAge(21);
+        p2Dto.setCaptian(false);
+        p2Dto.setSurname("Vysoký");
+        p2Dto.setPost(PlayerPost.GOLMAN);
+        p2Dto.setTeam(t2Dto);
         //playerDao.create(p2);
-        m1 = new Match();
-        m1.setId(1L);
-        m1.setTeamAway(t1);
-        m1.setTeamHome(t2);
+        m1Dto = new MatchDto();
+        m1Dto.setId(1L);
+        m1Dto.setTeamAway(t1Dto);
+        m1Dto.setTeamHome(t2Dto);
         //matchDao.create(m1);
         //matchDao.create(m2);
-        pr1 = new PlayerResult();
-        pr1.setId(1L);
-        pr1.setMatch(m1);
-        pr1.setPlayer(p1);
+        pr1Dto = new PlayerResultDto();
+        pr1Dto.setId(1L);
+        pr1Dto.setMatch(m1Dto);
+        pr1Dto.setPlayer(p1Dto);
         //playerResultDao.create(pr1);
     }    
     @Test
@@ -146,8 +125,9 @@ public class PlayerResultFacadeTest extends AbstractTestNGSpringContextTests {
     
     @Test
     public void deletePlayerResult() {
-        Mockito.when(playerResultService.findByID(pr1.getId())).thenReturn(pr1);
-        playerResultFacade.deletePlayerResult(pr1.getId());
+        //Mockito.when(mappingService.mapTo(pr1Dto, PlayerResult.class)).thenReturn(pr1);
+        Mockito.when(playerResultService.findByID(1L)).thenReturn(pr1);
+        playerResultFacade.deletePlayerResult(1L);
         Mockito.verify(playerResultService).delete(pr1);
     }
     
@@ -168,11 +148,11 @@ public class PlayerResultFacadeTest extends AbstractTestNGSpringContextTests {
     
     @Test
     public void findPlayerResultById() {
-        Mockito.when(playerResultService.findByID(pr1.getId())).thenReturn(pr1);
+        Mockito.when(playerResultService.findByID(1L)).thenReturn(pr1);
         Mockito.when(mappingService.mapTo(pr1, PlayerResultDto.class)).thenReturn(pr1Dto);
         
-        PlayerResultDto actual = playerResultFacade.findPlayerResultById(pr1.getId());
-        Mockito.verify(playerResultService).findByID(pr1.getId());
+        PlayerResultDto actual = playerResultFacade.findPlayerResultById(1L);
+        Mockito.verify(playerResultService).findByID(1L);
         Mockito.verify(mappingService).mapTo(pr1, PlayerResultDto.class);
         
         Assert.assertEquals(actual, pr1Dto);

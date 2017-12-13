@@ -17,7 +17,7 @@ public interface PlayerFacade {
     Long createPlayer(PlayerDto t);
     void updatePlayer(PlayerDto t);
     void deletePlayer(Long id);
-    List<PlayerDto> findAllPlayer();
+    List<PlayerDto> findAllPlayers();
     PlayerDto findPlayerById(Long id);
     
 }

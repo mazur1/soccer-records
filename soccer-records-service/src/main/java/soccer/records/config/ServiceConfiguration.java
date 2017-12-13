@@ -14,24 +14,29 @@ import soccer.records.PersistenceAppContext;
 @ComponentScan(basePackages = "soccer.records")
 public class ServiceConfiguration {
 
-	@Bean
-	public Mapper dozer(){
-		DozerBeanMapper dozer = new DozerBeanMapper();		
-		//dozer.addMapping(new DozerCustomConfig());
-		return dozer;
-	}
-	
-	/**
-	 * Custom config for Dozer if needed
-	 * @author nguyen
-	 *
-	 */
-	public class DozerCustomConfig extends BeanMappingBuilder {
-	    @Override
-	    protected void configure() {
-	        
-	    }
-	}
+    /*@Bean
+    public TeamFacade teamFacade() {
+        return new TeamFacadeImpl();
+    }*/
+    
+    @Bean
+    public Mapper dozer(){
+            DozerBeanMapper dozer = new DozerBeanMapper();		
+            //dozer.addMapping(new DozerCustomConfig());
+            return dozer;
+    }
+
+    /**
+     * Custom config for Dozer if needed
+     * @author nguyen
+     *
+     */
+    public class DozerCustomConfig extends BeanMappingBuilder {
+        @Override
+        protected void configure() {
+
+        }
+    }
 	
 }
 

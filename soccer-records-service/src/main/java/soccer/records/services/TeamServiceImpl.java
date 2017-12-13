@@ -1,9 +1,8 @@
 package soccer.records.services;
 
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import soccer.records.dao.TeamDao;
 import soccer.records.entity.Match;
 import soccer.records.entity.Team;
@@ -18,7 +17,7 @@ import soccer.records.exceptions.service.SoccerServiceException;
 @Service
 public class TeamServiceImpl implements TeamService {
     
-    @Autowired
+    @Inject
     private TeamDao teamDao;
 
 

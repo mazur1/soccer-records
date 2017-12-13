@@ -7,11 +7,11 @@ package soccer.records.facade;
 
 import java.util.Arrays;
 import java.util.List;
+import javax.inject.Inject;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
@@ -39,9 +39,9 @@ public class PlayerFacadeTest extends AbstractTestNGSpringContextTests {
     @Mock
     private BeanMappingService mappingService;
     
-    //@Autowired
+    @Inject
     @InjectMocks
-    private PlayerFacadeImpl playerFacade;
+    private PlayerFacade playerFacade;
                
     @BeforeClass
     public void setup() //throws FacadeException 
@@ -74,8 +74,9 @@ public class PlayerFacadeTest extends AbstractTestNGSpringContextTests {
     
     @Test
     public void deletePlayer() {
-        Mockito.when(playerService.findById(pr1.getId())).thenReturn(pr1);
-        playerFacade.deletePlayer(pr1.getId());
+        //Mockito.when(mappingService.mapTo(pr1Dto, Player.class)).thenReturn(pr1);
+        Mockito.when(playerService.findById(1L)).thenReturn(pr1);
+        playerFacade.deletePlayer(1L);
         Mockito.verify(playerService).remove(pr1);
     }
     
@@ -96,11 +97,11 @@ public class PlayerFacadeTest extends AbstractTestNGSpringContextTests {
     
     @Test
     public void findPlayerById() {
-        Mockito.when(playerService.findById(pr1.getId())).thenReturn(pr1);
+        Mockito.when(playerService.findById(1L)).thenReturn(pr1);
         Mockito.when(mappingService.mapTo(pr1, PlayerDto.class)).thenReturn(pr1Dto);
         
-        PlayerDto actual = playerFacade.findPlayerById(pr1.getId());
-        Mockito.verify(playerService).findById(pr1.getId());
+        PlayerDto actual = playerFacade.findPlayerById(1L);
+        Mockito.verify(playerService).findById(1L);
         Mockito.verify(mappingService).mapTo(pr1, PlayerDto.class);
         
         Assert.assertEquals(actual, pr1Dto);

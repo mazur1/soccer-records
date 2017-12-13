@@ -1,32 +1,20 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package soccer.records.entity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.validator.constraints.NotEmpty;
 import soccer.records.enums.AppRole;
 
 /**
@@ -35,12 +23,8 @@ import soccer.records.enums.AppRole;
  */
 @Entity
 @Table(name="AppUser")
-public class AppUser {
+public class AppUser extends Auditable<String,Long> {
     
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Long id;
-
     @Column(nullable = false, unique = true)
     @Pattern(regexp = ".+@.+\\....?", message = "invalid address")
     @NotNull
@@ -53,7 +37,7 @@ public class AppUser {
     	
     private String passwordHash;
 	
-    @Transient
+    //@Transient
     private boolean admin;
     
     // works?
@@ -78,12 +62,7 @@ public class AppUser {
         roles.remove(r);
     }
 
-    public Long getId() {
-	return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+    public AppUser() {
     }
 
     public String getPasswordHash() {
@@ -120,37 +99,32 @@ public class AppUser {
 
     @Override
     public int hashCode() {
-	final int prime = 31;
-	int result = 1;
-	result = prime * result + ((email == null) ? 0 : email.hashCode());
-	return result;
+        int hash = 5;
+        hash = 41 * hash + Objects.hashCode(this.email);
+        return hash;
     }
 
     @Override
     public boolean equals(Object obj) {
-	if (this == obj)
+        if (this == obj) {
             return true;
-	if (obj == null)
+        }
+        if (obj == null) {
             return false;
-	if (!(obj instanceof AppUser))
+        }
+        if (getClass() != obj.getClass()) {
             return false;
-	AppUser other = (AppUser) obj;
-	if (email == null) {
-            if (other.getEmail() != null)
-		return false;
-	} else if (!email.equals(other.getEmail()))
+        }
+        final AppUser other = (AppUser) obj;
+        if (!Objects.equals(this.email, other.email)) {
             return false;
-	return true;
+        }
+        return true;
     }
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", passwordHash='" + passwordHash + '\'' +
-                ", email='" + email + '\'' +
-                ", username='" + username + '\'' +
-                ", admin=" + admin +
-                '}';
-    }   
+        return "AppUser{" + "email=" + email + ", username=" + username + ", passwordHash=" + passwordHash + ", admin=" + admin + ", roles=" + roles + '}';
+    }
+    
 }

@@ -23,7 +23,7 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 @EnableJpaRepositories
 @ComponentScan(basePackages = "soccer.records")
 public class PersistenceAppContext {
-
+    
     @Bean
     public PersistenceExceptionTranslationPostProcessor postProcessor() {
             return new PersistenceExceptionTranslationPostProcessor();
@@ -65,4 +65,5 @@ public class PersistenceAppContext {
         EmbeddedDatabase db = builder.setType(EmbeddedDatabaseType.DERBY).build();
         return db;
     }
+
 }

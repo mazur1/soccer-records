@@ -1,9 +1,7 @@
 package soccer.records.services;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Objects;
 import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 import soccer.records.dao.MatchDao;
@@ -25,28 +23,41 @@ public class MatchServiceImpl implements MatchService {
     private MatchDao matchDao;
 
     /**
-     * Helper method to validate match before create/update
+     * Helper method to validate Match match before create/update
      * @return 
      */
-    private void validate(Match m) {
-        if(m.getTeamAway().equals(m.getTeamHome()))
-            throw new SoccerServiceException("Can't create a match between the same teams");
+    private void validateMatch(Match m) throws SoccerServiceException {
+        if(m.getTeamHome() != null) {
+            if(m.getTeamHome().equals(m.getTeamAway()))
+                throw new SoccerServiceException("Can't create a match between the same teams");
+        }
         if(m.getTeamHomeGoalsScored(true) > m.getTeamHomeGoalsScored(false) 
                 || m.getTeamAwayGoalsScored(true) > m.getTeamAwayGoalsScored(false))
             throw new SoccerServiceException("Number of goals scored during halftime cannot be bigger than total");
         
+        for(PlayerResult r : m.getPlayerResults()) {
+            validatePlayerResult(m, r);
+        }       
+    }
+    
+    private void validatePlayerResult(Match m, PlayerResult r) throws SoccerServiceException {
+        if(r.getPlayer() != null) { // edit class playerresult?
+                if(!Objects.equals(r.getPlayer().getTeam(), m.getTeamHome())
+                        && !r.getPlayer().getTeam().equals(m.getTeamAway()))
+                    throw new SoccerServiceException("Player result " + r + " is from unparticipating team.");
+            }
     }
     
     @Override
     public Long create(Match m) {
-        validate(m);
+        validateMatch(m);
         matchDao.create(m);
         return m.getId();
     }
 
     @Override
     public void update(Match m){
-        validate(m);
+        validateMatch(m);
         matchDao.update(m);
     }
 
@@ -82,6 +93,7 @@ public class MatchServiceImpl implements MatchService {
                                         "Match: " + m.getId() + "\n" +
                                         "Player result: " + r.getId());
 	}
+        validatePlayerResult(m, r);
 	m.addPlayerResult(r);
     }
     

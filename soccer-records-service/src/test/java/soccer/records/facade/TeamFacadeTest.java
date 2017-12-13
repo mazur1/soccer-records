@@ -7,11 +7,11 @@ package soccer.records.facade;
 
 import java.util.Arrays;
 import java.util.List;
+import javax.inject.Inject;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
@@ -39,9 +39,9 @@ public class TeamFacadeTest extends AbstractTestNGSpringContextTests {
     @Mock
     private BeanMappingService mappingService;
     
-    //@Autowired
+    @Inject
     @InjectMocks
-    private TeamFacadeImpl teamFacade;
+    private TeamFacade teamFacade;
                
     @BeforeClass
     public void setup() //throws FacadeException 
@@ -74,8 +74,9 @@ public class TeamFacadeTest extends AbstractTestNGSpringContextTests {
     
     @Test
     public void deleteTeam() {
-        Mockito.when(teamService.findById(pr1.getId())).thenReturn(pr1);
-        teamFacade.deleteTeam(pr1.getId());
+        //Mockito.when(mappingService.mapTo(pr1Dto, Team.class)).thenReturn(pr1);
+        Mockito.when(teamService.findById(1L)).thenReturn(pr1);
+        teamFacade.deleteTeam(1L);
         Mockito.verify(teamService).remove(pr1);
     }
     
@@ -96,11 +97,11 @@ public class TeamFacadeTest extends AbstractTestNGSpringContextTests {
     
     @Test
     public void findTeamById() {
-        Mockito.when(teamService.findById(pr1.getId())).thenReturn(pr1);
+        Mockito.when(teamService.findById(1L)).thenReturn(pr1);
         Mockito.when(mappingService.mapTo(pr1, TeamDto.class)).thenReturn(pr1Dto);
         
-        TeamDto actual = teamFacade.findTeamById(pr1.getId());
-        Mockito.verify(teamService).findById(pr1.getId());
+        TeamDto actual = teamFacade.findTeamById(1L);
+        Mockito.verify(teamService).findById(1L);
         Mockito.verify(mappingService).mapTo(pr1, TeamDto.class);
         
         Assert.assertEquals(actual, pr1Dto);

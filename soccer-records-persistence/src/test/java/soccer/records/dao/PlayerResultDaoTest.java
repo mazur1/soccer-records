@@ -7,7 +7,6 @@ package soccer.records.dao;
 
 import java.util.List;
 import javax.inject.Inject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
@@ -34,13 +33,13 @@ import soccer.records.enums.PlayerPost;
 @Transactional
 public class PlayerResultDaoTest extends AbstractTestNGSpringContextTests {
     
-    @Autowired
+    @Inject
     private PlayerResultDao playerResultDao;
-    @Autowired
+    @Inject
     private PlayerDao playerDao;
-    @Autowired
+    @Inject
     private TeamDao teamDao;
-    @Autowired
+    @Inject
     private MatchDao matchDao;
     
     private PlayerResult pr1, pr2;
@@ -109,7 +108,7 @@ public class PlayerResultDaoTest extends AbstractTestNGSpringContextTests {
     
     @Test
     public void findById() {
-        PlayerResult actual = playerResultDao.findByID(pr1.getId());
+        PlayerResult actual = playerResultDao.findById(pr1.getId());
         Assert.assertEquals(actual, pr1);
     }
     

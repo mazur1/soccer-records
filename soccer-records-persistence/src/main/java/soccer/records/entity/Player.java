@@ -1,6 +1,5 @@
 package soccer.records.entity;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -8,10 +7,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
@@ -22,11 +17,11 @@ import soccer.records.enums.PlayerPost;
  * @author Tomas Mazurek
  */
 @Entity
-public class Player {
+public class Player extends Auditable<String,Long> {
 
-    @Id
+    /*@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id;*/
 
     @NotNull
     @Column(nullable = false)
@@ -65,13 +60,13 @@ public class Player {
     public Player() {
     }
 
-    public Long getId() {
+    /*public Long getId() {
         return id;
     }
 
     public void setId(Long playerId) {
         this.id = playerId;
-    }
+    }*/
 
     public String getName() {
         return name;
