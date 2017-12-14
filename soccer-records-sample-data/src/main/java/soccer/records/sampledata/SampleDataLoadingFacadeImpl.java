@@ -19,6 +19,8 @@ import java.util.Date;
 import java.util.Random;
 import soccer.records.entity.*;
 import soccer.records.enums.PlayerPost;
+import soccer.records.services.MatchService;
+import soccer.records.services.PlayerResultService;
 import soccer.records.services.PlayerService;
 import soccer.records.services.TeamService;
 
@@ -38,16 +40,27 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
     @Autowired
     private TeamService teamService;
     
+    @Autowired
+    private MatchService matchService;
+        
+    @Autowired
+    private PlayerResultService playerResultService;
+    
     
     @Override
     @SuppressWarnings("unused")
     public void loadData() throws IOException {
         // test records
+   
         Team barcelona = team("Barcelona");
+        Team real = team("Real Madrid");
+        Player ronaldo = player("Cristiano","Ronaldo", 24, PlayerPost.ATTACKER,true,barcelona);
         
-        Player player = player("Cristiano","Ronaldo", 24, PlayerPost.ATTACKER,true,barcelona);
+        //Player novak = player("Jan", "Novak", 21, PlayerPost.DEFENDER, false, real);
         
+        //Match match1 = match(barcelona, real);
         
+        //PlayerResult pr = playerResult(match1, ronaldo, 2);
     }
 
      private Team team(String name) throws IOException {
@@ -65,7 +78,28 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         p.setCaptian(captain);
         p.setTeam(team);
         p.setPost(post);
+        
         playerService.create(p);
+
         return p;
+    }
+    
+    private Match match(Team home, Team away) throws IOException {
+        Match m = new Match();
+        m.setTeamAway(away);
+        m.setTeamHome(home);
+        // todo other attributes
+        matchService.create(m);
+        return m;
+    }
+    
+    private PlayerResult playerResult(Match match, Player player, int scored) throws IOException {
+        PlayerResult pr = new PlayerResult();
+        pr.setMatch(match);
+        pr.setPlayer(player);
+        pr.setGoalsScored(scored);
+        //todo other attributes
+        playerResultService.create(pr);
+        return pr;
     }
 }

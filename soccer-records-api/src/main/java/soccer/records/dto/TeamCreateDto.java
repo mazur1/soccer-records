@@ -37,6 +37,14 @@ public class TeamCreateDto {
         return this.matchesAway;
     }
     
+    public void addMatchHome(MatchDto m){
+        matchesHome.add(m);
+    }
+    
+    public void addMatchAway(MatchDto m){
+        matchesAway.add(m);
+    }
+    
     @Override
     public int hashCode() {
         final int prime = 31;

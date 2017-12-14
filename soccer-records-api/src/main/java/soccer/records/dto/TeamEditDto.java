@@ -9,6 +9,7 @@ import java.util.List;
  * @author Tomas Mazurek
  */
 public class TeamEditDto {
+    private Long id;
     
     private String name;
     
@@ -35,6 +36,14 @@ public class TeamEditDto {
     
     public List<MatchDto> getMatchesAway() {
         return this.matchesAway;
+    }
+    
+    public void addMatchHome(MatchDto m){
+        matchesHome.add(m);
+    }
+    
+    public void addMatchAway(MatchDto m){
+        matchesAway.add(m);
     }
     
     @Override
