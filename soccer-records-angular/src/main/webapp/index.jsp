@@ -75,8 +75,8 @@
 
                     <!-- the place where HTML templates are replaced by AngularJS routing -->
                     <div ng-view></div>
+                    
                 </div>
-
 
             </div>
 

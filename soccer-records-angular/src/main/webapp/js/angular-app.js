@@ -9,8 +9,8 @@ var soccerControllers = angular.module('soccerControllers', []);
 soccerRecordspApp.config(['$routeProvider',
     function ($routeProvider) {
         $routeProvider.
-        when('/shopping', {templateUrl: 'partials/shopping.html', controller: 'ShoppingCtrl'}).
-        otherwise({redirectTo: '/default'});
+            when('/default', {templateUrl: 'partials/teams.html', controller: 'DefaultController'}).
+            otherwise({redirectTo: '/default'});
     }]);
 
 /*
@@ -38,19 +38,21 @@ soccerRecordspApp.run(function($rootScope) {
  * Shopping page with all categories and products
  */
 soccerControllers.controller('DefaultController', function ($scope, $http) {
-    console.log('calling  /eshop/api/v1/categories/');
-    /*
-    $http.get('/eshop/api/v1/categories/').then(function (response) {
-        var categories = response.data['_embedded']['categories'];
-        console.log('AJAX loaded all categories');
-        $scope.categories = categories;
-        for (var i = 0; i < categories.length; i++) {
-            var category = categories[i];
-            var categoryProductsLink = category['_links'].products.href;
-            loadCategoryProducts($http, category, categoryProductsLink);
-        }
+    
+    $http.get('api/v1/teams').then(function(response) {
+        
+        var teams = response.data['_embedded']['teams'];             
+        console.log('AJAX loaded all teams');  
+        $scope.teams = teams;
+        
+        console.log($scope);
+
+    }, function error(error) {
+        //display error
+        console.log(error);
+        $scope.errorAlert = error;
     });
-    */
+    
 });
 
 
