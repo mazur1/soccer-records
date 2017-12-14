@@ -55,6 +55,23 @@ soccerControllers.controller('DefaultController', function ($scope, $http) {
     
 });
 
+soccerControllers.controller('PlayersController', function ($scope, $http) {
+    
+    $http.get('api/v1/players').then(function(response) {
+        
+        var teams = response.data['_embedded']['players'];             
+        console.log('AJAX loaded all players');  
+        $scope.teams = teams;
+        
+        console.log($scope);
+
+    }, function error(error) {
+        //display error
+        console.log(error);
+        $scope.errorAlert = error;
+    });
+    
+});
 
 /*
 // helper procedure loading products to category
