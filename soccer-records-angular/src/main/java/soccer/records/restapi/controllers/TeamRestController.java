@@ -1,22 +1,14 @@
 package soccer.records.restapi.controllers;
 
-/*
-import cz.fi.muni.pa165.dto.CategoryCreateDTO;
-import cz.fi.muni.pa165.dto.CategoryDTO;
-import cz.fi.muni.pa165.dto.ProductDTO;
-import cz.fi.muni.pa165.facade.CategoryFacade;
-import cz.fi.muni.pa165.facade.ProductFacade;
-*/
+
+import soccer.records.dto.TeamDto;
+import soccer.records.facade.TeamFacade;
 
 import soccer.records.restapi.exceptions.InvalidRequestException;
 import soccer.records.restapi.exceptions.ResourceNotFoundException;
 
-/*
-import soccer.records.restapi.hateoas.CategoryResource;
-import soccer.records.restapi.hateoas.CategoryResourceAssembler;
-import soccer.records.restapi.hateoas.ProductResource;
-import soccer.records.restapi.hateoas.ProductResourceAssembler;
-*/
+import soccer.records.restapi.hateoas.TeamResource;
+import soccer.records.restapi.hateoas.TeamResourceAssembler;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,76 +35,65 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
  */
 
 @RestController
-//@ExposesResourceFor(CategoryDTO.class)
-//@RequestMapping("/categories")
-public class SampleRestController {
+@ExposesResourceFor(TeamDto.class)
+@RequestMapping("/teams")
+public class TeamRestController {
 
-    private final static Logger log = LoggerFactory.getLogger(SampleRestController.class);
+    private final static Logger log = LoggerFactory.getLogger(TeamRestController.class);
 
-    /*
-    public CategoriesRestController(
-            @Autowired ProductFacade productFacade,
-            @Autowired CategoryFacade categoryFacade,
-            @Autowired CategoryResourceAssembler categoryResourceAssembler,
-            @Autowired ProductResourceAssembler productResourceAssembler,
-            @SuppressWarnings("SpringJavaAutowiringInspection")
-            @Autowired EntityLinks entityLinks
-    ) {
-        this.productFacade = productFacade;
-        this.categoryFacade = categoryFacade;
-        this.categoryResourceAssembler = categoryResourceAssembler;
-        this.productResourceAssembler = productResourceAssembler;
-        this.entityLinks = entityLinks;
+    public TeamRestController() {
+
     }
 
-    private ProductFacade productFacade;
-
-    private CategoryFacade categoryFacade;
-
-    private CategoryResourceAssembler categoryResourceAssembler;
-
-    private ProductResourceAssembler productResourceAssembler;
-
+    @Autowired
+    private TeamFacade teamFacade;
+    
+    @Autowired
+    private TeamResourceAssembler teamResourceAssembler;
+    
+    @SuppressWarnings("SpringJavaAutowiringInspection")
+    @Autowired
     private EntityLinks entityLinks;
 
-    **
-     * Produces list of all categories in JSON.
+    /**
+     * Produces list of all teams in JSON.
      *
-     * @return list of categories
-     *
+     * @return list of teams
+     */
     @RequestMapping(method = RequestMethod.GET)
-    public HttpEntity<Resources<CategoryResource>> categories() {
-        log.debug("rest categories()");
-        List<CategoryDTO> allCategories = categoryFacade.getAllCategories();
-        Resources<CategoryResource> productsResources = new Resources<>(
-                categoryResourceAssembler.toResources(allCategories),
-                linkTo(CategoriesRestController.class).withSelfRel(),
-                linkTo(CategoriesRestController.class).slash("/create").withRel("create"));
-        return new ResponseEntity<>(productsResources, HttpStatus.OK);
+    public HttpEntity<Resources<TeamResource>> teams() {
+        log.debug("rest teams()");
+        List<TeamDto> allTeams = teamFacade.findAllTeams();
+        Resources<TeamResource> teamResources = new Resources<>(
+                teamResourceAssembler.toResources(allTeams),
+                linkTo(TeamRestController.class).withSelfRel(),
+                linkTo(TeamRestController.class).slash("/create").withRel("create"));
+        return new ResponseEntity<>(teamResources, HttpStatus.OK);
     }
 
-    **
-     * Produces category detail.
+    /**
+     * Produces team detail.
      *
-     * @param id category identifier
-     * @return category detail
-     * @throws Exception if category not found
-     *
+     * @param id team identifier
+     * @return team detail
+     * @throws Exception if team not found
+     */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public HttpEntity<CategoryResource> category(@PathVariable("id") long id) throws Exception {
-        log.debug("rest category({})", id);
-        CategoryDTO categoryDTO = categoryFacade.getCategoryById(id);
-        if (categoryDTO == null) throw new ResourceNotFoundException("category " + id + " not found");
-        CategoryResource categoryResource = categoryResourceAssembler.toResource(categoryDTO);
-        return new HttpEntity<>(categoryResource);
+    public HttpEntity<TeamResource> team(@PathVariable("id") long id) throws Exception {
+        log.debug("rest team({})", id);
+        TeamDto teamDTO = teamFacade.findTeamById(id);
+        if (teamDTO == null) throw new ResourceNotFoundException("team " + id + " not found");
+        TeamResource teamResource = teamResourceAssembler.toResource(teamDTO);
+        return new HttpEntity<>(teamResource);
     }
 
-    **
+    /**
      * Produces a list of products in the given category.
      *
      * @param id category identifier
      * @return list of products in the category
-     *
+     */
+    /*
     @RequestMapping(value = "/{id}/products", method = RequestMethod.GET)
     public HttpEntity<Resources<ProductResource>> products(@PathVariable("id") long id) {
         log.debug("rest category/{}/products()", id);
@@ -124,14 +105,16 @@ public class SampleRestController {
         Resources<ProductResource> productsResources = new Resources<>(resourceCollection, selfLink);
         return new ResponseEntity<>(productsResources, HttpStatus.OK);
     }
+    */
 
-    **
-     * Creates a new category.
+    /**
+     * Creates a new team.
      *
      * @param categoryCreateDTO DTO object containing category name
      * @return newly created category
      * @throws Exception if something goes wrong
-     *
+     */
+    /*
     @RequestMapping(value = "/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public final HttpEntity<CategoryResource> createProduct(@RequestBody @Valid CategoryCreateDTO categoryCreateDTO, BindingResult bindingResult) throws Exception {
         log.debug("rest createCategory()");
@@ -143,7 +126,6 @@ public class SampleRestController {
         CategoryResource resource = categoryResourceAssembler.toResource(categoryFacade.getCategoryById(id));
         return new ResponseEntity<>(resource, HttpStatus.OK);
     }
-
     */
 
 }
