@@ -27,6 +27,7 @@ public class MatchServiceImpl implements MatchService {
      * @return 
      */
     private void validateMatch(Match m) throws SoccerServiceException {
+        
         if(m.getTeamHome() != null) {
             if(m.getTeamHome().equals(m.getTeamAway()))
                 throw new SoccerServiceException("Can't create a match between the same teams");
@@ -48,16 +49,39 @@ public class MatchServiceImpl implements MatchService {
             }
     }
     
+    private void validateMatches(Match m) {
+        
+        List<Match> matches = matchDao.findAll();
+        if(m.getId() != null)
+            matches.remove(matchDao.findById(m.getId()));
+        
+        List<Match> byDate = matchDao.filterByDateAndTime(m.getDateAndTime(), matches);
+        if(!byDate.isEmpty()) {
+            List<Match> byTeam1 = matchDao.filterByTeam(m.getTeamAway(), matches);
+            List<Match> byTeam2 = matchDao.filterByTeam(m.getTeamHome(), matches);
+            
+            if(!byTeam1.isEmpty())
+                throw new SoccerServiceException("Team " + m.getTeamAway() + " is participating in a different match at that time.");
+            if(!byTeam2.isEmpty())
+                throw new SoccerServiceException("Team " + m.getTeamHome() + " is participating in a different match at that time.");
+        }
+        List<Match> byLocation = matchDao.filterByLocation(m.getLocation(), byDate);
+        if(!byLocation.isEmpty())
+            throw new SoccerServiceException("Location " + m.getLocation() + " is hosting a different match at that time.");
+        
+        validateMatch(m);        
+    }
+    
     @Override
     public Long create(Match m) {
-        validateMatch(m);
+        validateMatches(m);
         matchDao.create(m);
         return m.getId();
     }
 
     @Override
     public void update(Match m){
-        validateMatch(m);
+        validateMatches(m);
         matchDao.update(m);
     }
 
@@ -78,12 +102,12 @@ public class MatchServiceImpl implements MatchService {
     
     @Override
     public List<Match> findByTeam(Team t) {
-       return matchDao.findByTeam(t);
+       return matchDao.filterByTeam(t, null);
     }
     
     @Override
     public List<Match> findByTeams(Team t1, Team t2) {
-       return matchDao.findByTeams(t1, t2);
+       return matchDao.filterByTeams(t1, t2, null);
     }
     
     @Override
@@ -129,7 +153,7 @@ public class MatchServiceImpl implements MatchService {
     public TeamResult getTeamResult(Team t) {
         TeamResult tResult = new TeamResult();
         tResult.setTeam(t);
-        List<Match> matches = matchDao.findByTeam(t);
+        List<Match> matches = matchDao.filterByTeam(t, null);
         
         int wins=0, losses=0,ties=0;
         for(Match m : matches) {

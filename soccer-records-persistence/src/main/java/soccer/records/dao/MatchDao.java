@@ -1,6 +1,8 @@
 package soccer.records.dao;
 
+import java.util.Date;
 import java.util.List;
+import soccer.records.entity.Location;
 import soccer.records.entity.Match;
 import soccer.records.entity.Team;
 import soccer.records.exceptions.dao.DataAccessExceptions;
@@ -18,7 +20,7 @@ public interface MatchDao extends DefaultCrudDao<Match,Long> {
      * @return 
      * @throws DataAccessExceptions 
      */
-    public List<Match> findByTeam(Team t) throws DataAccessExceptions;
+    public List<Match> filterByTeam(Team t, List<Match> matches) throws DataAccessExceptions;
     /**
      * Finds all matches between two teams
      * @param t1
@@ -26,5 +28,10 @@ public interface MatchDao extends DefaultCrudDao<Match,Long> {
      * @return 
      * @throws DataAccessExceptions 
      */
-    public List<Match> findByTeams(Team t1, Team t2) throws DataAccessExceptions;
+    public List<Match> filterByTeams(Team t1, Team t2, List<Match> matches) throws DataAccessExceptions;
+
+    List<Match> filterByDateAndTime(Date d, List<Match> matches);
+
+    // filters
+    List<Match> filterByLocation(Location l, List<Match> matches);
 }
