@@ -10,6 +10,8 @@ soccerRecordspApp.config(['$routeProvider',
     function ($routeProvider) {
         $routeProvider.
             when('/default', {templateUrl: 'partials/teams.html', controller: 'DefaultController'}).
+            when('/players', {templateUrl: 'partials/players.html', controller: 'PlayersController'}).
+            when('/matches', {templateUrl: 'partials/matches.html', controller: 'MatchesController'}).
             otherwise({redirectTo: '/default'});
     }]);
 
@@ -44,8 +46,6 @@ soccerControllers.controller('DefaultController', function ($scope, $http) {
         var teams = response.data['_embedded']['teams'];             
         console.log('AJAX loaded all teams');  
         $scope.teams = teams;
-        
-        console.log($scope);
 
     }, function error(error) {
         //display error
@@ -59,9 +59,9 @@ soccerControllers.controller('PlayersController', function ($scope, $http) {
     
     $http.get('api/v1/players').then(function(response) {
         
-        var teams = response.data['_embedded']['players'];             
+        var players = response.data['_embedded']['players'];             
         console.log('AJAX loaded all players');  
-        $scope.teams = teams;
+        $scope.players = players;
         
         console.log($scope);
 
@@ -72,6 +72,27 @@ soccerControllers.controller('PlayersController', function ($scope, $http) {
     });
     
 });
+
+soccerControllers.controller('MatchesController', function ($scope, $http) {
+    
+    /*
+    $http.get('api/v1/players').then(function(response) {
+        
+        var players = response.data['_embedded']['players'];             
+        console.log('AJAX loaded all players');  
+        $scope.players = players;
+        
+        console.log($scope);
+
+    }, function error(error) {
+        //display error
+        console.log(error);
+        $scope.errorAlert = error;
+    });
+    */
+    
+});
+
 
 /*
 // helper procedure loading products to category
