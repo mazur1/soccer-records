@@ -9,10 +9,11 @@ var soccerControllers = angular.module('soccerControllers', []);
 soccerRecordspApp.config(['$routeProvider',
     function ($routeProvider) {
         $routeProvider.
-            when('/default', {templateUrl: 'partials/teams.html', controller: 'DefaultController'}).
+            when('/home', {templateUrl: 'partials/home.html', controller: 'DefaultController'}).
+            when('/teams', {templateUrl: 'partials/teams.html', controller: 'TeamsController'}).
             when('/players', {templateUrl: 'partials/players.html', controller: 'PlayersController'}).
             when('/matches', {templateUrl: 'partials/matches.html', controller: 'MatchesController'}).
-            otherwise({redirectTo: '/default'});
+            otherwise({redirectTo: '/home'});
     }]);
 
 /*
@@ -27,7 +28,8 @@ soccerRecordspApp.run(function($rootScope) {
     };
     $rootScope.hideErrorAlert = function () {
         $rootScope.errorAlert = undefined;
-    };
+    }; 
+
 });
 
 /* Controllers */
@@ -41,12 +43,31 @@ soccerRecordspApp.run(function($rootScope) {
  */
 soccerControllers.controller('DefaultController', function ($scope, $http) {
     
+    /*
     $http.get('api/v1/teams').then(function(response) {
         
         var teams = response.data['_embedded']['teams'];             
         console.log('AJAX loaded all teams');  
         $scope.teams = teams;
 
+    }, function error(error) {
+        //display error
+        console.log(error);
+        $scope.errorAlert = error;
+    });
+    
+    */
+    
+});
+
+soccerControllers.controller('TeamsController', function ($scope, $http) {
+    
+    $http.get('api/v1/teams').then(function(response) {
+        
+        var teams = response.data['_embedded']['teams'];             
+        console.log('AJAX loaded all teams');  
+        $scope.teams = teams;
+        
     }, function error(error) {
         //display error
         console.log(error);
@@ -62,8 +83,6 @@ soccerControllers.controller('PlayersController', function ($scope, $http) {
         var players = response.data['_embedded']['players'];             
         console.log('AJAX loaded all players');  
         $scope.players = players;
-        
-        console.log($scope);
 
     }, function error(error) {
         //display error
@@ -81,8 +100,6 @@ soccerControllers.controller('MatchesController', function ($scope, $http) {
         var players = response.data['_embedded']['players'];             
         console.log('AJAX loaded all players');  
         $scope.players = players;
-        
-        console.log($scope);
 
     }, function error(error) {
         //display error
