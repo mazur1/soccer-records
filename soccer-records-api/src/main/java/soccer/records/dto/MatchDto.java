@@ -35,6 +35,9 @@ public class MatchDto {
     private TeamDto teamAway;
     private List<PlayerResultDto> playerResults = new ArrayList<>();
     
+    //private MatchResultDto matchResult;
+    //private TeamResultDto teamResult;
+    
     public TeamDto getTeamHome() {
         return teamHome;
     }

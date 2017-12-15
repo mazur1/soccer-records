@@ -16,7 +16,7 @@ import soccer.records.entity.PlayerResult;
  */
 public interface PlayerResultService {
 
-    PlayerResult findByID(Long id);
+    PlayerResult findById(Long id);
     PlayerResult findByBoth(Player p, Match m);
     List<PlayerResult> findByMatch(Match m);
     List<PlayerResult> findByPlayer(Player p);

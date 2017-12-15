@@ -127,7 +127,7 @@ public class PlayerResultFacadeTest extends AbstractTestNGSpringContextTests {
     @Test
     public void deletePlayerResult() {
         //Mockito.when(mappingService.mapTo(pr1Dto, PlayerResult.class)).thenReturn(pr1);
-        Mockito.when(playerResultService.findByID(1L)).thenReturn(pr1);
+        Mockito.when(playerResultService.findById(1L)).thenReturn(pr1);
         playerResultFacade.deletePlayerResult(1L);
         Mockito.verify(playerResultService).delete(pr1);
     }
@@ -149,11 +149,11 @@ public class PlayerResultFacadeTest extends AbstractTestNGSpringContextTests {
     
     @Test
     public void findPlayerResultById() {
-        Mockito.when(playerResultService.findByID(1L)).thenReturn(pr1);
+        Mockito.when(playerResultService.findById(1L)).thenReturn(pr1);
         Mockito.when(mappingService.mapTo(pr1, PlayerResultDto.class)).thenReturn(pr1Dto);
         
         PlayerResultDto actual = playerResultFacade.findPlayerResultById(1L);
-        Mockito.verify(playerResultService).findByID(1L);
+        Mockito.verify(playerResultService).findById(1L);
         Mockito.verify(mappingService).mapTo(pr1, PlayerResultDto.class);
         
         Assert.assertEquals(actual, pr1Dto);

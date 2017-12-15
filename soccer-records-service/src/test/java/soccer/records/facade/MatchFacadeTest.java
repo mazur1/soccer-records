@@ -19,7 +19,9 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import soccer.records.config.ServiceConfiguration;
+import soccer.records.dto.MatchCreateDto;
 import soccer.records.dto.MatchDto;
+import soccer.records.dto.MatchEditDto;
 import soccer.records.entity.Match;
 import soccer.records.services.BeanMappingService;
 import soccer.records.services.MatchService;
@@ -56,19 +58,23 @@ public class MatchFacadeTest extends AbstractTestNGSpringContextTests {
     @Mock
     private MatchDto pr1Dto;
     @Mock
+    private MatchCreateDto pr1CDto;
+    @Mock
+    private MatchEditDto pr1EDto;
+    @Mock
     private Match pr1;
  
     @Test
     public void createMatch() {
-        Mockito.when(mappingService.mapTo(pr1Dto, Match.class)).thenReturn(pr1);
-        matchFacade.createMatch(pr1Dto);
+        Mockito.when(mappingService.mapTo(pr1CDto, Match.class)).thenReturn(pr1);
+        matchFacade.createMatch(pr1CDto);
         Mockito.verify(matchService).create(pr1);
     }
     
     @Test
     public void updateMatch() {        
-        Mockito.when(mappingService.mapTo(pr1Dto, Match.class)).thenReturn(pr1);
-        matchFacade.updateMatch(pr1Dto);
+        Mockito.when(mappingService.mapTo(pr1EDto, Match.class)).thenReturn(pr1);
+        matchFacade.updateMatch(pr1EDto);
         Mockito.verify(matchService).update(pr1);
     }
     

@@ -296,7 +296,7 @@ public class PlayerResultTest extends AbstractTestNGSpringContextTests {
     @Test
     public void findByIdPlayerResult() {
         when(playerResultDao.findById(pr1.getId())).thenReturn(pr1);
-        PlayerResult actual = playerResultService.findByID(pr1.getId());
+        PlayerResult actual = playerResultService.findById(pr1.getId());
         Assert.assertEquals(actual, pr1);
         
         verify(playerResultDao).findById(pr1.getId());
@@ -305,7 +305,7 @@ public class PlayerResultTest extends AbstractTestNGSpringContextTests {
     @Test
     public void findByIdPlayerResultNone() {
         Mockito.when(playerResultDao.findById(123L)).thenReturn(null);
-        Assert.assertNull(playerResultService.findByID(123L));
+        Assert.assertNull(playerResultService.findById(123L));
         
         verify(playerResultDao).findById(123L);
     }

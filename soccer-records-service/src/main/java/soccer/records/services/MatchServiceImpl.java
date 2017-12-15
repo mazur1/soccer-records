@@ -2,6 +2,7 @@ package soccer.records.services;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 import soccer.records.dao.MatchDao;
@@ -50,10 +51,10 @@ public class MatchServiceImpl implements MatchService {
     }
     
     private void validateMatches(Match m) {
+        if(m == null) return;
         
         List<Match> matches = matchDao.findAll();
-        if(m.getId() != null)
-            matches.remove(matchDao.findById(m.getId()));
+        matches.stream().filter(p -> !Objects.equals(m, p)).collect(Collectors.toList());
         
         List<Match> byDate = matchDao.filterByDateAndTime(m.getDateAndTime(), matches);
         if(!byDate.isEmpty()) {

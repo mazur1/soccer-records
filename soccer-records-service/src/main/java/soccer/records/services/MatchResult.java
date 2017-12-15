@@ -8,6 +8,7 @@ package soccer.records.services;
 import soccer.records.entity.Match;
 import soccer.records.entity.Team;
 
+
 /**
  * Helper class for match results
  * 
