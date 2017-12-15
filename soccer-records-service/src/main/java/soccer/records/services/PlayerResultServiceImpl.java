@@ -49,7 +49,7 @@ public class PlayerResultServiceImpl implements PlayerResultService {
     }
     
     @Override
-    public PlayerResult findByID(Long id){
+    public PlayerResult findById(Long id){
         return playerResultDao.findById(id);
     }
 

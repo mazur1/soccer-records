@@ -9,16 +9,27 @@ import java.util.List;
 import soccer.records.dto.MatchCreateDto;
 import soccer.records.dto.MatchDto;
 import soccer.records.dto.MatchEditDto;
+import soccer.records.dto.MatchResultDto;
+import soccer.records.dto.PlayerResultDto;
+import soccer.records.dto.TeamResultDto;
 
 /**
  *
  * @author Michaela Bocanova
  */
 public interface MatchFacade {
-    Long createMatch(MatchDto m);
-    void updateMatch(MatchDto m);
+    Long createMatch(MatchCreateDto m);
+    void updateMatch(MatchEditDto m);
     void deleteMatch(Long id);
     List<MatchDto> findAllMatches();
     MatchDto findMatchById(Long id);
+
+    void addPlayerResult(Long mId, PlayerResultDto rDto);
+
+    void removePlayerResult(Long mId, Long rId);
+
+    MatchResultDto getMatchResult(Long id);
+
+    TeamResultDto getTeamResult(Long id);
     
 }

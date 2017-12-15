@@ -77,7 +77,7 @@ public class PlayerResultFacadeImpl implements PlayerResultFacade{
 
     @Override
     public void deletePlayerResult(Long id) {
-        playerResult.delete(playerResult.findByID(id));
+        playerResult.delete(playerResult.findById(id));
     }
 
     @Override
@@ -87,7 +87,7 @@ public class PlayerResultFacadeImpl implements PlayerResultFacade{
 
     @Override
     public PlayerResultDto findPlayerResultById(Long id) {
-        return beanMappingService.mapTo(playerResult.findByID(id), PlayerResultDto.class);
+        return beanMappingService.mapTo(playerResult.findById(id), PlayerResultDto.class);
     }
 
     @Override

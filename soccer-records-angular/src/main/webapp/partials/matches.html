@@ -1,1 +1,26 @@
 <h1>Matches List</h1>
+
+<a href="#!/admin/newmatch" class="btn btn-primary">
+    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+    New match
+</a>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>id</th>
+        <th>team home</th>
+        <th>team away</th>
+    </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="match in matches track by $index">
+            <td>{{match.id}}</td>
+            <td>{{match.teamHome.name}}</td>
+            <td>{{match.teamAway.name}}</td>
+            <td>
+              <button ng-click="deleteMatch(match)" type="submit" class="btn btn-primary">Delete</button>
+            </td>
+        </tr>
+    </tbody>
+</table>

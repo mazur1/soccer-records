@@ -7,16 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.temporal.ChronoUnit;
-import java.util.Date;
-import java.util.Random;
 import soccer.records.entity.*;
 import soccer.records.enums.PlayerPost;
 import soccer.records.services.MatchService;
@@ -56,11 +47,11 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         Team real = team("Real Madrid");
         Player ronaldo = player("Cristiano","Ronaldo", 24, PlayerPost.ATTACKER,true,barcelona);
         
-        //Player novak = player("Jan", "Novak", 21, PlayerPost.DEFENDER, false, real);
+        Player novak = player("Jan", "Novak", 21, PlayerPost.DEFENDER, false, real);
         
-        //Match match1 = match(barcelona, real);
+        Match match1 = match(barcelona, real);
         
-        //PlayerResult pr = playerResult(match1, ronaldo, 2);
+        PlayerResult pr = playerResult(match1, ronaldo, 2);
     }
 
      private Team team(String name) throws IOException {

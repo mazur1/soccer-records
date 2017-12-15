@@ -10,8 +10,14 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import soccer.records.dto.MatchCreateDto;
 import soccer.records.dto.MatchDto;
+import soccer.records.dto.MatchEditDto;
+import soccer.records.dto.MatchResultDto;
+import soccer.records.dto.PlayerResultDto;
+import soccer.records.dto.TeamResultDto;
 import soccer.records.entity.Match;
+import soccer.records.entity.PlayerResult;
 import soccer.records.services.BeanMappingService;
 import soccer.records.services.MatchService;
 import soccer.records.services.PlayerResultService;
@@ -37,13 +43,13 @@ public class MatchFacadeImpl implements MatchFacade {
     private BeanMappingService beanMappingService;
             
     @Override
-    public Long createMatch(MatchDto m) {
+    public Long createMatch(MatchCreateDto m) {
         Match mapped = beanMappingService.mapTo(m, Match.class);
         return matchService.create(mapped);
     }
     
     @Override
-    public void updateMatch(MatchDto m) {
+    public void updateMatch(MatchEditDto m) {
         Match mapped = beanMappingService.mapTo(m, Match.class);
         matchService.update(mapped);
     }
@@ -61,6 +67,32 @@ public class MatchFacadeImpl implements MatchFacade {
     @Override
     public MatchDto findMatchById(Long id) {
         return beanMappingService.mapTo(matchService.findById(id), MatchDto.class);
+    }
+    
+    @Override
+    public void addPlayerResult(Long mId, PlayerResultDto rDto) {
+        Match m = matchService.findById(mId);
+        PlayerResult r = beanMappingService.mapTo(rDto, PlayerResult.class);
+        matchService.addPlayerResult(m, r);
+    }
+    
+    @Override
+    public void removePlayerResult(Long mId, Long rId) {
+        Match m = matchService.findById(mId);
+        PlayerResult r = resultService.findById(rId);
+        matchService.removePlayerResult(m, r);
+    }
+    
+    @Override
+    public MatchResultDto getMatchResult(Long id) {
+        return beanMappingService.mapTo(matchService.getMatchResult(
+                matchService.findById(id)), MatchResultDto.class);
+    }
+    
+    @Override
+    public TeamResultDto getTeamResult(Long id) {
+        return beanMappingService.mapTo(matchService.getTeamResult(
+                teamService.findById(id)), TeamResultDto.class);
     }
     
 }
