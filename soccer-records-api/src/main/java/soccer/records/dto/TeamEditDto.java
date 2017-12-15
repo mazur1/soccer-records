@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package soccer.records.dto;
 
 import java.util.ArrayList;
@@ -12,7 +8,7 @@ import java.util.List;
  *
  * @author Tomas Mazurek
  */
-public class TeamDto {
+public class TeamEditDto {
     private Long id;
     
     private String name;
@@ -21,13 +17,6 @@ public class TeamDto {
     private List<MatchDto> matchesHome = new ArrayList<MatchDto>();
     private List<MatchDto> matchesAway = new ArrayList<MatchDto>();
     
-    public Long getId() {
-        return this.id;
-    }
-    
-    public void setId (Long id) {
-        this.id = id;
-    }
     
     public String getName() {
         return name;
@@ -83,7 +72,7 @@ public class TeamDto {
             return false;
         }
         
-        TeamDto other = (TeamDto) obj;        
+        TeamEditDto other = (TeamEditDto) obj;        
         
         if (name == null) {
             if (other.getName() != null) {

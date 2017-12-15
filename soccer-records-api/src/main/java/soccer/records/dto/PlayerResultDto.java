@@ -5,6 +5,8 @@
  */
 package soccer.records.dto;
 
+import javax.validation.constraints.Min;
+
 
 /**
  *
@@ -14,6 +16,7 @@ public class PlayerResultDto {
     
     private Long id;
 
+    @Min(0)
     private int goalsScored;
     private PlayerDto player;
     private MatchDto match;
