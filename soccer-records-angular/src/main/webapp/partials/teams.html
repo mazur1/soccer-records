@@ -1,6 +1,9 @@
-<h1>Teams List</h1>
+<div class="title">
+    <h1>Teams List</h1>
+    <div class="line"></div>
+</div>
 
-<table class="table">
+<table class="table stripped">
     <thead>
     <tr>
         <th>Name</th>
@@ -8,7 +11,7 @@
     </thead>
     <tbody>
         <tr ng-repeat="team in teams track by $index">
-            <td>{{team.name}}</td>
+            <td><a href="#!/teams/{{team.id}}">{{team.name}}</a></td>
         </tr>
     </tbody>
 </table>

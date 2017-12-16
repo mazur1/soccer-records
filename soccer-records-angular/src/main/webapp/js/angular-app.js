@@ -11,6 +11,8 @@ soccerRecordspApp.config(['$routeProvider',
         $routeProvider.
             when('/home', {templateUrl: 'partials/home.html', controller: 'DefaultController'}).
             when('/teams', {templateUrl: 'partials/teams.html', controller: 'TeamsController'}).
+            when('/teams/:teamId', {templateUrl: 'partials/team_detail.html', controller: 'TeamDetailCtrl'}).
+            when('/players/:playerId', {templateUrl: 'partials/player_detail.html', controller: 'PlayerDetailCtrl'}).
             when('/players', {templateUrl: 'partials/players.html', controller: 'PlayersController'}).
             when('/matches', {templateUrl: 'partials/matches.html', controller: 'MatchesController'}).
             otherwise({redirectTo: '/home'});
@@ -62,8 +64,7 @@ soccerControllers.controller('DefaultController', function ($scope, $http) {
 
 soccerControllers.controller('TeamsController', function ($scope, $http) {
     
-    $http.get('api/v1/teams').then(function(response) {
-        
+    $http.get('/pa165/api/v1/teams').then(function(response) {        
         var teams = response.data['_embedded']['teams'];             
         console.log('AJAX loaded all teams');  
         $scope.teams = teams;
@@ -76,9 +77,29 @@ soccerControllers.controller('TeamsController', function ($scope, $http) {
     
 });
 
+soccerControllers.controller('TeamDetailCtrl', function ($scope, $routeParams, $http) {
+    
+    // get team id from URL fragment #/product/:productId
+        
+    var teamId = $routeParams.teamId;
+    
+    $http.get('/pa165/api/v1/teams/' + teamId).then(function (response) {
+            
+        console.log(response);    
+            
+        $scope.team = response.data;
+        console.log('AJAX loaded detail of team ' + $scope.team.name);
+    
+    }, function error(error) {
+        //display error
+        console.log(error);
+        $scope.errorAlert = error;
+    });
+});
+
 soccerControllers.controller('PlayersController', function ($scope, $http) {
     
-    $http.get('api/v1/players').then(function(response) {
+    $http.get('/pa165/api/v1/players').then(function(response) {
         
         var players = response.data['_embedded']['players'];             
         console.log('AJAX loaded all players');  
@@ -91,6 +112,23 @@ soccerControllers.controller('PlayersController', function ($scope, $http) {
     });
     
 });
+
+soccerControllers.controller('PlayerDetailCtrl', function ($scope, $routeParams, $http) {
+        // get team id from URL fragment #/product/:productId
+        
+        var playerId = $routeParams.playerId;
+        $http.get('/pa165/api/v1/players/' + playerId).then(function (response) {
+            $scope.player = response.data;
+            console.log('AJAX loaded detail of team ' + $scope.player.name);
+    
+    }, function error(error) {
+        //display error
+        console.log(error);
+        $scope.errorAlert = error;
+    });
+});
+
+
 
 soccerControllers.controller('MatchesController', function ($scope, $http) {
     
@@ -109,6 +147,7 @@ soccerControllers.controller('MatchesController', function ($scope, $http) {
     */
     
 });
+
 
 
 /*

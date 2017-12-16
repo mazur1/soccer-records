@@ -1,3 +1,4 @@
+
 package soccer.records.sampledata;
 
 
@@ -36,20 +37,40 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         
     @Autowired
     private PlayerResultService playerResultService;
-    
-    
+        
     @Override
     @SuppressWarnings("unused")
     public void loadData() throws IOException {
+        
         // test records
-   
-        Team barcelona = team("Barcelona");
-        Team real = team("Real Madrid");
-        Player ronaldo = player("Cristiano","Ronaldo", 24, PlayerPost.ATTACKER,true,barcelona);
+        Team plzen = team("Plzen");
+        Team sparta = team("Sparta Praha");
         
-        Player novak = player("Jan", "Novak", 21, PlayerPost.DEFENDER, false, real);
+        Player p01 = player("David", "Bièík", 24, PlayerPost.ATTACKER , true, sparta, "Praha", "Czech Republic");
+        Player p02 = player("Martin", "Dúbravka", 22, PlayerPost.ATTACKER , false, sparta, "Praha", "Czech Republic");
+        Player p03 = player("Vojtìch", "Vorel", 27, PlayerPost.ATTACKER , false, sparta, "Praha", "Czech Republic");
+        Player p04 = player("David", "Hovorka", 22, PlayerPost.DEFENDER , true, sparta, "Praha", "Czech Republic");
+        Player p05 = player("Michal", "Kadlec", 28, PlayerPost.DEFENDER , false, sparta, "Praha", "Czech Republic");
+        Player p06 = player("Jan", "Pavlík", 26, PlayerPost.DEFENDER , false, sparta, "Praha", "Czech Republic");
+        Player p07 = player("Matìj", "Sváta", 26, PlayerPost.MIDFIELDER , false, sparta, "Praha", "Czech Republic");
+        Player p08 = player("Ondøej", "Zahustel", 25, PlayerPost.MIDFIELDER , false, sparta, "Praha", "Czech Republic");
+        Player p09 = player("Vojtìch", "Èmelík", 22, PlayerPost.MIDFIELDER , false, sparta, "Praha", "Czech Republic");
+        Player p010 = player("Lukáš", "Štetina", 31, PlayerPost.MIDFIELDER , false, sparta, "Praha", "Czech Republic");
+        Player p011 = player("Lukáš", "Juliš", 33, PlayerPost.GOLMAN , false, sparta, "Praha", "Czech Republic");
         
-        Match match1 = match(barcelona, real);
+        Player p11 = player("Roman", "Hubník", 26, PlayerPost.ATTACKER, true, plzen, "Praha", "Czech Republic");
+        Player p12 = player("Tomáš", "Hájek", 27, PlayerPost.ATTACKER, false, plzen, "Praha", "Czech Republic");
+        Player p13 = player("David", "Limberský", 33, PlayerPost.ATTACKER, false, plzen, "Praha", "Czech Republic");
+        Player p14 = player("Filip", "Vacovsky", 32, PlayerPost.DEFENDER, false, plzen, "Praha", "Czech Republic");
+        Player p15 = player("Radim", "Øezník", 36, PlayerPost.DEFENDER, false, plzen, "Praha", "Czech Republic");
+        Player p16 = player("Jan", "Kopic", 22, PlayerPost.DEFENDER, false, plzen, "Praha", "Czech Republic");
+        Player p17 = player("Jan", "Kovaøík", 21, PlayerPost.DEFENDER, false, plzen, "Praha", "Czech Republic");
+        Player p18 = player("Milan", "Petržela", 25, PlayerPost.MIDFIELDER, false, plzen, "Praha", "Czech Republic");
+        Player p19 = player("Václav", "Pilaø", 28, PlayerPost.MIDFIELDER, false, plzen, "Praha", "Czech Republic");
+        Player p110 = player("Jonas", "Vais", 33, PlayerPost.MIDFIELDER, false, plzen, "Praha", "Czech Republic");
+        Player p111 = player("Marek", "Bakoš", 30, PlayerPost.GOLMAN, false, plzen, "Praha", "Czech Republic");
+ 
+        //Match match1 = match(barcelona, real);
         
         //PlayerResult pr = playerResult(match1, ronaldo, 2);
     }
@@ -61,16 +82,20 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         return t;
     }
      
-    private Player player(String name, String surname, int age, PlayerPost post, boolean captain, Team team) throws IOException {
+    private Player player(String name, String surname, int age, PlayerPost post, boolean captain, Team team, String city, String Country) throws IOException {
+        
         Player p = new Player();
         p.setName(name);
         p.setSurname(surname);
         p.setAge(age);
-        p.setCaptian(captain);
+        p.setCaptain(captain);
         p.setTeam(team);
         p.setPost(post);
+        p.setCity(city);
+        p.setCountry(Country);
         
         playerService.create(p);
+        teamService.addPlayer(team, p);
 
         return p;
     }

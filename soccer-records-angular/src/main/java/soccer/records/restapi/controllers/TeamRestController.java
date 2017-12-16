@@ -60,9 +60,11 @@ public class TeamRestController {
      *
      * @return list of teams
      */
+    
+    @ResponseBody 
     @RequestMapping(method = RequestMethod.GET)
     public HttpEntity<Resources<TeamResource>> teams() {
-        log.debug("rest teams()");
+        log.info("rest teams()");
         List<TeamDto> allTeams = teamFacade.findAllTeams();
         Resources<TeamResource> teamResources = new Resources<>(
                 teamResourceAssembler.toResources(allTeams),
@@ -76,17 +78,34 @@ public class TeamRestController {
      *
      * @param id team identifier
      * @return team detail
-     * @throws Exception if team not found
+     * @throws ResourceNotFoundException if team not found
      */
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public HttpEntity<TeamResource> team(@PathVariable("id") long id) throws Exception {
-        log.debug("rest team({})", id);
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+    public HttpEntity<TeamResource> getTeam(@PathVariable("id") long id) throws Exception {
+        log.info("attempt to get team({})", id);
         TeamDto teamDTO = teamFacade.findTeamById(id);
         if (teamDTO == null) throw new ResourceNotFoundException("team " + id + " not found");
         TeamResource teamResource = teamResourceAssembler.toResource(teamDTO);
-        return new HttpEntity<>(teamResource);
+        log.info("get team({})", teamDTO.getId());
+        return new ResponseEntity<>(teamResource, HttpStatus.OK);
     }
-
+    
+     /**
+     * Delete one team by id 
+     *
+     * @param id identifier for team
+     * @throws ResourceNotFoundException
+     */
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public final void deleteTeam(@PathVariable("id") long id) throws Exception {
+        log.debug("rest deleteTeam({})", id);
+        try {
+            teamFacade.deleteTeam(id);
+        } catch (Exception ex) {
+            log.debug("Cannot delete team with id {}", id);
+            throw new ResourceNotFoundException(ex.getMessage());
+        }
+    }
     /**
      * Produces a list of products in the given category.
      *

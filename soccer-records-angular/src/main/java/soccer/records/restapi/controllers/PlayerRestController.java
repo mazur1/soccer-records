@@ -64,7 +64,7 @@ public class PlayerRestController {
     // ../players
     @RequestMapping(method = RequestMethod.GET)
     public HttpEntity<Resources<PlayerResource>> players() {
-        log.debug("rest players()");
+        log.info("rest players()");
         List<PlayerDto> allPlayers = playerFacade.findAllPlayers();
         Resources<PlayerResource> playerResources = new Resources<>(
                 playerResourceAssembler.toResources(allPlayers),
@@ -89,6 +89,25 @@ public class PlayerRestController {
         PlayerResource playerResource = playerResourceAssembler.toResource(playerDto);
         return new HttpEntity<>(playerResource);
     }
+    
+        
+     /**
+     * Delete one player by id 
+     *
+     * @param id identifier for player
+     * @throws ResourceNotFoundException
+     */
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public final void deletePlayer(@PathVariable("id") long id) throws Exception {
+        log.debug("rest deletePlayer({})", id);
+        try {
+            playerFacade.deletePlayer(id);
+        } catch (Exception ex) {
+            log.debug("Cannot delete player with id {}", id);
+            throw new ResourceNotFoundException(ex.getMessage());
+        }
+    }
+    
 
     /**
      * Produces a list of products in the given category.

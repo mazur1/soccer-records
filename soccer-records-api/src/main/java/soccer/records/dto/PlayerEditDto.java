@@ -26,7 +26,7 @@ public class PlayerEditDto {
 
     private PlayerPost post;
 
-    private boolean captian;
+    private boolean captain;
 
     private String country;
     private String city;
@@ -70,12 +70,12 @@ public class PlayerEditDto {
         return post;
     }    
     
-    public void setIsCaptian(boolean captian) {
-        this.captian = captian;
+    public void setIsCaptain(boolean captain) {
+        this.captain = captain;
     }
 
-    public boolean isCaptian() {
-        return captian;
+    public boolean isCaptain() {
+        return captain;
     }    
     
     public void setCountry(String country) {
@@ -127,7 +127,7 @@ public class PlayerEditDto {
         result = prime * result + ((surname == null) ? 0 : surname.hashCode());
         result = prime * result + age;
         result = prime * result + ((post == null) ? 0 : post.hashCode());
-        result = prime * result + (captian ? 1 : 0);        
+        result = prime * result + (captain ? 1 : 0);        
         result = prime * result + ((country == null) ? 0 : country.hashCode());
         result = prime * result + ((city == null) ? 0 : city.hashCode());
         result = prime * result + ((team == null) ? 0 : team.hashCode());
@@ -150,7 +150,7 @@ public class PlayerEditDto {
         if (this.age != other.age) {
             return false;
         }
-        if (this.captian != other.captian) {
+        if (this.captain != other.captain) {
             return false;
         }
         if (!Objects.equals(this.name, other.name)) {

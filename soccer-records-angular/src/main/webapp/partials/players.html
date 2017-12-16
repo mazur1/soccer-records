@@ -1,14 +1,21 @@
-<h1>Players List</h1>
+<div class="title">
+    <h1>Players List</h1>
+    <div class="line"></div>
+</div>
 
-<table class="table">
+<table class="table stripped">
     <thead>
     <tr>
-        <th>Name</th>
+        <th>Name/Surname</th>
+        <th>Country</th>
+        <th>Team</th>
     </tr>
     </thead>
     <tbody>
         <tr ng-repeat="player in players track by $index">
-            <td>{{player.name}}</td>
+            <td><a href="#!/players/{{player.id}}">{{player.name}} {{player.surname}}</a></td>
+            <td><a href="#!/players/{{player.id}}">{{player.country}}</a></td>
+            <td><a href="#!/players/{{player.id}}">{{player.team.name}}</a></td>
         </tr>
     </tbody>
 </table>

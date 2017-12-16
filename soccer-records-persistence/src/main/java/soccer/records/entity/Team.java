@@ -60,7 +60,7 @@ public class Team extends Auditable<String,Long> {
 	this.id = teamId; 
     }*/
     
-    public List<Player> getTeamPlayers() {
+    public List<Player> getPlayers() {
         return this.players;
     }
     
@@ -140,7 +140,7 @@ public class Team extends Auditable<String,Long> {
             return false;
         }
 
-        if (!matchesHome.equals(other.getTeamPlayers())) {
+        if (!matchesHome.equals(other.getPlayers())) {
             return false;
         }                       
         

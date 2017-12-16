@@ -20,7 +20,6 @@ public class TeamServiceImpl implements TeamService {
     @Inject
     private TeamDao teamDao;
 
-
     @Override
     public Long create(Team t) {
         teamDao.create(t);
@@ -54,7 +53,7 @@ public class TeamServiceImpl implements TeamService {
         
     @Override
     public void addPlayer(Team t, Player p) {
-	if (t.getTeamPlayers().contains(p)) {
+	if (t.getPlayers().contains(p)) {
             throw new SoccerServiceException("Team already contais this player. \n" +
                                         "Team: " + t.getId() + "\n" +
                                         "Player: " + p.getId());
@@ -64,7 +63,7 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public void removePlayer(Team t, Player p) {
-	if (!t.getTeamPlayers().contains(p)) {
+	if (!t.getPlayers().contains(p)) {
             throw new SoccerServiceException("Team hasn't contains this player. \n" +
                                         "Team: " + t.getId() + "\n" +
                                         "Player: " + p.getId());
