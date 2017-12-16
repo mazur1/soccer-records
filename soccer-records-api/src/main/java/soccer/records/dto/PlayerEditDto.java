@@ -5,6 +5,8 @@
  */
 package soccer.records.dto;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -15,6 +17,9 @@ import soccer.records.enums.PlayerPost;
  *
  * @author 
  */
+@JsonIdentityInfo(
+  generator = ObjectIdGenerators.PropertyGenerator.class, 
+  property = "id")
 public class PlayerEditDto {
     
     private String name;
