@@ -8,7 +8,7 @@
     </thead>
     <tbody>
         <tr ng-repeat="player in players track by $index">
-            <td>{{player.name}}</td>
+            <td><a href="#!/players/{{player.id}}">{{player.name}} {{player.surname}}</a></td>
         </tr>
     </tbody>
 </table>
