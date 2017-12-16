@@ -77,14 +77,18 @@ soccerControllers.controller('TeamsController', function ($scope, $http) {
     
 });
 
-
 soccerControllers.controller('TeamDetailCtrl', function ($scope, $routeParams, $http) {
-        // get team id from URL fragment #/product/:productId
+    
+    // get team id from URL fragment #/product/:productId
         
-        var teamId = $routeParams.teamId;
-        $http.get('/pa165/api/v1/teams/' + teamId).then(function (response) {
-            $scope.team = response.data;
-            console.log('AJAX loaded detail of team ' + $scope.team.name);
+    var teamId = $routeParams.teamId;
+    
+    $http.get('/pa165/api/v1/teams/' + teamId).then(function (response) {
+            
+        console.log(response);    
+            
+        $scope.team = response.data;
+        console.log('AJAX loaded detail of team ' + $scope.team.name);
     
     }, function error(error) {
         //display error

@@ -1,3 +1,4 @@
+
 package soccer.records.sampledata;
 
 
@@ -36,13 +37,12 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         
     @Autowired
     private PlayerResultService playerResultService;
-    
-    
+        
     @Override
     @SuppressWarnings("unused")
     public void loadData() throws IOException {
+        
         // test records
-   
         Team plzen = team("Plzen");
         Team sparta = team("Sparta Praha");
         
@@ -69,11 +69,7 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         Player p19 = player("Václav", "Pilaø", 28, PlayerPost.MIDFIELDER, false, plzen, "Praha", "Czech Republic");
         Player p110 = player("Jonas", "Vais", 33, PlayerPost.MIDFIELDER, false, plzen, "Praha", "Czech Republic");
         Player p111 = player("Marek", "Bakoš", 30, PlayerPost.GOLMAN, false, plzen, "Praha", "Czech Republic");
-
-
-
-
-        
+ 
         //Match match1 = match(barcelona, real);
         
         //PlayerResult pr = playerResult(match1, ronaldo, 2);
@@ -87,6 +83,7 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
     }
      
     private Player player(String name, String surname, int age, PlayerPost post, boolean captain, Team team, String city, String Country) throws IOException {
+        
         Player p = new Player();
         p.setName(name);
         p.setSurname(surname);
@@ -98,6 +95,7 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         p.setCountry(Country);
         
         playerService.create(p);
+        teamService.addPlayer(team, p);
 
         return p;
     }

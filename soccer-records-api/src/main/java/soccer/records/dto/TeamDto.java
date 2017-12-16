@@ -37,6 +37,10 @@ public class TeamDto {
         this.name = name;
     }
     
+    public void addPlayer(PlayerDto p){
+        players.add(p);
+    }
+    
     public List<PlayerDto> getTeamPlayers() {
         return this.players;
     }

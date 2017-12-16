@@ -20,7 +20,6 @@ public class TeamServiceImpl implements TeamService {
     @Inject
     private TeamDao teamDao;
 
-
     @Override
     public Long create(Team t) {
         teamDao.create(t);

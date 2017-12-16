@@ -1,7 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="utf-8" trimDirectiveWhitespaces="true" session="false" %>
 
-
-
 <!DOCTYPE html>
 <html lang="en" >
     <head>
@@ -84,7 +82,7 @@
 
         <footer class="footer">
             <div class="container">
-                <p>&copy;&nbsp;2017&nbsp;Masaryk University</p>
+                <p>&copy;&nbsp;2017&nbsp;Soccer records&nbsp;-&nbsp;Masaryk University</p>
             </div>
         </footer>
 
