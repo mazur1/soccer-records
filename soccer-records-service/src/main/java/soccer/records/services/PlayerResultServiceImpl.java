@@ -4,6 +4,7 @@ import soccer.records.entity.Player;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import javax.inject.Inject;
 import soccer.records.dao.PlayerResultDao;
 import soccer.records.entity.Match;
@@ -81,6 +82,35 @@ public class PlayerResultServiceImpl implements PlayerResultService {
         }
         
         pr.setGoalsScored(goals);
+    }
+    
+    @Override
+    public int getPlayerResult(Player p) {//statistics
+       
+        List<PlayerResult> results = playerResultDao.findByPlayerID(p.getId());
+        int total = 0;
+        for(PlayerResult r : results) {
+            total += r.getGoalsScored();
+        }
+                
+        return total;
+    }
+    
+    @Override
+    public void checkGoalsScoredInMatch(Match m) {//optional check
+        List<PlayerResult> results = playerResultDao.findByMatchID(m.getId());
+        int totalHome = 0, totalAway = 0;
+        for(PlayerResult r : results) {
+            if(Objects.equals(r.getPlayer().getTeam(), m.getTeamHome()))
+                totalHome += r.getGoalsScored();
+            else if(Objects.equals(r.getPlayer().getTeam(), m.getTeamAway()))
+                totalAway += r.getGoalsScored();
+        }
+        
+        if(m.getTeamHomeGoalsScored(false) != totalHome)
+            throw new SoccerServiceException("total number of goals scored by players in team home is different from the score of match");
+        if(m.getTeamAwayGoalsScored(false) != totalAway)
+            throw new SoccerServiceException("total number of goals scored by players in team away is different from the score of match");
     }
     
 }

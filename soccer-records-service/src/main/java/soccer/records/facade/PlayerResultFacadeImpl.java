@@ -96,4 +96,13 @@ public class PlayerResultFacadeImpl implements PlayerResultFacade{
         playerResult.update(mapped);
     }
 
+    @Override
+    public void checkGoalsScoredInMatch(Long id) {
+        playerResult.checkGoalsScoredInMatch(match.findById(id));
+    }
+
+    @Override
+    public int getPlayerResult(Long id) {
+        return playerResult.getPlayerResult(player.findById(id));
+    }
 }

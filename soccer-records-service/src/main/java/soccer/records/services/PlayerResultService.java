@@ -25,4 +25,8 @@ public interface PlayerResultService {
     void delete(PlayerResult pr);    
     void update(PlayerResult pr);
     void changeGoals(PlayerResult pr, int goal);
+
+    void checkGoalsScoredInMatch(Match m);
+
+    int getPlayerResult(Player p);
 }
