@@ -60,6 +60,8 @@ public class TeamRestController {
      *
      * @return list of teams
      */
+    
+    @ResponseBody 
     @RequestMapping(method = RequestMethod.GET)
     public HttpEntity<Resources<TeamResource>> teams() {
         log.info("rest teams()");
