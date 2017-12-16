@@ -62,7 +62,7 @@ public class TeamRestController {
      */
     
     @ResponseBody 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
     public HttpEntity<Resources<TeamResource>> teams() {
         log.info("rest teams()");
         List<TeamDto> allTeams = teamFacade.findAllTeams();

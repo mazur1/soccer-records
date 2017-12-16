@@ -24,8 +24,7 @@ public class TeamEditDto {
     @JsonIgnore
     private List<MatchDto> matchesHome = new ArrayList<>();
     @JsonIgnore
-    private List<MatchDto> matchesAway = new ArrayList<>();
-    
+    private List<MatchDto> matchesAway = new ArrayList<>();    
     
     public String getName() {
         return name;

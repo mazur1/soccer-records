@@ -51,7 +51,7 @@ public class Player extends Auditable<String,Long> {
     private Team team;
 
     @OneToMany(mappedBy = "player")
-    private Set<PlayerResult> playerResults = new HashSet<PlayerResult>();
+    private Set<PlayerResult> playerResults = new HashSet<>();
 
     public Player(Long playerId) {
         this.id = playerId;

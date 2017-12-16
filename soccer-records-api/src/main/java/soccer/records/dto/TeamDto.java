@@ -5,9 +5,7 @@
  */
 package soccer.records.dto;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,14 +13,14 @@ import java.util.List;
  *
  * @author Tomas Mazurek
  */
-@JsonIdentityInfo(
-  generator = ObjectIdGenerators.PropertyGenerator.class, 
-  property = "id")
+//@JsonIdentityInfo(
+//  generator = ObjectIdGenerators.PropertyGenerator.class, 
+//  property = "id")
 public class TeamDto {
     
     private Long id;
     private String name;
-    
+ 
     @JsonIgnore
     private List<PlayerDto> players = new ArrayList<>();
     @JsonIgnore

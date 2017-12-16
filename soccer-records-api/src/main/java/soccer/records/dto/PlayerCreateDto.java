@@ -8,9 +8,9 @@ package soccer.records.dto;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 import javax.validation.constraints.Min;
 import soccer.records.enums.PlayerPost;
 
@@ -36,11 +36,12 @@ public class PlayerCreateDto {
 
     private String country;
     private String city;
-
+    
+    @JsonIgnore
     private TeamDto team;
 
     @JsonIgnore
-    private List<PlayerResultDto> playerResults = new ArrayList<>();
+    private Set<PlayerResultDto> playerResults = new HashSet<PlayerResultDto>();
 
     public PlayerCreateDto() {
     }
@@ -101,11 +102,11 @@ public class PlayerCreateDto {
         return city;
     }    
     
-    public List<PlayerResultDto> getPlayerResults() {
+    public Set<PlayerResultDto> getPlayerResults() {
         return playerResults;
     }
 
-    public void setPlayerResults(List<PlayerResultDto> playerResults) {
+    public void setPlayerResults(Set<PlayerResultDto> playerResults) {
         this.playerResults = playerResults;
     }
     

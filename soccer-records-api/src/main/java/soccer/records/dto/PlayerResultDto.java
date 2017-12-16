@@ -6,6 +6,7 @@
 package soccer.records.dto;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import javax.validation.constraints.Min;
 
@@ -23,9 +24,10 @@ public class PlayerResultDto {
 
     @Min(0)
     private int goalsScored;
-    
+
+    @JsonIgnore
     private PlayerDto player;
-    
+    @JsonIgnore
     private MatchDto match;
 
     public PlayerResultDto() {
@@ -98,7 +100,7 @@ public class PlayerResultDto {
         if (match == null) {
             if (other.getMatch()!= null)
                 return false;
-        } else if (!player.equals(other.getMatch())){
+        } else if (!match.equals(other.getMatch())){
             return false;
         }
         
