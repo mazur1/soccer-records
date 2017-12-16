@@ -51,7 +51,7 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         
         Match match1 = match(barcelona, real);
         
-        PlayerResult pr = playerResult(match1, ronaldo, 2);
+        //PlayerResult pr = playerResult(match1, ronaldo, 2);
     }
 
      private Team team(String name) throws IOException {
@@ -79,7 +79,13 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         Match m = new Match();
         m.setTeamAway(away);
         m.setTeamHome(home);
-        // todo other attributes
+        m.setDateAndTime(null);
+        m.setLocation(null);
+        m.setTeamAwayGoalsScored(0, true);
+        m.setTeamAwayGoalsScored(0, false);
+        m.setTeamHomeGoalsScored(0, true);
+        m.setTeamHomeGoalsScored(0, false);
+        
         matchService.create(m);
         return m;
     }

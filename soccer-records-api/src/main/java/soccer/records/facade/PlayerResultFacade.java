@@ -24,5 +24,9 @@ public interface PlayerResultFacade {
     void deletePlayerResult(Long id);
     List<PlayerResultDto> findAllPlayerResults();
     PlayerResultDto findPlayerResultById(Long id);
+
+    void checkGoalsScoredInMatch(Long id);
+
+    int getPlayerResult(Long id);
     
 }
