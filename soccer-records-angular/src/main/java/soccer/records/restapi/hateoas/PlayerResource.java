@@ -33,7 +33,6 @@ public class PlayerResource extends ResourceSupport {
     private String country;
     private String city;
 
-
     private Set<PlayerResultDto> playerResults = new HashSet<PlayerResultDto>();
 
     public PlayerResource(PlayerDto dto) {

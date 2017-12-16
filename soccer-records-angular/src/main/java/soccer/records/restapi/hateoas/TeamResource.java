@@ -27,7 +27,7 @@ public class TeamResource extends ResourceSupport {
     public TeamResource(TeamDto dto) {
         this.dtoId = dto.getId();
         this.name = dto.getName();
-        this.players = dto.getTeamPlayers();
+        this.players = dto.getPlayers();
     }
 
     public long getDtoId() {

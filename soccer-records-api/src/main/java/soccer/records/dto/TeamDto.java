@@ -13,8 +13,8 @@ import java.util.List;
  * @author Tomas Mazurek
  */
 public class TeamDto {
-    private Long id;
     
+    private Long id;
     private String name;
     
     private List<PlayerDto> players = new ArrayList<PlayerDto>();
@@ -37,11 +37,11 @@ public class TeamDto {
         this.name = name;
     }
     
-    public void addPlayer(PlayerDto p){
-        players.add(p);
+    public void setPlayers(ArrayList<PlayerDto> players){
+        this.players = players;
     }
     
-    public List<PlayerDto> getTeamPlayers() {
+    public List<PlayerDto> getPlayers() {
         return this.players;
     }
     
@@ -51,14 +51,6 @@ public class TeamDto {
     
     public List<MatchDto> getMatchesAway() {
         return this.matchesAway;
-    }
-    
-    public void addMatchHome(MatchDto m){
-        matchesHome.add(m);
-    }
-    
-    public void addMatchAway(MatchDto m){
-        matchesAway.add(m);
     }
     
     @Override
@@ -105,7 +97,7 @@ public class TeamDto {
             return false;
         }
 
-        if (!matchesHome.equals(other.getTeamPlayers())) {
+        if (!matchesHome.equals(other.getPlayers())) {
             return false;
         }                       
         
