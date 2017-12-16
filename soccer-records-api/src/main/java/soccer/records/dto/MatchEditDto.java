@@ -6,6 +6,7 @@
 package soccer.records.dto;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,9 +19,6 @@ import javax.validation.constraints.NotNull;
  *
  * @author Michaela Bocanova
  */
-@JsonIdentityInfo(
-  generator = ObjectIdGenerators.PropertyGenerator.class, 
-  property = "id")
 public class MatchEditDto {
     
     private Date dateAndTime;
@@ -33,10 +31,16 @@ public class MatchEditDto {
     private Integer teamHomeGoalsScoredHalf;
     @Min(0)
     private Integer teamAwayGoalsScoredHalf;
+    
     @NotNull
+    @JsonIgnore
     private TeamDto teamHome;
+    
     @NotNull
+    @JsonIgnore
     private TeamDto teamAway;
+    
+    @JsonIgnore
     private List<PlayerResultDto> playerResults = new ArrayList<>();
     
     public TeamDto getTeamHome() {
