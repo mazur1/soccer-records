@@ -70,9 +70,9 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         Player p110 = player("Jonas", "Vais", 33, PlayerPost.MIDFIELDER, false, plzen, "Praha", "Czech Republic");
         Player p111 = player("Marek", "Bakoš", 30, PlayerPost.GOLMAN, false, plzen, "Praha", "Czech Republic");
  
-        //Match match1 = match(barcelona, real);
+        Match m01 = match(plzen, sparta);
         
-        //PlayerResult pr = playerResult(match1, ronaldo, 2);
+        //PlayerResult pr01 = playerResult(m01, p01, 2);
     }
 
      private Team team(String name) throws IOException {
@@ -95,7 +95,7 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         p.setCountry(Country);
         
         playerService.create(p);
-        teamService.addPlayer(team, p);
+        //teamService.addPlayer(team, p);
 
         return p;
     }
@@ -120,7 +120,7 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         pr.setMatch(match);
         pr.setPlayer(player);
         pr.setGoalsScored(scored);
-        //todo other attributes
+        
         playerResultService.create(pr);
         return pr;
     }

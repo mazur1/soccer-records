@@ -6,10 +6,11 @@
 package soccer.records.dto;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import javax.validation.constraints.Min;
 import soccer.records.enums.PlayerPost;
 
@@ -38,10 +39,9 @@ public class PlayerDto {
     private String country;
     private String city;
 
-    //@JsonManagedReference
     private TeamDto team;
-
-    private Set<PlayerResultDto> playerResults = new HashSet<PlayerResultDto>();
+    @JsonIgnore
+    private List<PlayerResultDto> playerResults = new ArrayList<>();
 
     public PlayerDto() {
     }
@@ -110,11 +110,11 @@ public class PlayerDto {
         return city;
     }    
     
-    public Set<PlayerResultDto> getPlayerResults() {
+    public List<PlayerResultDto> getPlayerResults() {
         return playerResults;
     }
 
-    public void setPlayerResults(Set<PlayerResultDto> playerResults) {
+    public void setPlayerResults(List<PlayerResultDto> playerResults) {
         this.playerResults = playerResults;
     }
     

@@ -5,13 +5,17 @@
  */
 package soccer.records.restapi.hateoas;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import org.springframework.hateoas.ResourceSupport;
 import org.springframework.hateoas.core.Relation;
 import soccer.records.dto.LocationDto;
 import soccer.records.dto.MatchDto;
+import soccer.records.dto.PlayerResultDto;
 import soccer.records.dto.TeamDto;
 
 /**
@@ -32,6 +36,9 @@ public class MatchResource extends ResourceSupport {
     private Integer teamAwayGoalsScored;
     private Integer teamHomeGoalsScoredHalf;
     private Integer teamAwayGoalsScoredHalf;
+
+    @JsonIgnore
+    private List<PlayerResultDto> playerResults = new ArrayList<>();
     
     public MatchResource(MatchDto dto) {
         this.dtoId = dto.getId();

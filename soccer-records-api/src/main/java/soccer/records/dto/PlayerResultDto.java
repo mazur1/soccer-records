@@ -23,7 +23,9 @@ public class PlayerResultDto {
 
     @Min(0)
     private int goalsScored;
+    
     private PlayerDto player;
+    
     private MatchDto match;
 
     public PlayerResultDto() {

@@ -6,6 +6,7 @@
 package soccer.records.dto;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -38,6 +39,7 @@ public class MatchDto {
     private TeamDto teamHome;
     @NotNull
     private TeamDto teamAway;
+    @JsonIgnore
     private List<PlayerResultDto> playerResults = new ArrayList<>();
     
     //private MatchResultDto matchResult;
@@ -61,9 +63,16 @@ public class MatchDto {
     public List<PlayerResultDto> getPlayerResults() {
         return Collections.unmodifiableList(playerResults);
     }
-    
+
+    public void setPlayerResults(List<PlayerResultDto> playerResults) {
+        this.playerResults = playerResults;
+    }
     public void addPlayerResult(PlayerResultDto r) {
         playerResults.add(r);
+    }
+    
+    public void removePlayerResult(PlayerResultDto r) {
+        playerResults.remove(r);
     }
 
     public Long getId() {
