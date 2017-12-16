@@ -84,7 +84,7 @@ public class PlayerResultFacadeTest extends AbstractTestNGSpringContextTests {
         p1Dto.setId(1L);
         p1Dto.setName("Ján");
         p1Dto.setAge(22);
-        p1Dto.setIsCaptian(false);
+        p1Dto.setIsCaptain(false);
         p1Dto.setSurname("Suchý");
         p1Dto.setPost(PlayerPost.GOLMAN);
         p1Dto.setTeam(t1Dto);
@@ -93,7 +93,7 @@ public class PlayerResultFacadeTest extends AbstractTestNGSpringContextTests {
         p2Dto.setId(2L);
         p2Dto.setName("Igor");
         p2Dto.setAge(21);
-        p2Dto.setIsCaptian(false);
+        p2Dto.setIsCaptain(false);
         p2Dto.setSurname("Vysoký");
         p2Dto.setPost(PlayerPost.GOLMAN);
         p2Dto.setTeam(t2Dto);

@@ -42,7 +42,7 @@ public class Player extends Auditable<String,Long> {
 
     @NotNull
     @Column(nullable = false)
-    private boolean captian;
+    private boolean captain;
 
     private String country;
     private String city;
@@ -100,12 +100,12 @@ public class Player extends Auditable<String,Long> {
         this.post = post;
     }
 
-    public boolean isCaptian() {
-        return captian;
+    public boolean isCaptain() {
+        return captain;
     }
 
-    public void setCaptian(boolean captian) {
-        this.captian = captian;
+    public void setCaptain(boolean captain) {
+        this.captain = captain;
     }
 
     public String getCountry() {
@@ -173,7 +173,7 @@ public class Player extends Auditable<String,Long> {
         result = prime * result + ((surname == null) ? 0 : surname.hashCode());
         result = prime * result + age;
         result = prime * result + ((post == null) ? 0 : post.hashCode());
-        result = prime * result + (captian ? 1 : 0);        
+        result = prime * result + (captain ? 1 : 0);        
         result = prime * result + ((country == null) ? 0 : country.hashCode());
         result = prime * result + ((city == null) ? 0 : city.hashCode());
         result = prime * result + ((team == null) ? 0 : team.hashCode());
@@ -211,7 +211,7 @@ public class Player extends Auditable<String,Long> {
             return false;
         }
         
-        if (captian != other.isCaptian()){
+        if (captain != other.isCaptain()){
             return false;
         }       
   
