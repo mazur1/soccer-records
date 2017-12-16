@@ -61,7 +61,7 @@ public class PlayerTest extends AbstractTestNGSpringContextTests {
         p1.setName("Karel");
         p1.setSurname("Novák");
         p1.setAge(10);
-        p1.setCaptian(true);
+        p1.setCaptain(true);
         p1.setCity("Jihlava");
         p1.setCountry("Czech Republic");
         p1.setPost(PlayerPost.GOLMAN);
