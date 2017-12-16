@@ -62,7 +62,7 @@ public class PlayerRestController {
      * @return list of players
      */
     // ../players
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
     public HttpEntity<Resources<PlayerResource>> players() {
         log.info("rest players()");
         List<PlayerDto> allPlayers = playerFacade.findAllPlayers();
@@ -81,7 +81,7 @@ public class PlayerRestController {
      * @throws Exception if player not found
      */
     // .. /players/{id}
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
     public HttpEntity<PlayerResource> player(@PathVariable("id") long id) throws Exception {
         log.debug("rest player({})", id);
         PlayerDto playerDto = playerFacade.findPlayerById(id);

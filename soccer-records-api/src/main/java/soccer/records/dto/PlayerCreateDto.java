@@ -6,6 +6,7 @@
 package soccer.records.dto;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.util.HashSet;
 import java.util.Objects;
@@ -35,9 +36,11 @@ public class PlayerCreateDto {
 
     private String country;
     private String city;
-
+    
+    @JsonIgnore
     private TeamDto team;
 
+    @JsonIgnore
     private Set<PlayerResultDto> playerResults = new HashSet<PlayerResultDto>();
 
     public PlayerCreateDto() {
