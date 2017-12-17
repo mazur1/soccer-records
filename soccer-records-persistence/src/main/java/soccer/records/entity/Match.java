@@ -29,13 +29,13 @@ public class Match extends Auditable<String,Long> {
     @Embedded 
     private Location location;
     @Min(0)
-    private int teamHomeGoalsScored=0;
+    private int teamHomeGoalsScored;
     @Min(0)
-    private int teamAwayGoalsScored=0;
+    private int teamAwayGoalsScored;
     @Min(0)
-    private int teamHomeGoalsScoredHalf=0;
+    private int teamHomeGoalsScoredHalf;
     @Min(0)
-    private int teamAwayGoalsScoredHalf=0;
+    private int teamAwayGoalsScoredHalf;
     @NotNull
     @ManyToOne
     private Team teamHome;

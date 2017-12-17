@@ -17,7 +17,8 @@ soccerRecordspApp.config(['$routeProvider',
             when('/teams/:teamId', {templateUrl: 'partials/detail/team.html', controller: 'TeamDetailController'}).
             when('/players/:playerId', {templateUrl: 'partials/detail/player.html', controller: 'PlayerDetailController'}).            
             when('/matches/:matchId', {templateUrl: 'partials/detail/match.html', controller: 'MatchDetailController'}).
-            when('/newmatch', {templateUrl: 'partials/new_match.html', controller: 'NewMatchCtrl'}).
+            when('/newmatch', {templateUrl: 'partials/admin/new_match.html', controller: 'NewMatchCtrl'}).
+            //when('/newplayerresult', {templateUrl: 'partials/admin/new_player_result.html'}).
             otherwise({redirectTo: '/home'});
     }]);
 
@@ -157,6 +158,12 @@ soccerControllers.controller('MatchDetailController', function ($scope, $routePa
         console.log(error);
         $scope.errorAlert = error;
     });
+    
+    $scope.IsHidden = true;
+    $scope.ShowHide = function () {
+        //If DIV is hidden it will be visible and vice versa.
+        $scope.IsHidden = $scope.IsHidden ? false : true;
+    }
 });
 
 soccerControllers.controller('NewMatchController',
@@ -166,7 +173,7 @@ soccerControllers.controller('NewMatchController',
         $scope.match = {
             'team': ''
         };
-        // function called when submit button is clicked, creates product on server
+        // function called when submit button is clicked, creates match on server
         $scope.create = function (match) {
             $http({
                 method: 'POST',

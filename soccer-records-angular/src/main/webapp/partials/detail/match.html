@@ -11,11 +11,13 @@
         
         Result: <span style="color: red; font-weight: bold;">{{match.teamHomeGoalsScored}} : {{match.teamAwayGoalsScored}}</span> ({{match.teamHomeGoalsScored}} : {{match.teamAwayGoalsScored}})
     </div>
-     
-    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-    Add player result
     
     
+    <input type="button" value="Add player result" ng-click="ShowHide()" />
+        <br />
+        <div ng-hide = "IsHidden" ng-include="'/pa165/partials/admin/new_player_result.html'"></div>
+        <br />
+
     
     <table class="table">
         <thead>
