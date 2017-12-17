@@ -19,7 +19,9 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/layout.css" />
     
     </head>
+    
     <body>
+        
         <!-- navigation bar -->
         <nav class="navbar navbar-inverse navbar-static-top">
             <div class="container">
@@ -37,7 +39,7 @@
                         <li><a href="#!/teams">Teams list</a></li>
                         <li><a href="#!/players">Players list</a></li>
                         <li><a href="#!/matches">Matches list</a></li>
-
+                        <li><a href="#!/results">Players result list</a></li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin<b class="caret"></b></a>
                             <ul class="dropdown-menu">
@@ -47,15 +49,33 @@
                             </ul>
                         </li>
                     </ul>
-                </div><!--/.nav-collapse -->
+                                    
+                    <div id="login" class="collapse navbar-collapse pull-right">
+                        <ul class="nav navbar-nav">
+                             <li>
+                                 <a href="#!/login">Log in</a>
+                             </li>
+                        </ul>
+                    </div>
+
+                    <div style="display: none !important;" id="logged" class="collapse navbar-collapse pull-right">
+                        <ul class="nav navbar-nav">
+                             <li>
+                                 
+                             </li>
+                        </ul>
+                    </div>                    
+                    
+                </div>
+                 <!--/.nav-collapse -->
             </div>
         </nav>
 
         <main>
 
-            <div class="container">
+            <div ng-app="soccerRecordspApp" class="container">
 
-                <div ng-app="soccerRecordspApp"><!-- AngularJS takes care of this element -->
+                <div><!-- AngularJS takes care of this element -->
 
                     <!-- Bootstrap-styled alerts, visible when $rootScope.xxxAlert is defined -->
                     <div ng-show="warningAlert" class="alert alert-warning alert-dismissible" role="alert">
