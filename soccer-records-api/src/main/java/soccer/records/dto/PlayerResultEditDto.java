@@ -15,6 +15,8 @@ import javax.validation.constraints.Min;
  * @author Radim VIdlák
  */
 public class PlayerResultEditDto {
+   
+    private Long id;    
     
     @Min(0)
     private int goalsScored;
@@ -29,6 +31,14 @@ public class PlayerResultEditDto {
     public PlayerResultEditDto(PlayerDto p, MatchDto m) {
         this.player = p;
         this.match = m;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public int getGoalsScored() {

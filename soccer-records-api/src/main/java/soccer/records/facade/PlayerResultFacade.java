@@ -6,7 +6,9 @@
 package soccer.records.facade;
 
 import java.util.List;
+import soccer.records.dto.PlayerResultCreateDto;
 import soccer.records.dto.PlayerResultDto;
+import soccer.records.dto.PlayerResultEditDto;
 
 /**
  *
@@ -19,8 +21,8 @@ public interface PlayerResultFacade {
     void removePlayerGoals(Long playerID);
     void removeMatchGoals(Long matchID);
     
-    Long createPlayerResult(PlayerResultDto t);
-    void updatePlayerResult(PlayerResultDto t);
+    Long createPlayerResult(PlayerResultCreateDto t);
+    void updatePlayerResult(PlayerResultEditDto t);
     void deletePlayerResult(Long id);
     List<PlayerResultDto> findAllPlayerResults();
     PlayerResultDto findPlayerResultById(Long id);

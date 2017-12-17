@@ -22,7 +22,9 @@ import org.testng.annotations.Test;
 import soccer.records.config.ServiceConfiguration;
 import soccer.records.dto.MatchDto;
 import soccer.records.dto.PlayerDto;
+import soccer.records.dto.PlayerResultCreateDto;
 import soccer.records.dto.PlayerResultDto;
+import soccer.records.dto.PlayerResultEditDto;
 import soccer.records.dto.TeamDto;
 import soccer.records.entity.PlayerResult;
 import soccer.records.enums.PlayerPost;
@@ -60,6 +62,12 @@ public class PlayerResultFacadeTest extends AbstractTestNGSpringContextTests {
     
     @Mock
     private PlayerResultDto pr1Dto;
+
+    @Mock
+    private PlayerResultCreateDto pr1CreateDto;
+
+    @Mock
+    private PlayerResultEditDto pr1EditDto;
     
     @Mock
     private PlayerResult pr1;
@@ -72,14 +80,17 @@ public class PlayerResultFacadeTest extends AbstractTestNGSpringContextTests {
     
     @BeforeMethod 
     public void preparePlayerResults() {
+        
         t1Dto = new TeamDto();
         t1Dto.setId(1L);
         t1Dto.setName("A");
         //teamFacade.create(t1Dto);  
+        
         t2Dto = new TeamDto();
         t2Dto.setId(2L);
         t2Dto.setName("H");
         //teamService.create(t2Dto);
+        
         p1Dto = new PlayerDto();
         p1Dto.setId(1L);
         p1Dto.setName("Ján");
@@ -89,6 +100,7 @@ public class PlayerResultFacadeTest extends AbstractTestNGSpringContextTests {
         p1Dto.setPost(PlayerPost.GOLMAN);
         p1Dto.setTeam(t1Dto);
         //playerDao.create(p1);
+        
         p2Dto = new PlayerDto();
         p2Dto.setId(2L);
         p2Dto.setName("Igor");
@@ -98,29 +110,37 @@ public class PlayerResultFacadeTest extends AbstractTestNGSpringContextTests {
         p2Dto.setPost(PlayerPost.GOLMAN);
         p2Dto.setTeam(t2Dto);
         //playerDao.create(p2);
+        
         m1Dto = new MatchDto();
         m1Dto.setId(1L);
         m1Dto.setTeamAway(t1Dto);
         m1Dto.setTeamHome(t2Dto);
         //matchDao.create(m1);
-        //matchDao.create(m2);
+        
         pr1Dto = new PlayerResultDto();
         pr1Dto.setId(1L);
         pr1Dto.setMatch(m1Dto);
         pr1Dto.setPlayer(p1Dto);
+        pr1Dto.setGoalsScored(3);
         //playerResultDao.create(pr1);
+        
+        pr1CreateDto = new PlayerResultCreateDto(p1Dto, m1Dto);
+        
+        pr1EditDto = new PlayerResultEditDto(p1Dto, m1Dto);
+        //pr1EditDto.setGoalsScored(3);
+        
     }    
     @Test
     public void createPlayerResult() {
-        Mockito.when(mappingService.mapTo(pr1Dto, PlayerResult.class)).thenReturn(pr1);
-        playerResultFacade.createPlayerResult(pr1Dto);
+        Mockito.when(mappingService.mapTo(pr1CreateDto, PlayerResult.class)).thenReturn(pr1);
+        playerResultFacade.createPlayerResult(pr1CreateDto);
         Mockito.verify(playerResultService).create(pr1);
     }
     
     @Test
     public void updatePlayerResult() {
-        Mockito.when(mappingService.mapTo(pr1Dto, PlayerResult.class)).thenReturn(pr1);
-        playerResultFacade.updatePlayerResult(pr1Dto);
+        Mockito.when(mappingService.mapTo(pr1EditDto, PlayerResult.class)).thenReturn(pr1);
+        playerResultFacade.updatePlayerResult(pr1EditDto);
         Mockito.verify(playerResultService).update(pr1);
     }
     

@@ -74,7 +74,7 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         Player p19 = player("Václav", "Pilaø", 28, PlayerPost.MIDFIELDER, false, plzen, "Praha", "Czech Republic");
         Player p110 = player("Jonas", "Vais", 33, PlayerPost.MIDFIELDER, false, plzen, "Praha", "Czech Republic");
         Player p111 = player("Marek", "Bakoš", 30, PlayerPost.GOLMAN, false, plzen, "Praha", "Czech Republic");
- 
+
         Match m01 = match(plzen, sparta);
         
         //PlayerResult pr01 = playerResult(m01, p01, 2);
@@ -83,7 +83,7 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         admin.addRole(AppRole.ADMIN);
         admin.setEmail("admin@localhost.com");
         userService.registerUser(admin, "admin");
-        
+
     }
 
      private Team team(String name) throws IOException {
