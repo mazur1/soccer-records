@@ -23,8 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 import soccer.records.dto.PlayerResultCreateDto;
 import soccer.records.dto.PlayerResultDto;
 
-import soccer.records.dto.MatchDto;
-import soccer.records.dto.PlayerDto;
 
 import soccer.records.facade.PlayerResultFacade;
 
@@ -41,7 +39,7 @@ import soccer.records.restapi.hateoas.PlayerResultResourceAssembler;
  */
 @RestController
 @RequestMapping("/results")
-@ExposesResourceFor(MatchDto.class)
+@ExposesResourceFor(PlayerResultDto.class)
 public class PlayerResultRestController {
     
     private final static Logger log = LoggerFactory.getLogger(PlayerResultRestController.class);

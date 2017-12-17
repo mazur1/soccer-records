@@ -1,6 +1,5 @@
 package soccer.records.entity;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -23,20 +22,20 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table(name="SoccerMatch")
-public class Match extends Auditable<String,Long> implements Serializable {
+public class Match extends Auditable<String,Long> {
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateAndTime;
     @Embedded 
     private Location location;
     @Min(0)
-    private Integer teamHomeGoalsScored=0;
+    private int teamHomeGoalsScored=0;
     @Min(0)
-    private Integer teamAwayGoalsScored=0;
+    private int teamAwayGoalsScored=0;
     @Min(0)
-    private Integer teamHomeGoalsScoredHalf=0;
+    private int teamHomeGoalsScoredHalf=0;
     @Min(0)
-    private Integer teamAwayGoalsScoredHalf=0;
+    private int teamAwayGoalsScoredHalf=0;
     @NotNull
     @ManyToOne
     private Team teamHome;
@@ -94,7 +93,7 @@ public class Match extends Auditable<String,Long> implements Serializable {
         this.location = location;
     }
 
-    public Integer getTeamHomeGoalsScored(boolean halftime) {
+    public int getTeamHomeGoalsScored(boolean halftime) {
         if (halftime)
             return teamHomeGoalsScoredHalf;
         return teamHomeGoalsScored;
@@ -107,7 +106,7 @@ public class Match extends Auditable<String,Long> implements Serializable {
             this.teamHomeGoalsScored = teamHomeGoalsScored;
     }
 
-    public Integer getTeamAwayGoalsScored(boolean halftime) {
+    public int getTeamAwayGoalsScored(boolean halftime) {
         if (halftime)
             return teamAwayGoalsScoredHalf;
         return teamAwayGoalsScored;
@@ -120,13 +119,13 @@ public class Match extends Auditable<String,Long> implements Serializable {
             this.teamAwayGoalsScored = teamAwayGoalsScored;
     }
         
-    public Integer getTeamHomeGoalsReceived(boolean halftime) {
+    public int getTeamHomeGoalsReceived(boolean halftime) {
         if (halftime)
             return teamAwayGoalsScoredHalf;
         return teamAwayGoalsScored;
     }
     
-    public Integer getTeamAwayGoalsReceived(boolean halftime) {
+    public int getTeamAwayGoalsReceived(boolean halftime) {
         if (halftime)
             return teamHomeGoalsScoredHalf;
         return teamHomeGoalsScored;
@@ -165,12 +164,6 @@ public class Match extends Auditable<String,Long> implements Serializable {
         result = prime * result + ((location == null) ? 0 : location.hashCode());
         result = prime * result + ((teamHome == null) ? 0 : teamHome.hashCode());
         result = prime * result + ((teamAway == null) ? 0 : teamAway.hashCode());
-        
-        //netreba
-        result = prime * result + ((teamHomeGoalsScored == null) ? 0 : teamHomeGoalsScored.hashCode());
-        result = prime * result + ((teamHomeGoalsScoredHalf == null) ? 0 : teamHomeGoalsScoredHalf.hashCode());
-        result = prime * result + ((teamAwayGoalsScored == null) ? 0 : teamAwayGoalsScored.hashCode());
-        result = prime * result + ((teamAwayGoalsScoredHalf == null) ? 0 : teamAwayGoalsScoredHalf.hashCode());
         
         return result;
     }
@@ -227,9 +220,7 @@ public class Match extends Auditable<String,Long> implements Serializable {
             return false;
         }
         
-        //if(dateAndTime != null && location != null) return true;
-        
-        if (teamHomeGoalsScored == null) {
+        /*if (teamHomeGoalsScored == null) {
             if (other.getTeamHomeGoalsScored(false) != null) {
                 return false;
             }
@@ -259,7 +250,7 @@ public class Match extends Auditable<String,Long> implements Serializable {
             }
         } else if (!teamAwayGoalsScoredHalf.equals(other.getTeamAwayGoalsScored(true))) {
             return false;
-        }
+        }*/
                 
         return true;
     }

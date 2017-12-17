@@ -7,21 +7,18 @@ package soccer.records.restapi.hateoas;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import java.util.Date;
 import org.springframework.hateoas.ResourceSupport;
 import org.springframework.hateoas.core.Relation;
-import soccer.records.dto.LocationDto;
 import soccer.records.dto.MatchDto;
 import soccer.records.dto.PlayerDto;
 import soccer.records.dto.PlayerResultDto;
-import soccer.records.dto.TeamDto;
 
 /**
  *
  * @author Radim Vidlák
  */
 
-//@Relation(value = "match", collectionRelation = "matches")
+@Relation(value = "playerResult", collectionRelation = "playerResults")
 @JsonPropertyOrder({"id", "player", "match", "goalsScored"})
 public class PlayerResultResource extends ResourceSupport{
 
