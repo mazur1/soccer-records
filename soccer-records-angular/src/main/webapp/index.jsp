@@ -20,7 +20,7 @@
     
     </head>
     
-    <body ng-app="soccerRecordspApp">
+    <body>
         
         <!-- navigation bar -->
         <nav class="navbar navbar-inverse navbar-static-top">
@@ -67,13 +67,13 @@
                     </div>                    
                     
                 </div>
-                <!--/.nav-collapse -->
+                 <!--/.nav-collapse -->
             </div>
         </nav>
 
         <main>
 
-            <div class="container">
+            <div ng-app="soccerRecordspApp" class="container">
 
                 <div><!-- AngularJS takes care of this element -->
 
