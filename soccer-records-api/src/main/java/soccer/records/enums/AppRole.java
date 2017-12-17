@@ -10,5 +10,5 @@ package soccer.records.enums;
  * @author Michaela Bocanova
  */
 public enum AppRole {
-    ADMIN, MANAGER 
+    ADMIN, MANAGER
 }

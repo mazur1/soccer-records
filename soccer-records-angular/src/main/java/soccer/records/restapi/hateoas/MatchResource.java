@@ -7,11 +7,14 @@ package soccer.records.restapi.hateoas;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import org.springframework.hateoas.ResourceSupport;
 import org.springframework.hateoas.core.Relation;
 import soccer.records.dto.LocationDto;
 import soccer.records.dto.MatchDto;
+import soccer.records.dto.PlayerResultDto;
 import soccer.records.dto.TeamDto;
 
 /**
@@ -19,11 +22,11 @@ import soccer.records.dto.TeamDto;
  * @author Michaela Bocanova
  */
 @Relation(value = "match", collectionRelation = "matches")
-@JsonPropertyOrder({"id", "teamhome", "teamaway", "dateAndTime", "location", "teamHomeGoalsScored", "teamAwayGoalsScored"})
+@JsonPropertyOrder({"id", "teamHome", "teamAway", "dateAndTime", "location", "teamHomeGoalsScored", "teamAwayGoalsScored"})
 public class MatchResource extends ResourceSupport {
     
     @JsonProperty("id") 
-    private long dtoId;
+    private Long dtoId;
     private TeamDto teamHome;
     private TeamDto teamAway;
     private Date dateAndTime;
@@ -32,6 +35,8 @@ public class MatchResource extends ResourceSupport {
     private Integer teamAwayGoalsScored;
     private Integer teamHomeGoalsScoredHalf;
     private Integer teamAwayGoalsScoredHalf;
+
+    private List<PlayerResultDto> playerResults = new ArrayList<>();
     
     public MatchResource(MatchDto dto) {
         this.dtoId = dto.getId();
@@ -109,6 +114,14 @@ public class MatchResource extends ResourceSupport {
 
     public void setTeamAwayGoalsScoredHalf(Integer teamAwayGoalsScoredHalf) {
         this.teamAwayGoalsScoredHalf = teamAwayGoalsScoredHalf;
+    }
+
+    public List<PlayerResultDto> getPlayerResults() {
+        return playerResults;
+    }
+
+    public void setPlayerResults(List<PlayerResultDto> playerResults) {
+        this.playerResults = playerResults;
     }
     
 }

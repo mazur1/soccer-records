@@ -10,7 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import soccer.records.entity.*;
+import soccer.records.enums.AppRole;
 import soccer.records.enums.PlayerPost;
+import soccer.records.services.AppUserService;
 import soccer.records.services.MatchService;
 import soccer.records.services.PlayerResultService;
 import soccer.records.services.PlayerService;
@@ -37,6 +39,9 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         
     @Autowired
     private PlayerResultService playerResultService;
+    
+    @Autowired
+    private AppUserService userService;
         
     @Override
     @SuppressWarnings("unused")
@@ -69,10 +74,16 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         Player p19 = player("Václav", "Pilaø", 28, PlayerPost.MIDFIELDER, false, plzen, "Praha", "Czech Republic");
         Player p110 = player("Jonas", "Vais", 33, PlayerPost.MIDFIELDER, false, plzen, "Praha", "Czech Republic");
         Player p111 = player("Marek", "Bakoš", 30, PlayerPost.GOLMAN, false, plzen, "Praha", "Czech Republic");
- 
-        //Match match1 = match(plzen, sparta);
+
+        Match m01 = match(plzen, sparta);
         
-        //PlayerResult pr = playerResult(match1, p01, 2);
+        //PlayerResult pr01 = playerResult(m01, p01, 2);
+        
+        AppUser admin = new AppUser();
+        admin.addRole(AppRole.ADMIN);
+        admin.setEmail("admin@localhost.com");
+        userService.registerUser(admin, "admin");
+
     }
 
      private Team team(String name) throws IOException {
@@ -95,7 +106,7 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         p.setCountry(Country);
         
         playerService.create(p);
-        teamService.addPlayer(team, p);
+        //teamService.addPlayer(team, p);
 
         return p;
     }
@@ -104,12 +115,12 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         Match m = new Match();
         m.setTeamAway(away);
         m.setTeamHome(home);
-        m.setDateAndTime(null);
+        /*m.setDateAndTime(null);
         m.setLocation(null);
         m.setTeamAwayGoalsScored(0, true);
         m.setTeamAwayGoalsScored(0, false);
         m.setTeamHomeGoalsScored(0, true);
-        m.setTeamHomeGoalsScored(0, false);
+        m.setTeamHomeGoalsScored(0, false);*/
         
         matchService.create(m);
         return m;
@@ -120,7 +131,7 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         pr.setMatch(match);
         pr.setPlayer(player);
         pr.setGoalsScored(scored);
-        //todo other attributes
+        
         playerResultService.create(pr);
         return pr;
     }

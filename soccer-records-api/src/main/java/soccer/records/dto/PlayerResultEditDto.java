@@ -95,7 +95,7 @@ public class PlayerResultEditDto {
         if (match == null) {
             if (other.getMatch()!= null)
                 return false;
-        } else if (!player.equals(other.getMatch())){
+        } else if (!match.equals(other.getMatch())){
             return false;
         }
         

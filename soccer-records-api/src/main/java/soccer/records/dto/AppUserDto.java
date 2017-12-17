@@ -19,6 +19,10 @@ public class AppUserDto {
     private String email;
     
     private String username;
+    
+    /*private String firstname;
+    
+    private String lastname;*/
 
     public AppUserDto(){
         
@@ -87,7 +91,6 @@ public class AppUserDto {
     public String toString() {
         return "UserDto{" +
                 "id=" + id +
-                ", passwordHash='" + passwordHash + '\'' +
                 ", email='" + email + '\'' +
                 ", username='" + username + '\'' +
                 '}';

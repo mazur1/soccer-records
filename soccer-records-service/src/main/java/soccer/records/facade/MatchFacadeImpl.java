@@ -61,7 +61,9 @@ public class MatchFacadeImpl implements MatchFacade {
 
     @Override
     public List<MatchDto> findAllMatches() {
-        return beanMappingService.mapTo(matchService.findAll(), MatchDto.class);
+        List<Match> matches = matchService.findAll();
+        List<MatchDto> mapped = beanMappingService.mapTo(matches, MatchDto.class);
+        return mapped;
     }
 
     @Override

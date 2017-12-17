@@ -2,7 +2,6 @@ package soccer.records.restapi.hateoas;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import java.util.ArrayList;
 import java.util.List;
 import soccer.records.dto.TeamDto;
 import org.springframework.hateoas.ResourceSupport;

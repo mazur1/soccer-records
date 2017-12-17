@@ -5,9 +5,7 @@
  */
 package soccer.records.dto;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -39,7 +37,7 @@ public class MatchCreateDto {
     @NotNull
     @JsonIgnore
     private TeamDto teamAway;
-    
+
     @JsonIgnore
     private List<PlayerResultDto> playerResults = new ArrayList<>();
     
@@ -61,9 +59,17 @@ public class MatchCreateDto {
     public List<PlayerResultDto> getPlayerResults() {
         return Collections.unmodifiableList(playerResults);
     }
+
+    public void setPlayerResults(List<PlayerResultDto> playerResults) {
+        this.playerResults = playerResults;
+    }
     
     public void addPlayerResult(PlayerResultDto r) {
         playerResults.add(r);
+    }
+    
+    public void removePlayerResult(PlayerResultDto r) {
+        playerResults.remove(r);
     }
 
     public Date getDateAndTime() {

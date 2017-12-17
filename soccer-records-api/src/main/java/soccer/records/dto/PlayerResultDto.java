@@ -21,6 +21,7 @@ public class PlayerResultDto {
 
     @Min(0)
     private int goalsScored;
+
     @JsonIgnore
     private PlayerDto player;
     @JsonIgnore
@@ -96,7 +97,7 @@ public class PlayerResultDto {
         if (match == null) {
             if (other.getMatch()!= null)
                 return false;
-        } else if (!player.equals(other.getMatch())){
+        } else if (!match.equals(other.getMatch())){
             return false;
         }
         

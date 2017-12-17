@@ -6,13 +6,16 @@
 package soccer.records.facade;
 
 import java.util.Collection;
+import java.util.List;
 import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import soccer.records.dto.AppUserAuthenticationDto;
 import soccer.records.dto.AppUserDto;
+import soccer.records.dto.AppUserRegisterDto;
 import soccer.records.entity.AppUser;
+import soccer.records.enums.AppRole;
 import soccer.records.services.AppUserService;
 import soccer.records.services.BeanMappingService;
 
@@ -49,10 +52,10 @@ public class AppUserFacadeImpl implements AppUserFacade {
     }
     
     @Override
-    public void registerUser(AppUserDto userDto, String unencryptedPassword) {
+    public void registerUser(AppUserRegisterDto userDto) {
         AppUser user = beanMappingService.mapTo(userDto, AppUser.class);
-        userService.registerUser(user, unencryptedPassword);
-        userDto.setId(user.getId());
+        userService.registerUser(user, userDto.getUnencryptedPassword());
+        //userDto.setId(user.getId());
     }
 
     @Override
@@ -62,7 +65,8 @@ public class AppUserFacadeImpl implements AppUserFacade {
     }
 
     @Override
-    public boolean isAdmin(AppUserDto u) {
-        return userService.isAdmin(beanMappingService.mapTo(u, AppUser.class));
+    public boolean authorize(AppUserDto u, List<AppRole> roleAccess) {
+        return userService.authorize(
+                userService.findById(u.getId()), roleAccess);
     }
 }

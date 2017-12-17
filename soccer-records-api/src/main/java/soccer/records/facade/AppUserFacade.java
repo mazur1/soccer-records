@@ -1,8 +1,11 @@
 package soccer.records.facade;
 
 import java.util.Collection;
+import java.util.List;
 import soccer.records.dto.AppUserAuthenticationDto;
 import soccer.records.dto.AppUserDto;
+import soccer.records.dto.AppUserRegisterDto;
+import soccer.records.enums.AppRole;
 
 /**
  *
@@ -18,8 +21,8 @@ public interface AppUserFacade {
 
     AppUserDto findUserByUsername(String name);
 
-    boolean isAdmin(AppUserDto u);
+    boolean authorize(AppUserDto u, List<AppRole> roleAccess);
 
-    void registerUser(AppUserDto userDto, String unencryptedPassword);
+    void registerUser(AppUserRegisterDto userDto);
     
 }

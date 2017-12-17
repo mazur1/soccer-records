@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
   property = "id")
 public class AppUserAuthenticationDto {
     
-    private Long userId;
+    private Long userId;//private String username
     private String password;
 
     public Long getUserId()

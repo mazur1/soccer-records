@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 import soccer.records.dao.AppUserDao;
 import soccer.records.entity.AppUser;
+import soccer.records.enums.AppRole;
 
 /**
  *
@@ -32,8 +33,8 @@ public class AppUserServiceImpl implements AppUserService {
     }
     
     @Override
-    public boolean isAdmin(AppUser u) {
-        return findById(u.getId()).isAdmin();
+    public boolean authorize(AppUser u, List<AppRole> roleAccess) {
+        return u.getRoles().stream().anyMatch(p -> roleAccess.contains(p));
     }
     
     @Override

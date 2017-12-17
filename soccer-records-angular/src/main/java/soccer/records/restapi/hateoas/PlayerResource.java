@@ -2,9 +2,8 @@ package soccer.records.restapi.hateoas;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import java.util.HashSet;
-import java.util.Set;
-import javax.validation.constraints.Min;
+import java.util.ArrayList;
+import java.util.List;
 import soccer.records.dto.PlayerDto;
 import org.springframework.hateoas.ResourceSupport;
 import org.springframework.hateoas.core.Relation;
@@ -33,7 +32,7 @@ public class PlayerResource extends ResourceSupport {
     private String country;
     private String city;
 
-    private Set<PlayerResultDto> playerResults = new HashSet<PlayerResultDto>();
+    private List<PlayerResultDto> playerResults = new ArrayList<>();
 
     public PlayerResource(PlayerDto dto) {
         this.dtoId = dto.getId();
@@ -115,11 +114,11 @@ public class PlayerResource extends ResourceSupport {
         this.city = city;
     }
 
-    public Set<PlayerResultDto> getPlayerResults() {
+    public List<PlayerResultDto> getPlayerResults() {
         return playerResults;
     }
 
-    public void setPlayerResults(Set<PlayerResultDto> playerResults) {
+    public void setPlayerResults(List<PlayerResultDto> playerResults) {
         this.playerResults = playerResults;
     }
 }

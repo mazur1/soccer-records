@@ -16,14 +16,11 @@ public class TeamCreateDto {
     private String name;
     
     @JsonIgnore
-    private List<PlayerDto> players = new ArrayList<PlayerDto>();
-    
+    private List<PlayerDto> players = new ArrayList<>();
     @JsonIgnore
-    private List<MatchDto> matchesHome = new ArrayList<MatchDto>();
-    
+    private List<MatchDto> matchesHome = new ArrayList<>();
     @JsonIgnore
-    private List<MatchDto> matchesAway = new ArrayList<MatchDto>();
-    
+    private List<MatchDto> matchesAway = new ArrayList<>();    
     
     public String getName() {
         return name;

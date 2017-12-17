@@ -8,6 +8,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import soccer.records.PersistenceAppContext;
+import soccer.records.entity.Team;
+import soccer.records.dto.TeamDto;
 
 @Configuration
 @Import(PersistenceAppContext.class)
@@ -34,7 +36,7 @@ public class ServiceConfiguration {
     public class DozerCustomConfig extends BeanMappingBuilder {
         @Override
         protected void configure() {
-
+            mapping(Team.class, TeamDto.class);
         }
     }
 	

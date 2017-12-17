@@ -5,11 +5,7 @@
  */
 package soccer.records.dto;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -37,14 +33,12 @@ public class PlayerDto {
 
     private String country;
     private String city;
-
-
     
     @JsonIgnore
     private TeamDto team;
 
     @JsonIgnore
-    private Set<PlayerResultDto> playerResults = new HashSet<PlayerResultDto>();
+    private Set<PlayerResultDto> playerResults = new HashSet<>();
 
     public PlayerDto() {
     }
