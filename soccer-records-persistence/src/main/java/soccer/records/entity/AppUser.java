@@ -31,7 +31,7 @@ public class AppUser extends Auditable<String,Long> {
     @Size(max = 30, message = "not longer than 30 chars")
     private String email;
     
-    @Column(nullable = false, unique = true)
+    @Column(unique = true)
     @Size(max = 30, message = "not longer than 30 chars")
     private String username;
     	

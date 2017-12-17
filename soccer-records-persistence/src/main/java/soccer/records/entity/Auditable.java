@@ -2,6 +2,7 @@ package soccer.records.entity;
 
 import java.util.Date;
 import java.util.Objects;
+import javax.persistence.Column;
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Temporal;
@@ -17,13 +18,17 @@ import javax.persistence.TemporalType;
 @EntityListeners(TimestampStringAuditListener.class)
 public abstract class Auditable<TUser, TKey> extends DefaultEntity<TKey> {
     
+    @Column(updatable = false, nullable = false)
     protected TUser createdBy;
     
+    @Column(updatable = false, nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     protected Date creationDate;
     
+    @Column(nullable = false)
     protected TUser lastModifiedBy;
     
+    @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     protected Date lastModifiedDate;
 

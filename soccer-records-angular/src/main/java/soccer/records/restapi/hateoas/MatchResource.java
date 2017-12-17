@@ -22,11 +22,11 @@ import soccer.records.dto.TeamDto;
  * @author Michaela Bocanova
  */
 @Relation(value = "match", collectionRelation = "matches")
-@JsonPropertyOrder({"id", "teamhome", "teamaway", "dateAndTime", "location", "teamHomeGoalsScored", "teamAwayGoalsScored"})
+@JsonPropertyOrder({"id", "teamHome", "teamAway", "dateAndTime", "location", "teamHomeGoalsScored", "teamAwayGoalsScored"})
 public class MatchResource extends ResourceSupport {
     
     @JsonProperty("id") 
-    private long dtoId;
+    private Long dtoId;
     private TeamDto teamHome;
     private TeamDto teamAway;
     private Date dateAndTime;

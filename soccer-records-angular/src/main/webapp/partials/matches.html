@@ -12,16 +12,14 @@
     <thead>
     <tr>
         <th>team home</th>
-        <th>team away</th>
     </tr>
     </thead>
     <tbody>
         <tr ng-repeat="match in matches track by $index">
             <td><a href="#!/matches/{{match.id}}">{{match.teamHome.name}}</a></td>
-            <td><a href="#!/matches/{{match.id}}">{{match.teamAway.name}}</a></td>
-            <td>
+            <!--<td>
               <button ng-click="deleteMatch(match)" type="submit" class="btn btn-primary">Delete</button>
-            </td>
+            </td>-->
         </tr>
     </tbody>
 </table>

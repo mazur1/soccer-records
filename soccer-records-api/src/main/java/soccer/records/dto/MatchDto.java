@@ -32,11 +32,11 @@ public class MatchDto {
     private Integer teamAwayGoalsScoredHalf;
     
     @NotNull
-    @JsonIgnore
+    //@JsonIgnore
     private TeamDto teamHome;
     
     @NotNull
-    @JsonIgnore
+    //@JsonIgnore
     private TeamDto teamAway;
 
     @JsonIgnore

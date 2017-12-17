@@ -1,5 +1,6 @@
 package soccer.records.entity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -22,7 +23,7 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table(name="SoccerMatch")
-public class Match extends Auditable<String,Long> {
+public class Match extends Auditable<String,Long> implements Serializable {
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateAndTime;
