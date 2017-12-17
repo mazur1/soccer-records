@@ -16,6 +16,7 @@ soccerRecordspApp.config(['$routeProvider',
             when('/players', {templateUrl: 'partials/players.html', controller: 'PlayersController'}).
             when('/matches', {templateUrl: 'partials/matches.html', controller: 'MatchesController'}).
             when('/matches/:matchId', {templateUrl: 'partials/match_detail.html', controller: 'MatchDetailCtrl'}).
+            when('/newmatch', {templateUrl: 'partials/new_match.html', controller: 'NewMatchCtrl'}).
             otherwise({redirectTo: '/home'});
     }]);
 
@@ -131,7 +132,7 @@ soccerControllers.controller('PlayerDetailCtrl', function ($scope, $routeParams,
 
 soccerControllers.controller('MatchesController', function ($scope, $http) {
     
-    $http.get('pa165/api/v1/matches').then(function(response) {
+    $http.get('/pa165/api/v1/matches').then(function(response) {
         
         var matches = response.data['_embedded']['matches'];             
         console.log('AJAX loaded all matches');  
@@ -156,6 +157,33 @@ soccerControllers.controller('MatchDetailCtrl', function ($scope, $routeParams, 
         $scope.errorAlert = error;
     });
 });
+
+soccerControllers.controller('NewMatchCtrl',
+    function ($scope, $routeParams, $http, $location, $rootScope) {
+        
+        //set object bound to form fields
+        $scope.match = {
+            'team': ''
+        };
+        // function called when submit button is clicked, creates product on server
+        $scope.create = function (match) {
+            $http({
+                method: 'POST',
+                url: '/eshop/api/v1/matches/create',
+                data: match
+            }).then(function success(response) {
+                console.log('created match');
+                var created= response.data;
+                //display confirmation alert
+                $rootScope.successAlert = 'A new match "'+created.name+'" was created';
+                //change view to list
+                $location.path("/matches");
+            }, function error(response) {
+                //display error
+                $scope.errorAlert = 'Cannot create match!';
+            });
+        };
+    });
 
 /*
 // helper procedure loading products to category

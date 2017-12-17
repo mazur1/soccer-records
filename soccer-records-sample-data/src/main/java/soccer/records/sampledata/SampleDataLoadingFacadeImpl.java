@@ -9,6 +9,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import soccer.records.entity.*;
 import soccer.records.enums.AppRole;
 import soccer.records.enums.PlayerPost;
@@ -77,7 +80,7 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
 
         Match m01 = match(plzen, sparta);
         
-        //PlayerResult pr01 = playerResult(m01, p01, 2);
+        PlayerResult pr01 = playerResult(m01, p01, 2);
         
         AppUser admin = new AppUser();
         admin.addRole(AppRole.ADMIN);
@@ -115,12 +118,25 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         Match m = new Match();
         m.setTeamAway(away);
         m.setTeamHome(home);
-        /*m.setDateAndTime(null);
-        m.setLocation(null);
-        m.setTeamAwayGoalsScored(0, true);
-        m.setTeamAwayGoalsScored(0, false);
-        m.setTeamHomeGoalsScored(0, true);
-        m.setTeamHomeGoalsScored(0, false);*/
+        
+        Date d;
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm");
+        try{
+            d = sdf.parse("16-12-2017 10:00");
+            m.setDateAndTime(d);
+        } catch(ParseException e) {}
+        
+        Location loc = new Location();
+        loc.setName("Sportovní areál Hamr Braník");
+        loc.setCity("Praha 4");
+        loc.setState("CZ");
+        loc.setStreet("Vltavanù 1542");
+        m.setLocation(loc);
+        
+        m.setTeamAwayGoalsScored(1, true);
+        m.setTeamAwayGoalsScored(3, false);
+        m.setTeamHomeGoalsScored(2, true);
+        m.setTeamHomeGoalsScored(3, false);
         
         matchService.create(m);
         return m;

@@ -10,7 +10,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import org.springframework.hateoas.ResourceSupport;
 import org.springframework.hateoas.core.Relation;
 import soccer.records.dto.LocationDto;
 import soccer.records.dto.MatchDto;
@@ -23,7 +22,7 @@ import soccer.records.dto.TeamDto;
  */
 @Relation(value = "match", collectionRelation = "matches")
 @JsonPropertyOrder({"id", "teamHome", "teamAway", "dateAndTime", "location", "teamHomeGoalsScored", "teamAwayGoalsScored"})
-public class MatchResource extends ResourceSupport {
+public class MatchResource extends AuditableResource<String> {
     
     @JsonProperty("id") 
     private Long dtoId;
@@ -31,17 +30,24 @@ public class MatchResource extends ResourceSupport {
     private TeamDto teamAway;
     private Date dateAndTime;
     private LocationDto location;
-    private Integer teamHomeGoalsScored;
-    private Integer teamAwayGoalsScored;
-    private Integer teamHomeGoalsScoredHalf;
-    private Integer teamAwayGoalsScoredHalf;
+    private int teamHomeGoalsScored;
+    private int teamAwayGoalsScored;
+    private int teamHomeGoalsScoredHalf;
+    private int teamAwayGoalsScoredHalf;
 
     private List<PlayerResultDto> playerResults = new ArrayList<>();
     
     public MatchResource(MatchDto dto) {
+        super(dto);
         this.dtoId = dto.getId();
         teamHome = dto.getTeamHome();
         teamAway = dto.getTeamAway();
+        dateAndTime = dto.getDateAndTime();
+        location = dto.getLocation();
+        teamHomeGoalsScored = dto.getTeamHomeGoalsScored(false);
+        teamAwayGoalsScored = dto.getTeamAwayGoalsScored(false);
+        teamHomeGoalsScoredHalf = dto.getTeamHomeGoalsScored(true);
+        teamAwayGoalsScoredHalf = dto.getTeamAwayGoalsScored(true);
     }
 
     public long getDtoId() {
@@ -84,35 +90,35 @@ public class MatchResource extends ResourceSupport {
         this.location = location;
     }
 
-    public Integer getTeamHomeGoalsScored() {
+    public int getTeamHomeGoalsScored() {
         return teamHomeGoalsScored;
     }
 
-    public void setTeamHomeGoalsScored(Integer teamHomeGoalsScored) {
+    public void setTeamHomeGoalsScored(int teamHomeGoalsScored) {
         this.teamHomeGoalsScored = teamHomeGoalsScored;
     }
 
-    public Integer getTeamAwayGoalsScored() {
+    public int getTeamAwayGoalsScored() {
         return teamAwayGoalsScored;
     }
 
-    public void setTeamAwayGoalsScored(Integer teamAwayGoalsScored) {
+    public void setTeamAwayGoalsScored(int teamAwayGoalsScored) {
         this.teamAwayGoalsScored = teamAwayGoalsScored;
     }
 
-    public Integer getTeamHomeGoalsScoredHalf() {
+    public int getTeamHomeGoalsScoredHalf() {
         return teamHomeGoalsScoredHalf;
     }
 
-    public void setTeamHomeGoalsScoredHalf(Integer teamHomeGoalsScoredHalf) {
+    public void setTeamHomeGoalsScoredHalf(int teamHomeGoalsScoredHalf) {
         this.teamHomeGoalsScoredHalf = teamHomeGoalsScoredHalf;
     }
 
-    public Integer getTeamAwayGoalsScoredHalf() {
+    public int getTeamAwayGoalsScoredHalf() {
         return teamAwayGoalsScoredHalf;
     }
 
-    public void setTeamAwayGoalsScoredHalf(Integer teamAwayGoalsScoredHalf) {
+    public void setTeamAwayGoalsScoredHalf(int teamAwayGoalsScoredHalf) {
         this.teamAwayGoalsScoredHalf = teamAwayGoalsScoredHalf;
     }
 

@@ -17,19 +17,19 @@ import javax.validation.constraints.NotNull;
  *
  * @author Michaela Bocanova
  */
-public class MatchDto {
+public class MatchDto extends AuditableDto<String> {
     
     private Long id;
     private Date dateAndTime;
     private LocationDto location;
     @Min(0)
-    private Integer teamHomeGoalsScored;
+    private int teamHomeGoalsScored;
     @Min(0)
-    private Integer teamAwayGoalsScored;
+    private int teamAwayGoalsScored;
     @Min(0)
-    private Integer teamHomeGoalsScoredHalf;
+    private int teamHomeGoalsScoredHalf;
     @Min(0)
-    private Integer teamAwayGoalsScoredHalf;
+    private int teamAwayGoalsScoredHalf;
     
     @NotNull
     //@JsonIgnore
@@ -99,7 +99,7 @@ public class MatchDto {
         this.location = location;
     }
 
-    public Integer getTeamHomeGoalsScored(boolean halftime) {
+    public int getTeamHomeGoalsScored(boolean halftime) {
         if (halftime)
             return teamHomeGoalsScoredHalf;
         return teamHomeGoalsScored;
@@ -112,7 +112,7 @@ public class MatchDto {
             this.teamHomeGoalsScored = teamHomeGoalsScored;
     }
 
-    public Integer getTeamAwayGoalsScored(boolean halftime) {
+    public int getTeamAwayGoalsScored(boolean halftime) {
         if (halftime)
             return teamAwayGoalsScoredHalf;
         return teamAwayGoalsScored;
@@ -125,13 +125,13 @@ public class MatchDto {
             this.teamAwayGoalsScored = teamAwayGoalsScored;
     }
         
-    public Integer getTeamHomeGoalsReceived(boolean halftime) {
+    public int getTeamHomeGoalsReceived(boolean halftime) {
         if (halftime)
             return teamAwayGoalsScoredHalf;
         return teamAwayGoalsScored;
     }
     
-    public Integer getTeamAwayGoalsReceived(boolean halftime) {
+    public int getTeamAwayGoalsReceived(boolean halftime) {
         if (halftime)
             return teamHomeGoalsScoredHalf;
         return teamHomeGoalsScored;
@@ -169,10 +169,6 @@ public class MatchDto {
         result = prime * result + ((location == null) ? 0 : location.hashCode());
         result = prime * result + ((teamHome == null) ? 0 : teamHome.hashCode());
         result = prime * result + ((teamAway == null) ? 0 : teamAway.hashCode());
-        result = prime * result + ((teamHomeGoalsScored == null) ? 0 : teamHomeGoalsScored.hashCode());
-        result = prime * result + ((teamHomeGoalsScoredHalf == null) ? 0 : teamHomeGoalsScoredHalf.hashCode());
-        result = prime * result + ((teamAwayGoalsScored == null) ? 0 : teamAwayGoalsScored.hashCode());
-        result = prime * result + ((teamAwayGoalsScoredHalf == null) ? 0 : teamAwayGoalsScoredHalf.hashCode());
         
         return result;
     }
@@ -229,7 +225,7 @@ public class MatchDto {
             return false;
         }
         
-        if (teamHomeGoalsScored == null) {
+        /*if (teamHomeGoalsScored == null) {
             if (other.getTeamHomeGoalsScored(false) != null) {
                 return false;
             }
@@ -259,7 +255,7 @@ public class MatchDto {
             }
         } else if (!teamAwayGoalsScoredHalf.equals(other.getTeamAwayGoalsScored(true))) {
             return false;
-        }
+        }*/
                 
         return true;
     }

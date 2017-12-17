@@ -1,27 +1,32 @@
 <div class="row">
     <div class="col-xs-6">
-        <h3>{{match.teamHome}}</h3>
-        <h3>{{match.teamAway}}</h3>
+        <li><b>Team Home: </b>{{match.teamHome.name}}</li>
+        <li><b>Team Away: </b>{{match.teamAway.name}}</li>
+        <li><b>Date ant time: </b>{{match.dateAndTime | date : 'dd-MM-yyyy HH:mm'}}</li>
+        <li><b>location: </b>{{match.location.name}}</li>
+        <li><b>city: </b>{{match.location.city}}</li>
+        <li><b>street: </b>{{match.location.street}}</li>
+        <li><b>zip: </b>{{match.location.zip}}</li>
+        <li><b>state: </b>{{match.location.state}}</li>
+        
+        Result: <span style="color: red; font-weight: bold;">{{match.teamHomeGoalsScored}} : {{match.teamAwayGoalsScored}}</span> ({{match.teamHomeGoalsScored}} : {{match.teamAwayGoalsScored}})
+    </div>
 
-        Result: <span style="color: red; font-weight: bold;">{{match.teamHomeGoalsScored}}&nbsp;{{match.teamAwayGoalsScored}}</span>
-    </div>
-    
-    
-    <!--<div class="col-xs-6">
-        <table class="table">
-            <caption>Statistics for match</caption>
-            <thead>
-            <tr>
-                <th></th>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>goals scored</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="playerResult in match.playerResults track by $index">
+                <td>{{playerResult.player.name}}</td>
+                <td>{{playerResult.player.goalsScored}}</td>
             </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+        </tbody>
+    </table>
+    
     <div class="col-xs-6">
         <table class="table">
             <caption>Statistics for team home</caption>
@@ -51,5 +56,5 @@
                 </tr>
             </tbody>
         </table>
-    </div>-->
+    </div>
 </div>

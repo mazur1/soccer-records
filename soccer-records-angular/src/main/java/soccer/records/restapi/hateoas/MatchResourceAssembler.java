@@ -31,7 +31,7 @@ public class MatchResourceAssembler extends ResourceAssemblerSupport<MatchDto, M
     @Override
     public MatchResource toResource(MatchDto dto) {
     
-        long id = dto.getId();
+        Long id = dto.getId();
         MatchResource resource = new MatchResource(dto);
         try {
             Link catLink = entityLinks.linkForSingleResource(MatchDto.class, id).withSelfRel();

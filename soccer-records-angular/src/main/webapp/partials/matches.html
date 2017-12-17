@@ -3,7 +3,7 @@
     <div class="line"></div>
 </div>
 
-<a href="#!/admin/newmatch" class="btn btn-primary">
+<a href="#!/newmatch" class="btn btn-primary">
     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
     New match
 </a>
@@ -11,15 +11,26 @@
 <table class="table stripped">
     <thead>
     <tr>
+        <th>index</th>
         <th>team home</th>
+        <th>team away</th>
+        <th>date and time</th>
+        <th>location</th>
+        <th>score</th>
     </tr>
     </thead>
     <tbody>
         <tr ng-repeat="match in matches track by $index">
-            <td><a href="#!/matches/{{match.id}}">{{match.teamHome.name}}</a></td>
-            <!--<td>
-              <button ng-click="deleteMatch(match)" type="submit" class="btn btn-primary">Delete</button>
-            </td>-->
+            <td><a href="#!/matches/{{match.id}}">{{match.id}}</a></td>
+            <td><a href="#!/teams/{{match.teamHome.id}}">{{match.teamHome.name}}</a></td>
+            <td><a href="#!/teams/{{match.teamAway.id}}">{{match.teamAway.name}}</a></td>
+            <td>{{match.dateAndTime}}</td>
+            <td>{{match.location.name}}</td>
+            <td>{{match.teamHomeGoalsScored-0}} : {{match.teamAwayGoalsScored-0}}</td>
+            
+            <td>
+              <button ng-click="deleteMatch(match.id)" type="submit" class="btn btn-primary">Delete</button>
+            </td>
         </tr>
     </tbody>
 </table>
