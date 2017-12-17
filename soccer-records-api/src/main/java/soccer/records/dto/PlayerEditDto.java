@@ -20,6 +20,8 @@ import soccer.records.enums.PlayerPost;
  */
 public class PlayerEditDto {
     
+    private Long id;
+    
     private String name;
 
     private String surname;
@@ -43,6 +45,14 @@ public class PlayerEditDto {
     public PlayerEditDto() {
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+    
     public void setName(String name) {
         this.name = name;
     }
