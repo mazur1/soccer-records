@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 
 /**
@@ -23,8 +24,10 @@ public class PlayerResultDto {
     private int goalsScored;
 
     @JsonIgnore
+    @NotNull
     private PlayerDto player;
     @JsonIgnore
+    @NotNull
     private MatchDto match;
 
     public PlayerResultDto() {

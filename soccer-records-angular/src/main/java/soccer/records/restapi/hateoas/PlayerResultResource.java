@@ -21,7 +21,7 @@ import soccer.records.dto.TeamDto;
  * @author Radim Vidlák
  */
 
-//@Relation(value = "match", collectionRelation = "matches")
+@Relation(value = "playerResult", collectionRelation = "playerResults")
 @JsonPropertyOrder({"id", "player", "match", "goalsScored"})
 public class PlayerResultResource extends ResourceSupport{
 

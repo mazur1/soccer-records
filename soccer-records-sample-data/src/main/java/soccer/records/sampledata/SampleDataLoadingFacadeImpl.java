@@ -77,7 +77,7 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
 
         Match m01 = match(plzen, sparta);
         
-        //PlayerResult pr01 = playerResult(m01, p01, 2);
+        PlayerResult pr01 = playerResult(m01, p01, 2);
         
         AppUser admin = new AppUser();
         admin.addRole(AppRole.ADMIN);
@@ -86,7 +86,7 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
 
     }
 
-     private Team team(String name) throws IOException {
+    private Team team(String name) throws IOException {
         Team t = new Team();
         t.setName(name);
         teamService.create(t);
