@@ -70,9 +70,9 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         Player p110 = player("Jonas", "Vais", 33, PlayerPost.MIDFIELDER, false, plzen, "Praha", "Czech Republic");
         Player p111 = player("Marek", "Bakoš", 30, PlayerPost.GOLMAN, false, plzen, "Praha", "Czech Republic");
  
-        //Match match1 = match(barcelona, real);
+        //Match match1 = match(plzen, sparta);
         
-        //PlayerResult pr = playerResult(match1, ronaldo, 2);
+        //PlayerResult pr = playerResult(match1, p01, 2);
     }
 
      private Team team(String name) throws IOException {

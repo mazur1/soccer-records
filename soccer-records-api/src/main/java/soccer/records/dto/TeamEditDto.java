@@ -12,6 +12,7 @@ import java.util.List;
  * @author Tomas Mazurek
  */
 public class TeamEditDto {
+    
     private Long id;
     
     private String name;
@@ -24,7 +25,14 @@ public class TeamEditDto {
     
     @JsonIgnore
     private List<MatchDto> matchesAway = new ArrayList<MatchDto>();
-    
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
     
     public String getName() {
         return name;

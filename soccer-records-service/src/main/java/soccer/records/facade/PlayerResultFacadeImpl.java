@@ -8,7 +8,9 @@ package soccer.records.facade;
 import java.util.List;
 import javax.inject.Inject;
 import org.springframework.stereotype.Service;
+import soccer.records.dto.PlayerResultCreateDto;
 import soccer.records.dto.PlayerResultDto;
+import soccer.records.dto.PlayerResultEditDto;
 import soccer.records.services.BeanMappingService;
 
 import soccer.records.services.PlayerService;
@@ -70,7 +72,7 @@ public class PlayerResultFacadeImpl implements PlayerResultFacade{
     }
 
     @Override
-    public Long createPlayerResult(PlayerResultDto t) {
+    public Long createPlayerResult(PlayerResultCreateDto t) {
         PlayerResult mapped = beanMappingService.mapTo(t, PlayerResult.class);
         return playerResult.create(mapped);
     }
@@ -91,7 +93,7 @@ public class PlayerResultFacadeImpl implements PlayerResultFacade{
     }
 
     @Override
-    public void updatePlayerResult(PlayerResultDto t) {
+    public void updatePlayerResult(PlayerResultEditDto t) {
         PlayerResult mapped = beanMappingService.mapTo(t, PlayerResult.class);
         playerResult.update(mapped);
     }

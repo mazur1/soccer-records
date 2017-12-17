@@ -21,6 +21,7 @@ import javax.validation.constraints.NotNull;
  */
 public class MatchEditDto {
     
+    private Long id;
     private Date dateAndTime;
     private LocationDto location;
     @Min(0)
@@ -42,6 +43,14 @@ public class MatchEditDto {
     
     @JsonIgnore
     private List<PlayerResultDto> playerResults = new ArrayList<>();
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
     
     public TeamDto getTeamHome() {
         return teamHome;
