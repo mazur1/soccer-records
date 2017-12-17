@@ -169,7 +169,7 @@ soccerControllers.controller('NewMatchCtrl',
         $scope.create = function (match) {
             $http({
                 method: 'POST',
-                url: '/eshop/api/v1/matches/create',
+                url: '/pa165/api/v1/matches/create',
                 data: match
             }).then(function success(response) {
                 console.log('created match');

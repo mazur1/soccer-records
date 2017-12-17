@@ -84,7 +84,7 @@ public class MatchFacadeImpl implements MatchFacade {
         PlayerResult r = resultService.findById(rId);
         matchService.removePlayerResult(m, r);
     }
-    
+        
     @Override
     public MatchResultDto getMatchResult(Long id) {
         return beanMappingService.mapTo(matchService.getMatchResult(
@@ -97,4 +97,10 @@ public class MatchFacadeImpl implements MatchFacade {
                 teamService.findById(id)), TeamResultDto.class);
     }
     
+    @Override
+    public List<PlayerResultDto> getPlayerResults(Long id) {
+        Match m = matchService.findById(id);
+        List<PlayerResult> results = resultService.findByMatch(m);
+        return beanMappingService.mapTo(results, PlayerResultDto.class);
+    }
 }

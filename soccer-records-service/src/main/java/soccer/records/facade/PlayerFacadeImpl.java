@@ -11,8 +11,11 @@ import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import soccer.records.dto.PlayerCreateDto;
 import soccer.records.dto.PlayerDto;
+import soccer.records.dto.PlayerResultDto;
 import soccer.records.entity.Player;
+import soccer.records.entity.PlayerResult;
 import soccer.records.services.BeanMappingService;
+import soccer.records.services.PlayerResultService;
 import soccer.records.services.PlayerService;
 
 /**
@@ -23,6 +26,9 @@ import soccer.records.services.PlayerService;
 @Transactional
 public class PlayerFacadeImpl implements PlayerFacade {
         
+    @Inject
+    private PlayerResultService resultService;
+    
     @Inject
     private PlayerService playerService;
     
@@ -62,6 +68,12 @@ public class PlayerFacadeImpl implements PlayerFacade {
     @Override
     public PlayerDto findPlayerById(Long id) {
         return beanMappingService.mapTo(playerService.findById(id), PlayerDto.class);
+    }
+    
+    public List<PlayerResultDto> getPlayerResults(Long id) {
+        Player p = playerService.findById(id);
+        List<PlayerResult> results = resultService.findByPlayer(p);
+        return beanMappingService.mapTo(results, PlayerResultDto.class);
     }
     
 }

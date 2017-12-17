@@ -15,7 +15,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityLinks;
 import org.springframework.hateoas.ExposesResourceFor;
-import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resources;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -29,8 +28,6 @@ import java.util.List;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import soccer.records.dto.PlayerCreateDto;
-import soccer.records.dto.TeamCreateDto;
-import soccer.records.restapi.hateoas.TeamResource;
 
 /**
  * SpringMVC controller for managing REST requests for the category resources. Conforms to HATEOAS principles.
@@ -90,6 +87,8 @@ public class PlayerRestController {
         PlayerDto playerDto = playerFacade.findPlayerById(id);
         if (playerDto == null) throw new ResourceNotFoundException("player " + id + " not found");
         PlayerResource playerResource = playerResourceAssembler.toResource(playerDto);
+        playerResource.setPlayerResults(playerFacade.getPlayerResults(id));
+        
         return new HttpEntity<>(playerResource);
     }
     

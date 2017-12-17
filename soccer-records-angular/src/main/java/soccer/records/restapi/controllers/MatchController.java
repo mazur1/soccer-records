@@ -73,6 +73,8 @@ public class MatchController {
             throw new ResourceNotFoundException("match " + id + " not found");
         
         MatchResource resource = matchResourceAssembler.toResource(matchDto);
+        resource.setPlayerResults(matchFacade.getPlayerResults(id));
+        
         return new ResponseEntity<>(resource, HttpStatus.OK);
     }
 
