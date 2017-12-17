@@ -18,9 +18,7 @@ import soccer.records.enums.PlayerPost;
  *
  * @author 
  */
-@JsonIdentityInfo(
-  generator = ObjectIdGenerators.PropertyGenerator.class, 
-  property = "id")
+
 public class PlayerCreateDto {
     
     private String name;

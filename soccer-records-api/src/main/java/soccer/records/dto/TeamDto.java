@@ -13,9 +13,7 @@ import java.util.List;
  *
  * @author Tomas Mazurek
  */
-//@JsonIdentityInfo(
-//  generator = ObjectIdGenerators.PropertyGenerator.class, 
-//  property = "id")
+
 public class TeamDto {
     
     private Long id;
