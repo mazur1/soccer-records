@@ -12,17 +12,18 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
   property = "id")
 public class AppUserAuthenticationDto {
     
-    private Long userId;//private String username
+    private Long id;
+    private String username;
     private String password;
 
-    public Long getUserId()
+    public Long getId()
     {
-        return userId;
+        return id;
     }
 
-    public void setUserId(Long userId)
+    public void setId(Long userId)
     {
-        this.userId = userId;
+        this.id = userId;
     }
 
     public String getPassword()
@@ -33,6 +34,14 @@ public class AppUserAuthenticationDto {
     public void setPassword(String password)
     {
         this.password = password;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
     
 }

@@ -78,17 +78,19 @@ soccerControllers.controller('LoginController', function ($scope, $routeParams, 
     
         //set object bound to form fields
         $scope.user = {
-            'email': '',
+            'userName': '',
             'password': ''
         };
         
         // function called when submit button is clicked, creates product on server
-        $scope.login = function (match) {
+        $scope.login = function (user) {
+                    
+            console.log(user);        
                     
             $http({
                 method: 'POST',
-                url: '/eshop/api/v1/users/login',
-                data: match
+                url: '/pa165/api/v1/users/login/',
+                data: user
             }).then(function success(response) {
                 
                 console.log('User succesfully logged');      
@@ -103,6 +105,9 @@ soccerControllers.controller('LoginController', function ($scope, $routeParams, 
                 $location.path("/home");
                 
             }, function error(response) {
+                
+                console.log(response);
+                
                 //display error
                 $scope.errorAlert = 'Login failed!';
             });
