@@ -15,9 +15,6 @@ import javax.validation.constraints.Min;
  *
  * @author Radim VIdlák
  */
-@JsonIdentityInfo(
-  generator = ObjectIdGenerators.PropertyGenerator.class, 
-  property = "id")
 public class PlayerResultDto {
     
     private Long id;
