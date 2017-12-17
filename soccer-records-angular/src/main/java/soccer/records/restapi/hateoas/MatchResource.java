@@ -7,7 +7,6 @@ package soccer.records.restapi.hateoas;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.springframework.hateoas.core.Relation;
@@ -35,7 +34,7 @@ public class MatchResource extends AuditableResource<String> {
     private int teamHomeGoalsScoredHalf;
     private int teamAwayGoalsScoredHalf;
 
-    private List<PlayerResultDto> playerResults = new ArrayList<>();
+    private List<PlayerResultDto> playerResults;
     
     public MatchResource(MatchDto dto) {
         super(dto);
@@ -48,6 +47,7 @@ public class MatchResource extends AuditableResource<String> {
         teamAwayGoalsScored = dto.getTeamAwayGoalsScored(false);
         teamHomeGoalsScoredHalf = dto.getTeamHomeGoalsScored(true);
         teamAwayGoalsScoredHalf = dto.getTeamAwayGoalsScored(true);
+        //playerResults;
     }
 
     public long getDtoId() {

@@ -2,7 +2,6 @@ package soccer.records.restapi.hateoas;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import java.util.ArrayList;
 import java.util.List;
 import soccer.records.dto.PlayerDto;
 import org.springframework.hateoas.ResourceSupport;
@@ -32,7 +31,7 @@ public class PlayerResource extends ResourceSupport {
     private String country;
     private String city;
 
-    private List<PlayerResultDto> playerResults = new ArrayList<>();
+    private List<PlayerResultDto> playerResults;
 
     public PlayerResource(PlayerDto dto) {
         this.dtoId = dto.getId();
@@ -44,6 +43,7 @@ public class PlayerResource extends ResourceSupport {
         this.captain = dto.isCaptain();
         this.country = dto.getCountry();
         this.city = dto.getCity();
+        //this.playerResults = dto.getPlayerResults();
     }
 
     public long getDtoId() {

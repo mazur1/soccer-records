@@ -31,5 +31,7 @@ public interface MatchFacade {
     MatchResultDto getMatchResult(Long id);
 
     TeamResultDto getTeamResult(Long id);
+
+    List<PlayerResultDto> getPlayerResults(Long id);
     
 }

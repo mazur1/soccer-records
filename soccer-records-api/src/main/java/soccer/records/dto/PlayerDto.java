@@ -5,10 +5,9 @@
  */
 package soccer.records.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import java.util.HashSet;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.util.Objects;
-import java.util.Set;
 import javax.validation.constraints.Min;
 import soccer.records.enums.PlayerPost;
 
@@ -16,6 +15,9 @@ import soccer.records.enums.PlayerPost;
  *
  * @author 
  */
+@JsonIdentityInfo(
+  generator = ObjectIdGenerators.PropertyGenerator.class, 
+  property = "id")
 public class PlayerDto {
     
     private Long id;
@@ -34,11 +36,11 @@ public class PlayerDto {
     private String country;
     private String city;
     
-    @JsonIgnore
+    //@JsonIgnore
     private TeamDto team;
 
-    @JsonIgnore
-    private Set<PlayerResultDto> playerResults = new HashSet<>();
+    //@JsonIgnore
+    //private Set<PlayerResultDto> playerResults = new HashSet<>();
 
     public PlayerDto() {
     }
@@ -107,7 +109,7 @@ public class PlayerDto {
         return city;
     }    
     
-    public Set<PlayerResultDto> getPlayerResults() {
+    /*public Set<PlayerResultDto> getPlayerResults() {
         return playerResults;
     }
 
@@ -122,7 +124,7 @@ public class PlayerDto {
     public void removePlayerResult(PlayerResultDto r)
     {
         playerResults.remove(r);
-    }
+    }*/
     
     public void setTeam(TeamDto team) {
         this.team = team;

@@ -5,11 +5,9 @@
  */
 package soccer.records.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import java.util.ArrayList;
-import java.util.Collections;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.util.Date;
-import java.util.List;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
@@ -17,6 +15,9 @@ import javax.validation.constraints.NotNull;
  *
  * @author Michaela Bocanova
  */
+@JsonIdentityInfo(
+  generator = ObjectIdGenerators.PropertyGenerator.class, 
+  property = "id")
 public class MatchDto extends AuditableDto<String> {
     
     private Long id;
@@ -39,12 +40,9 @@ public class MatchDto extends AuditableDto<String> {
     //@JsonIgnore
     private TeamDto teamAway;
 
-    @JsonIgnore
-    private List<PlayerResultDto> playerResults = new ArrayList<>();
-    
-    //private MatchResultDto matchResult;
-    //private TeamResultDto teamResult;
-    
+    //@JsonIgnore
+    //private List<PlayerResultDto> playerResults = new ArrayList<>();
+        
     public TeamDto getTeamHome() {
         return teamHome;
     }
@@ -60,7 +58,7 @@ public class MatchDto extends AuditableDto<String> {
     public void setTeamAway(TeamDto teamAway) {
         this.teamAway = teamAway;
     }
-    public List<PlayerResultDto> getPlayerResults() {
+    /*public List<PlayerResultDto> getPlayerResults() {
         return Collections.unmodifiableList(playerResults);
     }
 
@@ -73,7 +71,7 @@ public class MatchDto extends AuditableDto<String> {
     
     public void removePlayerResult(PlayerResultDto r) {
         playerResults.remove(r);
-    }
+    }*/
 
     public Long getId() {
         return id;
