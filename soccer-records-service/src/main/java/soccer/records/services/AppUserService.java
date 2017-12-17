@@ -7,6 +7,7 @@ package soccer.records.services;
 
 import java.util.List;
 import soccer.records.entity.AppUser;
+import soccer.records.enums.AppRole;
 
 /**
  *
@@ -22,7 +23,7 @@ public interface AppUserService {
 
     AppUser findByUsername(String name);
 
-    boolean isAdmin(AppUser u);
+    boolean authorize(AppUser u, List<AppRole> roleAccess);
 
     void registerUser(AppUser u, String unencryptedPassword);
     

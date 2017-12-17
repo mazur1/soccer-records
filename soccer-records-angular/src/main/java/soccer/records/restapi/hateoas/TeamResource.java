@@ -1,6 +1,5 @@
 package soccer.records.restapi.hateoas;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.util.List;
@@ -22,7 +21,6 @@ public class TeamResource extends ResourceSupport {
     @JsonProperty("id") //ResourceSupport alrerady has getId() method
     private long dtoId;
     private String name;
-    @JsonIgnore
     private List<PlayerDto> players;
 
     public TeamResource(TeamDto dto) {

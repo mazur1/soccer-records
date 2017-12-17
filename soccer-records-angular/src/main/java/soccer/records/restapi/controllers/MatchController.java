@@ -51,7 +51,7 @@ public class MatchController {
     @Autowired
     private EntityLinks entityLinks;
     
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
     public final HttpEntity<Resources<MatchResource>> getMatches() {
         
         log.debug("rest: getMatches()");
@@ -64,7 +64,7 @@ public class MatchController {
 
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
     public final HttpEntity<MatchResource> getMatch(@PathVariable("id") Long id) throws Exception {
         
         log.debug("rest: getMatch(" + String.valueOf(id) + ")");
@@ -76,7 +76,7 @@ public class MatchController {
         return new ResponseEntity<>(resource, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     public final void deleteMatch(@PathVariable("id") Long id) throws Exception {
         
         log.debug("rest: deleteMatch(" + String.valueOf(id) + ")");
@@ -96,7 +96,7 @@ public class MatchController {
         }
     }
 
-    @RequestMapping(value = "/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public final HttpEntity<MatchResource> createMatch(@RequestBody @Valid MatchCreateDto matchDto, BindingResult bindingResult) throws Exception {
         
         log.debug("rest: createMatch(" + matchDto.toString() + ")");
@@ -122,11 +122,12 @@ public class MatchController {
         return new ResponseEntity<>(resource, HttpStatus.OK);
     }
     
-    @RequestMapping(value = "/{id}/results", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/{id}/results", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public final HttpEntity<MatchResource> addPlayerResult(@PathVariable("id") Long id, @RequestBody PlayerResultDto rDto) throws Exception {
     
         log.debug("rest: addPlayerResult(" + String.valueOf(id) + ", result = " + rDto.toString() + ")");
         try {
+            
             matchFacade.addPlayerResult(id, rDto);
         } catch (Throwable ex) {
             log.error("cannot add result " + rDto.toString() + " to match " + String.valueOf(id));
@@ -142,7 +143,7 @@ public class MatchController {
         return new ResponseEntity<>(resource, HttpStatus.OK);
     }
     
-    @RequestMapping(value = "/{id}/results", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/{id}/results", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public final HttpEntity<MatchResource> deletePlayerResult(@PathVariable("id") Long id, @RequestBody Long resultId) throws Exception {
     
         log.debug("rest: removePlayerResult(" + String.valueOf(id) + ", result id = " + String.valueOf(resultId) + ")");

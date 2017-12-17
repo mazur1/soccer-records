@@ -38,7 +38,7 @@ public class AppUser extends Auditable<String,Long> {
     private String passwordHash;
 	
     //@Transient
-    private boolean admin;
+    //private boolean admin;
     
     // works?
     @Enumerated(EnumType.STRING)
@@ -89,14 +89,6 @@ public class AppUser extends Auditable<String,Long> {
     	this.username = (username == null || username.trim().isEmpty()) ? email : username;
     }
 
-    public boolean isAdmin() {
-        return admin;
-    }
-
-    public void setAdmin(boolean admin) {
-        this.admin = admin;
-    }
-
     @Override
     public int hashCode() {
         int hash = 5;
@@ -124,7 +116,7 @@ public class AppUser extends Auditable<String,Long> {
 
     @Override
     public String toString() {
-        return "AppUser{" + "email=" + email + ", username=" + username + ", passwordHash=" + passwordHash + ", admin=" + admin + ", roles=" + roles + '}';
+        return "AppUser{" + "email=" + email + ", username=" + username + ", roles=" + roles + '}';
     }
     
 }

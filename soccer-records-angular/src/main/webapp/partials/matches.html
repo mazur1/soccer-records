@@ -11,16 +11,14 @@
 <table class="table stripped">
     <thead>
     <tr>
-        <th>id</th>
         <th>team home</th>
         <th>team away</th>
     </tr>
     </thead>
     <tbody>
         <tr ng-repeat="match in matches track by $index">
-            <td>{{match.id}}</td>
-            <td>{{match.teamHome.name}}</td>
-            <td>{{match.teamAway.name}}</td>
+            <td><a href="#!/matches/{{match.id}}">{{match.teamHome.name}}</a></td>
+            <td><a href="#!/matches/{{match.id}}">{{match.teamAway.name}}</a></td>
             <td>
               <button ng-click="deleteMatch(match)" type="submit" class="btn btn-primary">Delete</button>
             </td>

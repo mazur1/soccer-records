@@ -15,6 +15,7 @@ soccerRecordspApp.config(['$routeProvider',
             when('/players/:playerId', {templateUrl: 'partials/player_detail.html', controller: 'PlayerDetailCtrl'}).
             when('/players', {templateUrl: 'partials/players.html', controller: 'PlayersController'}).
             when('/matches', {templateUrl: 'partials/matches.html', controller: 'MatchesController'}).
+            when('/matches/:matchId', {templateUrl: 'partials/match_detail.html', controller: 'MatchDetailCtrl'}).
             otherwise({redirectTo: '/home'});
     }]);
 
@@ -128,27 +129,33 @@ soccerControllers.controller('PlayerDetailCtrl', function ($scope, $routeParams,
     });
 });
 
-
-
 soccerControllers.controller('MatchesController', function ($scope, $http) {
     
-    /*
-    $http.get('api/v1/players').then(function(response) {
+    $http.get('pa165/api/v1/matches').then(function(response) {
         
-        var players = response.data['_embedded']['players'];             
-        console.log('AJAX loaded all players');  
-        $scope.players = players;
+        var matches = response.data['_embedded']['matches'];             
+        console.log('AJAX loaded all matches');  
+        $scope.matches = matches;
 
     }, function error(error) {
-        //display error
         console.log(error);
         $scope.errorAlert = error;
     });
-    */
     
 });
 
-
+soccerControllers.controller('MatchDetailCtrl', function ($scope, $routeParams, $http) {
+                
+        var matchId = $routeParams.matchId;
+        $http.get('/pa165/api/v1/matches/' + matchId).then(function (response) {
+            $scope.match = response.data;
+            console.log('AJAX loaded detail of match ' + $scope.match.name);
+    
+    }, function error(error) {
+        console.log(error);
+        $scope.errorAlert = error;
+    });
+});
 
 /*
 // helper procedure loading products to category

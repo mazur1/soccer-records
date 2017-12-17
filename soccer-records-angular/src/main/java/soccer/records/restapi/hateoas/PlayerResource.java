@@ -1,6 +1,5 @@
 package soccer.records.restapi.hateoas;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.util.ArrayList;
@@ -33,7 +32,6 @@ public class PlayerResource extends ResourceSupport {
     private String country;
     private String city;
 
-    @JsonIgnore
     private List<PlayerResultDto> playerResults = new ArrayList<>();
 
     public PlayerResource(PlayerDto dto) {

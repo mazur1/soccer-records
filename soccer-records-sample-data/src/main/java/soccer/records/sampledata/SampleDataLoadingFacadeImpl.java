@@ -10,7 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import soccer.records.entity.*;
+import soccer.records.enums.AppRole;
 import soccer.records.enums.PlayerPost;
+import soccer.records.services.AppUserService;
 import soccer.records.services.MatchService;
 import soccer.records.services.PlayerResultService;
 import soccer.records.services.PlayerService;
@@ -37,6 +39,9 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         
     @Autowired
     private PlayerResultService playerResultService;
+    
+    @Autowired
+    private AppUserService userService;
         
     @Override
     @SuppressWarnings("unused")
@@ -73,6 +78,12 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         Match m01 = match(plzen, sparta);
         
         //PlayerResult pr01 = playerResult(m01, p01, 2);
+        
+        AppUser admin = new AppUser();
+        admin.addRole(AppRole.ADMIN);
+        admin.setUserName("admin");
+        userService.registerUser(admin, "admin");
+        
     }
 
      private Team team(String name) throws IOException {

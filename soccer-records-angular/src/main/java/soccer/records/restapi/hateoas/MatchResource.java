@@ -5,7 +5,6 @@
  */
 package soccer.records.restapi.hateoas;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.util.ArrayList;
@@ -37,7 +36,6 @@ public class MatchResource extends ResourceSupport {
     private Integer teamHomeGoalsScoredHalf;
     private Integer teamAwayGoalsScoredHalf;
 
-    @JsonIgnore
     private List<PlayerResultDto> playerResults = new ArrayList<>();
     
     public MatchResource(MatchDto dto) {
@@ -116,6 +114,14 @@ public class MatchResource extends ResourceSupport {
 
     public void setTeamAwayGoalsScoredHalf(Integer teamAwayGoalsScoredHalf) {
         this.teamAwayGoalsScoredHalf = teamAwayGoalsScoredHalf;
+    }
+
+    public List<PlayerResultDto> getPlayerResults() {
+        return playerResults;
+    }
+
+    public void setPlayerResults(List<PlayerResultDto> playerResults) {
+        this.playerResults = playerResults;
     }
     
 }
