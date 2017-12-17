@@ -10,6 +10,7 @@ soccerRecordspApp.config(['$routeProvider',
     function ($routeProvider) {
         $routeProvider.
             when('/home', {templateUrl: 'partials/home.html', controller: 'DefaultController'}).
+            when('/login', {templateUrl: 'partials/admin/forms/login.html', controller: 'LoginController'}).
             when('/teams', {templateUrl: 'partials/teams.html', controller: 'TeamsController'}).
             when('/players', {templateUrl: 'partials/players.html', controller: 'PlayersController'}).
             when('/matches', {templateUrl: 'partials/matches.html', controller: 'MatchesController'}).
@@ -35,6 +36,12 @@ soccerRecordspApp.run(function($rootScope) {
         $rootScope.errorAlert = undefined;
     }; 
 
+    $rootScope.loggedUser = {
+        'name': "",
+        'email': "",
+        'logged': false
+    };
+
 });
 
 /* Controllers */
@@ -46,7 +53,9 @@ soccerRecordspApp.run(function($rootScope) {
 /*
  * Shopping page with all categories and products
  */
-soccerControllers.controller('DefaultController', function ($scope, $http) {
+soccerControllers.controller('DefaultController', function ($scope, $rootScope, $http) {
+    
+    console.log($rootScope.loggedUser);
     
     /*
     $http.get('api/v1/teams').then(function(response) {
@@ -64,6 +73,43 @@ soccerControllers.controller('DefaultController', function ($scope, $http) {
     */
     
 });
+
+soccerControllers.controller('LoginController', function ($scope, $routeParams, $http, $location, $rootScope) {
+    
+        //set object bound to form fields
+        $scope.user = {
+            'email': '',
+            'password': ''
+        };
+        
+        // function called when submit button is clicked, creates product on server
+        $scope.login = function (match) {
+                    
+            $http({
+                method: 'POST',
+                url: '/eshop/api/v1/users/login',
+                data: match
+            }).then(function success(response) {
+                
+                console.log('User succesfully logged');      
+
+                $rootScope.loggedUser.name = "Karel";
+                $rootScope.loggedUser.logged = true;  
+            
+                $("#login").attr('style', 'display: none !important');
+                $("#logged").attr('style', 'display: block !important');     
+                $("#logged").find("li").html('<a>Logged user: '+$rootScope.loggedUser.name + '</a>');  
+                
+                $location.path("/home");
+                
+            }, function error(response) {
+                //display error
+                $scope.errorAlert = 'Login failed!';
+            });
+        };
+    
+});
+
 
 soccerControllers.controller('TeamsController', function ($scope, $http) {
     
