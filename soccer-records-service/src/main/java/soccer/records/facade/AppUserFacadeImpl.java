@@ -61,7 +61,7 @@ public class AppUserFacadeImpl implements AppUserFacade {
     @Override
     public boolean authenticate(AppUserAuthenticationDto u) {
         return userService.authenticate(
-                userService.findById(u.getUserId()), u.getPassword());
+                userService.findById(u.getId()), u.getPassword());
     }
 
     @Override
