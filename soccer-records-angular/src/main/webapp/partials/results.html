@@ -1,0 +1,21 @@
+<div class="title">
+    <h1>Players results List</h1>
+    <div class="line"></div>
+</div>
+
+<table class="table stripped">
+    <thead>
+    <tr>
+        <th>Player</th>
+        <th>Match id</th>
+        <th>Goals</th>
+    </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="player in players track by $index">
+            <td>{{results.player.name}} {{results.player.surname}}</td>
+            <td>{{results.match.id}}</td>
+            <td>{{results.goalsScored}}</td>
+        </tr>
+    </tbody>
+</table>

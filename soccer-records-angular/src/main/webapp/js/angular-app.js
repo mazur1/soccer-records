@@ -11,11 +11,12 @@ soccerRecordspApp.config(['$routeProvider',
         $routeProvider.
             when('/home', {templateUrl: 'partials/home.html', controller: 'DefaultController'}).
             when('/teams', {templateUrl: 'partials/teams.html', controller: 'TeamsController'}).
-            when('/teams/:teamId', {templateUrl: 'partials/team_detail.html', controller: 'TeamDetailCtrl'}).
-            when('/players/:playerId', {templateUrl: 'partials/player_detail.html', controller: 'PlayerDetailCtrl'}).
             when('/players', {templateUrl: 'partials/players.html', controller: 'PlayersController'}).
             when('/matches', {templateUrl: 'partials/matches.html', controller: 'MatchesController'}).
-            when('/matches/:matchId', {templateUrl: 'partials/match_detail.html', controller: 'MatchDetailCtrl'}).
+            when('/results', {templateUrl: 'partials/results.html', controller: 'ResultsController'}).
+            when('/teams/:teamId', {templateUrl: 'partials/detail/team.html', controller: 'TeamDetailController'}).
+            when('/players/:playerId', {templateUrl: 'partials/detail/player.html', controller: 'PlayerDetailController'}).            
+            when('/matches/:matchId', {templateUrl: 'partials/detail/match.html', controller: 'MatchDetailController'}).
             when('/newmatch', {templateUrl: 'partials/new_match.html', controller: 'NewMatchCtrl'}).
             otherwise({redirectTo: '/home'});
     }]);
@@ -79,7 +80,7 @@ soccerControllers.controller('TeamsController', function ($scope, $http) {
     
 });
 
-soccerControllers.controller('TeamDetailCtrl', function ($scope, $routeParams, $http) {
+soccerControllers.controller('TeamDetailController', function ($scope, $routeParams, $http) {
     
     // get team id from URL fragment #/product/:productId
         
@@ -115,7 +116,7 @@ soccerControllers.controller('PlayersController', function ($scope, $http) {
     
 });
 
-soccerControllers.controller('PlayerDetailCtrl', function ($scope, $routeParams, $http) {
+soccerControllers.controller('PlayerDetailController', function ($scope, $routeParams, $http) {
         // get team id from URL fragment #/product/:productId
         
         var playerId = $routeParams.playerId;
@@ -145,7 +146,7 @@ soccerControllers.controller('MatchesController', function ($scope, $http) {
     
 });
 
-soccerControllers.controller('MatchDetailCtrl', function ($scope, $routeParams, $http) {
+soccerControllers.controller('MatchDetailController', function ($scope, $routeParams, $http) {
                 
         var matchId = $routeParams.matchId;
         $http.get('/pa165/api/v1/matches/' + matchId).then(function (response) {
@@ -158,7 +159,7 @@ soccerControllers.controller('MatchDetailCtrl', function ($scope, $routeParams, 
     });
 });
 
-soccerControllers.controller('NewMatchCtrl',
+soccerControllers.controller('NewMatchController',
     function ($scope, $routeParams, $http, $location, $rootScope) {
         
         //set object bound to form fields
@@ -183,7 +184,22 @@ soccerControllers.controller('NewMatchCtrl',
                 $scope.errorAlert = 'Cannot create match!';
             });
         };
+});
+
+soccerControllers.controller('ResultsController', function ($scope, $http) {
+    
+    $http.get('/pa165/api/v1/results').then(function(response) {
+        
+        var results = response.data['_embedded']['results'];             
+        console.log('AJAX loaded all matches');  
+        $scope.results = results;
+
+    }, function error(error) {
+        console.log(error);
+        $scope.errorAlert = error;
     });
+    
+});
 
 /*
 // helper procedure loading products to category
