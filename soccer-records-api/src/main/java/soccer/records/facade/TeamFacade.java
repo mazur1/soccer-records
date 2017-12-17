@@ -6,6 +6,7 @@
 package soccer.records.facade;
 
 import java.util.List;
+import soccer.records.dto.TeamCreateDto;
 import soccer.records.dto.TeamDto;
 
 /**
@@ -13,7 +14,7 @@ import soccer.records.dto.TeamDto;
  * @author Tomas Mazurek
  */
 public interface TeamFacade {
-    Long createTeam(TeamDto t);
+    Long createTeam(TeamCreateDto t);
     void updateTeam(TeamDto t);
     void deleteTeam(Long id);
     List<TeamDto> findAllTeams();

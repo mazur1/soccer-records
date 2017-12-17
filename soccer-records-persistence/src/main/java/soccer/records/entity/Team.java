@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
+import javax.persistence.CascadeType;
 
 /**
  *
@@ -25,16 +25,16 @@ public class Team extends Auditable<String,Long> {
     @Column(nullable=false,unique=true)
     private String name;
     
-    @OneToMany(mappedBy="team")
-    @Cascade({CascadeType.SAVE_UPDATE})
+    @OneToMany(mappedBy="team"/*, cascade = CascadeType.REMOVE*/)
+    //@Cascade({CascadeType.SAVE_UPDATE})
     private List<Player> players = new ArrayList<Player>();
     
     @OneToMany(mappedBy="teamHome")
-    @Cascade({CascadeType.SAVE_UPDATE})
+    //@Cascade({CascadeType.SAVE_UPDATE})
     private List<Match> matchesHome = new ArrayList<Match>();
         
     @OneToMany(mappedBy="teamAway")
-    @Cascade({CascadeType.SAVE_UPDATE})
+    //@Cascade({CascadeType.SAVE_UPDATE})
     private List<Match> matchesAway = new ArrayList<Match>();
         
     public Team(Long teamId) {

@@ -7,10 +7,14 @@ package soccer.records.facade;
 
 import java.util.List;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
+import soccer.records.dto.TeamCreateDto;
 import soccer.records.dto.TeamDto;
+import soccer.records.entity.Player;
 import soccer.records.entity.Team;
 import soccer.records.services.BeanMappingService;
+import soccer.records.services.PlayerService;
 import soccer.records.services.TeamService;
 
 /**
@@ -18,18 +22,24 @@ import soccer.records.services.TeamService;
  * @author Tomas Mazurek
  */
 @Service
+@Transactional
 public class TeamFacadeImpl implements TeamFacade {
     
     @Inject
     private TeamService teamService;
     
     @Inject
+    private PlayerService playerService;
+    
+    @Inject
     private BeanMappingService beanMappingService;
     
     @Override
-    public Long createTeam(TeamDto t) {
-        Team team = beanMappingService.mapTo(t, Team.class);
-        return teamService.create(team); 
+    public Long createTeam(TeamCreateDto t) {
+        Team team = new Team();
+        team.setName(t.getName());
+        teamService.create(team);
+        return team.getId();
     }
     
     @Override
@@ -40,6 +50,9 @@ public class TeamFacadeImpl implements TeamFacade {
     
     @Override
     public void deleteTeam(Long id) {
+        //in case is possible to have player with id null
+        teamService.setNullAllPlayersByTeam(id);
+        
         teamService.remove(teamService.findById(id));
     }
 

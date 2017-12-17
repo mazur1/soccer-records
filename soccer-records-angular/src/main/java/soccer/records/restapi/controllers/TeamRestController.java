@@ -28,6 +28,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import soccer.records.dto.TeamCreateDto;
 
 /**
  * SpringMVC controller for managing REST requests for the category resources. Conforms to HATEOAS principles.
@@ -62,7 +63,7 @@ public class TeamRestController {
      */
     
     @ResponseBody 
-    @RequestMapping(method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.GET)
     public HttpEntity<Resources<TeamResource>> teams() {
         log.info("rest teams()");
         List<TeamDto> allTeams = teamFacade.findAllTeams();
@@ -80,7 +81,7 @@ public class TeamRestController {
      * @return team detail
      * @throws ResourceNotFoundException if team not found
      */
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public HttpEntity<TeamResource> getTeam(@PathVariable("id") long id) throws Exception {
         log.info("attempt to get team({})", id);
         TeamDto teamDTO = teamFacade.findTeamById(id);
@@ -96,7 +97,7 @@ public class TeamRestController {
      * @param id identifier for team
      * @throws ResourceNotFoundException
      */
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public final void deleteTeam(@PathVariable("id") long id) throws Exception {
         log.debug("rest deleteTeam({})", id);
         try {
@@ -106,46 +107,29 @@ public class TeamRestController {
             throw new ResourceNotFoundException(ex.getMessage());
         }
     }
-    /**
-     * Produces a list of products in the given category.
+    
+     /**
+     * Create one team from json data
      *
-     * @param id category identifier
-     * @return list of products in the category
+     * 
+     * @throws InvalidRequestException
      */
-    /*
-    @RequestMapping(value = "/{id}/products", method = RequestMethod.GET)
-    public HttpEntity<Resources<ProductResource>> products(@PathVariable("id") long id) {
-        log.debug("rest category/{}/products()", id);
-        CategoryDTO categoryDTO = categoryFacade.getCategoryById(id);
-        if (categoryDTO == null) throw new ResourceNotFoundException("category " + id + " not found");
-        List<ProductDTO> products = productFacade.getProductsByCategory(categoryDTO.getName());
-        List<ProductResource> resourceCollection = productResourceAssembler.toResources(products);
-        Link selfLink = entityLinks.linkForSingleResource(CategoryDTO.class, id).slash("/products").withSelfRel();
-        Resources<ProductResource> productsResources = new Resources<>(resourceCollection, selfLink);
-        return new ResponseEntity<>(productsResources, HttpStatus.OK);
-    }
-    */
-
-    /**
-     * Creates a new team.
-     *
-     * @param categoryCreateDTO DTO object containing category name
-     * @return newly created category
-     * @throws Exception if something goes wrong
-     */
-    /*
     @RequestMapping(value = "/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public final HttpEntity<CategoryResource> createProduct(@RequestBody @Valid CategoryCreateDTO categoryCreateDTO, BindingResult bindingResult) throws Exception {
-        log.debug("rest createCategory()");
+    public final HttpEntity<TeamResource> createProduct(@RequestBody @Valid TeamCreateDto teamCreateDto, BindingResult bindingResult) throws Exception {
+        log.debug("rest createTeam()");
         if (bindingResult.hasErrors()) {
             log.error("failed validation {}", bindingResult.toString());
             throw new InvalidRequestException("Failed validation");
         }
-        Long id = categoryFacade.createCategory(categoryCreateDTO);
-        CategoryResource resource = categoryResourceAssembler.toResource(categoryFacade.getCategoryById(id));
+        Long id = teamFacade.createTeam(teamCreateDto);
+        TeamResource resource = teamResourceAssembler.toResource(teamFacade.findTeamById(id));
+        
         return new ResponseEntity<>(resource, HttpStatus.OK);
     }
-    */
+
+
+
+
 
 }
 

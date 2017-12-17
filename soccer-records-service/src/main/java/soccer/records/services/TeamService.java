@@ -36,4 +36,6 @@ public interface TeamService {
     public void addMatchAway(Team t, Match m);
     public void removeMatchAway(Team t, Match m);
     
+    public void setNullAllPlayersByTeam(Long id);
+    
 }
