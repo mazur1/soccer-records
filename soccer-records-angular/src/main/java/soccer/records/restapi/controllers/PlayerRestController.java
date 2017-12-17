@@ -28,6 +28,9 @@ import javax.validation.Valid;
 import java.util.List;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import soccer.records.dto.PlayerCreateDto;
+import soccer.records.dto.TeamCreateDto;
+import soccer.records.restapi.hateoas.TeamResource;
 
 /**
  * SpringMVC controller for managing REST requests for the category resources. Conforms to HATEOAS principles.
@@ -62,7 +65,7 @@ public class PlayerRestController {
      * @return list of players
      */
     // ../players
-    @RequestMapping(method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.GET)
     public HttpEntity<Resources<PlayerResource>> players() {
         log.info("rest players()");
         List<PlayerDto> allPlayers = playerFacade.findAllPlayers();
@@ -81,7 +84,7 @@ public class PlayerRestController {
      * @throws Exception if player not found
      */
     // .. /players/{id}
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public HttpEntity<PlayerResource> player(@PathVariable("id") long id) throws Exception {
         log.debug("rest player({})", id);
         PlayerDto playerDto = playerFacade.findPlayerById(id);
@@ -97,7 +100,7 @@ public class PlayerRestController {
      * @param id identifier for player
      * @throws ResourceNotFoundException
      */
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public final void deletePlayer(@PathVariable("id") long id) throws Exception {
         log.debug("rest deletePlayer({})", id);
         try {
@@ -106,6 +109,26 @@ public class PlayerRestController {
             log.debug("Cannot delete player with id {}", id);
             throw new ResourceNotFoundException(ex.getMessage());
         }
+    }
+    
+    
+     /**
+     * Create one players from json data
+     *
+     * 
+     * @throws InvalidRequestException
+     */
+    @RequestMapping(value = "/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public final HttpEntity<PlayerResource> createPlayer(@RequestBody @Valid PlayerCreateDto playerCreateDto, BindingResult bindingResult) throws Exception {
+        log.debug("rest createPlayer()");
+        if (bindingResult.hasErrors()) {
+            log.error("failed validation {}", bindingResult.toString());
+            throw new InvalidRequestException("Failed validation");
+        }
+        Long id = playerFacade.createPlayer(playerCreateDto);
+        PlayerResource resource = playerResourceAssembler.toResource(playerFacade.findPlayerById(id));
+        
+        return new ResponseEntity<>(resource, HttpStatus.OK);
     }
     
 
@@ -129,27 +152,6 @@ public class PlayerRestController {
     }
     */
 
-    /**
-     * Creates a new team.
-     *
-     * @param categoryCreateDTO DTO object containing category name
-     * @return newly created category
-     * @throws Exception if something goes wrong
-     */
-    /*
-    @RequestMapping(value = "/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public final HttpEntity<CategoryResource> createProduct(@RequestBody @Valid CategoryCreateDTO categoryCreateDTO, BindingResult bindingResult) throws Exception {
-        log.debug("rest createCategory()");
-        if (bindingResult.hasErrors()) {
-            log.error("failed validation {}", bindingResult.toString());
-            throw new InvalidRequestException("Failed validation");
-        }
-        Long id = categoryFacade.createCategory(categoryCreateDTO);
-        CategoryResource resource = categoryResourceAssembler.toResource(categoryFacade.getCategoryById(id));
-        return new ResponseEntity<>(resource, HttpStatus.OK);
-    }
-    */
 
 }
-
 

@@ -3,6 +3,7 @@ package soccer.records.services;
 import java.util.List;
 import javax.inject.Inject;
 import org.springframework.stereotype.Service;
+import soccer.records.dao.PlayerDao;
 import soccer.records.dao.TeamDao;
 import soccer.records.entity.Match;
 import soccer.records.entity.Team;
@@ -19,6 +20,9 @@ public class TeamServiceImpl implements TeamService {
     
     @Inject
     private TeamDao teamDao;
+    
+    @Inject
+    private PlayerDao playerDao;
 
     @Override
     public Long create(Team t) {
@@ -59,6 +63,16 @@ public class TeamServiceImpl implements TeamService {
                                         "Player: " + p.getId());
 	}
 	t.addPlayer(p);
+    }
+    
+    @Override
+    public void setNullAllPlayersByTeam(Long id) {
+        List<Player> players = teamDao.findById(id).getPlayers();
+        for (Player p : players) {
+            p.setTeam(null);
+            playerDao.update(p);
+        }
+        
     }
 
     @Override
