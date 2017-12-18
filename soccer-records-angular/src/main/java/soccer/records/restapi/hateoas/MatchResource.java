@@ -21,8 +21,6 @@ public class MatchResource extends AuditableResource<String> {
     
     @JsonProperty("id") 
     private Long dtoId;
-    private Long teamHomeId;
-    private Long teamAwayId;
     private TeamDto teamHome;
     private TeamDto teamAway;
     private Date dateAndTime;
@@ -37,8 +35,8 @@ public class MatchResource extends AuditableResource<String> {
     public MatchResource(MatchDto dto) {
         super(dto);
         this.dtoId = dto.getId();
-        teamHomeId = dto.getTeamHome().getId();
-        teamAwayId = dto.getTeamAway().getId();
+        teamHome = dto.getTeamHome();
+        teamAway = dto.getTeamAway();
         dateAndTime = dto.getDateAndTime();
         location = dto.getLocation();
         teamHomeGoalsScored = dto.getTeamHomeGoalsScored(false);
@@ -54,22 +52,6 @@ public class MatchResource extends AuditableResource<String> {
 
     public void setDtoId(Long dtoId) {
         this.dtoId = dtoId;
-    }
-
-    public Long getTeamHomeId() {
-        return teamHomeId;
-    }
-
-    public void setTeamHomeId(Long teamHomeId) {
-        this.teamHomeId = teamHomeId;
-    }
-
-    public Long getTeamAwayId() {
-        return teamAwayId;
-    }
-
-    public void setTeamAwayId(Long teamAwayId) {
-        this.teamAwayId = teamAwayId;
     }
     
     public TeamDto getTeamHome() {

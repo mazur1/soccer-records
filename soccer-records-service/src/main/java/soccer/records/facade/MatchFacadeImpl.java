@@ -45,12 +45,18 @@ public class MatchFacadeImpl implements MatchFacade {
     @Override
     public Long createMatch(MatchCreateDto m) {
         Match mapped = beanMappingService.mapTo(m, Match.class);
+        mapped.setTeamAway(teamService.findById(m.getTeamAwayId()));
+        mapped.setTeamHome(teamService.findById(m.getTeamHomeId()));
+        
         return matchService.create(mapped);
     }
     
     @Override
     public void updateMatch(MatchEditDto m) {
         Match mapped = beanMappingService.mapTo(m, Match.class);
+        mapped.setTeamHome(teamService.findById(m.getTeamHomeId()));
+        mapped.setTeamAway(teamService.findById(m.getTeamAwayId()));
+        
         matchService.update(mapped);
     }
 

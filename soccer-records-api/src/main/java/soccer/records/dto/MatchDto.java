@@ -32,10 +32,6 @@ public class MatchDto extends AuditableDto<String> {
     private int teamHomeGoalsScoredHalf;
     @Min(0)
     private int teamAwayGoalsScoredHalf;
-    @NotNull
-    private Long teamHomeId;
-    @NotNull
-    private Long teamAwayId;
     
     @NotNull
     //@JsonIgnore
@@ -61,8 +57,6 @@ public class MatchDto extends AuditableDto<String> {
         this.teamAway = teamAway;
     }
 
-    
-    
     //@JsonIgnore
     //private List<PlayerResultDto> playerResults = new ArrayList<>();*/
     
@@ -142,22 +136,6 @@ public class MatchDto extends AuditableDto<String> {
             return teamHomeGoalsScoredHalf;
         return teamHomeGoalsScored;
     }
-
-    public Long getTeamHomeId() {
-        return teamHomeId;
-    }
-
-    public void setTeamHomeId(Long teamHomeId) {
-        this.teamHomeId = teamHomeId;
-    }
-
-    public Long getTeamAwayId() {
-        return teamAwayId;
-    }
-
-    public void setTeamAwayId(Long teamAwayId) {
-        this.teamAwayId = teamAwayId;
-    }
     
     /**
      * Constructor assigns a specific id
@@ -173,8 +151,8 @@ public class MatchDto extends AuditableDto<String> {
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 19 * hash + Objects.hashCode(this.teamHomeId);
-        hash = 19 * hash + Objects.hashCode(this.teamAwayId);
+        hash = 19 * hash + Objects.hashCode(this.teamHome);
+        hash = 19 * hash + Objects.hashCode(this.teamAway);
         return hash;
     }
 
@@ -196,10 +174,10 @@ public class MatchDto extends AuditableDto<String> {
         if (!Objects.equals(this.dateAndTime, other.dateAndTime)) {
             return false;
         }
-        if (!Objects.equals(this.teamHomeId, other.teamHomeId)) {
+        if (!Objects.equals(this.teamHome, other.teamHome)) {
             return false;
         }
-        if (!Objects.equals(this.teamAwayId, other.teamAwayId)) {
+        if (!Objects.equals(this.teamAway, other.teamAway)) {
             return false;
         }
         return true;
@@ -207,7 +185,7 @@ public class MatchDto extends AuditableDto<String> {
 
     @Override
     public String toString() {
-        return "MatchDto{" + "id=" + id + ", dateAndTime=" + dateAndTime + ", location=" + location + ", teamHomeGoalsScored=" + teamHomeGoalsScored + ", teamAwayGoalsScored=" + teamAwayGoalsScored + ", teamHomeGoalsScoredHalf=" + teamHomeGoalsScoredHalf + ", teamAwayGoalsScoredHalf=" + teamAwayGoalsScoredHalf + ", teamHomeId=" + teamHomeId + ", teamAwayId=" + teamAwayId + '}';
+        return "MatchDto{" + "id=" + id + ", dateAndTime=" + dateAndTime + ", location=" + location + ", teamHomeGoalsScored=" + teamHomeGoalsScored + ", teamAwayGoalsScored=" + teamAwayGoalsScored + ", teamHomeGoalsScoredHalf=" + teamHomeGoalsScoredHalf + ", teamAwayGoalsScoredHalf=" + teamAwayGoalsScoredHalf + ", teamHome=" + teamHome + ", teamAway=" + teamAway + '}';
     }
 
 }

@@ -5,13 +5,10 @@
  */
 package soccer.records.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -31,17 +28,33 @@ public class MatchEditDto {
     @Min(0)
     private Integer teamAwayGoalsScoredHalf;
     
-    /*@NotNull
-    @JsonIgnore
-    private TeamDto teamHome;
+    @NotNull
+    //@JsonIgnore
+    private Long teamHomeId;
     
     @NotNull
-    @JsonIgnore
-    private TeamDto teamAway;*/
+    //@JsonIgnore
+    private Long teamAwayId;
 
-    @JsonIgnore
-    private List<PlayerResultDto> playerResults = new ArrayList<>();
+    /*@JsonIgnore
+    private List<Long> playerResults = new ArrayList<>();*/
 
+    public Long getTeamHomeId() {
+        return teamHomeId;
+    }
+
+    public void setTeamHomeId(Long teamHomeId) {
+        this.teamHomeId = teamHomeId;
+    }
+
+    public Long getTeamAwayId() {
+        return teamAwayId;
+    }
+
+    public void setTeamAwayId(Long teamAwayId) {
+        this.teamAwayId = teamAwayId;
+    }
+    
     public Long getId() {
         return id;
     }
@@ -50,21 +63,21 @@ public class MatchEditDto {
         this.id = id;
     }
  
-    public List<PlayerResultDto> getPlayerResults() {
+    /*public List<Long> getPlayerResults() {
         return Collections.unmodifiableList(playerResults);
     }
 
-    public void setPlayerResults(List<PlayerResultDto> playerResults) {
+    public void setPlayerResults(List<Long> playerResults) {
         this.playerResults = playerResults;
     }
     
-    public void addPlayerResult(PlayerResultDto r) {
+    public void addPlayerResult(Long r) {
         playerResults.add(r);
     }
     
-    public void removePlayerResult(PlayerResultDto r) {
+    public void removePlayerResult(Long r) {
         playerResults.remove(r);
-    }
+    }*/
 
     public Date getDateAndTime() {
         return dateAndTime;
@@ -137,7 +150,7 @@ public class MatchEditDto {
 
     @Override
     public String toString() {
-        return "MatchEditDto{" + "id=" + id + ", dateAndTime=" + dateAndTime + ", location=" + location + ", teamHomeGoalsScored=" + teamHomeGoalsScored + ", teamAwayGoalsScored=" + teamAwayGoalsScored + ", teamHomeGoalsScoredHalf=" + teamHomeGoalsScoredHalf + ", teamAwayGoalsScoredHalf=" + teamAwayGoalsScoredHalf + ", playerResults=" + playerResults + '}';
+        return "MatchEditDto{" + "id=" + id + ", dateAndTime=" + dateAndTime + ", location=" + location + ", teamHomeGoalsScored=" + teamHomeGoalsScored + ", teamAwayGoalsScored=" + teamAwayGoalsScored + ", teamHomeGoalsScoredHalf=" + teamHomeGoalsScoredHalf + ", teamAwayGoalsScoredHalf=" + teamAwayGoalsScoredHalf + '}';
     }
       
     

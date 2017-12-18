@@ -113,8 +113,8 @@ public class PlayerResultFacadeTest extends AbstractTestNGSpringContextTests {
         
         m1Dto = new MatchDto();
         m1Dto.setId(1L);
-        m1Dto.setTeamAwayId(1L);
-        m1Dto.setTeamHomeId(2L);
+        m1Dto.setTeamAway(t1Dto);
+        m1Dto.setTeamHome(t2Dto);
         //matchDao.create(m1);
         
         pr1Dto = new PlayerResultDto();
