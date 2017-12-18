@@ -6,14 +6,14 @@
         <label for="teamHome" class="col-sm-2 control-label">team home</label>
         <div class="col-sm-10">
 
-        <select class="form-control" id="teamHome" data-ng-options="item.name for item in items" data-ng-model="match.teamHome" required>
-        </select>
+        <!--<select class="form-control" id="teamHome" data-ng-options="item.name for item in items" data-ng-model="match.teamHome" required>
+        </select>-->
             <!--<select class="form-control" id="teamHomeId" ng-options="item.id as item.name for item in items" ng-model="selectedTeamHomeId">
         </select>-->
             
-        <!--<select id="teamHome" class="form-control" ng-model="match.teamHome" convert-to-int>
+        <select id="teamHome" class="form-control" ng-model="match.teamHome" convert-to-int required>
             <option ng-repeat="item in items" value="{{item.id}}">{{item.name}}</option>
-        </select>    -->      
+        </select>    
 
         </div>
     </div>
@@ -21,14 +21,14 @@
         <label for="teamAway" class="col-sm-2 control-label">team away</label>
         <div class="col-sm-10">
 
-        <select class="form-control" id="teamAway" data-ng-options="item.name for item in items" data-ng-model="match.teamAway" required>
-        </select>
+        <!--<select class="form-control" id="teamAway" data-ng-options="item.name for item in items" data-ng-model="match.teamAway" required>
+        </select>->>
             <!--<select class="form-control" id="teamAwayId" ng-options="item.id as item.name for item in items" ng-model="selectedTeamAwayId">
         </select>-->
             
-        <!--<select id="teamAway" class="form-control" ng-model="match.teamAway" convert-to-int>
+        <select id="teamAway" class="form-control" ng-model="match.teamAway" convert-to-int required>
             <option ng-repeat="item in items" value="{{item.id}}">{{item.name}}</option>
-        </select>  -->    
+        </select>   
         
         </div>
     </div>
@@ -36,7 +36,7 @@
     <div class="form-group" ng-class="{'has-error': !(form.dateAndTime.$valid)}">
         <label for="dateAndTime" class="col-sm-2 control-label">date </label>
         <div class="col-sm-10">
-            <input placeholder="date" id="dateAndTime" type="datetime" name="dateAndTime" class="form-control" ng-model="match.dateAndTime"/>
+            <input placeholder="date" id="dateAndTime" type="datetime-local" name="dateAndTime" class="form-control" ng-model="match.dateAndTime"/>
             <p></p>
         </div>
     </div>
@@ -49,6 +49,6 @@
         </div>
     </div>
 
-    <button ng-disabled="!form.$valid" class="btn btn-primary" type="submit" ng-click="create({{match}})">create</button>    
+    <button ng-disabled="!form.$valid" class="btn btn-primary" type="submit" ng-click="create(match)">create</button>    
    
 </form>

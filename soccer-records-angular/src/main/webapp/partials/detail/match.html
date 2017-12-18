@@ -38,7 +38,7 @@
             <tr ng-repeat="playerResult in match.playerResults track by $index">
                 <td>{{playerResult.player.name + ' ' + playerResult.player.surname}}</td>
                 <td>{{playerResult.player.goalsScored-0}}</td>
-                <td><button ng-click="deleteResult({{playerResult.id}})" type="submit" class="btn btn-primary">Delete</button></td>
+                <td><button ng-click="deleteResult(playerResult.id)" type="submit" class="btn btn-primary">Delete</button></td>
             </tr>
         </tbody>
     </table>
