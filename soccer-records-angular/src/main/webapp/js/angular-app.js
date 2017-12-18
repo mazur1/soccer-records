@@ -241,7 +241,7 @@ soccerControllers.controller('ResultsController', function ($scope, $http) {
     
     $http.get('/pa165/api/v1/results').then(function(response) {
         
-        var results = response.data['_embedded']['results'];             
+        var results = response.data['_embedded']['playerResults'];             
         console.log('AJAX loaded all matches');  
         $scope.results = results;
 
