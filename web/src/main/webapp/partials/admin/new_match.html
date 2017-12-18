@@ -48,6 +48,50 @@
             <p></p>
         </div>
     </div>
+    
+    <div class="form-group" ng-class="{'has-error': !(form.location.$valid)}">
+        <label for="location" class="col-sm-2 control-label">location street</label>
+        <div class="col-sm-10">
+            <input placeholder="location" id="location" type="text" name="location" class="form-control" ng-model="match.location.street"/>
+            <p></p>
+        </div>
+    </div>
+    <div class="form-group" ng-class="{'has-error': !(form.location.$valid)}">
+        <label for="location" class="col-sm-2 control-label">location city</label>
+        <div class="col-sm-10">
+            <input placeholder="location" id="location" type="text" name="location" class="form-control" ng-model="match.location.city"/>
+            <p></p>
+        </div>
+    </div>
+    <div class="form-group" ng-class="{'has-error': !(form.location.$valid)}">
+        <label for="location" class="col-sm-2 control-label">location state</label>
+        <div class="col-sm-10">
+            <input placeholder="location" id="location" type="text" name="location" class="form-control" ng-model="match.location.state"/>
+            <p></p>
+        </div>
+    </div>
+    <div class="form-group" ng-class="{'has-error': !(form.location.$valid)}">
+        <label for="location" class="col-sm-2 control-label">location zip</label>
+        <div class="col-sm-10">
+            <input placeholder="location" id="location" type="text" name="location" class="form-control" ng-model="match.location.zip"/>
+            <p></p>
+        </div>
+    </div>
+    
+    <div class="form-group" ng-class="{'has-error': !(form.location.$valid)}">
+        <label for="location" class="col-sm-2 control-label">team home goals</label>
+        <div class="col-sm-10">
+            <input placeholder="location" id="location" type="number" name="location" class="form-control" ng-model="match.teamHomeGoalsScored"/>
+            <p></p>
+        </div>
+    </div>
+    <div class="form-group" ng-class="{'has-error': !(form.location.$valid)}">
+        <label for="location" class="col-sm-2 control-label">team away goals</label>
+        <div class="col-sm-10">
+            <input placeholder="location" id="location" type="text" name="location" class="form-control" ng-model="match.teamAwayGoalScored"/>
+            <p></p>
+        </div>
+    </div>
 
     <button ng-disabled="!form.$valid" class="btn btn-primary" type="submit" ng-click="create(match)">create</button>    
    
