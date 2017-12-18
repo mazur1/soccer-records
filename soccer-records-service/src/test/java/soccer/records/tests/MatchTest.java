@@ -92,7 +92,7 @@ public class MatchTest extends AbstractTestNGSpringContextTests {
         
         testPlayer = new Player();
         testPlayer.setName("Honza");
-        testPlayer.setTeam(teamHome);
+        testPlayer.addTeam(teamHome);
         
         testPlayerResult = new PlayerResult(testPlayer, testMatch);
         testPlayerResult.setGoalsScored(1);

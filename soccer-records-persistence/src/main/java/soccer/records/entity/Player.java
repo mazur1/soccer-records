@@ -172,7 +172,7 @@ public class Player extends Auditable<String,Long> {
         return team;
     }
 
-    public void setTeam(Team team) {
+    public void addTeam(Team team) {
         this.team = team;
     }
 
