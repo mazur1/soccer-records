@@ -7,15 +7,15 @@
     <thead>
     <tr>
         <th>Player</th>
-        <th>Match id</th>
+        <th>Match</th>
         <th>Goals</th>
     </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="player in players track by $index">
-            <td>{{results.player.name}} {{results.player.surname}}</td>
-            <td>{{results.match.id}}</td>
-            <td>{{results.goalsScored}}</td>
+        <tr ng-repeat="result in results track by $index">
+            <td>{{result.player.name}} {{result.player.surname}}</td>
+            <td>{{result.match.teamHome.name}} x {{result.match.teamAway.name}}</td>
+            <td>{{result.goalsScored}}</td>
         </tr>
     </tbody>
 </table>

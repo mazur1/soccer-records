@@ -21,10 +21,10 @@ public class TeamDto {
  
     @JsonIgnore
     private List<PlayerDto> players = new ArrayList<>();
-    @JsonIgnore
-    private List<MatchDto> matchesHome = new ArrayList<>();
-    @JsonIgnore
-    private List<MatchDto> matchesAway = new ArrayList<>();
+//    @JsonIgnore
+//    private List<MatchDto> matchesHome = new ArrayList<>();
+//    @JsonIgnore
+//    private List<MatchDto> matchesAway = new ArrayList<>();
     
     public Long getId() {
         return this.id;
@@ -42,21 +42,31 @@ public class TeamDto {
         this.name = name;
     }
     
-    public void setPlayers(ArrayList<PlayerDto> players){
+    public void setPlayers(List<PlayerDto> players){
         this.players = players;
     }
+
+//    public void setMatchesHome(List<MatchDto> matchesHome) {
+//        this.matchesHome = matchesHome;
+//    }
+//
+//    public void setMatchesAway(List<MatchDto> matchesAway) {
+//        this.matchesAway = matchesAway;
+//    }
+
+
     
     public List<PlayerDto> getPlayers() {
         return this.players;
     }
     
-    public List<MatchDto> getMatchesHome() {
-        return this.matchesHome;
-    }
-    
-    public List<MatchDto> getMatchesAway() {
-        return this.matchesAway;
-    }
+//    public List<MatchDto> getMatchesHome() {
+//        return this.matchesHome;
+//    }
+//    
+//    public List<MatchDto> getMatchesAway() {
+//        return this.matchesAway;
+//    }
     
     @Override
     public int hashCode() {

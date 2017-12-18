@@ -87,6 +87,8 @@ public class TeamRestController {
         TeamDto teamDTO = teamFacade.findTeamById(id);
         if (teamDTO == null) throw new ResourceNotFoundException("team " + id + " not found");
         TeamResource teamResource = teamResourceAssembler.toResource(teamDTO);
+        teamResource.setMatchesHome(teamFacade.getMatchesHome(id));
+        teamResource.setMatchesAway(teamFacade.getMatchesAway(id));
         log.info("get team({})", teamDTO.getId());
         return new ResponseEntity<>(teamResource, HttpStatus.OK);
     }

@@ -1,15 +1,57 @@
 <h1>{{team.name}}</h1>
 <br>
-<h4>Players in team</h4>
-<table class="table">
-    <thead>
-    <tr>
-        <th>Name</th>
-    </tr>
-    </thead>
-    <tbody>
-        <tr ng-repeat="player in team.players track by $index">
-            <td>{{player.name}} {{player.surname}}</td>
+
+<div class="col-xs-12">
+<h4 class="subtitle">Last matches</h4>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Opponent</th>
+            <th>Date</th>
+            <th>Location</th>
+            <th style="text-align: right">Detail</th>
         </tr>
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            <tr ng-repeat="match in team.matchesHome.concat(team.matchesAway) | limitTo:5 | orderBy:'dateAndTime':true track by $index ">
+                <td>{{team.name==match.teamHome.name ? match.teamAway.name : match.teamHome.name}}</td>
+                <td>{{match.dateAndTime}}</td>
+                <td>{{match.location.name}}</td>
+                <td align="right"><button type="submit" class="btn btn-primary btn-xs">Results</button></td>    
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="col-xs-6">
+    <h4 class="subtitle">Team players</h4>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Name</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="player in team.players track by $index">
+                <td>{{player.name}} {{player.surname}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="col-xs-6">
+    <h4 class="subtitle">Team statistics</h4>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Name</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr >
+                <td>Wins </td>
+                <td>Losses </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

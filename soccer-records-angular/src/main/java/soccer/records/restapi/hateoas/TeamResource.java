@@ -6,6 +6,7 @@ import java.util.List;
 import soccer.records.dto.TeamDto;
 import org.springframework.hateoas.ResourceSupport;
 import org.springframework.hateoas.core.Relation;
+import soccer.records.dto.MatchDto;
 import soccer.records.dto.PlayerDto;
 
 /**
@@ -22,6 +23,8 @@ public class TeamResource extends ResourceSupport {
     private long dtoId;
     private String name;
     private List<PlayerDto> players;
+    private List<MatchDto> matchesHome;
+    private List<MatchDto> matchesAway;
 
     public TeamResource(TeamDto dto) {
         this.dtoId = dto.getId();
@@ -48,4 +51,22 @@ public class TeamResource extends ResourceSupport {
     public List<PlayerDto> getPlayers() {
         return players;
     }
+
+    public List<MatchDto> getMatchesHome() {
+        return matchesHome;
+    }
+
+    public List<MatchDto> getMatchesAway() {
+        return matchesAway;
+    }
+
+    public void setMatchesHome(List<MatchDto> matchesHome) {
+        this.matchesHome = matchesHome;
+    }
+
+    public void setMatchesAway(List<MatchDto> matchesAway) {
+        this.matchesAway = matchesAway;
+    }
+    
+    
 }
