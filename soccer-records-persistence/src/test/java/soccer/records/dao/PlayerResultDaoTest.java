@@ -60,7 +60,7 @@ public class PlayerResultDaoTest extends AbstractTestNGSpringContextTests {
         p1.setCaptain(false);
         p1.setSurname("Suchý");
         p1.setPost(PlayerPost.GOLMAN);
-        p1.setTeam(t1);
+        p1.addTeam(t1);
         playerDao.create(p1);
         Player p2 = new Player();
         p2.setName("Igor");
@@ -68,7 +68,7 @@ public class PlayerResultDaoTest extends AbstractTestNGSpringContextTests {
         p2.setCaptain(false);
         p2.setSurname("Vysoký");
         p2.setPost(PlayerPost.GOLMAN);
-        p2.setTeam(t2);
+        p2.addTeam(t2);
         playerDao.create(p2);
         
         Match m1 = new Match();

@@ -121,7 +121,7 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         p.setSurname(surname);
         p.setAge(age);
         p.setCaptain(captain);
-        p.setTeam(team);
+        p.addTeam(team);
         p.setPost(post);
         p.setCity(city);
         p.setCountry(Country);
