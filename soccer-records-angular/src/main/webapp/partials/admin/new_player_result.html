@@ -1,5 +1,23 @@
 <form name="form"  novalidate class="form-horizontal">
 
-    hi
+    <div class="form-group">
+        <label for="player" class="col-sm-2 control-label">player</label>
+        <div class="col-sm-10">
+        <select class="form-control" id="player" data-ng-options="item.name for item in items" data-ng-model="playerResult.player">
+        </select>
+            <!--<select class="form-control" id="teamHomeId" ng-options="item.id as item.name for item in items" ng-model="selectedTeamHomeId">
+        </select>-->
+        </div>
+    </div>
+    
+    <div class="form-group" ng-class="{'has-error': !(form.goalsScored.$valid)}">
+        <label for="goalsScored" class="col-sm-2 control-label">goals scored</label>
+        <div class="col-sm-10">
+            <input placeholder="goalsScored" id="goalsScored" type="number" name="goalsScored" class="form-control" ng-model="playerResult.goalsScored"/>
+            <p></p>
+        </div>
+    </div>
+    
+    <button ng-disabled="!form.$valid" class="btn btn-primary" type="submit" ng-click="create(playerResult)">create</button>    
     
 </form>

@@ -1,3 +1,8 @@
+<div class="title">
+    <h1>Match detail</h1>
+    <div class="line"></div>
+</div>
+
 <div class="row">
     <div class="col-xs-6">
         <li><b>Team Home: </b>{{match.teamHome.name}}</li>
@@ -9,16 +14,19 @@
         <li><b>zip: </b>{{match.location.zip}}</li>
         <li><b>state: </b>{{match.location.state}}</li>
         
-        Result: <span style="color: red; font-weight: bold;">{{match.teamHomeGoalsScored}} : {{match.teamAwayGoalsScored}}</span> ({{match.teamHomeGoalsScored}} : {{match.teamAwayGoalsScored}})
+        Result: <span style="color: red; font-weight: bold;">{{match.teamHomeGoalsScored}} : {{match.teamAwayGoalsScored}}</span> ({{match.teamHomeGoalsScoredHalf}} : {{match.teamAwayGoalsScoredHalf}})
+    
+        <button ng-click="delete(match)" type="submit" class="btn btn-primary">Delete</button>
+    </div>
+
+    <div>
+    <input type="button" value="Add player result" ng-click="ShowHide()" />
+        <br/>
+        <div class="col-xs-6" ng-hide = "IsHidden" ng-include="'/pa165/partials/admin/new_player_result.html'"></div>
+        <br/>
     </div>
     
-    
-    <input type="button" value="Add player result" ng-click="ShowHide()" />
-        <br />
-        <div ng-hide = "IsHidden" ng-include="'/pa165/partials/admin/new_player_result.html'"></div>
-        <br />
-
-    
+    <br/>
     <table class="table">
         <thead>
         <tr>

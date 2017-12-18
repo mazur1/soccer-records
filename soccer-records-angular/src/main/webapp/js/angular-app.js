@@ -195,20 +195,61 @@ soccerControllers.controller('MatchesController', function ($scope, $rootScope, 
 soccerControllers.controller('MatchDetailController', function ($scope, $rootScope, $routeParams, $http) {
                 
         var matchId = $routeParams.matchId;
-        $http.get('/pa165/api/v1/matches/' + matchId).then(function (response) {
+        $http.get('/pa165/api/v1/matches/'+matchId).then(function (response) {
             $scope.match = response.data;
-            console.log('AJAX loaded detail of match ' + $scope.match.name);
+            console.log('AJAX loaded detail of match ' + $scope.match.toString());
     
     }, function error(error) {
         console.log(error);
         $rootScope.errorAlert = error.data.message;
     });
     
-    $scope.IsHidden = true;
+    $scope.delete = function(match) {
+        $http.delete('/pa165/api/v1/matches/'+matchId)
+            .then(function success(response) {
+            console.log('deleted match');
+            //display confirmation alert
+            $rootScope.successAlert = 'A match "'+$scope.match.toString()+'" was deleted';
+            //change view to list
+            $location.path("/matches");
+        }, function error(response) {
+            //display error
+            $scope.errorAlert = 'Cannot delete match!';
+        });
+        
+    };
+        
+    /*$scope.IsHidden = true;
     $scope.ShowHide = function () {
         $scope.IsHidden = $scope.IsHidden ? false : true;
     };
     
+    $scope.items = $scope.match.teamHome.players.concat($scope.match.teamAway.players);
+    
+    //set object bound to form fields
+    $scope.playerResult = {
+        'player': null,
+        'goalsScored': null
+    };
+    // function called when submit button is clicked, creates match on server
+    $scope.create = function (playerResult) {
+    
+        $http({
+            method: 'POST',
+            url: '/pa165/api/v1/matches/'+matchId+'/results',
+            data: playerResult
+        }).then(function success(response) {
+            console.log('created player result');
+            var created= response.data;
+            //display confirmation alert
+            $rootScope.successAlert = 'A new player result "'+created.toString()+'" was created';
+            //change view to list
+            $location.path("/matches");
+        }, function error(response) {
+            //display error
+            $scope.errorAlert = 'Cannot create player result!';
+        });
+    };*/
     
 });
 
@@ -228,10 +269,10 @@ soccerControllers.controller('NewMatchController',
 
     //set object bound to form fields
     $scope.match = {
-        'teamHome': '',
-        'teamAway': '',
-        'dateAndTime': '',
-        'location': ''
+        'teamHome': null,
+        'teamAway': null,
+        'dateAndTime': null,
+        'location': null
     };
     // function called when submit button is clicked, creates match on server
     $scope.create = function (match) {

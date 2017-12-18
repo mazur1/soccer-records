@@ -78,8 +78,8 @@ public class MatchController {
         return new ResponseEntity<>(resource, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public final void deleteMatch(@PathVariable("id") Long id) throws Exception {
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE/*, produces = MediaType.APPLICATION_JSON_VALUE*/)
+    public final void deleteMatch(@PathVariable("id") long id) throws Exception {
         
         log.debug("rest: deleteMatch(" + String.valueOf(id) + ")");
         try {
@@ -98,7 +98,7 @@ public class MatchController {
         }
     }
 
-    @RequestMapping(value = "/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE/*, produces = MediaType.APPLICATION_JSON_VALUE*/)
     public final HttpEntity<MatchResource> createMatch(@RequestBody @Valid MatchCreateDto matchDto, BindingResult bindingResult) throws Exception {
         
         log.debug("rest: createMatch(" + matchDto.toString() + ")");
