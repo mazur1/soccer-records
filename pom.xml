@@ -56,7 +56,7 @@
         <module>soccer-records-persistence</module>
         <module>soccer-records-api</module>
         <module>soccer-records-service</module>
-        <module>soccer-records-angular</module>
+        <module>web</module>
         <module>soccer-records-sample-data</module>
 
     </modules>
