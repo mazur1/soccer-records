@@ -186,7 +186,7 @@ soccerControllers.controller('PlayerDetailController', function ($scope, $rootSc
     });
 });
 
-soccerControllers.controller('NewPlayerController',  function ($scope, $location, $rootScope, $window, $http) {
+soccerControllers.controller('NewPlayerController',  function ($scope, $rootScope, $window, $http) {
         
     $scope.posts = ['ATTACKER', 'MIDFIELDER', 'DEFENDER', 'GOLMAN'];
     

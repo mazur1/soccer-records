@@ -13,6 +13,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular-resource.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular-route.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular-cookies.js"></script> 
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <script src="${pageContext.request.contextPath}/js/angular-app.js"></script>
         
@@ -56,15 +57,7 @@
                                  <a href="#!/login">Log in</a>
                              </li>
                         </ul>
-                    </div>
-
-                    <div style="display: none !important;" id="logged" class="collapse navbar-collapse pull-right">
-                        <ul class="nav navbar-nav">
-                             <li>
-                                 
-                             </li>
-                        </ul>
-                    </div>                    
+                    </div>                 
                     
                 </div>
                  <!--/.nav-collapse -->
