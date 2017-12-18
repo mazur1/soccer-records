@@ -79,7 +79,7 @@ soccerControllers.controller('LoginController', function ($scope, $routeParams, 
     
         //set object bound to form fields
         $scope.user = {
-            'userName': '',
+            'usernname': '',
             'password': ''
         };
         
@@ -96,7 +96,7 @@ soccerControllers.controller('LoginController', function ($scope, $routeParams, 
                 
                 console.log('User succesfully logged');      
 
-                $rootScope.loggedUser.name = "Karel";
+                $rootScope.loggedUser.name = response.data.username;
                 $rootScope.loggedUser.logged = true;  
             
                 $("#login").attr('style', 'display: none !important');
@@ -107,17 +107,15 @@ soccerControllers.controller('LoginController', function ($scope, $routeParams, 
                 
             }, function error(response) {
                 
-                console.log(response);
-                
                 //display error
-                $scope.errorAlert = 'Login failed!';
+                $rootScope.errorAlert = 'Login failed!';
             });
         };
     
 });
 
 
-soccerControllers.controller('TeamsController', function ($scope, $http) {
+soccerControllers.controller('TeamsController', function ($scope, $rootScope, $http) {
     
     $http.get('/pa165/api/v1/teams').then(function(response) {        
         var teams = response.data['_embedded']['teams'];             
@@ -126,13 +124,12 @@ soccerControllers.controller('TeamsController', function ($scope, $http) {
         
     }, function error(error) {
         //display error
-        console.log(error);
-        $scope.errorAlert = error;
+        $rootScope.errorAlert = error.data.message;
     });
     
 });
 
-soccerControllers.controller('TeamDetailController', function ($scope, $routeParams, $http) {
+soccerControllers.controller('TeamDetailController', function ($scope, $routeParams, $http, $rootScope) {
     
     // get team id from URL fragment #/product/:productId
         
@@ -147,12 +144,11 @@ soccerControllers.controller('TeamDetailController', function ($scope, $routePar
     
     }, function error(error) {
         //display error
-        console.log(error);
-        $scope.errorAlert = error;
+        $rootScope.errorAlert = error.data.message;
     });
 });
 
-soccerControllers.controller('PlayersController', function ($scope, $http) {
+soccerControllers.controller('PlayersController', function ($scope, $rootScope, $http) {
     
     $http.get('/pa165/api/v1/players').then(function(response) {
         
@@ -162,13 +158,12 @@ soccerControllers.controller('PlayersController', function ($scope, $http) {
 
     }, function error(error) {
         //display error
-        console.log(error);
-        $scope.errorAlert = error;
+        $rootScope.errorAlert = error.data.message;
     });
     
 });
 
-soccerControllers.controller('PlayerDetailController', function ($scope, $routeParams, $http) {
+soccerControllers.controller('PlayerDetailController', function ($scope, $rootScope, $routeParams, $http) {
         // get team id from URL fragment #/product/:productId
         
         var playerId = $routeParams.playerId;
@@ -178,12 +173,11 @@ soccerControllers.controller('PlayerDetailController', function ($scope, $routeP
     
     }, function error(error) {
         //display error
-        console.log(error);
-        $scope.errorAlert = error;
+        $rootScope.errorAlert = error.data.message;
     });
 });
 
-soccerControllers.controller('MatchesController', function ($scope, $http) {
+soccerControllers.controller('MatchesController', function ($scope, $rootScope, $http) {
     
     $http.get('/pa165/api/v1/matches').then(function(response) {
         
@@ -193,12 +187,12 @@ soccerControllers.controller('MatchesController', function ($scope, $http) {
 
     }, function error(error) {
         console.log(error);
-        $scope.errorAlert = error;
+        $rootScope.errorAlert = error.data.message;
     });
     
 });
 
-soccerControllers.controller('MatchDetailController', function ($scope, $routeParams, $http) {
+soccerControllers.controller('MatchDetailController', function ($scope, $rootScope, $routeParams, $http) {
                 
         var matchId = $routeParams.matchId;
         $http.get('/pa165/api/v1/matches/' + matchId).then(function (response) {
@@ -207,7 +201,7 @@ soccerControllers.controller('MatchDetailController', function ($scope, $routePa
     
     }, function error(error) {
         console.log(error);
-        $scope.errorAlert = error;
+        $rootScope.errorAlert = error.data.message;
     });
     
     $scope.IsHidden = true;
@@ -280,12 +274,12 @@ soccerControllers.controller('NewMatchController',
             $location.path("/matches");
         }, function error(response) {
             //display error
-            $scope.errorAlert = 'Cannot create match!';
+            $rootScope.errorAlert = 'Cannot create match!';
         });
     };
 });
 
-soccerControllers.controller('ResultsController', function ($scope, $http) {
+soccerControllers.controller('ResultsController', function ($scope, $rootScope, $http) {
     
     $http.get('/pa165/api/v1/results').then(function(response) {
         
@@ -295,7 +289,7 @@ soccerControllers.controller('ResultsController', function ($scope, $http) {
 
     }, function error(error) {
         console.log(error);
-        $scope.errorAlert = error;
+        $rootScope.errorAlert = error.data.message;
     });
     
 });
