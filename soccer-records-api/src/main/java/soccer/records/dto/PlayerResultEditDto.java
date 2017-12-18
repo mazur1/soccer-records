@@ -20,17 +20,16 @@ public class PlayerResultEditDto {
     
     @Min(0)
     private int goalsScored;
-    @JsonIgnore
-    private PlayerDto player;
-    @JsonIgnore
-    private MatchDto match;
+
+    private Long playerId;
+    private Long matchId;
 
     public PlayerResultEditDto() {
     }
 
-    public PlayerResultEditDto(PlayerDto p, MatchDto m) {
-        this.player = p;
-        this.match = m;
+    public PlayerResultEditDto(Long p, Long m) {
+        this.playerId = p;
+        this.matchId = m;
     }
 
     public Long getId() {
@@ -49,20 +48,20 @@ public class PlayerResultEditDto {
         this.goalsScored = goalsScored;
     }
 
-    public PlayerDto getPlayer() {
-        return player;
+    public Long getPlayer() {
+        return playerId;
     }
 
-    public void setPlayer(PlayerDto player) {
-        this.player = player;
+    public void setPlayer(Long playerId) {
+        this.playerId = playerId;
     }
 
-    public MatchDto getMatch() {
-        return match;
+    public Long getMatch() {
+        return matchId;
     }
 
-    public void setMatch(MatchDto match) {
-        this.match = match;
+    public void setMatch(Long matchId) {
+        this.matchId = matchId;
     }
 
     @Override
@@ -70,8 +69,8 @@ public class PlayerResultEditDto {
         final int prime = 31;
         int result = 1;
         result = prime * result + goalsScored;
-        result = prime * result + ((player == null) ? 0 : player.hashCode());
-        result = prime * result + ((match == null) ? 0 : match.hashCode());
+        result = prime * result + ((playerId == null) ? 0 : playerId.hashCode());
+        result = prime * result + ((matchId == null) ? 0 : matchId.hashCode());
         return result;
     }
  
@@ -85,17 +84,17 @@ public class PlayerResultEditDto {
             return false;
         PlayerResultEditDto other = (PlayerResultEditDto) obj;
         
-        if (player == null) {
+        if (playerId == null) {
             if (other.getPlayer() != null)
                 return false;
-        } else if (!player.equals(other.getPlayer())){
+        } else if (!playerId.equals(other.getPlayer())){
             return false;
         }
 
-        if (match == null) {
+        if (matchId == null) {
             if (other.getMatch()!= null)
                 return false;
-        } else if (!match.equals(other.getMatch())){
+        } else if (!matchId.equals(other.getMatch())){
             return false;
         }
         

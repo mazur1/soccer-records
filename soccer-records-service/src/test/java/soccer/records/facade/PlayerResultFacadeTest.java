@@ -124,9 +124,9 @@ public class PlayerResultFacadeTest extends AbstractTestNGSpringContextTests {
         pr1Dto.setGoalsScored(3);
         //playerResultDao.create(pr1);
         
-        pr1CreateDto = new PlayerResultCreateDto(p1Dto, m1Dto);
+        pr1CreateDto = new PlayerResultCreateDto(p1Dto.getId(), m1Dto.getId());
         
-        pr1EditDto = new PlayerResultEditDto(p1Dto, m1Dto);
+        pr1EditDto = new PlayerResultEditDto(p1Dto.getId(), m1Dto.getId());
         //pr1EditDto.setGoalsScored(3);
         
     }    

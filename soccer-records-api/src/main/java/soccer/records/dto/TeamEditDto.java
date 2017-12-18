@@ -14,13 +14,6 @@ public class TeamEditDto {
     private Long id;
     
     private String name;
-    
-    @JsonIgnore
-    private List<PlayerDto> players = new ArrayList<>();
-    @JsonIgnore
-    private List<MatchDto> matchesHome = new ArrayList<>();
-    @JsonIgnore  
-    private List<MatchDto> matchesAway = new ArrayList<MatchDto>();
 
     public Long getId() {
         return id;
@@ -38,25 +31,7 @@ public class TeamEditDto {
         this.name = name;
     }
     
-    public List<PlayerDto> getTeamPlayers() {
-        return this.players;
-    }
-    
-    public List<MatchDto> getMatchesHome() {
-        return this.matchesHome;
-    }
-    
-    public List<MatchDto> getMatchesAway() {
-        return this.matchesAway;
-    }
-    
-    public void addMatchHome(MatchDto m){
-        matchesHome.add(m);
-    }
-    
-    public void addMatchAway(MatchDto m){
-        matchesAway.add(m);
-    }
+
     
     @Override
     public int hashCode() {
@@ -64,9 +39,7 @@ public class TeamEditDto {
         int result = 1;
              
         result = prime * result + ((name == null) ? 0 : name.hashCode());
-        result = prime * result + ((players == null) ? 0 : players.hashCode());
-        result = prime * result + ((matchesHome == null) ? 0 : matchesHome.hashCode());
-        result = prime * result + ((matchesAway == null) ? 0 : matchesAway.hashCode());
+
         return result;
         
     }   
@@ -94,17 +67,17 @@ public class TeamEditDto {
             return false;
         }
         
-        if (!matchesHome.equals(other.getMatchesHome())) {
-            return false;
-        }
-        
-        if (!matchesHome.equals(other.getMatchesAway())) {
-            return false;
-        }
-
-        if (!matchesHome.equals(other.getTeamPlayers())) {
-            return false;
-        }                       
+//        if (!matchesHome.equals(other.getMatchesHome())) {
+//            return false;
+//        }
+//        
+//        if (!matchesHome.equals(other.getMatchesAway())) {
+//            return false;
+//        }
+//
+//        if (!matchesHome.equals(other.getTeamPlayers())) {
+//            return false;
+//        }                       
         
         return true;
     }    
