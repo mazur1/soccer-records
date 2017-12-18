@@ -8,6 +8,7 @@ package soccer.records.dto;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.util.Date;
+import java.util.Objects;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
@@ -23,14 +24,18 @@ public class MatchDto extends AuditableDto<String> {
     private Long id;
     private Date dateAndTime;
     private LocationDto location;
-    //@Min(0)
+    @Min(0)
     private int teamHomeGoalsScored;
-    //@Min(0)
+    @Min(0)
     private int teamAwayGoalsScored;
     @Min(0)
     private int teamHomeGoalsScoredHalf;
     @Min(0)
     private int teamAwayGoalsScoredHalf;
+    @NotNull
+    private Long teamHomeId;
+    @NotNull
+    private Long teamAwayId;
     
     @NotNull
     //@JsonIgnore
@@ -40,9 +45,6 @@ public class MatchDto extends AuditableDto<String> {
     //@JsonIgnore
     private TeamDto teamAway;
 
-    //@JsonIgnore
-    //private List<PlayerResultDto> playerResults = new ArrayList<>();
-        
     public TeamDto getTeamHome() {
         return teamHome;
     }
@@ -58,6 +60,12 @@ public class MatchDto extends AuditableDto<String> {
     public void setTeamAway(TeamDto teamAway) {
         this.teamAway = teamAway;
     }
+
+    
+    
+    //@JsonIgnore
+    //private List<PlayerResultDto> playerResults = new ArrayList<>();*/
+    
     /*public List<PlayerResultDto> getPlayerResults() {
         return Collections.unmodifiableList(playerResults);
     }
@@ -134,6 +142,22 @@ public class MatchDto extends AuditableDto<String> {
             return teamHomeGoalsScoredHalf;
         return teamHomeGoalsScored;
     }
+
+    public Long getTeamHomeId() {
+        return teamHomeId;
+    }
+
+    public void setTeamHomeId(Long teamHomeId) {
+        this.teamHomeId = teamHomeId;
+    }
+
+    public Long getTeamAwayId() {
+        return teamAwayId;
+    }
+
+    public void setTeamAwayId(Long teamAwayId) {
+        this.teamAwayId = teamAwayId;
+    }
     
     /**
      * Constructor assigns a specific id
@@ -142,33 +166,16 @@ public class MatchDto extends AuditableDto<String> {
     public MatchDto(Long id) {
          this.id = id;
     }
-
-    /**
-     * Constructor sets both notNull properties
-     * @param teamHome
-     * @param teamAway 
-     */
-    public MatchDto(TeamDto teamHome, TeamDto teamAway) {
-        this.teamHome = teamHome;
-        this.teamAway = teamAway;
-    } 
     
     public MatchDto() {
     }       
-      
+
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        if(id != null)
-            return prime * result + id.hashCode();
-        
-        result = prime * result + ((dateAndTime == null) ? 0 : dateAndTime.hashCode());
-        result = prime * result + ((location == null) ? 0 : location.hashCode());
-        result = prime * result + ((teamHome == null) ? 0 : teamHome.hashCode());
-        result = prime * result + ((teamAway == null) ? 0 : teamAway.hashCode());
-        
-        return result;
+        int hash = 3;
+        hash = 19 * hash + Objects.hashCode(this.teamHomeId);
+        hash = 19 * hash + Objects.hashCode(this.teamAwayId);
+        return hash;
     }
 
     @Override
@@ -182,92 +189,25 @@ public class MatchDto extends AuditableDto<String> {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        
-        MatchDto other = (MatchDto) obj;        
-        
-        if (id == null) {
-            if (other.getId()!= null) {
-                return false;
-            }
-        } else return id.equals(other.getId());
-        
-        if (teamHome == null) {
-            if (other.getTeamHome() != null) { 
-                return false;
-            }
-        } else if (!teamHome.equals(other.getTeamHome())) {
+        final MatchDto other = (MatchDto) obj;
+        if (!Objects.equals(this.id, other.id)) {
             return false;
         }
-        
-        if (teamAway == null) {
-            if (other.getTeamAway() != null) {
-                return false;
-            }
-        } else if (!teamAway.equals(other.getTeamAway())) {
+        if (!Objects.equals(this.dateAndTime, other.dateAndTime)) {
             return false;
         }
-        
-        if (dateAndTime == null) {
-            if (other.getDateAndTime() != null) {
-                return false;
-            }
-        } else if (!dateAndTime.equals(other.getDateAndTime())) {
+        if (!Objects.equals(this.teamHomeId, other.teamHomeId)) {
             return false;
         }
-        
-        if (location == null) {
-            if (other.getLocation() != null) {
-                return false;
-            }
-        } else if (!location.equals(other.getLocation())) {
+        if (!Objects.equals(this.teamAwayId, other.teamAwayId)) {
             return false;
         }
-        
-        /*if (teamHomeGoalsScored == null) {
-            if (other.getTeamHomeGoalsScored(false) != null) {
-                return false;
-            }
-        } else if (!teamHomeGoalsScored.equals(other.getTeamHomeGoalsScored(false))) {
-            return false;
-        }
-        
-        if (teamHomeGoalsScoredHalf == null) {
-            if (other.getTeamHomeGoalsScored(true) != null) {
-                return false;
-            }
-        } else if (!teamHomeGoalsScoredHalf.equals(other.getTeamHomeGoalsScored(true))) {
-            return false;
-        }
-        
-        if (teamAwayGoalsScored == null) {
-            if (other.getTeamAwayGoalsScored(false) != null) {
-                return false;
-            }
-        } else if (!teamAwayGoalsScored.equals(other.getTeamAwayGoalsScored(false))) {
-            return false;
-        }
-        
-        if (teamAwayGoalsScoredHalf == null) {
-            if (other.getTeamAwayGoalsScored(true) != null) {
-                return false;
-            }
-        } else if (!teamAwayGoalsScoredHalf.equals(other.getTeamAwayGoalsScored(true))) {
-            return false;
-        }*/
-                
         return true;
     }
-    
+
     @Override
     public String toString() {
-	return "MatchDto{" +
-		"id=" + id + '\'' +
-		"dateAndTime=" + dateAndTime + '\'' +
-                "location=" + location + '\'' +
-                "teamHomeScoredHalf=" + teamHomeGoalsScoredHalf + '\'' +
-                "teamAwayScoredHalf=" + teamAwayGoalsScoredHalf + '\'' +
-                "teamHomeScoredTotal=" + teamHomeGoalsScored + '\'' +
-                "teamAwayScoredTotal=" + teamAwayGoalsScored + '\'' +
-		"}";
+        return "MatchDto{" + "id=" + id + ", dateAndTime=" + dateAndTime + ", location=" + location + ", teamHomeGoalsScored=" + teamHomeGoalsScored + ", teamAwayGoalsScored=" + teamAwayGoalsScored + ", teamHomeGoalsScoredHalf=" + teamHomeGoalsScoredHalf + ", teamAwayGoalsScoredHalf=" + teamAwayGoalsScoredHalf + ", teamHomeId=" + teamHomeId + ", teamAwayId=" + teamAwayId + '}';
     }
+
 }

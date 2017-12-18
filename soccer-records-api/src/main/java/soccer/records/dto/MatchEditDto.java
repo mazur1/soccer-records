@@ -10,8 +10,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -31,13 +31,13 @@ public class MatchEditDto {
     @Min(0)
     private Integer teamAwayGoalsScoredHalf;
     
-    @NotNull
+    /*@NotNull
     @JsonIgnore
     private TeamDto teamHome;
     
     @NotNull
     @JsonIgnore
-    private TeamDto teamAway;
+    private TeamDto teamAway;*/
 
     @JsonIgnore
     private List<PlayerResultDto> playerResults = new ArrayList<>();
@@ -49,22 +49,7 @@ public class MatchEditDto {
     public void setId(Long id) {
         this.id = id;
     }
-    
-    public TeamDto getTeamHome() {
-        return teamHome;
-    }
-
-    public void setTeamHome(TeamDto teamHome) {
-        this.teamHome = teamHome;
-    }
-
-    public TeamDto getTeamAway() {
-        return teamAway;
-    }
-
-    public void setTeamAway(TeamDto teamAway) {
-        this.teamAway = teamAway;
-    }
+ 
     public List<PlayerResultDto> getPlayerResults() {
         return Collections.unmodifiableList(playerResults);
     }
@@ -121,36 +106,15 @@ public class MatchEditDto {
             this.teamAwayGoalsScoredHalf = teamAwayGoalsScored;
         else
             this.teamAwayGoalsScored = teamAwayGoalsScored;
-    }
-    
-    /**
-     * Constructor sets both notNull properties
-     * @param teamHome
-     * @param teamAway 
-     */
-    public MatchEditDto(TeamDto teamHome, TeamDto teamAway) {
-        this.teamHome = teamHome;
-        this.teamAway = teamAway;
     } 
     
     public MatchEditDto() {
     }       
-      
+
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        
-        result = prime * result + ((dateAndTime == null) ? 0 : dateAndTime.hashCode());
-        result = prime * result + ((location == null) ? 0 : location.hashCode());
-        result = prime * result + ((teamHome == null) ? 0 : teamHome.hashCode());
-        result = prime * result + ((teamAway == null) ? 0 : teamAway.hashCode());
-        result = prime * result + ((teamHomeGoalsScored == null) ? 0 : teamHomeGoalsScored.hashCode());
-        result = prime * result + ((teamHomeGoalsScoredHalf == null) ? 0 : teamHomeGoalsScoredHalf.hashCode());
-        result = prime * result + ((teamAwayGoalsScored == null) ? 0 : teamAwayGoalsScored.hashCode());
-        result = prime * result + ((teamAwayGoalsScoredHalf == null) ? 0 : teamAwayGoalsScoredHalf.hashCode());
-        
-        return result;
+        int hash = 7;
+        return hash;
     }
 
     @Override
@@ -164,85 +128,17 @@ public class MatchEditDto {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        
-        MatchEditDto other = (MatchEditDto) obj;        
-                
-        if (teamHome == null) {
-            if (other.getTeamHome() != null) { 
-                return false;
-            }
-        } else if (!teamHome.equals(other.getTeamHome())) {
+        final MatchEditDto other = (MatchEditDto) obj;
+        if (!Objects.equals(this.id, other.id)) {
             return false;
         }
-        
-        if (teamAway == null) {
-            if (other.getTeamAway() != null) {
-                return false;
-            }
-        } else if (!teamAway.equals(other.getTeamAway())) {
-            return false;
-        }
-        
-        if (dateAndTime == null) {
-            if (other.getDateAndTime() != null) {
-                return false;
-            }
-        } else if (!dateAndTime.equals(other.getDateAndTime())) {
-            return false;
-        }
-        
-        if (location == null) {
-            if (other.getLocation() != null) {
-                return false;
-            }
-        } else if (!location.equals(other.getLocation())) {
-            return false;
-        }
-        
-        if (teamHomeGoalsScored == null) {
-            if (other.getTeamHomeGoalsScored(false) != null) {
-                return false;
-            }
-        } else if (!teamHomeGoalsScored.equals(other.getTeamHomeGoalsScored(false))) {
-            return false;
-        }
-        
-        if (teamHomeGoalsScoredHalf == null) {
-            if (other.getTeamHomeGoalsScored(true) != null) {
-                return false;
-            }
-        } else if (!teamHomeGoalsScoredHalf.equals(other.getTeamHomeGoalsScored(true))) {
-            return false;
-        }
-        
-        if (teamAwayGoalsScored == null) {
-            if (other.getTeamAwayGoalsScored(false) != null) {
-                return false;
-            }
-        } else if (!teamAwayGoalsScored.equals(other.getTeamAwayGoalsScored(false))) {
-            return false;
-        }
-        
-        if (teamAwayGoalsScoredHalf == null) {
-            if (other.getTeamAwayGoalsScored(true) != null) {
-                return false;
-            }
-        } else if (!teamAwayGoalsScoredHalf.equals(other.getTeamAwayGoalsScored(true))) {
-            return false;
-        }
-                
         return true;
     }
-    
+
     @Override
     public String toString() {
-	return "MatchDto{" +
-		"dateAndTime=" + dateAndTime + '\'' +
-                "location=" + location + '\'' +
-                "teamHomeScoredHalf=" + teamHomeGoalsScoredHalf + '\'' +
-                "teamAwayScoredHalf=" + teamAwayGoalsScoredHalf + '\'' +
-                "teamHomeScoredTotal=" + teamHomeGoalsScored + '\'' +
-                "teamAwayScoredTotal=" + teamAwayGoalsScored + '\'' +
-		"}";
+        return "MatchEditDto{" + "id=" + id + ", dateAndTime=" + dateAndTime + ", location=" + location + ", teamHomeGoalsScored=" + teamHomeGoalsScored + ", teamAwayGoalsScored=" + teamAwayGoalsScored + ", teamHomeGoalsScoredHalf=" + teamHomeGoalsScoredHalf + ", teamAwayGoalsScoredHalf=" + teamAwayGoalsScoredHalf + ", playerResults=" + playerResults + '}';
     }
+      
+    
 }
