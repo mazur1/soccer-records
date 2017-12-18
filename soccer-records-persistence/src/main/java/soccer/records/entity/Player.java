@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
@@ -54,7 +55,8 @@ public class Player extends Auditable<String,Long> {
     @Column(nullable = false)
     private boolean isActive;
 
-    @OneToMany(mappedBy = "player")
+    @OneToMany()
+    @JoinColumn(name="Player_FK")
     private Set<PlayerResult> playerResults = new HashSet<>();
 
     public Player(Long playerId) {
