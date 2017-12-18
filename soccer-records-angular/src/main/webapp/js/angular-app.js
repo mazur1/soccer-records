@@ -18,6 +18,7 @@ soccerRecordspApp.config(['$routeProvider',
             when('/teams/:teamId', {templateUrl: 'partials/detail/team.html', controller: 'TeamDetailController'}).
             when('/players/:playerId', {templateUrl: 'partials/detail/player.html', controller: 'PlayerDetailController'}).            
             when('/matches/:matchId', {templateUrl: 'partials/detail/match.html', controller: 'MatchDetailController'}).
+            when('/newPlayer', {templateUrl: 'partials/admin/new_player.html', controller: 'NewPlayerController'}).
             when('/newmatch', {templateUrl: 'partials/admin/new_match.html', controller: 'NewMatchController'}).
             when('/newteam', {templateUrl: 'partials/admin/new_team.html', controller: 'NewTeamController'}).
             when('/newplayerresult', {templateUrl: 'partials/admin/new_player_result.html'}).
@@ -58,21 +59,6 @@ soccerRecordspApp.run(function($rootScope) {
 soccerControllers.controller('DefaultController', function ($scope, $rootScope, $http) {
     
     console.log($rootScope.loggedUser);
-    
-    /*
-    $http.get('api/v1/teams').then(function(response) {
-        
-        var teams = response.data['_embedded']['teams'];             
-        console.log('AJAX loaded all teams');  
-        $scope.teams = teams;
-
-    }, function error(error) {
-        //display error
-        console.log(error);
-        $scope.errorAlert = error;
-    });
-    
-    */
     
 });
 
@@ -131,7 +117,7 @@ soccerControllers.controller('TeamsController', function ($scope, $rootScope, $h
 });
 
 
-soccerControllers.controller('NewTeamController',  function ($scope, $window, $http) {
+soccerControllers.controller('NewTeamController',  function ($scope, $rootScope, $window, $http) {
         
     $scope.create = function (team) {
     
@@ -147,6 +133,7 @@ soccerControllers.controller('NewTeamController',  function ($scope, $window, $h
             }, 
             function(response) { 
                 console.log('new team create failed'); 
+                $rootScope.errorAlert = "new team create failed";
             });
     }
 });
@@ -197,6 +184,47 @@ soccerControllers.controller('PlayerDetailController', function ($scope, $rootSc
         //display error
         $rootScope.errorAlert = error.data.message;
     });
+});
+
+soccerControllers.controller('NewPlayerController',  function ($scope, $location, $rootScope, $window, $http) {
+        
+    $scope.posts = ['ATTACKER', 'MIDFIELDER', 'DEFENDER', 'GOLMAN'];
+    
+    $http.get('/pa165/api/v1/teams/').then(function (response) {
+        $scope.teams = response.data['_embedded']['teams'];
+    });
+        
+    $scope.player = {
+        'name': '',
+        'surname': '',
+        'age': 0,
+        'post': '',
+        'captain': false,
+        'country': '',
+        'city': '',
+        'team': null
+    };    
+        
+    $scope.create = function (player) {
+    
+            alert(JSON.stringify(player));
+    
+            $http({
+                method: 'POST',
+                url: '/pa165/api/v1/players/create/',
+                data: player
+            }).then(function success(response) {
+                
+                $rootScope.successAlert = "Player succesfuly created";
+                console.log('player succesfuly created');
+                $location.path("/players");
+                
+            }, function error(response) {
+                console.log('new player create failed'); 
+                $rootScope.errorAlert = "new player create failed";
+            }); 
+       
+    }
 });
 
 soccerControllers.controller('MatchesController', function ($scope, $rootScope, $http) {
@@ -380,102 +408,6 @@ soccerControllers.controller('ResultsController', function ($scope, $rootScope, 
     
 });
 
-/*
-// helper procedure loading products to category
-function loadCategoryProducts($http, category, prodLink) {
-    $http.get(prodLink).then(function (response) {
-        category.products = response.data['_embedded']['products'];
-        console.log('AJAX loaded ' + category.products.length + ' products to category ' + category.name);
-    });
-}
-
-soccerControllers.controller('ProductDetailCtrl',
-    function ($scope, $routeParams, $http) {
-        // get product id from URL fragment #/product/:productId
-        var productId = $routeParams.productId;
-        $http.get('/eshop/api/v1/products/' + productId).then(function (response) {
-            $scope.product = response.data;
-            console.log('AJAX loaded detail of product ' + $scope.product.name);
-        });
-    });
-
-soccerControllers.controller('CategoryDetailCtrl', ['$scope', '$routeParams', '$http',
-    function ($scope, $routeParams, $http) {
-        var categoryId = $routeParams.categoryId;
-        $http.get('/eshop/api/v1/categories/' + categoryId).then(function (response) {
-            var category = response.data;
-            $scope.category = category;
-            console.log('AJAX loaded detail of category ' + category.name);
-            loadCategoryProducts($http, category, category['_links'].products.href);
-        });
-    }]);
-
-function loadAdminProducts($http, $scope) {
-    $http.get('/eshop/api/v1/products').then(function (response) {
-        $scope.products = response.data._embedded.products;
-        console.log('AJAX loaded all products ');
-    });
-}
-soccerControllers.controller('AdminProductsCtrl',
-    function ($scope, $rootScope, $routeParams, $http) {
-        //initial load of all products
-        loadAdminProducts($http, $scope);
-        // function called when Delete button is clicked
-        $scope.deleteProduct = function (product) {
-	        console.log("deleting product with id=" + product.id + ' (' + product.name + ')');
-            $http.delete(product._links.delete.href).then(
-                function success(response) {
-                    console.log('deleted product ' + product.id + ' on server');
-                    //display confirmation alert
-                    $rootScope.successAlert='Deleted product "'+product.name+'"';
-                    //load new list of all products
-                    loadAdminProducts($http, $scope);
-                },
-                function error(response) {
-                    console.log('server returned error');
-                    $rootScope.errorAlert = 'Cannot delete product "'+product.name+'"! It is used in an order.';
-                }
-            );
-        };
-    });
-
-soccerControllers.controller('AdminNewProductCtrl',
-    function ($scope, $routeParams, $http, $location, $rootScope) {
-        //prepare data for selection lists
-        $scope.colors = ['RED', 'GREEN', 'BLUE', 'BLACK'];
-        $scope.currencies = ['CZK', 'EUR', 'USD'];
-        //get categories from server
-        $http.get('/eshop/api/v1/categories/').then(function (response) {
-            $scope.categories = response.data['_embedded']['categories'];
-        });
-        //set object bound to form fields
-        $scope.product = {
-            'name': '',
-            'description': '',
-            'categoryId': 1,
-            'price': 0,
-            'color': $scope.colors[1],
-            'currency': $scope.currencies[0]
-        };
-        // function called when submit button is clicked, creates product on server
-        $scope.create = function (product) {
-            $http({
-                method: 'POST',
-                url: '/eshop/api/v1/products/create',
-                data: product
-            }).then(function success(response) {
-                console.log('created product');
-                var createdProduct= response.data;
-                //display confirmation alert
-                $rootScope.successAlert = 'A new product "'+createdProduct.name+'" was created';
-                //change view to list of products
-                $location.path("/admin/products");
-            }, function error(response) {
-                //display error
-                $scope.errorAlert = 'Cannot create product !';
-            });
-        };
-    });
 
 // defines new directive (HTML attribute "convert-to-int") for conversion between string and int
 // of the value of a selection list in a form
@@ -493,5 +425,3 @@ soccerControllers.directive('convertToInt', function () {
         }
     };
 });
-
-*/
