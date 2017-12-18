@@ -17,7 +17,6 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 import soccer.records.config.ServiceConfiguration;
 import soccer.records.dto.TeamCreateDto;
 import soccer.records.dto.TeamDto;
@@ -65,7 +64,7 @@ public class TeamFacadeTest extends AbstractTestNGSpringContextTests {
  
     //@Test
     public void createTeam() {
-        Mockito.when(mappingService.mapTo(pr1Dto, Team.class)).thenReturn(pr1);
+        Mockito.when(mappingService.mapTo(prCreate1Dto, Team.class)).thenReturn(pr1);
         teamFacade.createTeam(prCreate1Dto);
         Mockito.verify(teamService).create(pr1);
     }

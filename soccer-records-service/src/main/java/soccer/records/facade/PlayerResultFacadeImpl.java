@@ -8,6 +8,7 @@ package soccer.records.facade;
 import java.util.List;
 import javax.inject.Inject;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import soccer.records.dto.PlayerResultCreateDto;
 import soccer.records.dto.PlayerResultDto;
 import soccer.records.dto.PlayerResultEditDto;
@@ -25,6 +26,7 @@ import soccer.records.entity.PlayerResult;
  */
 
 @Service
+@Transactional
 public class PlayerResultFacadeImpl implements PlayerResultFacade{
  
     @Inject

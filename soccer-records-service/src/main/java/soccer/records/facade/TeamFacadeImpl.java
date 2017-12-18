@@ -7,13 +7,12 @@ package soccer.records.facade;
 
 import java.util.List;
 import javax.inject.Inject;
-import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import soccer.records.dto.MatchDto;
 import soccer.records.dto.TeamCreateDto;
 import soccer.records.dto.TeamDto;
 import soccer.records.entity.Match;
-import soccer.records.entity.Player;
 import soccer.records.entity.Team;
 import soccer.records.services.BeanMappingService;
 import soccer.records.services.MatchService;

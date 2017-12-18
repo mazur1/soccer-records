@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import soccer.records.dto.MatchCreateDto;
 import soccer.records.dto.MatchDto;
 import soccer.records.dto.MatchEditDto;
@@ -31,6 +32,7 @@ import soccer.records.services.TeamService;
  */
 
 @Service
+@Transactional
 public class MatchFacadeImpl implements MatchFacade {
 
     final static Logger log = LoggerFactory.getLogger(MatchFacadeImpl.class);

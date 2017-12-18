@@ -88,4 +88,14 @@ public class MatchDaoImpl extends DefaultCrudDaoImpl<Match,Long> implements Matc
         }
     }
     
+    @Override
+    public void delete(Match c) throws DataAccessExceptions{
+        try {
+            c.setIsActive(false);
+            em.merge(c);
+        } catch (Exception e) {
+            throw new DataAccessExceptions(e.getMessage());
+        }
+    }
+    
 }
