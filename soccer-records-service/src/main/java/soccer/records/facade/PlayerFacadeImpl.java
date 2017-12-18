@@ -11,12 +11,15 @@ import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import soccer.records.dto.PlayerCreateDto;
 import soccer.records.dto.PlayerDto;
+import soccer.records.dto.PlayerEditDto;
 import soccer.records.dto.PlayerResultDto;
 import soccer.records.entity.Player;
 import soccer.records.entity.PlayerResult;
 import soccer.records.services.BeanMappingService;
+
 import soccer.records.services.PlayerResultService;
 import soccer.records.services.PlayerService;
+import soccer.records.services.TeamService;
 
 /**
  *
@@ -31,27 +34,32 @@ public class PlayerFacadeImpl implements PlayerFacade {
     
     @Inject
     private PlayerService playerService;
+
+    @Inject
+    private TeamService teamService;
     
     @Inject    
     private BeanMappingService beanMappingService;
     
     @Override
     public Long createPlayer(PlayerCreateDto p) {
-        Player player = new Player();
-        player.setName(p.getName());
-        player.setSurname(p.getSurname());
-        player.setAge(p.getAge());
-        player.setPost(p.getPost());
-        player.setCaptain(p.isCaptain());
-        player.setCountry(p.getCountry());
-        player.setCity(p.getCity());
-        playerService.create(player);
-        return player.getId();
+        
+        Player mapped = beanMappingService.mapTo(p, Player.class);       
+        mapped.setTeam(teamService.findById(p.getTeam()));      
+        playerService.create(mapped);    
+        return mapped.getId();
     }
     
     @Override
-    public void updatePlayer(PlayerDto p) {
+    public void updatePlayer(PlayerEditDto p) {
         Player mapped = beanMappingService.mapTo(p, Player.class);
+        
+        mapped.setTeam(teamService.findById(p.getTeam()));
+        
+        for (Long item : p.getPlayerResults()) {
+            mapped.addPlayerResult(resultService.findById(item));
+        }
+        
         playerService.update(mapped);
     }
     
