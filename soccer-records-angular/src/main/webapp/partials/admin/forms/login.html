@@ -5,11 +5,11 @@
 
 <form name="form" novalidate class="form-horizontal">
 
-    <div class="form-group" ng-class="{'has-error': !(form.userName.$valid)}">
-        <label for="userName" class="col-sm-2 control-label">Username</label>
+    <div class="form-group" ng-class="{'has-error': !(form.username.$valid)}">
+        <label for="username" class="col-sm-2 control-label">Username</label>
         <div class="col-sm-10">
-            <input placeholder="email" id="userName" type="text" name="userName" class="form-control" ng-model="user.userName" required/>
-            <p class="help-block" ng-show="form.userName.$error.required">Email is required</p>
+            <input placeholder="email" id="username" type="text" name="username" class="form-control" ng-model="user.username" required/>
+            <p class="help-block" ng-show="form.username.$error.required">Username is required</p>
         </div>
     </div>
 

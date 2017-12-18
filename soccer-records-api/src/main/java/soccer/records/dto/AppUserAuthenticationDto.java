@@ -7,15 +7,14 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
  *
  * @author Michaela Bocanova
  */
-@JsonIdentityInfo(
-  generator = ObjectIdGenerators.PropertyGenerator.class, 
-  property = "id")
+
 public class AppUserAuthenticationDto {
     
-    private Long id;
+    //private Long id;
     private String username;
     private String password;
 
+    /*
     public Long getId()
     {
         return id;
@@ -25,6 +24,7 @@ public class AppUserAuthenticationDto {
     {
         this.id = userId;
     }
+    */
 
     public String getPassword()
     {
@@ -42,6 +42,14 @@ public class AppUserAuthenticationDto {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+    
+    @Override
+    public String toString() {
+        return "UserDto{" +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
     
 }

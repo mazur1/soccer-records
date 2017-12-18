@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.springframework.hateoas.ResourceSupport;
 import org.springframework.hateoas.core.Relation;
 
-import soccer.records.dto.AppUserAuthenticationDto;
+import soccer.records.dto.AppUserDto;
 
 /**
  *
@@ -18,18 +18,16 @@ import soccer.records.dto.AppUserAuthenticationDto;
  */
 
 @Relation(value = "user", collectionRelation = "users")
-@JsonPropertyOrder({"userId", "username", "password"})
+@JsonPropertyOrder({"userId", "username"})
 public class UserResource extends ResourceSupport{
 
     @JsonProperty("id") 
     private Long userId;
     private String username;
-    private String password;
     
-    public UserResource(AppUserAuthenticationDto dto) {
+    public UserResource(AppUserDto dto) {
         this.userId = dto.getId();
         username = dto.getUsername();
-        password = dto.getPassword();
     }
 
     public Long getUserId() {
@@ -48,12 +46,4 @@ public class UserResource extends ResourceSupport{
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-    
 }
