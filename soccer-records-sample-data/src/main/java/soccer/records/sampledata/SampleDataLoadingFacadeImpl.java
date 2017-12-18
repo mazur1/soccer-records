@@ -84,18 +84,69 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         Player p19 = player("Václav", "Pilaø", 28, PlayerPost.MIDFIELDER, false, plzen, "Praha", "Czech Republic");
         Player p110 = player("Jonas", "Vais", 33, PlayerPost.MIDFIELDER, false, plzen, "Praha", "Czech Republic");
         Player p111 = player("Marek", "Bakoš", 30, PlayerPost.GOLMAN, false, plzen, "Praha", "Czech Republic");
+        
+        Player p21 = player( "Radek", "Buchta", 24, PlayerPost.ATTACKER , true, brno, "Praha", "Czech Republic");
+        Player p22 = player( "Toman", "Chico", 22, PlayerPost.ATTACKER , false, brno, "Praha", "Czech Republic");
+        Player p23 = player( "David", "Gac", 27, PlayerPost.ATTACKER , false, brno, "Praha", "Czech Republic");
+        Player p24 = player( "Tomáš", "Jablonský", 22, PlayerPost.DEFENDER , true, brno, "Praha", "Czech Republic");
+        Player p25 = player( "Mihailo", "Jovanoviè", 28, PlayerPost.DEFENDER , false, brno, "Praha", "Czech Republic");
+        Player p26 = player( "Tadas", "Kijanskas", 26, PlayerPost.DEFENDER , false, brno, "Praha", "Czech Republic");
+        Player p27 = player( "Petr", "Pavlík", 26, PlayerPost.MIDFIELDER , false, brno, "Praha", "Czech Republic");
+        Player p28 = player( "Lukáš", "Vraštil", 25, PlayerPost.MIDFIELDER , false, brno, "Praha", "Czech Republic");
+        Player p29 = player( "Jakub", "Šural", 22, PlayerPost.MIDFIELDER , false, brno, "Praha", "Czech Republic");
+        Player p210 = player( "Alvin", "Fortes", 31, PlayerPost.MIDFIELDER , false, brno, "Praha", "Czech Republic");
+        Player p211 = player( "Dominik", "Janosek", 33, PlayerPost.GOLMAN , false, brno, "Praha", "Czech Republic");
 
-        Match m01 = match(plzen, sparta, "16-12-2017 10:00");
-        Match m02 = match(brno, liberec, "17-12-2017 13:00");
-        Match m03 = match(plzen, brno, "11-12-2017 10:30");
-        Match m04 = match(liberec, plzen, "31-12-2017 11:00");
-        Match m05 = match(plzen, jablonec, "24-12-2017 10:00");
+
+        Player p31 = player("Martin", "Juhar", 24, PlayerPost.ATTACKER , true, liberec, "Praha", "Czech Republic");
+        Player p32 = player("Luboš", "Košuliè", 22, PlayerPost.ATTACKER , false, liberec, "Praha", "Czech Republic");
+        Player p33 = player("Ladislav", "Krejèí", 27, PlayerPost.ATTACKER , false, liberec, "Praha", "Czech Republic");
+        Player p34 = player("Milan", "Lutonský", 22, PlayerPost.DEFENDER , true, liberec, "Praha", "Czech Republic");
+        Player p35 = player("Tomáš", "Pilík", 28, PlayerPost.DEFENDER , false, liberec, "Praha", "Czech Republic");
+        Player p36 = player("Jan", "Polák", 26, PlayerPost.DEFENDER , false, liberec, "Praha", "Czech Republic");
+        Player p37 = player("Jakub", "Pøichystal", 26, PlayerPost.MIDFIELDER , false, liberec, "Praha", "Czech Republic");
+        Player p38 = player("Jan", "Sedlák", 25, PlayerPost.MIDFIELDER , false, liberec, "Praha", "Czech Republic");
+        Player p39 = player("Marek", "Vintr", 22, PlayerPost.MIDFIELDER , false, liberec, "Praha", "Czech Republic");
+        Player p310 = player("Francis", "Kone", 31, PlayerPost.MIDFIELDER , false, liberec, "Praha", "Czech Republic");
+        Player p311 = player("Miloš", "Kratochvíl", 33, PlayerPost.GOLMAN , false, liberec, "Praha", "Czech Republic");
+
+
+        Player p41 = player("Jiøí", "Bederka", 24, PlayerPost.ATTACKER , true, jablonec, "Praha", "Czech Republic");
+        Player p42 = player("Jiøí", "Funda", 22, PlayerPost.ATTACKER , false, jablonec, "Praha", "Czech Republic");
+        Player p43 = player("Dominik", "Hašek", 27, PlayerPost.ATTACKER , false, jablonec, "Praha", "Czech Republic");
+        Player p44 = player("Karel", "Knejzlik", 22, PlayerPost.DEFENDER , true, jablonec, "Praha", "Czech Republic");
+        Player p45 = player("Marek", "Krátký", 28, PlayerPost.DEFENDER , false, jablonec, "Praha", "Czech Republic");
+        Player p46 = player("Jakub", "Martinec", 26, PlayerPost.DEFENDER , false, jablonec, "Praha", "Czech Republic");
+        Player p47 = player("Jan", "Mudra", 26, PlayerPost.MIDFIELDER , false, jablonec, "Praha", "Czech Republic");
+        Player p48 = player("Martin", "Nosek", 25, PlayerPost.MIDFIELDER , false, jablonec, "Praha", "Czech Republic");
+        Player p49 = player("Adam", "Pajer", 22, PlayerPost.MIDFIELDER , false, jablonec, "Praha", "Czech Republic");
+        Player p410 = player("Marek", "Plašil", 31, PlayerPost.MIDFIELDER , false, jablonec, "Praha", "Czech Republic");
+        Player p411 = player("Jan", "Shejbal", 33, PlayerPost.GOLMAN , false, jablonec, "Praha", "Czech Republic");
+
+        Match m01 = match(plzen, sparta, "16-12-2017 10:00", "Sportovní areál Hamr Braník");
+        Match m02 = match(brno, liberec, "17-12-2017 13:00", "Stadion Kozel");
+        Match m03 = match(plzen, brno, "11-12-2017 10:30", "Sportovní areál Hamr Braník");
+        Match m04 = match(liberec, plzen, "31-12-2017 11:00", "LIBEREC aréna");
+        Match m05 = match(plzen, jablonec, "24-12-2017 10:00", "Stadion Kozel");
         
 
 
         PlayerResult pr01 = playerResult(m01, p01, 2);
         PlayerResult pr02 = playerResult(m01, p02, 1);
         
+
+        PlayerResult pr03 = playerResult(m02, p36, 1);
+        
+        PlayerResult pr04 = playerResult(m03, p11, 2);
+        PlayerResult pr05 = playerResult(m03, p29, 1);
+        
+        PlayerResult pr06 = playerResult(m04, p110, 3);
+
+        
+        PlayerResult pr08 = playerResult(m05, p44, 1);
+        PlayerResult pr09 = playerResult(m05, p45, 1);
+        PlayerResult pr10 = playerResult(m05, p46, 2);
+        PlayerResult pr11 = playerResult(m05, p110, 1);
 
 
         
@@ -132,7 +183,7 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         return p;
     }
     
-    private Match match(Team home, Team away, String date) throws IOException {
+    private Match match(Team home, Team away, String date, String locName) throws IOException {
         Match m = new Match();
         m.setTeamAway(away);
         m.setTeamHome(home);
@@ -145,7 +196,7 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         } catch(ParseException e) {}
         
         Location loc = new Location();
-        loc.setName("Sportovní areál Hamr Braník");
+        loc.setName(locName);
         loc.setCity("Praha 4");
         loc.setState("CZ");
         loc.setStreet("Vltavanù 1542");
