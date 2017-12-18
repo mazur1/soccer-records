@@ -28,7 +28,10 @@ import javax.validation.Valid;
 import java.util.List;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import soccer.records.dto.MatchDto;
 import soccer.records.dto.TeamCreateDto;
+import soccer.records.dto.TeamResultDto;
+import soccer.records.facade.MatchFacade;
 
 /**
  * SpringMVC controller for managing REST requests for the category resources. Conforms to HATEOAS principles.
@@ -48,6 +51,9 @@ public class TeamRestController {
 
     @Autowired
     private TeamFacade teamFacade;
+    
+    @Autowired
+    private MatchFacade macthFacade;
     
     @Autowired
     private TeamResourceAssembler teamResourceAssembler;
@@ -89,7 +95,12 @@ public class TeamRestController {
         TeamResource teamResource = teamResourceAssembler.toResource(teamDTO);
         teamResource.setMatchesHome(teamFacade.getMatchesHome(id));
         teamResource.setMatchesAway(teamFacade.getMatchesAway(id));
-        log.info("get team({})", teamDTO.getId());
+
+        TeamResultDto tt = macthFacade.getTeamResult(id);
+        teamResource.setTies(tt.getTies());
+        teamResource.setWins(tt.getWins());
+        teamResource.setLooses(tt.getWins());
+        
         return new ResponseEntity<>(teamResource, HttpStatus.OK);
     }
     
