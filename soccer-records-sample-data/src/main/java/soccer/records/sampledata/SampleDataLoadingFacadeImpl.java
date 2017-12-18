@@ -102,6 +102,7 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         AppUser admin = new AppUser();
         admin.addRole(AppRole.ADMIN);
         admin.setEmail("admin@localhost.com");
+        admin.setUserName("admin");
         userService.registerUser(admin, "admin");
 
     }

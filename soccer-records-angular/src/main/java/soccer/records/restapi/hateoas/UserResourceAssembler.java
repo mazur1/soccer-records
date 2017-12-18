@@ -12,7 +12,7 @@ import org.springframework.hateoas.EntityLinks;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.mvc.ResourceAssemblerSupport;
 import org.springframework.stereotype.Component;
-import soccer.records.dto.AppUserAuthenticationDto;
+import soccer.records.dto.AppUserDto;
 
 import soccer.records.restapi.controllers.UserController;
 
@@ -22,7 +22,7 @@ import soccer.records.restapi.controllers.UserController;
  */
 
 @Component
-public class UserResourceAssembler extends ResourceAssemblerSupport<AppUserAuthenticationDto, UserResource> {
+public class UserResourceAssembler extends ResourceAssemblerSupport<AppUserDto, UserResource> {
 
     @SuppressWarnings("SpringJavaAutowiringInspection")
     @Autowired
@@ -35,7 +35,7 @@ public class UserResourceAssembler extends ResourceAssemblerSupport<AppUserAuthe
     }
     
     @Override
-    public UserResource toResource(AppUserAuthenticationDto dto) {
+    public UserResource toResource(AppUserDto dto) {
     
         UserResource resource = new UserResource(dto);
         return resource;
