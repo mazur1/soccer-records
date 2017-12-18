@@ -24,19 +24,19 @@ public class Team extends Auditable<String,Long> {
     @Column(nullable=false,unique=true)
     private String name;
     
-    //@OneToMany(mappedBy="team")
-    @OneToMany()
-    @JoinColumn(name="TeamP_FK")
+
+    @OneToMany(mappedBy="team")
+    //@JoinColumn(name="TeamP_FK")
     private List<Player> players = new ArrayList<Player>();
     
-    //@OneToMany(mappedBy="teamHome")
-    @OneToMany()
-    @JoinColumn(name="TeamH_FK")
+
+    @OneToMany(mappedBy="teamHome")
+    //@JoinColumn(name="TeamH_FK")
     private List<Match> matchesHome = new ArrayList<Match>();
         
-    //@OneToMany(mappedBy="teamAway")
-    @OneToMany()
-    @JoinColumn(name="TeamA_FK")
+
+    @OneToMany(mappedBy="teamAway")
+    //@JoinColumn(name="TeamA_FK")
     private List<Match> matchesAway = new ArrayList<Match>();
 
     @NotNull
