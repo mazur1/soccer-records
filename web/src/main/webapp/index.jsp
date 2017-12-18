@@ -41,14 +41,14 @@
                         <li><a href="#!/players">Players list</a></li>
                         <li><a href="#!/matches">Matches list</a></li>
                         <li><a href="#!/results">Players result list</a></li>
-                        <li class="dropdown">
+                        <!--<li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin<b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li><a href="#!/admin/teams">Teams</a></li>
                                 <li><a href="#!/admin/players">Players</a></li>
                                 <li><a href="#!/admin/matches">Matches</a></li>
                             </ul>
-                        </li>
+                        </li>-->
                     </ul>
                                     
                     <div id="login" class="collapse navbar-collapse pull-right">

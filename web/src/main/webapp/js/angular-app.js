@@ -2,7 +2,7 @@
 
 /* Defines application and its dependencies */
 
-var soccerRecordspApp = angular.module('soccerRecordspApp', ['ngRoute', 'soccerControllers']);
+var soccerRecordspApp = angular.module('soccerRecordspApp', ['ngRoute', 'ngCookies', 'soccerControllers']);
 var soccerControllers = angular.module('soccerControllers', []);
 
 /* Configures URL fragment routing, e.g. #/product/1  */
@@ -83,7 +83,7 @@ soccerControllers.controller('DefaultController', function ($scope, $rootScope, 
     
 });
 
-soccerControllers.controller('LoginController', function ($scope, $routeParams, $http, $location, $rootScope) {
+soccerControllers.controller('LoginController', function ($scope, $routeParams, $http, $location, $rootScope, $cookieStore) {
     
         //set object bound to form fields
         $scope.user = {
