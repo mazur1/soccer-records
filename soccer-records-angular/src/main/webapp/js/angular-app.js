@@ -272,10 +272,18 @@ soccerControllers.controller('NewMatchController',
         'teamHome': null,
         'teamAway': null,
         'dateAndTime': null,
-        'location': null
+        'location': null,
+        'teamHomeGoalsScored': 0,
+        'teamAwayGoalsScored': 0,
+        'teamHomeGoalsScoredHalf': 0,
+        'teamAwayGoalsScoredHalf': 0       
     };
+    
     // function called when submit button is clicked, creates match on server
     $scope.create = function (match) {
+        
+        
+        alert(JSON.stringify(match));
         
         /*$http.get('/pa165/api/v1/teams/' + $scope.selectedTeamHomeId).then(function (response) {
             
