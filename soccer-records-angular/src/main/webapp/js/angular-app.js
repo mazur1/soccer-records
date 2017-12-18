@@ -198,13 +198,13 @@ soccerControllers.controller('MatchDetailController', function ($scope, $rootSco
         $http.get('/pa165/api/v1/matches/'+matchId).then(function (response) {
             $scope.match = response.data;
             console.log('AJAX loaded detail of match ' + $scope.match.toString());
-    
+            
     }, function error(error) {
         console.log(error);
         $rootScope.errorAlert = error.data.message;
     });
     
-    $scope.delete = function(match) {
+    $scope.deleteMatch = function() {
         $http.delete('/pa165/api/v1/matches/'+matchId)
             .then(function success(response) {
             console.log('deleted match');
@@ -218,13 +218,26 @@ soccerControllers.controller('MatchDetailController', function ($scope, $rootSco
         });
         
     };
+    
+    $scope.deleteResult = function(resultId) {
+        $http.delete('/pa165/api/v1/matches/'+matchId+'results', resultId)
+            .then(function success(response) {
+            console.log('deleted match');
+            //display confirmation alert
+            $rootScope.successAlert = 'A match "'+$scope.match.toString()+'" was deleted';
+            //change view to list
+            $location.path("/matches");
+        }, function error(response) {
+            //display error
+            $scope.errorAlert = 'Cannot delete match!';
+        });
         
-    /*$scope.IsHidden = true;
+    };
+        
+    $scope.IsHidden = true;
     $scope.ShowHide = function () {
         $scope.IsHidden = $scope.IsHidden ? false : true;
     };
-    
-    $scope.items = $scope.match.teamHome.players.concat($scope.match.teamAway.players);
     
     //set object bound to form fields
     $scope.playerResult = {
@@ -249,7 +262,7 @@ soccerControllers.controller('MatchDetailController', function ($scope, $rootSco
             //display error
             $scope.errorAlert = 'Cannot create player result!';
         });
-    };*/
+    };
     
 });
 

@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import javax.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 import soccer.records.entity.Location;
 import soccer.records.entity.Match;
@@ -19,7 +18,6 @@ import soccer.records.exceptions.dao.DataAccessExceptions;
  * @author Michaela Bocanova
  */
 @Repository
-@Transactional
 public class MatchDaoImpl extends DefaultCrudDaoImpl<Match,Long> implements MatchDao {
                
     public MatchDaoImpl() {        
