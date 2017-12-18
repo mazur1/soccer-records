@@ -247,6 +247,7 @@ soccerControllers.controller('MatchDetailController', function ($scope, $rootSco
         var matchId = $routeParams.matchId;
         $http.get('/pa165/api/v1/matches/'+matchId).then(function (response) {
             $scope.match = response.data;
+            
             console.log('AJAX loaded detail of match ' + $scope.match.toString());
             
     }, function error(error) {
@@ -254,12 +255,23 @@ soccerControllers.controller('MatchDetailController', function ($scope, $rootSco
         $rootScope.errorAlert = error.data.message;
     });
     
+    /*$http.get('/pa165/api/v1/teams'+$scope.match.teamHome.id).then(function(response) {
+        
+        var players = response.data['_embedded']['players'];             
+        console.log('AJAX loaded all teams');  
+        //$scope.items2 = players;
+
+    }, function error(error) {
+        console.log(error);
+        $scope.errorAlert = error;
+    });*/   
+    
     $scope.deleteMatch = function() {
         $http.delete('/pa165/api/v1/matches/'+matchId)
             .then(function success(response) {
             console.log('deleted match');
             //display confirmation alert
-            $rootScope.successAlert = 'A match "'+$scope.match.toString()+'" was deleted';
+            $rootScope.successAlert = 'A match was deleted';
             //change view to list
             $location.path("/matches");
         }, function error(response) {
@@ -274,7 +286,7 @@ soccerControllers.controller('MatchDetailController', function ($scope, $rootSco
             .then(function success(response) {
             console.log('deleted match');
             //display confirmation alert
-            $rootScope.successAlert = 'A match "'+$scope.match.toString()+'" was deleted';
+            $rootScope.successAlert = 'A result was deleted';
             //change view to list
             $location.path("/matches");
         }, function error(response) {
@@ -305,7 +317,7 @@ soccerControllers.controller('MatchDetailController', function ($scope, $rootSco
             console.log('created player result');
             var created= response.data;
             //display confirmation alert
-            $rootScope.successAlert = 'A new player result "'+created.toString()+'" was created';
+            $rootScope.successAlert = 'A new player result was created';
             //change view to list
             $location.path("/matches");
         }, function error(response) {
@@ -332,8 +344,8 @@ soccerControllers.controller('NewMatchController',
 
     //set object bound to form fields
     $scope.match = {
-        'teamHome': null,
-        'teamAway': null,
+        'teamHome': 0,
+        'teamAway': 0,
         'dateAndTime': null,
         'location': null,
         'teamHomeGoalsScored': 0,
@@ -344,8 +356,7 @@ soccerControllers.controller('NewMatchController',
     
     // function called when submit button is clicked, creates match on server
     $scope.create = function (match) {
-        
-        
+              
         alert(JSON.stringify(match));
         
         /*$http.get('/pa165/api/v1/teams/' + $scope.selectedTeamHomeId).then(function (response) {
@@ -381,7 +392,7 @@ soccerControllers.controller('NewMatchController',
             console.log('created match');
             var created= response.data;
             //display confirmation alert
-            $rootScope.successAlert = 'A new match "'+created.name+'" was created';
+            $rootScope.successAlert = 'A new match was created';
             //change view to list
             $location.path("/matches");
         }, function error(response) {
