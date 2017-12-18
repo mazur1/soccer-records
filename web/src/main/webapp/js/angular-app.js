@@ -11,6 +11,7 @@ soccerRecordspApp.config(['$routeProvider',
         $routeProvider.
             when('/home', {templateUrl: 'partials/home.html', controller: 'DefaultController'}).
             when('/login', {templateUrl: 'partials/admin/forms/login.html', controller: 'LoginController'}).
+            when('/logout', {templateUrl: 'partials/home.html',controller: 'LogoutController'}).
             when('/teams', {templateUrl: 'partials/teams.html', controller: 'TeamsController'}).
             when('/players', {templateUrl: 'partials/players.html', controller: 'PlayersController'}).
             when('/matches', {templateUrl: 'partials/matches.html', controller: 'MatchesController'}).
@@ -28,7 +29,7 @@ soccerRecordspApp.config(['$routeProvider',
 /*
  * alert closing functions defined in root scope to be available in every template
  */
-soccerRecordspApp.run(function($rootScope) {
+soccerRecordspApp.run(function($rootScope, $cookieStore) {
     $rootScope.hideSuccessAlert = function () {
         $rootScope.successAlert = undefined;
     };
@@ -38,14 +39,34 @@ soccerRecordspApp.run(function($rootScope) {
     $rootScope.hideErrorAlert = function () {
         $rootScope.errorAlert = undefined;
     }; 
+  
+    parseUserData($cookieStore, $rootScope);
 
-    $rootScope.loggedUser = {
-        'name': "",
-        'email': "",
-        'logged': false
-    };
-
+    if($cookieStore.get('MsgRedirect') !== undefined){
+        $rootScope.successAlert = $cookieStore.get('MsgRedirect');
+        $cookieStore.remove('MsgRedirect');
+    }
 });
+
+
+function parseUserData($cookieStore, $rootScope){
+    
+    if($cookieStore.get('user') === undefined){
+        $cookieStore.put('user', {
+            'name': "",
+            'email': "",
+            'logged': false
+        });
+    }
+    
+    $rootScope.loggedUser = $cookieStore.get('user');
+    
+    if($rootScope.loggedUser.logged){         
+        $("#login").find("li").html('<a>Logged user: '+$rootScope.loggedUser.name + '</a>');      
+        $("#login").find("ul").append('<li><a href="#!/logout">Log out</a></li>')
+    }
+
+}
 
 /* Controllers */
 
@@ -58,7 +79,7 @@ soccerRecordspApp.run(function($rootScope) {
  */
 soccerControllers.controller('DefaultController', function ($scope, $rootScope, $http) {
     
-    console.log($rootScope.loggedUser);
+
     
 });
 
@@ -83,13 +104,18 @@ soccerControllers.controller('LoginController', function ($scope, $routeParams, 
                 
                 console.log('User succesfully logged');      
 
-                $rootScope.loggedUser.name = response.data.username;
-                $rootScope.loggedUser.logged = true;  
-            
-                $("#login").attr('style', 'display: none !important');
-                $("#logged").attr('style', 'display: block !important');     
-                $("#logged").find("li").html('<a>Logged user: '+$rootScope.loggedUser.name + '</a>');  
+                $cookieStore.remove('user');
+
+                $cookieStore.put('user', {
+                    'name': response.data.username,
+                    'email': "",
+                    'logged': true
+                });
                 
+                parseUserData($cookieStore, $rootScope);
+            
+               $cookieStore.put('MsgRedirect', "Login succesfull");
+            
                 $location.path("/home");
                 
             }, function error(response) {
@@ -101,6 +127,18 @@ soccerControllers.controller('LoginController', function ($scope, $routeParams, 
     
 });
 
+soccerControllers.controller('LogoutController', function ($scope, $routeParams, $http, $location, $rootScope, $cookieStore) {
+ 
+   $cookieStore.remove('user');
+   
+   var href = window.location.href;
+   var parts = href.split("#");
+   
+   $cookieStore.put('MsgRedirect', "Logout succesfull");
+   
+   window.location.href = parts[0];
+   
+});
 
 soccerControllers.controller('TeamsController', function ($scope, $rootScope, $http) {
     
