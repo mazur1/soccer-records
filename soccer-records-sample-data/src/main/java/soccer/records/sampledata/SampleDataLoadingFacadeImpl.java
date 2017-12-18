@@ -50,9 +50,16 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
     @SuppressWarnings("unused")
     public void loadData() throws IOException {
         
+        Logger log = LoggerFactory.getLogger(SampleDataLoadingFacadeImpl.class);
+        
         // test records
         Team plzen = team("Plzen");
         Team sparta = team("Sparta Praha");
+        Team brno = team("Brno");
+        Team liberec = team("Liberec");
+        Team jablonec = team("Jablonec");
+        
+        log.info("teams loaded");
         
         Player p01 = player("David", "Bièík", 24, PlayerPost.ATTACKER , true, sparta, "Praha", "Czech Republic");
         Player p02 = player("Martin", "Dúbravka", 22, PlayerPost.ATTACKER , false, sparta, "Praha", "Czech Republic");
@@ -78,9 +85,17 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         Player p110 = player("Jonas", "Vais", 33, PlayerPost.MIDFIELDER, false, plzen, "Praha", "Czech Republic");
         Player p111 = player("Marek", "Bakoš", 30, PlayerPost.GOLMAN, false, plzen, "Praha", "Czech Republic");
 
-        Match m01 = match(plzen, sparta);
+        Match m01 = match(plzen, sparta, "16-12-2017 10:00");
+        Match m02 = match(brno, liberec, "17-12-2017 13:00");
+        Match m03 = match(plzen, brno, "11-12-2017 10:30");
+        Match m04 = match(liberec, plzen, "31-12-2017 11:00");
+        Match m05 = match(plzen, jablonec, "24-12-2017 10:00");
         
-        //PlayerResult pr01 = playerResult(m01, p01, 2);
+
+        PlayerResult pr01 = playerResult(m01, p01, 2);
+        PlayerResult pr02 = playerResult(m01, p02, 1);
+        
+
         
         AppUser admin = new AppUser();
         admin.addRole(AppRole.ADMIN);
@@ -114,7 +129,7 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         return p;
     }
     
-    private Match match(Team home, Team away) throws IOException {
+    private Match match(Team home, Team away, String date) throws IOException {
         Match m = new Match();
         m.setTeamAway(away);
         m.setTeamHome(home);
@@ -122,7 +137,7 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         Date d;
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm");
         try{
-            d = sdf.parse("16-12-2017 10:00");
+            d = sdf.parse(date);
             m.setDateAndTime(d);
         } catch(ParseException e) {}
         
