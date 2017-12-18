@@ -35,11 +35,7 @@ public class PlayerCreateDto {
     private String country;
     private String city;
     
-    @JsonIgnore
-    private TeamDto team;
-
-    @JsonIgnore
-    private Set<PlayerResultDto> playerResults = new HashSet<PlayerResultDto>();
+    private Long teamId; 
 
     public PlayerCreateDto() {
     }
@@ -100,29 +96,12 @@ public class PlayerCreateDto {
         return city;
     }    
     
-    public Set<PlayerResultDto> getPlayerResults() {
-        return playerResults;
+    public void setTeam(Long teamId) {
+        this.teamId = teamId;
     }
 
-    public void setPlayerResults(Set<PlayerResultDto> playerResults) {
-        this.playerResults = playerResults;
-    }
-    
-    public void addPlayerResult(PlayerResultDto r)
-    {
-        playerResults.add(r);
-    }
-    public void removePlayerResult(PlayerResultDto r)
-    {
-        playerResults.remove(r);
-    }
-    
-    public void setTeam(TeamDto team) {
-        this.team = team;
-    }
-
-    public TeamDto getTeam() {
-        return team;
+    public Long getTeam() {
+        return teamId;
     }    
     
     @Override
@@ -136,7 +115,7 @@ public class PlayerCreateDto {
         result = prime * result + (captain ? 1 : 0);        
         result = prime * result + ((country == null) ? 0 : country.hashCode());
         result = prime * result + ((city == null) ? 0 : city.hashCode());
-        result = prime * result + ((team == null) ? 0 : team.hashCode());
+        result = prime * result + ((teamId == null) ? 0 : teamId.hashCode());
         //result = prime * result + ((playerResults == null) ? 0 : playerResults.hashCode());
         return result;
     }
@@ -174,7 +153,7 @@ public class PlayerCreateDto {
         if (this.post != other.post) {
             return false;
         }
-        if (!Objects.equals(this.team, other.team)) {
+        if (!Objects.equals(this.teamId, other.teamId)) {
             return false;
         }
         return true;

@@ -6,7 +6,9 @@
 package soccer.records.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import javax.validation.constraints.Min;
@@ -34,11 +36,10 @@ public class PlayerEditDto {
     private String country;
     private String city;
 
-    @JsonIgnore
-    private TeamDto team;
+    private Long teamId; 
 
     @JsonIgnore
-    private Set<PlayerResultDto> playerResults = new HashSet<>();
+    private List<Long> playerResults = new ArrayList<Long>();
 
     public PlayerEditDto() {
     }
@@ -107,29 +108,29 @@ public class PlayerEditDto {
         return city;
     }    
     
-    public Set<PlayerResultDto> getPlayerResults() {
+    public List<Long> getPlayerResults() {
         return playerResults;
     }
 
-    public void setPlayerResults(Set<PlayerResultDto> playerResults) {
+    public void setPlayerResults(ArrayList<Long> playerResults) {
         this.playerResults = playerResults;
     }
     
-    public void addPlayerResult(PlayerResultDto r)
+    public void addPlayerResult(Long id)
     {
-        playerResults.add(r);
+        playerResults.add(id);
     }
-    public void removePlayerResult(PlayerResultDto r)
+    public void removePlayerResult(Long id)
     {
-        playerResults.remove(r);
+        playerResults.remove(id);
     }
     
-    public void setTeam(TeamDto team) {
-        this.team = team;
+    public void setTeam(Long team) {
+        this.teamId = team;
     }
 
-    public TeamDto getTeam() {
-        return team;
+    public Long getTeam() {
+        return teamId;
     }    
     
     @Override
@@ -143,7 +144,7 @@ public class PlayerEditDto {
         result = prime * result + (captain ? 1 : 0);        
         result = prime * result + ((country == null) ? 0 : country.hashCode());
         result = prime * result + ((city == null) ? 0 : city.hashCode());
-        result = prime * result + ((team == null) ? 0 : team.hashCode());
+        result = prime * result + ((teamId == null) ? 0 : teamId.hashCode());
         //result = prime * result + ((playerResults == null) ? 0 : playerResults.hashCode());
         return result;
     }
@@ -181,7 +182,7 @@ public class PlayerEditDto {
         if (this.post != other.post) {
             return false;
         }
-        if (!Objects.equals(this.team, other.team)) {
+        if (!Objects.equals(this.teamId, other.teamId)) {
             return false;
         }
         return true;
