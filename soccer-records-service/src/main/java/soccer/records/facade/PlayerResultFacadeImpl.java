@@ -50,30 +50,30 @@ public class PlayerResultFacadeImpl implements PlayerResultFacade{
     }
     
     @Override
-    public void removePlayerGoals(Long playerID){
-        
+    public void removePlayerGoals(Long playerID){      
         List<PlayerResult> pr = playerResult.findByPlayer(player.findById(playerID));
         
         for (PlayerResult e : pr) {
             playerResult.delete(e);
-        }
-        
+        }       
     }
     
     @Override
-    public void removeMatchGoals(Long matchID){
-        
+    public void removeMatchGoals(Long matchID){        
         List<PlayerResult> pr = playerResult.findByMatch(match.findById(matchID));
         
         for (PlayerResult e : pr) {
             playerResult.delete(e);
-        }
-        
+        }       
     }
 
     @Override
     public Long createPlayerResult(PlayerResultCreateDto t) {
         PlayerResult mapped = beanMappingService.mapTo(t, PlayerResult.class);
+        
+        mapped.setMatch(match.findById(t.getMatch()));
+        mapped.setPlayer(player.findById(t.getPlayer()));        
+        
         return playerResult.create(mapped);
     }
 
@@ -95,6 +95,10 @@ public class PlayerResultFacadeImpl implements PlayerResultFacade{
     @Override
     public void updatePlayerResult(PlayerResultEditDto t) {
         PlayerResult mapped = beanMappingService.mapTo(t, PlayerResult.class);
+        
+        mapped.setMatch(match.findById(t.getMatch()));
+        mapped.setPlayer(player.findById(t.getPlayer()));  
+        
         playerResult.update(mapped);
     }
 
