@@ -41,11 +41,12 @@ public class MatchDaoImpl extends DefaultCrudDaoImpl<Match,Long> implements Matc
     @Override
     public List<Match> filterByTeam(Team t, List<Match> matches) throws DataAccessExceptions {
         
-        if(matches == null)
-            return new ArrayList<>();
-        
-        return matches.stream().filter(p -> Objects.equals(t, p.getTeamHome()) 
+        try{
+            return matches.stream().filter(p -> Objects.equals(t, p.getTeamHome()) 
                     || Objects.equals(t, p.getTeamAway())).collect(Collectors.toList()); 
+        } catch (NullPointerException e) {
+            return new ArrayList<>();
+        }
         /*try{
             return em.createQuery("select m from Match m WHERE m.teamHome == :team OR m.teamAway == :team", Match.class).setParameter("team", t).getResultList(); 
         } catch(Exception e){
@@ -56,11 +57,12 @@ public class MatchDaoImpl extends DefaultCrudDaoImpl<Match,Long> implements Matc
     @Override
     public List<Match> filterByTeams(Team t1, Team t2, List<Match> matches) throws DataAccessExceptions {
         
-        if(matches == null)
-            return new ArrayList<>();
-        
-        return matches.stream().filter(p -> Objects.equals(t1, p.getTeamAway()) && Objects.equals(t2, p.getTeamHome()) 
+        try{
+            return matches.stream().filter(p -> Objects.equals(t1, p.getTeamAway()) && Objects.equals(t2, p.getTeamHome()) 
                 || Objects.equals(t1, p.getTeamHome()) && Objects.equals(t2, p.getTeamAway())).collect(Collectors.toList());
+        } catch (NullPointerException e) {
+            return new ArrayList<>();
+        }
         /*try{
             return em.createQuery("select m from Match m WHERE m.teamHome IN (:teams) AND m.teamAway IN (:teams)", Match.class).setParameter("teams", Arrays.asList(t1, t2)).getResultList(); 
         } catch(Exception e){
@@ -71,19 +73,21 @@ public class MatchDaoImpl extends DefaultCrudDaoImpl<Match,Long> implements Matc
     @Override
     public List<Match> filterByLocation(Location l, List<Match> matches) throws DataAccessExceptions {
         
-        if(matches == null)
+        try{
+            return matches.stream().filter(p -> Objects.equals(l, p.getLocation())).collect(Collectors.toList());
+        } catch (NullPointerException e) {
             return new ArrayList<>();
-        
-        return matches.stream().filter(p -> Objects.equals(l, p.getLocation())).collect(Collectors.toList());
+        }
     }
     
     @Override
     public List<Match> filterByDateAndTime(Date d, List<Match> matches) throws DataAccessExceptions {
         
-        if(matches == null)
+        try{
+            return matches.stream().filter(p -> Objects.equals(d, p.getDateAndTime())).collect(Collectors.toList());       
+        } catch (NullPointerException e) {
             return new ArrayList<>();
-        
-        return matches.stream().filter(p -> Objects.equals(d, p.getDateAndTime())).collect(Collectors.toList());       
+        }
     }
     
 }
