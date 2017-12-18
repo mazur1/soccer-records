@@ -37,20 +37,22 @@ public class TeamDaoImpl extends DefaultCrudDaoImpl<Team,Long> implements TeamDa
             throw new DataAccessExceptions(e.getMessage());
         }
     }
+    */
 
     @Override
     public void delete(Team t) {
         try {
-            em.remove(findById(t.getId()));
+            t.setIsActive(false);
+            em.merge(t);
         } catch (Exception e) {
             throw new DataAccessExceptions(e.getMessage());
         }
-    }*/
+    }
 
     @Override
     public List<Team> findAll() throws DataAccessExceptions {
         try {
-            return em.createQuery("select t from Team t", Team.class).getResultList();
+            return em.createQuery("select t from Team t where t.isActive = :active", Team.class).setParameter("active", true).getResultList();
         } catch (Exception e) {
             throw new DataAccessExceptions(e.getMessage());
         }
