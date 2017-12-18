@@ -16,6 +16,7 @@ import soccer.records.entity.Match;
 import soccer.records.entity.Player;
 import soccer.records.entity.Team;
 import soccer.records.services.BeanMappingService;
+import soccer.records.services.MatchService;
 import soccer.records.services.PlayerService;
 import soccer.records.services.TeamService;
 
@@ -32,6 +33,9 @@ public class TeamFacadeImpl implements TeamFacade {
     
     @Inject
     private PlayerService playerService;
+    
+    @Inject
+    private MatchService matchService;
     
     @Inject
     private BeanMappingService beanMappingService;
@@ -53,8 +57,7 @@ public class TeamFacadeImpl implements TeamFacade {
     
     @Override
     public Long createTeam(TeamCreateDto t) {
-        Team team = new Team();
-        team.setName(t.getName());
+        Team team = beanMappingService.mapTo(t, Team.class);
         teamService.create(team);
         return team.getId();
     }
@@ -69,6 +72,14 @@ public class TeamFacadeImpl implements TeamFacade {
     public void deleteTeam(Long id) {
         //in case is possible to have player with id null
         teamService.setNullAllPlayersByTeam(id);
+//        for (Match m : teamService.findById(id).getMatchesAway()) {
+//            m.setTeamAway(null);
+//            matchService.update(m);
+//        }
+//        for (Match m : teamService.findById(id).getMatchesHome()) {
+//            m.setTeamHome(null);
+//            matchService.update(m);
+//        }
         
         teamService.remove(teamService.findById(id));
     }

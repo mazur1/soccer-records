@@ -6,38 +6,29 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  *
  * @author Tomas Mazurek
  */
-public class TeamCreateDto {
+public class TeamDeleteDto {
     
-    private String name;
-    
-    
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+    private Long id;
     
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        if(id != null)
+            return prime * result + id.hashCode();    
 
         return result;
         
-    }   
-
+    } 
+    
     @Override
     public boolean equals(Object obj) {
+        
         if (this == obj) {
             return true;
         }
@@ -47,12 +38,9 @@ public class TeamCreateDto {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final TeamCreateDto other = (TeamCreateDto) obj;
-        if (!Objects.equals(this.name, other.name)) {
-            return false;
-        }
+        
+        TeamCreateDto other = (TeamCreateDto) obj;                       
+        
         return true;
-    }
-    
-
+    }    
 }
