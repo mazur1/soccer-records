@@ -7,8 +7,8 @@ package soccer.records.facade;
 
 import java.util.List;
 import javax.inject.Inject;
-import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import soccer.records.dto.PlayerCreateDto;
 import soccer.records.dto.PlayerDto;
 import soccer.records.dto.PlayerEditDto;

@@ -69,7 +69,7 @@ public class PlayerFacadeTest extends AbstractTestNGSpringContextTests {
  
     //@Test
     public void createPlayer() {
-        Mockito.when(mappingService.mapTo(pr1Dto, Player.class)).thenReturn(pr1);
+        Mockito.when(mappingService.mapTo(pr1CreateDto, Player.class)).thenReturn(pr1);
         playerFacade.createPlayer(pr1CreateDto);
         Mockito.verify(playerService).create(pr1);
     }

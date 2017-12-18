@@ -10,6 +10,7 @@ import soccer.records.dto.MatchCreateDto;
 import soccer.records.dto.MatchDto;
 import soccer.records.dto.MatchEditDto;
 import soccer.records.dto.MatchResultDto;
+import soccer.records.dto.PlayerResultCreateDto;
 import soccer.records.dto.PlayerResultDto;
 import soccer.records.dto.TeamResultDto;
 
@@ -24,7 +25,7 @@ public interface MatchFacade {
     List<MatchDto> findAllMatches();
     MatchDto findMatchById(Long id);
 
-    void addPlayerResult(Long mId, PlayerResultDto rDto);
+    void addPlayerResult(Long mId, PlayerResultCreateDto rDto);
 
     void removePlayerResult(Long mId, Long rId);
 

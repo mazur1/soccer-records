@@ -48,14 +48,15 @@ public class Player extends Auditable<String,Long> {
     private String country;
     private String city;
 
-    @ManyToOne()
+    @ManyToOne
+    //@JoinColumn(name="Team_FK")
     private Team team;
     
     @NotNull
     @Column(nullable = false)
     private boolean isActive;
 
-    @OneToMany()
+    @OneToMany()//(mappedBy = "player")
     @JoinColumn(name="Player_FK")
     private Set<PlayerResult> playerResults = new HashSet<>();
 

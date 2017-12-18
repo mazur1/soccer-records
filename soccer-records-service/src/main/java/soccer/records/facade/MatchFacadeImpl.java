@@ -10,10 +10,12 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import soccer.records.dto.MatchCreateDto;
 import soccer.records.dto.MatchDto;
 import soccer.records.dto.MatchEditDto;
 import soccer.records.dto.MatchResultDto;
+import soccer.records.dto.PlayerResultCreateDto;
 import soccer.records.dto.PlayerResultDto;
 import soccer.records.dto.TeamResultDto;
 import soccer.records.entity.Match;
@@ -21,6 +23,7 @@ import soccer.records.entity.PlayerResult;
 import soccer.records.services.BeanMappingService;
 import soccer.records.services.MatchService;
 import soccer.records.services.PlayerResultService;
+import soccer.records.services.PlayerService;
 import soccer.records.services.TeamService;
 
 /**
@@ -29,6 +32,7 @@ import soccer.records.services.TeamService;
  */
 
 @Service
+@Transactional
 public class MatchFacadeImpl implements MatchFacade {
 
     final static Logger log = LoggerFactory.getLogger(MatchFacadeImpl.class);
@@ -38,6 +42,8 @@ public class MatchFacadeImpl implements MatchFacade {
     @Inject
     private TeamService teamService;
     @Inject
+    private PlayerService playerService;
+    @Inject
     private PlayerResultService resultService;
     @Inject
     private BeanMappingService beanMappingService;
@@ -45,12 +51,18 @@ public class MatchFacadeImpl implements MatchFacade {
     @Override
     public Long createMatch(MatchCreateDto m) {
         Match mapped = beanMappingService.mapTo(m, Match.class);
+        mapped.setTeamAway(teamService.findById(m.getTeamAwayId()));
+        mapped.setTeamHome(teamService.findById(m.getTeamHomeId()));
+        
         return matchService.create(mapped);
     }
     
     @Override
     public void updateMatch(MatchEditDto m) {
         Match mapped = beanMappingService.mapTo(m, Match.class);
+        mapped.setTeamHome(teamService.findById(m.getTeamHomeId()));
+        mapped.setTeamAway(teamService.findById(m.getTeamAwayId()));
+        
         matchService.update(mapped);
     }
 
@@ -72,9 +84,10 @@ public class MatchFacadeImpl implements MatchFacade {
     }
     
     @Override
-    public void addPlayerResult(Long mId, PlayerResultDto rDto) {
+    public void addPlayerResult(Long mId, PlayerResultCreateDto rDto) {
         Match m = matchService.findById(mId);
         PlayerResult r = beanMappingService.mapTo(rDto, PlayerResult.class);
+        r.setPlayer(playerService.findById(rDto.getPlayer()));
         matchService.addPlayerResult(m, r);
     }
     

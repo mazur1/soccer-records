@@ -46,14 +46,14 @@ public class MatchResource extends AuditableResource<String> {
         //playerResults;
     }
 
-    public long getDtoId() {
+    public Long getDtoId() {
         return dtoId;
     }
 
-    public void setDtoId(long dtoId) {
+    public void setDtoId(Long dtoId) {
         this.dtoId = dtoId;
     }
-
+    
     public TeamDto getTeamHome() {
         return teamHome;
     }
