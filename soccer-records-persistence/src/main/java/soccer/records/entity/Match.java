@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -42,7 +43,7 @@ public class Match extends Auditable<String,Long> {
     @NotNull
     @ManyToOne
     private Team teamAway;
-    @OneToMany(mappedBy = "match")
+    @OneToMany(mappedBy = "match", cascade = CascadeType.REMOVE)
     private List<PlayerResult> playerResults = new ArrayList<>();
     
     public Team getTeamHome() {
