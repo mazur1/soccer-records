@@ -1,14 +1,42 @@
 <h2>New match</h2>
 
-<form name="form"  novalidate class="form-horizontal">
+<form name="form" novalidate class="form-horizontal">
 
-    <div class="form-group" ng-class="{'has-error': !(form.name.$valid)}">
-        <label for="name" class="col-sm-2 control-label">Name</label>
+    <div class="form-group">
+        <label for="teamHome" class="col-sm-2 control-label">team home</label>
         <div class="col-sm-10">
-            <input placeholder="name" id="name" type="text" ng-minlength="3" name="name" class="form-control" ng-model="match.name" required/>
-            <p class="help-block" ng-show="form.name.$error.required">name is required</p>
-            <p class="help-block" ng-show="form.name.$error.minlength">name must be at least 3 characters</p>
+        <select class="form-control" id="teamHome" data-ng-options="item.name for item in items" data-ng-model="match.teamHome">
+        </select>
+            <!--<select class="form-control" id="teamHomeId" ng-options="item.id as item.name for item in items" ng-model="selectedTeamHomeId">
+        </select>-->
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="teamAway" class="col-sm-2 control-label">team away</label>
+        <div class="col-sm-10">
+        <select class="form-control" id="teamAway" data-ng-options="item.name for item in items" data-ng-model="match.teamAway">
+        </select>
+            <!--<select class="form-control" id="teamAwayId" ng-options="item.id as item.name for item in items" ng-model="selectedTeamAwayId">
+        </select>-->
         </div>
     </div>
     
+    <div class="form-group" ng-class="{'has-error': !(form.dateAndTime.$valid)}">
+        <label for="dateAndTime" class="col-sm-2 control-label">date </label>
+        <div class="col-sm-10">
+            <input placeholder="dateAndTime" id="dateAndTime" type="datetime-local" name="dateAndTime" class="form-control" ng-model="match.dateAndTime"/>
+            <p></p>
+        </div>
+    </div>
+
+    <!--<div class="form-group" ng-class="{'has-error': !(form.location.$valid)}">
+        <label for="location" class="col-sm-2 control-label">location name</label>
+        <div class="col-sm-10">
+            <input placeholder="location" id="location" type="text" name="location" class="form-control" ng-model="match.location.name"/>
+            <p></p>
+        </div>
+    </div>-->
+
+    <button ng-disabled="!form.$valid" class="btn btn-primary" type="submit" ng-click="create(match)">create</button>    
+   
 </form>

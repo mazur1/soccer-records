@@ -80,7 +80,7 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
 
         Match m01 = match(plzen, sparta);
         
-        //PlayerResult pr01 = playerResult(m01, p01, 2);
+        PlayerResult pr01 = playerResult(m01, p01, 2);
         
         AppUser admin = new AppUser();
         admin.addRole(AppRole.ADMIN);
