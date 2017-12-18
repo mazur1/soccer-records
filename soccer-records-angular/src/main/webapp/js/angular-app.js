@@ -19,6 +19,7 @@ soccerRecordspApp.config(['$routeProvider',
             when('/players/:playerId', {templateUrl: 'partials/detail/player.html', controller: 'PlayerDetailController'}).            
             when('/matches/:matchId', {templateUrl: 'partials/detail/match.html', controller: 'MatchDetailController'}).
             when('/newmatch', {templateUrl: 'partials/admin/new_match.html', controller: 'NewMatchController'}).
+            when('/newteam', {templateUrl: 'partials/admin/new_team.html', controller: 'NewTeamController'}).
             when('/newplayerresult', {templateUrl: 'partials/admin/new_player_result.html'}).
             otherwise({redirectTo: '/home'});
     }]);
@@ -127,6 +128,27 @@ soccerControllers.controller('TeamsController', function ($scope, $rootScope, $h
         $rootScope.errorAlert = error.data.message;
     });
     
+});
+
+
+soccerControllers.controller('NewTeamController',  function ($scope, $window, $http) {
+        
+    $scope.create = function (team) {
+    
+            $http({
+                method: 'POST',
+                url: '/pa165/api/v1/teams/create',
+                data: team
+            })
+            .then(function(response) {
+                console.log('team succesfuly created');
+                $window.location='/pa165/#!/teams';
+        
+            }, 
+            function(response) { 
+                console.log('new team create failed'); 
+            });
+    }
 });
 
 soccerControllers.controller('TeamDetailController', function ($scope, $routeParams, $http, $rootScope) {
@@ -340,6 +362,8 @@ soccerControllers.controller('NewMatchController',
         });
     };
 });
+
+
 
 soccerControllers.controller('ResultsController', function ($scope, $rootScope, $http) {
     
