@@ -2,9 +2,9 @@ package soccer.records.entity;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
@@ -24,16 +24,19 @@ public class Team extends Auditable<String,Long> {
     @Column(nullable=false,unique=true)
     private String name;
     
-    @OneToMany(mappedBy="team"/*, cascade = CascadeType.REMOVE*/)
-    //@Cascade({CascadeType.SAVE_UPDATE})
+    //@OneToMany(mappedBy="team")
+    @OneToMany()
+    @JoinColumn(name="TeamP_FK")
     private List<Player> players = new ArrayList<Player>();
     
-    @OneToMany(mappedBy="teamHome")
-    //@Cascade({CascadeType.SAVE_UPDATE})
+    //@OneToMany(mappedBy="teamHome")
+    @OneToMany()
+    @JoinColumn(name="TeamH_FK")
     private List<Match> matchesHome = new ArrayList<Match>();
         
-    @OneToMany(mappedBy="teamAway")
-    //@Cascade({CascadeType.SAVE_UPDATE})
+    //@OneToMany(mappedBy="teamAway")
+    @OneToMany()
+    @JoinColumn(name="TeamA_FK")
     private List<Match> matchesAway = new ArrayList<Match>();
 
     @NotNull

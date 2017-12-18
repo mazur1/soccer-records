@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -37,15 +37,30 @@ public class Match extends Auditable<String,Long> {
     private int teamHomeGoalsScoredHalf;
     @Min(0)
     private int teamAwayGoalsScoredHalf;
+    
     @NotNull
     @ManyToOne
+    //@JoinColumn(name="TeamHome_FK")
     private Team teamHome;
     @NotNull
     @ManyToOne
+    //@JoinColumn(name="TeamAway_FK")
     private Team teamAway;
-    @OneToMany()
-    @JoinColumn(name="Match_FK")
+    @OneToMany()//(mappedBy = "match")
+    //@JoinColumn(name="Match_FK")
     private List<PlayerResult> playerResults = new ArrayList<>();
+    
+    @NotNull
+    @Column(nullable = false)
+    private boolean isActive;
+
+    public boolean isIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
+    }
     
     public Team getTeamHome() {
         return teamHome;

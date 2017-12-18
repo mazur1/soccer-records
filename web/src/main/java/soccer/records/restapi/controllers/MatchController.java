@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import soccer.records.dto.MatchCreateDto;
 import soccer.records.dto.MatchDto;
-import soccer.records.dto.PlayerResultDto;
+import soccer.records.dto.PlayerResultCreateDto;
 import soccer.records.facade.MatchFacade;
 import soccer.records.restapi.exceptions.InvalidRequestException;
 import soccer.records.restapi.exceptions.ResourceNotFoundException;
@@ -125,7 +125,7 @@ public class MatchController {
     }
     
     @RequestMapping(value = "/{id}/results", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public final HttpEntity<MatchResource> addPlayerResult(@PathVariable("id") Long id, @RequestBody PlayerResultDto rDto) throws Exception {
+    public final HttpEntity<MatchResource> addPlayerResult(@PathVariable("id") Long id, @RequestBody PlayerResultCreateDto rDto) throws Exception {
     
         log.debug("rest: addPlayerResult(" + String.valueOf(id) + ", result = " + rDto.toString() + ")");
         try {

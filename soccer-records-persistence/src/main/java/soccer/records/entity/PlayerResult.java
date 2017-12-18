@@ -31,10 +31,12 @@ public class PlayerResult extends Auditable<String,Long> {
 
     @NotNull
     @ManyToOne
+    //@JoinColumn(name="Player_FK")
     private Player player;
 
     @NotNull
     @ManyToOne
+    //@JoinColumn(name="Match_FK")
     private Match match;
 
     public PlayerResult() {

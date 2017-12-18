@@ -7,8 +7,8 @@ package soccer.records.facade;
 
 import java.util.List;
 import javax.inject.Inject;
-import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import soccer.records.dto.PlayerCreateDto;
 import soccer.records.dto.PlayerDto;
 import soccer.records.dto.PlayerEditDto;
@@ -45,7 +45,7 @@ public class PlayerFacadeImpl implements PlayerFacade {
     public Long createPlayer(PlayerCreateDto p) {
         
         Player mapped = beanMappingService.mapTo(p, Player.class);       
-        mapped.setTeam(teamService.findById(p.getTeam()));      
+        mapped.addTeam(teamService.findById(p.getTeam()));      
         playerService.create(mapped);    
         return mapped.getId();
     }
@@ -54,7 +54,7 @@ public class PlayerFacadeImpl implements PlayerFacade {
     public void updatePlayer(PlayerEditDto p) {
         Player mapped = beanMappingService.mapTo(p, Player.class);
         
-        mapped.setTeam(teamService.findById(p.getTeam()));
+        mapped.addTeam(teamService.findById(p.getTeam()));
         
         for (Long item : p.getPlayerResults()) {
             mapped.addPlayerResult(resultService.findById(item));
