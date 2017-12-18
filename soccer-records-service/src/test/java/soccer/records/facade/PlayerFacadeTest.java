@@ -21,6 +21,7 @@ import org.testng.annotations.Test;
 import soccer.records.config.ServiceConfiguration;
 import soccer.records.dto.PlayerCreateDto;
 import soccer.records.dto.PlayerDto;
+import soccer.records.dto.PlayerEditDto;
 import soccer.records.entity.Player;
 import soccer.records.services.BeanMappingService;
 import soccer.records.services.PlayerService;
@@ -56,6 +57,9 @@ public class PlayerFacadeTest extends AbstractTestNGSpringContextTests {
     
     @Mock
     private PlayerDto pr1Dto;
+           
+    @Mock
+    private PlayerEditDto pr1EditDto;
     
     @Mock
     private PlayerCreateDto pr1CreateDto;
@@ -72,8 +76,8 @@ public class PlayerFacadeTest extends AbstractTestNGSpringContextTests {
     
     //@Test
     public void updatePlayer() {
-        Mockito.when(mappingService.mapTo(pr1Dto, Player.class)).thenReturn(pr1);
-        playerFacade.updatePlayer(pr1Dto);
+        Mockito.when(mappingService.mapTo(pr1EditDto, Player.class)).thenReturn(pr1);
+        playerFacade.updatePlayer(pr1EditDto);
         Mockito.verify(playerService).update(pr1);
     }
     
