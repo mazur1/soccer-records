@@ -18,7 +18,8 @@ soccerRecordspApp.config(['$routeProvider',
             when('/teams/:teamId', {templateUrl: 'partials/detail/team.html', controller: 'TeamDetailController'}).
             when('/players/:playerId', {templateUrl: 'partials/detail/player.html', controller: 'PlayerDetailController'}).            
             when('/matches/:matchId', {templateUrl: 'partials/detail/match.html', controller: 'MatchDetailController'}).
-            when('/newmatch', {templateUrl: 'partials/new_match.html', controller: 'NewMatchCtrl'}).
+            when('/newmatch', {templateUrl: 'partials/admin/new_match.html', controller: 'NewMatchController'}).
+            when('/newplayerresult', {templateUrl: 'partials/admin/new_player_result.html'}).
             otherwise({redirectTo: '/home'});
     }]);
 
@@ -208,33 +209,80 @@ soccerControllers.controller('MatchDetailController', function ($scope, $routePa
         console.log(error);
         $scope.errorAlert = error;
     });
+    
+    $scope.IsHidden = true;
+    $scope.ShowHide = function () {
+        $scope.IsHidden = $scope.IsHidden ? false : true;
+    };
+    
+    
 });
 
-soccerControllers.controller('NewMatchController',
+soccerControllers.controller('NewMatchController', 
     function ($scope, $routeParams, $http, $location, $rootScope) {
         
-        //set object bound to form fields
-        $scope.match = {
-            'team': ''
-        };
-        // function called when submit button is clicked, creates product on server
-        $scope.create = function (match) {
-            $http({
-                method: 'POST',
-                url: '/pa165/api/v1/matches/create',
-                data: match
-            }).then(function success(response) {
-                console.log('created match');
-                var created= response.data;
-                //display confirmation alert
-                $rootScope.successAlert = 'A new match "'+created.name+'" was created';
-                //change view to list
-                $location.path("/matches");
-            }, function error(response) {
-                //display error
-                $scope.errorAlert = 'Cannot create match!';
-            });
-        };
+    $http.get('/pa165/api/v1/teams').then(function(response) {
+        
+        var teams = response.data['_embedded']['teams'];             
+        console.log('AJAX loaded all teams');  
+        $scope.items = teams;
+
+    }, function error(error) {
+        console.log(error);
+        $scope.errorAlert = error;
+    });        
+
+    //set object bound to form fields
+    $scope.match = {
+        'teamHome': '',
+        'teamAway': '',
+        'dateAndTime': '',
+        'location': ''
+    };
+    // function called when submit button is clicked, creates match on server
+    $scope.create = function (match) {
+        
+        /*$http.get('/pa165/api/v1/teams/' + $scope.selectedTeamHomeId).then(function (response) {
+            
+        console.log(response);    
+            
+        $scope.match.teamHome = response.data;
+        console.log('AJAX loaded detail of team ' + $scope.team.name);
+    
+    }, function error(error) {
+        //display error
+        console.log(error);
+        $scope.errorAlert = error;
+    });
+    $http.get('/pa165/api/v1/teams/' + $scope.selectedTeamAwayId).then(function (response) {
+            
+        console.log(response);    
+            
+        $scope.match.teamAway = response.data;
+        console.log('AJAX loaded detail of team ' + $scope.team.name);
+    
+    }, function error(error) {
+        //display error
+        console.log(error);
+        $scope.errorAlert = error;
+    });*/
+    
+        $http({
+            method: 'POST',
+            url: '/pa165/api/v1/matches/create',
+            data: match
+        }).then(function success(response) {
+            console.log('created match');
+            var created= response.data;
+            //display confirmation alert
+            $rootScope.successAlert = 'A new match "'+created.name+'" was created';
+            //change view to list
+            $location.path("/matches");
+        }, function error(response) {
+            //display error
+            $scope.errorAlert = 'Cannot create match!';
+        });
+    };
 });
 
 soccerControllers.controller('ResultsController', function ($scope, $http) {

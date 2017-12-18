@@ -45,7 +45,7 @@ public class MatchServiceImpl implements MatchService {
     private void validatePlayerResult(Match m, PlayerResult r) throws SoccerServiceException {
         if(r.getPlayer() != null) { // edit class playerresult?
                 if(!Objects.equals(r.getPlayer().getTeam(), m.getTeamHome())
-                        && !r.getPlayer().getTeam().equals(m.getTeamAway()))
+                        && !Objects.equals(r.getPlayer().getTeam(), m.getTeamAway()))
                     throw new SoccerServiceException("Player result " + r + " is from unparticipating team.");
             }
     }

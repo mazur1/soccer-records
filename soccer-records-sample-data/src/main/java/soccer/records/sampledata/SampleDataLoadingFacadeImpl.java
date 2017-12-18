@@ -92,9 +92,11 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         Match m05 = match(plzen, jablonec, "24-12-2017 10:00");
         
 
+
         PlayerResult pr01 = playerResult(m01, p01, 2);
         PlayerResult pr02 = playerResult(m01, p02, 1);
         
+
 
         
         AppUser admin = new AppUser();

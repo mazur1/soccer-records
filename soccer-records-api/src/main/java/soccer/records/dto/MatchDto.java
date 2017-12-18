@@ -23,9 +23,9 @@ public class MatchDto extends AuditableDto<String> {
     private Long id;
     private Date dateAndTime;
     private LocationDto location;
-    @Min(0)
+    //@Min(0)
     private int teamHomeGoalsScored;
-    @Min(0)
+    //@Min(0)
     private int teamAwayGoalsScored;
     @Min(0)
     private int teamHomeGoalsScoredHalf;
