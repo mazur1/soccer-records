@@ -19,7 +19,7 @@ soccerRecordspApp.config(['$routeProvider',
             when('/players/:playerId', {templateUrl: 'partials/detail/player.html', controller: 'PlayerDetailController'}).            
             when('/matches/:matchId', {templateUrl: 'partials/detail/match.html', controller: 'MatchDetailController'}).
             when('/newmatch', {templateUrl: 'partials/admin/new_match.html', controller: 'NewMatchController'}).
-            //when('/newplayerresult', {templateUrl: 'partials/admin/new_player_result.html'}).
+            when('/newplayerresult', {templateUrl: 'partials/admin/new_player_result.html'}).
             otherwise({redirectTo: '/home'});
     }]);
 
@@ -212,9 +212,10 @@ soccerControllers.controller('MatchDetailController', function ($scope, $routePa
     
     $scope.IsHidden = true;
     $scope.ShowHide = function () {
-        //If DIV is hidden it will be visible and vice versa.
         $scope.IsHidden = $scope.IsHidden ? false : true;
-    }
+    };
+    
+    
 });
 
 soccerControllers.controller('NewMatchController', 
@@ -234,11 +235,38 @@ soccerControllers.controller('NewMatchController',
     //set object bound to form fields
     $scope.match = {
         'teamHome': '',
-        'teamAway': ''
+        'teamAway': '',
+        'dateAndTime': '',
+        'location': ''
     };
     // function called when submit button is clicked, creates match on server
     $scope.create = function (match) {
         
+        /*$http.get('/pa165/api/v1/teams/' + $scope.selectedTeamHomeId).then(function (response) {
+            
+        console.log(response);    
+            
+        $scope.match.teamHome = response.data;
+        console.log('AJAX loaded detail of team ' + $scope.team.name);
+    
+    }, function error(error) {
+        //display error
+        console.log(error);
+        $scope.errorAlert = error;
+    });
+    $http.get('/pa165/api/v1/teams/' + $scope.selectedTeamAwayId).then(function (response) {
+            
+        console.log(response);    
+            
+        $scope.match.teamAway = response.data;
+        console.log('AJAX loaded detail of team ' + $scope.team.name);
+    
+    }, function error(error) {
+        //display error
+        console.log(error);
+        $scope.errorAlert = error;
+    });*/
+    
         $http({
             method: 'POST',
             url: '/pa165/api/v1/matches/create',
