@@ -28,11 +28,11 @@ public class Team extends Auditable<String,Long> {
     //@Cascade({CascadeType.SAVE_UPDATE})
     private List<Player> players = new ArrayList<Player>();
     
-    @OneToMany(mappedBy="teamHome", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy="teamHome")
     //@Cascade({CascadeType.SAVE_UPDATE})
     private List<Match> matchesHome = new ArrayList<Match>();
         
-    @OneToMany(mappedBy="teamAway", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy="teamAway")
     //@Cascade({CascadeType.SAVE_UPDATE})
     private List<Match> matchesAway = new ArrayList<Match>();
 
