@@ -5,8 +5,12 @@
  */
 package soccer.records.dto;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 import javax.validation.constraints.Min;
 import soccer.records.enums.PlayerPost;
 
@@ -14,9 +18,9 @@ import soccer.records.enums.PlayerPost;
  *
  * @author 
  */
-/*@JsonIdentityInfo(
+@JsonIdentityInfo(
   generator = ObjectIdGenerators.PropertyGenerator.class, 
-  property = "id")*/
+  property = "id")
 public class PlayerDto {
     
     private Long id;
@@ -39,7 +43,7 @@ public class PlayerDto {
     private TeamDto team;
 
     //@JsonIgnore
-    //private Set<PlayerResultDto> playerResults = new HashSet<>();
+    private Set<PlayerResultDto> playerResults = new HashSet<>();
 
     public PlayerDto() {
     }

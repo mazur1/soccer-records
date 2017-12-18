@@ -87,7 +87,7 @@ public class MatchFacadeImpl implements MatchFacade {
     public void addPlayerResult(Long mId, PlayerResultCreateDto rDto) {
         Match m = matchService.findById(mId);
         PlayerResult r = beanMappingService.mapTo(rDto, PlayerResult.class);
-        r.setPlayer(playerService.findById(rDto.getPlayer()));
+        r.setPlayer(playerService.findById(rDto.getPlayerId()));
         matchService.addPlayerResult(m, r);
     }
     

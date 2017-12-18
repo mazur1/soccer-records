@@ -5,12 +5,7 @@
  */
 package soccer.records.dto;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 import javax.validation.constraints.Min;
 import soccer.records.enums.PlayerPost;
 
@@ -96,11 +91,11 @@ public class PlayerCreateDto {
         return city;
     }    
     
-    public void setTeam(Long teamId) {
+    public void setTeamId(Long teamId) {
         this.teamId = teamId;
     }
 
-    public Long getTeam() {
+    public Long getTeamId() {
         return teamId;
     }    
     

@@ -5,6 +5,8 @@
  */
 package soccer.records.dto;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +14,9 @@ import java.util.List;
  *
  * @author Tomas Mazurek
  */
-
+@JsonIdentityInfo(
+  generator = ObjectIdGenerators.PropertyGenerator.class, 
+  property = "id")
 public class TeamDto {
     
     private Long id;
@@ -21,9 +25,9 @@ public class TeamDto {
     //@JsonIgnore
     private List<PlayerDto> players = new ArrayList<>();
 //    @JsonIgnore
-//    private List<MatchDto> matchesHome = new ArrayList<>();
+    private List<MatchDto> matchesHome = new ArrayList<>();
 //    @JsonIgnore
-//    private List<MatchDto> matchesAway = new ArrayList<>();
+    private List<MatchDto> matchesAway = new ArrayList<>();
     
     public Long getId() {
         return this.id;
@@ -45,13 +49,13 @@ public class TeamDto {
         this.players = players;
     }
 
-//    public void setMatchesHome(List<MatchDto> matchesHome) {
-//        this.matchesHome = matchesHome;
-//    }
-//
-//    public void setMatchesAway(List<MatchDto> matchesAway) {
-//        this.matchesAway = matchesAway;
-//    }
+    public void setMatchesHome(List<MatchDto> matchesHome) {
+        this.matchesHome = matchesHome;
+    }
+
+    public void setMatchesAway(List<MatchDto> matchesAway) {
+        this.matchesAway = matchesAway;
+    }
 
 
     
@@ -59,13 +63,13 @@ public class TeamDto {
         return this.players;
     }
     
-//    public List<MatchDto> getMatchesHome() {
-//        return this.matchesHome;
-//    }
-//    
-//    public List<MatchDto> getMatchesAway() {
-//        return this.matchesAway;
-//    }
+    public List<MatchDto> getMatchesHome() {
+        return this.matchesHome;
+    }
+    
+    public List<MatchDto> getMatchesAway() {
+        return this.matchesAway;
+    }
     
     @Override
     public int hashCode() {

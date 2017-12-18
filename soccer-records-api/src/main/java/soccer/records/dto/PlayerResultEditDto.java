@@ -5,9 +5,6 @@
  */
 package soccer.records.dto;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import javax.validation.constraints.Min;
 
 /**
@@ -48,19 +45,19 @@ public class PlayerResultEditDto {
         this.goalsScored = goalsScored;
     }
 
-    public Long getPlayer() {
+    public Long getPlayerId() {
         return playerId;
     }
 
-    public void setPlayer(Long playerId) {
+    public void setPlayerId(Long playerId) {
         this.playerId = playerId;
     }
 
-    public Long getMatch() {
+    public Long getMatchId() {
         return matchId;
     }
 
-    public void setMatch(Long matchId) {
+    public void setMatchId(Long matchId) {
         this.matchId = matchId;
     }
 
@@ -85,16 +82,16 @@ public class PlayerResultEditDto {
         PlayerResultEditDto other = (PlayerResultEditDto) obj;
         
         if (playerId == null) {
-            if (other.getPlayer() != null)
+            if (other.getPlayerId() != null)
                 return false;
-        } else if (!playerId.equals(other.getPlayer())){
+        } else if (!playerId.equals(other.getPlayerId())){
             return false;
         }
 
         if (matchId == null) {
-            if (other.getMatch()!= null)
+            if (other.getMatchId()!= null)
                 return false;
-        } else if (!matchId.equals(other.getMatch())){
+        } else if (!matchId.equals(other.getMatchId())){
             return false;
         }
         

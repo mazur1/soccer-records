@@ -7,13 +7,7 @@ package soccer.records.tests;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceUnit;
-import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -22,26 +16,19 @@ import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
-import org.springframework.transaction.annotation.Transactional;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
-import soccer.records.PersistenceAppContext;
 import soccer.records.config.ServiceConfiguration;
 import soccer.records.dao.MatchDao;
-import soccer.records.entity.Location;
 import soccer.records.entity.Match;
 import soccer.records.entity.Player;
 import soccer.records.entity.PlayerResult;
 import soccer.records.entity.Team;
-import soccer.records.services.MatchResult;
 import soccer.records.services.MatchService;
-import soccer.records.services.TeamService;
 
 /**
  *
@@ -92,7 +79,7 @@ public class MatchTest extends AbstractTestNGSpringContextTests {
         
         testPlayer = new Player();
         testPlayer.setName("Honza");
-        testPlayer.addTeam(teamHome);
+        testPlayer.setTeam(teamHome);
         
         testPlayerResult = new PlayerResult(testPlayer, testMatch);
         testPlayerResult.setGoalsScored(1);
