@@ -16,7 +16,7 @@
         
         Result: <span style="color: red; font-weight: bold;">{{match.teamHomeGoalsScored}} : {{match.teamAwayGoalsScored}}</span> ({{match.teamHomeGoalsScoredHalf}} : {{match.teamAwayGoalsScoredHalf}})
     
-        <button ng-click="delete(match)" type="submit" class="btn btn-primary">Delete</button>
+        <button ng-click="deleteMatch()" type="submit" class="btn btn-primary">Delete</button>
     </div>
 
     <div>
@@ -36,8 +36,9 @@
         </thead>
         <tbody>
             <tr ng-repeat="playerResult in match.playerResults track by $index">
-                <td>{{playerResult.player.name}}</td>
+                <td>{{playerResult.player.name + ' ' + playerResult.player.surname}}</td>
                 <td>{{playerResult.player.goalsScored-0}}</td>
+                <td><button ng-click="deleteResult({{playerResult.id}})" type="submit" class="btn btn-primary">Delete</button></td>
             </tr>
         </tbody>
     </table>

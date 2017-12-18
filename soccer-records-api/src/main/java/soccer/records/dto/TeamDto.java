@@ -5,7 +5,6 @@
  */
 package soccer.records.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +18,7 @@ public class TeamDto {
     private Long id;
     private String name;
  
-    @JsonIgnore
+    //@JsonIgnore
     private List<PlayerDto> players = new ArrayList<>();
 //    @JsonIgnore
 //    private List<MatchDto> matchesHome = new ArrayList<>();

@@ -1,9 +1,9 @@
 <form name="form"  novalidate class="form-horizontal">
 
-    <div class="form-group">
+    <div class="form-group" ng-class="{'has-error': !(form.location.$valid)}">
         <label for="player" class="col-sm-2 control-label">player</label>
         <div class="col-sm-10">
-        <select class="form-control" id="player" data-ng-options="item.name for item in items" data-ng-model="playerResult.player">
+        <select class="form-control" id="player" data-ng-options="item.name.concat(' '+item.surname) for item in match.teamHome.players.concat(match.teamAway.players)" data-ng-model="playerResult.player" required>
         </select>
             <!--<select class="form-control" id="teamHomeId" ng-options="item.id as item.name for item in items" ng-model="selectedTeamHomeId">
         </select>-->
@@ -18,6 +18,6 @@
         </div>
     </div>
     
-    <button ng-disabled="!form.$valid" class="btn btn-primary" type="submit" ng-click="create(playerResult)">create</button>    
+    <button ng-disabled="!form.$valid" class="btn btn-primary" type="submit" ng-click="create({{playerResult}})">create</button>    
     
 </form>
