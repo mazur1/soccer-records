@@ -40,7 +40,7 @@ public class PlayerDaoImpl extends DefaultCrudDaoImpl<Player,Long> implements Pl
     @Override
     public List<Player> findAll() throws DataAccessExceptions {
         try {
-            return em.createQuery("select p from Player p", Player.class).getResultList();
+            return em.createQuery("select p from Player p where p.isActive = :active", Player.class).setParameter("active", true).getResultList();
         } catch (Exception e) {
             throw new DataAccessExceptions(e.getMessage());
         }
@@ -63,15 +63,17 @@ public class PlayerDaoImpl extends DefaultCrudDaoImpl<Player,Long> implements Pl
             throw new DataAccessExceptions(e.getMessage());
         }
     }
+    */
 
     @Override
     public void delete(Player c) throws DataAccessExceptions{
         try {
-            em.remove(em.merge(c));
+            c.setIsActive(false);
+            em.merge(c);
         } catch (Exception e) {
             throw new DataAccessExceptions(e.getMessage());
         }
-    }*/
+    }
 
     @Override
     public List<Player> findByName(String name, String surname) throws DataAccessExceptions {

@@ -49,6 +49,10 @@ public class Player extends Auditable<String,Long> {
 
     @ManyToOne()
     private Team team;
+    
+    @NotNull
+    @Column(nullable = false)
+    private boolean isActive;
 
     @OneToMany(mappedBy = "player")
     private Set<PlayerResult> playerResults = new HashSet<>();
@@ -58,6 +62,7 @@ public class Player extends Auditable<String,Long> {
     }
 
     public Player() {
+       isActive = true;
     }
 
     /*public Long getId() {
@@ -108,6 +113,14 @@ public class Player extends Auditable<String,Long> {
         this.captain = captain;
     }
 
+    public boolean isIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
+    }
+    
     public String getCountry() {
         return country;
     }

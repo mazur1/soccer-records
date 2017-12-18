@@ -34,12 +34,26 @@ public class Team extends Auditable<String,Long> {
     @OneToMany(mappedBy="teamAway")
     //@Cascade({CascadeType.SAVE_UPDATE})
     private List<Match> matchesAway = new ArrayList<Match>();
-        
+
+    @NotNull
+    @Column(nullable = false)
+    private boolean isActive;    
+    
     public Team(Long teamId) {
         this.id = teamId; 
+        isActive = true;
     }
 
     public Team() {
+        isActive = true;
+    }
+
+    public boolean isIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
     }
 
     public String getName() {
