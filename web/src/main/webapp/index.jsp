@@ -13,6 +13,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular-resource.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular-route.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular-cookies.js"></script> 
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <script src="${pageContext.request.contextPath}/js/angular-app.js"></script>
         
@@ -40,14 +41,14 @@
                         <li><a href="#!/players">Players list</a></li>
                         <li><a href="#!/matches">Matches list</a></li>
                         <li><a href="#!/results">Players result list</a></li>
-                        <li class="dropdown">
+                        <!--<li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin<b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li><a href="#!/admin/teams">Teams</a></li>
                                 <li><a href="#!/admin/players">Players</a></li>
                                 <li><a href="#!/admin/matches">Matches</a></li>
                             </ul>
-                        </li>
+                        </li>-->
                     </ul>
                                     
                     <div id="login" class="collapse navbar-collapse pull-right">
@@ -56,15 +57,7 @@
                                  <a href="#!/login">Log in</a>
                              </li>
                         </ul>
-                    </div>
-
-                    <div style="display: none !important;" id="logged" class="collapse navbar-collapse pull-right">
-                        <ul class="nav navbar-nav">
-                             <li>
-                                 
-                             </li>
-                        </ul>
-                    </div>                    
+                    </div>             
                     
                 </div>
                  <!--/.nav-collapse -->
