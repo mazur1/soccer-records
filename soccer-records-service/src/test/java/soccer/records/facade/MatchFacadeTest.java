@@ -7,23 +7,26 @@ package soccer.records.facade;
 
 import java.util.Arrays;
 import java.util.List;
-import javax.inject.Inject;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
+import static org.mockito.internal.verification.VerificationModeFactory.times;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 import soccer.records.config.ServiceConfiguration;
 import soccer.records.dto.MatchCreateDto;
 import soccer.records.dto.MatchDto;
 import soccer.records.dto.MatchEditDto;
 import soccer.records.entity.Match;
+import soccer.records.entity.Team;
 import soccer.records.services.BeanMappingService;
 import soccer.records.services.MatchService;
+import soccer.records.services.TeamService;
 
 /**
  * Facade tests
@@ -36,60 +39,69 @@ public class MatchFacadeTest extends AbstractTestNGSpringContextTests {
     
     @Mock 
     private MatchService matchService;
+    @Mock 
+    private TeamService teamService;
     
     @Mock
     private BeanMappingService mappingService;
     
-    @Inject
+    //@Inject
     @InjectMocks
-    private MatchFacade matchFacade;
+    private MatchFacade matchFacade = new MatchFacadeImpl();
                
-    @BeforeClass
+    @BeforeTest
     public void setup() //throws FacadeException 
     {
         MockitoAnnotations.initMocks(this);
     }
-    @BeforeMethod
+    //@BeforeMethod
     public void resetMock() {
         Mockito.reset(matchService);
     }
     
     @Mock
-    private MatchDto pr1Dto;
+    private MatchDto m1Dto;
     @Mock
-    private MatchCreateDto pr1CDto;
+    private MatchCreateDto m1CDto;
     @Mock
-    private MatchEditDto pr1EDto;
+    private MatchEditDto m1EDto;
     @Mock
-    private Match pr1;
+    private Match m1;
+    @Mock
+    private Team t1;
+    @Mock
+    private Team t2;
  
-    //@Test
+    @Test
     public void createMatch() {
-        Mockito.when(mappingService.mapTo(pr1CDto, Match.class)).thenReturn(pr1);
-        matchFacade.createMatch(pr1CDto);
-        Mockito.verify(matchService).create(pr1);
+        when(mappingService.mapTo(m1CDto, Match.class)).thenReturn(m1);
+        when(teamService.findById(m1CDto.getTeamHomeId())).thenReturn(t1);
+        when(teamService.findById(m1CDto.getTeamAwayId())).thenReturn(t1);
+        
+        matchFacade.createMatch(m1CDto);
+        Mockito.verify(matchService).create(m1);
     }
     
-    //@Test
+    @Test
     public void updateMatch() {        
-        Mockito.when(mappingService.mapTo(pr1EDto, Match.class)).thenReturn(pr1);
-        matchFacade.updateMatch(pr1EDto);
-        Mockito.verify(matchService).update(pr1);
+        Mockito.when(mappingService.mapTo(m1EDto, Match.class)).thenReturn(m1);
+        matchFacade.updateMatch(m1EDto);
+        Mockito.verify(matchService).update(m1);
     }
     
-    //@Test
+    @Test
     public void deleteMatch() {
-        Mockito.when(matchService.findById(1L)).thenReturn(pr1);
+        Mockito.when(matchService.findById(1L)).thenReturn(m1);
         matchFacade.deleteMatch(1L);
-        Mockito.verify(matchService).delete(pr1);
+        Mockito.verify(matchService).delete(m1);
     }
     
-    //@Test
+    @Test
     public void findAllMatchs() {
     
-        List<Match> list = Arrays.asList(pr1);
+        List<Match> list = Arrays.asList(m1);
         Mockito.when(matchService.findAll()).thenReturn(list);
-        List<MatchDto> listDto = Arrays.asList(pr1Dto);
+        List<MatchDto> listDto = Arrays.asList(m1Dto);
         Mockito.when(mappingService.mapTo(list, MatchDto.class)).thenReturn(listDto);
         
         List<MatchDto> actual = matchFacade.findAllMatches();
@@ -99,15 +111,15 @@ public class MatchFacadeTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(actual, listDto);
     }
     
-    //@Test
+    @Test
     public void findMatchById() {
-        Mockito.when(matchService.findById(1L)).thenReturn(pr1);
-        Mockito.when(mappingService.mapTo(pr1, MatchDto.class)).thenReturn(pr1Dto);
+        Mockito.when(matchService.findById(1L)).thenReturn(m1);
+        Mockito.when(mappingService.mapTo(m1, MatchDto.class)).thenReturn(m1Dto);
         
         MatchDto actual = matchFacade.findMatchById(1L);
-        Mockito.verify(matchService).findById(1L);
-        Mockito.verify(mappingService).mapTo(pr1, MatchDto.class);
+        Mockito.verify(matchService, times(2)).findById(1L);
+        Mockito.verify(mappingService).mapTo(m1, MatchDto.class);
         
-        Assert.assertEquals(actual, pr1Dto);
+        Assert.assertEquals(actual, m1Dto);
     }
 }

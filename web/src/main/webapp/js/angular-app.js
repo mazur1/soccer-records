@@ -286,7 +286,10 @@ soccerControllers.controller('MatchDetailController', function ($scope, $rootSco
         var matchId = $routeParams.matchId;
         $http.get('/pa165/api/v1/matches/'+matchId).then(function (response) {
             $scope.match = response.data;
-            
+            /*$scope.sort = function(keyname){
+        $scope.sortKey = keyname;   //set the sortKey to the param passed
+        $scope.reverse = !$scope.reverse; //if true make it false and vice versa
+    }*/
             console.log('AJAX loaded detail of match ' + $scope.match.toString());
             
     }, function error(error) {
