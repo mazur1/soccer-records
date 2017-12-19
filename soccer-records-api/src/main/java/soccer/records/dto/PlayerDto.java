@@ -19,7 +19,7 @@ import soccer.records.enums.PlayerPost;
 /*@JsonIdentityInfo(
   generator = ObjectIdGenerators.PropertyGenerator.class, 
   property = "id")*/
-public class PlayerDto {
+public class PlayerDto extends AuditableDto<String> {
     
     private Long id;
     

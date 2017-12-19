@@ -65,7 +65,7 @@ public class PlayerRestController {
     @RequestMapping(method = RequestMethod.GET)
     public HttpEntity<Resources<PlayerResource>> players() {
         log.info("rest players()");
-        List<PlayerDto> allPlayers = playerFacade.findAllPlayers();
+        List<PlayerDto> allPlayers = playerFacade.findAllActivePlayers();
         Resources<PlayerResource> playerResources = new Resources<>(
                 playerResourceAssembler.toResources(allPlayers),
                 linkTo(PlayerRestController.class).withSelfRel(),

@@ -113,4 +113,9 @@ public class PlayerResultFacadeImpl implements PlayerResultFacade{
     public int getPlayerResult(Long id) {
         return playerResult.getPlayerResult(player.findById(id));
     }
+    
+    @Override
+    public List<PlayerResultDto> findAllActivePlayerResults() {
+        return beanMappingService.mapTo(playerResult.findAllActive(), PlayerResultDto.class);
+    }
 }

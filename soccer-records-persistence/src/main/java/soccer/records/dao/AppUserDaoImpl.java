@@ -6,6 +6,7 @@
 package soccer.records.dao;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Repository;
 import soccer.records.entity.AppUser;
 import soccer.records.enums.AppRole;
@@ -61,9 +62,9 @@ public class AppUserDaoImpl extends DefaultCrudDaoImpl<AppUser,Long> implements 
     }
     
     @Override
-    public List<AppUser> findAllActive() throws DataAccessExceptions {
+    public List<AppUser> filterActive(List<AppUser> par0) throws DataAccessExceptions {
         try {
-            return em.createQuery("select p from AppUser p where p.isActive = :active", AppUser.class).setParameter("active", true).getResultList();
+            return par0.stream().filter(p -> p.isIsActive() == true).collect(Collectors.toList());//return em.createQuery("select p from AppUser p where p.isActive = :active", AppUser.class).setParameter("active", true).getResultList();
         } catch (Exception e) {
             throw new DataAccessExceptions(e.getMessage());
         }

@@ -75,6 +75,11 @@ public class PlayerResultServiceImpl implements PlayerResultService {
     }
     
     @Override
+    public List<PlayerResult> findAllActive() {
+        return playerResultDao.findAll();
+    }
+    
+    @Override
     public void changeGoals(PlayerResult pr, int goals){
         
         if(goals <= 0){

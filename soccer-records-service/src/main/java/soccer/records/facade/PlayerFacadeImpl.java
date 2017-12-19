@@ -78,10 +78,15 @@ public class PlayerFacadeImpl implements PlayerFacade {
         return beanMappingService.mapTo(playerService.findById(id), PlayerDto.class);
     }
     
+    @Override
     public List<PlayerResultDto> getPlayerResults(Long id) {
         Player p = playerService.findById(id);
         List<PlayerResult> results = resultService.findByPlayer(p);
         return beanMappingService.mapTo(results, PlayerResultDto.class);
     }
     
+    @Override
+    public List<PlayerDto> findAllActivePlayers() {
+        return beanMappingService.mapTo(playerService.findAllActive(), PlayerDto.class);
+    }
 }

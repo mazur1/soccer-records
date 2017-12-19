@@ -76,7 +76,7 @@ function parseUserData($cookieStore, $rootScope){
  */
 
 /*
- * Shopping page with all categories and products
+ * 
  */
 soccerControllers.controller('DefaultController', function ($scope, $rootScope, $http) {
     
@@ -298,7 +298,7 @@ soccerControllers.controller('MatchDetailController', function ($scope, $rootSco
         
         var players = response.data['_embedded']['players'];             
         console.log('AJAX loaded all teams');  
-        //$scope.items2 = players;
+        $scope.items2 = players;
 
     }, function error(error) {
         console.log(error);
@@ -326,6 +326,7 @@ soccerControllers.controller('MatchDetailController', function ($scope, $rootSco
             console.log('deleted match');
             //display confirmation alert
             $rootScope.successAlert = 'A result was deleted';
+            $location.path('/matches/'+matchId);
             
         }, function error(response) {
             //display error
@@ -357,6 +358,7 @@ soccerControllers.controller('MatchDetailController', function ($scope, $rootSco
             var created= response.data;
             //display confirmation alert
             $rootScope.successAlert = 'A new player result was created';
+            $location.path("/matches/"+matchId);
             
         }, function error(response) {
             //display error

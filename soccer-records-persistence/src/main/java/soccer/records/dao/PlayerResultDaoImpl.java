@@ -6,6 +6,7 @@
 package soccer.records.dao;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 import soccer.records.exceptions.dao.DataAccessExceptions;
@@ -105,6 +106,15 @@ public class PlayerResultDaoImpl extends DefaultCrudDaoImpl<PlayerResult,Long> i
     public List<PlayerResult> findAll() throws DataAccessExceptions {
         try {
             return em.createQuery("select pr from PlayerResult pr", PlayerResult.class).getResultList();
+        } catch(Exception e){
+            throw new DataAccessExceptions(e.getMessage());  
+        }          
+    }
+    
+    @Override
+    public List<PlayerResult> filterActive(List<PlayerResult> par0) throws DataAccessExceptions {
+        try {
+            return par0.stream().filter(p -> p.isIsActive() == true).collect(Collectors.toList());//return em.createQuery("select pr from PlayerResult pr where pr.isactive = :active", PlayerResult.class).setParameter("active", true).getResultList();
         } catch(Exception e){
             throw new DataAccessExceptions(e.getMessage());  
         }          

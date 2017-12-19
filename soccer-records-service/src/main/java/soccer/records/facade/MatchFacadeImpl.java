@@ -116,4 +116,10 @@ public class MatchFacadeImpl implements MatchFacade {
         List<PlayerResult> results = resultService.findByMatch(m);
         return beanMappingService.mapTo(results, PlayerResultDto.class);
     }
+    
+    @Override
+    public List<MatchDto> filterActiveMatches(List<MatchDto> par0) {
+        List<Match> mapped = beanMappingService.mapTo(par0, Match.class);
+        return beanMappingService.mapTo(matchService.filterActive(mapped), MatchDto.class);
+    }
 }

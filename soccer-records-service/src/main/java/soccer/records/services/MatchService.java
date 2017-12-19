@@ -48,4 +48,6 @@ public interface MatchService {
      * @return 
      */
     TeamResult getTeamResult(Team t);
+
+    List<Match> filterActive(List<Match> par0);
 }

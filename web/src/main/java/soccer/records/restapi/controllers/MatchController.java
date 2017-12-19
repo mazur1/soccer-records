@@ -55,7 +55,7 @@ public class MatchController {
     public final HttpEntity<Resources<MatchResource>> getMatches() {
         
         log.debug("rest: getMatches()");
-        List<MatchResource> resourceCollection = matchResourceAssembler.toResources(matchFacade.findAllMatches());
+        List<MatchResource> resourceCollection = matchResourceAssembler.toResources(matchFacade.filterActiveMatches(null));
         
         Resources<MatchResource> matchResources = new Resources<>(resourceCollection,
                 linkTo(MatchController.class).withSelfRel(),

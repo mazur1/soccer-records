@@ -26,5 +26,7 @@ public interface AppUserService {
     boolean authorize(AppUser u, List<AppRole> roleAccess);
 
     void registerUser(AppUser u, String unencryptedPassword);
+
+    List<AppUser> findAllActive();
     
 }

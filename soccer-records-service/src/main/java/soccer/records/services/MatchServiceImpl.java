@@ -95,6 +95,11 @@ public class MatchServiceImpl implements MatchService {
     public List<Match> findAll() {
         return matchDao.findAll();
     }
+    
+    @Override
+    public List<Match> filterActive(List<Match> par0) {
+        return matchDao.filterActive(par0);
+    }
 
     @Override
     public Match findById(Long id) {

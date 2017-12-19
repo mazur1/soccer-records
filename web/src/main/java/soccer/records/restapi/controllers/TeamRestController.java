@@ -15,7 +15,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityLinks;
 import org.springframework.hateoas.ExposesResourceFor;
-import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resources;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -28,7 +27,6 @@ import javax.validation.Valid;
 import java.util.List;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
-import soccer.records.dto.MatchDto;
 import soccer.records.dto.TeamCreateDto;
 import soccer.records.dto.TeamResultDto;
 import soccer.records.facade.MatchFacade;
@@ -72,7 +70,7 @@ public class TeamRestController {
     @RequestMapping(method = RequestMethod.GET)
     public HttpEntity<Resources<TeamResource>> teams() {
         log.info("rest teams()");
-        List<TeamDto> allTeams = teamFacade.findAllTeams();
+        List<TeamDto> allTeams = teamFacade.findAllActiveTeams();
         Resources<TeamResource> teamResources = new Resources<>(
                 teamResourceAssembler.toResources(allTeams),
                 linkTo(TeamRestController.class).withSelfRel(),

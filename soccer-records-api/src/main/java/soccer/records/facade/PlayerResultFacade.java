@@ -30,5 +30,7 @@ public interface PlayerResultFacade {
     void checkGoalsScoredInMatch(Long id);
 
     int getPlayerResult(Long id);
+
+    List<PlayerResultDto> findAllActivePlayerResults();
     
 }

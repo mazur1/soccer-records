@@ -71,4 +71,9 @@ public class AppUserFacadeImpl implements AppUserFacade {
         return userService.authorize(
                 userService.findById(u.getId()), roleAccess);
     }
+    
+    @Override
+    public List<AppUserDto> findAllActiveUsers() {
+        return beanMappingService.mapTo(userService.findAllActive(), AppUserDto.class);
+    }
 }

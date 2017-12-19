@@ -34,5 +34,7 @@ public interface MatchFacade {
     TeamResultDto getTeamResult(Long id);
 
     List<PlayerResultDto> getPlayerResults(Long id);
+
+    List<MatchDto> filterActiveMatches(List<MatchDto> par0);
     
 }

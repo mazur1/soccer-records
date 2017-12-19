@@ -37,5 +37,7 @@ public interface TeamService {
     public void removeMatchAway(Team t, Match m);
     
     public void setNullAllPlayersByTeam(Long id);
+
+    List<Team> findAllActive();
     
 }

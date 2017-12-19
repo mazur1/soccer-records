@@ -16,7 +16,7 @@ import java.util.List;
 /*@JsonIdentityInfo(
   generator = ObjectIdGenerators.PropertyGenerator.class, 
   property = "id")*/
-public class TeamDto {
+public class TeamDto extends AuditableDto<String> {
     
     private Long id;
     private String name;

@@ -33,15 +33,6 @@ public class MatchDaoImpl extends DefaultCrudDaoImpl<Match,Long> implements Matc
             throw new DataAccessExceptions(e.getMessage());          
         }        
     }
-    
-    @Override
-    public List<Match> findAllActive() throws DataAccessExceptions {
-        try {
-            return em.createQuery("select p from Match p where p.isActive = :active", Match.class).setParameter("active", true).getResultList();
-        } catch (Exception e) {
-            throw new DataAccessExceptions(e.getMessage());
-        }
-    }
 
     // filters using streams: reads nicer, doesn't compile when there is a typo
     
@@ -94,6 +85,16 @@ public class MatchDaoImpl extends DefaultCrudDaoImpl<Match,Long> implements Matc
             return matches.stream().filter(p -> Objects.equals(d, p.getDateAndTime())).collect(Collectors.toList());       
         } catch (NullPointerException e) {
             return new ArrayList<>();
+        }
+    }
+    
+        
+    @Override
+    public List<Match> filterActive(List<Match> par0) throws DataAccessExceptions {
+        try {
+            return par0.stream().filter(p -> p.isIsActive() == true).collect(Collectors.toList());//em.createQuery("select p from Match p where p.isActive = :active", Match.class).setParameter("active", true).getResultList();
+        } catch (Exception e) {
+            throw new DataAccessExceptions(e.getMessage());
         }
     }
     

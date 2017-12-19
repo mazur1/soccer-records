@@ -29,6 +29,8 @@ public interface PlayerService {
     void remove(Player p) throws IllegalArgumentException;
 
     void update(Player p);
+
+    List<Player> findAllActive();
    
     
 }

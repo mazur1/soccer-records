@@ -39,6 +39,11 @@ public class TeamServiceImpl implements TeamService {
     public List<Team> findAll() {
         return teamDao.findAll();
     }
+    
+    @Override
+    public List<Team> findAllActive() {
+        return teamDao.filterActive(null);
+    }
 
     @Override
     public Team findById(Long id) {

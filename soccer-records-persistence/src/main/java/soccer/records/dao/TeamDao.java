@@ -45,7 +45,7 @@ public interface TeamDao extends DefaultCrudDao<Team,Long> {
         */
         Team findByName(String name) throws DataAccessExceptions;
 
-    List<Team> findAllActive() throws DataAccessExceptions;
+    List<Team> filterActive(List<Team> par0) throws DataAccessExceptions;
 
     List<Team> findAll() throws DataAccessExceptions;
 
