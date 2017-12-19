@@ -1,9 +1,11 @@
 package soccer.records.entity;
 
+import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -23,5 +25,17 @@ public abstract class DefaultEntity<TKey> {
 
     public void setId(TKey id) {
         this.id = id;
+    }
+    
+    @NotNull
+    @Column(nullable = false)
+    private boolean isActive=true;
+
+    public boolean isIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
     }
 }

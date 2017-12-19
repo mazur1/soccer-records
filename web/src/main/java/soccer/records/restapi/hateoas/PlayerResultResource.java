@@ -25,6 +25,8 @@ public class PlayerResultResource extends ResourceSupport{
     @JsonProperty("id") 
     private long dtoId;
     
+    private long playerId;
+    private long matchId;
     private PlayerDto player;
     private MatchDto match;
     
@@ -43,6 +45,22 @@ public class PlayerResultResource extends ResourceSupport{
 
     public void setDtoId(long dtoId) {
         this.dtoId = dtoId;
+    }
+
+    public long getPlayerId() {
+        return playerId;
+    }
+
+    public void setPlayerId(long playerId) {
+        this.playerId = playerId;
+    }
+
+    public long getMatchId() {
+        return matchId;
+    }
+
+    public void setMatchId(long matchId) {
+        this.matchId = matchId;
     }
 
     public PlayerDto getPlayer() {

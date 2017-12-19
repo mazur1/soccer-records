@@ -32,6 +32,11 @@ public interface MatchDao extends DefaultCrudDao<Match,Long> {
 
     List<Match> filterByDateAndTime(Date d, List<Match> matches);
 
-    // filters
     List<Match> filterByLocation(Location l, List<Match> matches);
+
+    List<Match> findAllActive() throws DataAccessExceptions;
+
+    List<Match> findAll() throws DataAccessExceptions;
+
+    
 }

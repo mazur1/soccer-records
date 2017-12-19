@@ -57,6 +57,8 @@ public interface PlayerResultDao extends DefaultCrudDao<PlayerResult,Long> {
     * @return PlayerResult with certain player and match
     */
     public PlayerResult findByBoth(Long playerID, Long machId) throws DataAccessExceptions;
+
+    List<PlayerResult> findAll() throws DataAccessExceptions;
     /**
     * Method to find all PlayerResults.
     * @return return List of all teams

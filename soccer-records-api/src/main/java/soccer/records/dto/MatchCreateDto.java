@@ -19,13 +19,13 @@ public class MatchCreateDto {
     private Date dateAndTime;
     private LocationDto location;
     @Min(0)
-    private Integer teamHomeGoalsScored;
+    private int teamHomeGoalsScored;
     @Min(0)
-    private Integer teamAwayGoalsScored;
+    private int teamAwayGoalsScored;
     @Min(0)
-    private Integer teamHomeGoalsScoredHalf;
+    private int teamHomeGoalsScoredHalf;
     @Min(0)
-    private Integer teamAwayGoalsScoredHalf;
+    private int teamAwayGoalsScoredHalf;
     @NotNull
     private Long teamHomeId;
     @NotNull
@@ -60,37 +60,38 @@ public class MatchCreateDto {
         this.location = location;
     }
 
-    public Integer getTeamHomeGoalsScored() {
+    public int getTeamHomeGoalsScored() {
         return teamHomeGoalsScored;
     }
 
-    public void setTeamHomeGoalsScored(Integer teamHomeGoalsScored) {
+    public void setTeamHomeGoalsScored(int teamHomeGoalsScored) {
         this.teamHomeGoalsScored = teamHomeGoalsScored;
     }
 
-    public Integer getTeamAwayGoalsScored() {
+    public int getTeamAwayGoalsScored() {
         return teamAwayGoalsScored;
     }
 
-    public void setTeamAwayGoalsScored(Integer teamAwayGoalsScored) {
+    public void setTeamAwayGoalsScored(int teamAwayGoalsScored) {
         this.teamAwayGoalsScored = teamAwayGoalsScored;
     }
 
-    public Integer getTeamHomeGoalsScoredHalf() {
+    public int getTeamHomeGoalsScoredHalf() {
         return teamHomeGoalsScoredHalf;
     }
 
-    public void setTeamHomeGoalsScoredHalf(Integer teamHomeGoalsScoredHalf) {
+    public void setTeamHomeGoalsScoredHalf(int teamHomeGoalsScoredHalf) {
         this.teamHomeGoalsScoredHalf = teamHomeGoalsScoredHalf;
     }
 
-    public Integer getTeamAwayGoalsScoredHalf() {
+    public int getTeamAwayGoalsScoredHalf() {
         return teamAwayGoalsScoredHalf;
     }
 
-    public void setTeamAwayGoalsScoredHalf(Integer teamAwayGoalsScoredHalf) {
+    public void setTeamAwayGoalsScoredHalf(int teamAwayGoalsScoredHalf) {
         this.teamAwayGoalsScoredHalf = teamAwayGoalsScoredHalf;
     }
+    
 
     public Long getTeamHomeId() {
         return teamHomeId;
@@ -128,7 +129,22 @@ public class MatchCreateDto {
             return false;
         }
         final MatchCreateDto other = (MatchCreateDto) obj;
+        if (this.teamHomeGoalsScored != other.teamHomeGoalsScored) {
+            return false;
+        }
+        if (this.teamAwayGoalsScored != other.teamAwayGoalsScored) {
+            return false;
+        }
+        if (this.teamHomeGoalsScoredHalf != other.teamHomeGoalsScoredHalf) {
+            return false;
+        }
+        if (this.teamAwayGoalsScoredHalf != other.teamAwayGoalsScoredHalf) {
+            return false;
+        }
         if (!Objects.equals(this.dateAndTime, other.dateAndTime)) {
+            return false;
+        }
+        if (!Objects.equals(this.location, other.location)) {
             return false;
         }
         if (!Objects.equals(this.teamHomeId, other.teamHomeId)) {
@@ -139,6 +155,8 @@ public class MatchCreateDto {
         }
         return true;
     }
+
+    
 
     @Override
     public String toString() {

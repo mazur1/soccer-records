@@ -189,7 +189,7 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         m.setTeamHome(home);
         
         Date d;
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
         try{
             d = sdf.parse(date);
             m.setDateAndTime(d);
@@ -202,10 +202,10 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         loc.setStreet("Vltavanù 1542");
         m.setLocation(loc);
         
-        m.setTeamAwayGoalsScored(1, true);
-        m.setTeamAwayGoalsScored(3, false);
-        m.setTeamHomeGoalsScored(2, true);
-        m.setTeamHomeGoalsScored(3, false);
+        m.setTeamAwayGoalsScoredHalf(1);
+        m.setTeamAwayGoalsScored(3);
+        m.setTeamHomeGoalsScoredHalf(2);
+        m.setTeamHomeGoalsScored(3);
         
         matchService.create(m);
         return m;

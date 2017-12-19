@@ -49,5 +49,24 @@ public class AppUserDaoImpl extends DefaultCrudDaoImpl<AppUser,Long> implements 
             throw new DataAccessExceptions(e.getMessage());
         }
     }
+    
+    @Override
+    public void delete(AppUser t) {
+        try {
+            t.setIsActive(false);
+            em.merge(t);
+        } catch (Exception e) {
+            throw new DataAccessExceptions(e.getMessage());
+        }
+    }
+    
+    @Override
+    public List<AppUser> findAllActive() throws DataAccessExceptions {
+        try {
+            return em.createQuery("select p from AppUser p where p.isActive = :active", AppUser.class).setParameter("active", true).getResultList();
+        } catch (Exception e) {
+            throw new DataAccessExceptions(e.getMessage());
+        }
+    }
 
 }

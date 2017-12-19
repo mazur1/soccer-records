@@ -124,7 +124,7 @@ public class MatchController {
         return new ResponseEntity<>(resource, HttpStatus.OK);
     }
     
-    @RequestMapping(value = "/{id}/results", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/{id}/results/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE/*, produces = MediaType.APPLICATION_JSON_VALUE*/)
     public final HttpEntity<MatchResource> addPlayerResult(@PathVariable("id") Long id, @RequestBody PlayerResultCreateDto rDto) throws Exception {
     
         log.debug("rest: addPlayerResult(" + String.valueOf(id) + ", result = " + rDto.toString() + ")");
@@ -145,14 +145,14 @@ public class MatchController {
         return new ResponseEntity<>(resource, HttpStatus.OK);
     }
     
-    @RequestMapping(value = "/{id}/results", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public final HttpEntity<MatchResource> deletePlayerResult(@PathVariable("id") Long id, @RequestBody Long resultId) throws Exception {
+    @RequestMapping(value = "/{id}/results/{rid}", method = RequestMethod.DELETE/*, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE*/)
+    public final HttpEntity<MatchResource> deletePlayerResult(@PathVariable("id") Long id, @PathVariable("rid") Long rid) throws Exception {
     
-        log.debug("rest: removePlayerResult(" + String.valueOf(id) + ", result id = " + String.valueOf(resultId) + ")");
+        log.debug("rest: removePlayerResult(" + String.valueOf(id) + ", result id = " + String.valueOf(rid) + ")");
         try {
-            matchFacade.removePlayerResult(id, resultId);
+            matchFacade.removePlayerResult(id, rid);
         } catch (Throwable ex) {
-            log.error("cannot delete result " + String.valueOf(resultId));
+            log.error("cannot delete result " + String.valueOf(rid));
             Throwable rootCause=ex;
             while ((ex = ex.getCause()) != null) {
                 rootCause = ex;

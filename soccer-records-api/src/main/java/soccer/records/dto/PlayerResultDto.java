@@ -5,8 +5,6 @@
  */
 package soccer.records.dto;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import javax.validation.constraints.Min;
 
 
@@ -14,9 +12,9 @@ import javax.validation.constraints.Min;
  *
  * @author Radim VIdlák
  */
-@JsonIdentityInfo(
+/*@JsonIdentityInfo(
   generator = ObjectIdGenerators.PropertyGenerator.class, 
-  property = "id")
+  property = "id")*/
 public class PlayerResultDto {
     
     private Long id;

@@ -14,7 +14,7 @@
         <li><b>zip: </b>{{match.location.zip}}</li>
         <li><b>state: </b>{{match.location.state}}</li>
         
-        Result: <span style="color: red; font-weight: bold;">{{match.teamHomeGoalsScored}} : {{match.teamAwayGoalsScored}}</span> ({{match.teamHomeGoalsScoredHalf}} : {{match.teamAwayGoalsScoredHalf}})
+        Result: <span style="color: red; font-weight: bold;">{{match.teamHomeGoalsScored-0}} : {{match.teamAwayGoalsScored-0}}</span> ({{match.teamHomeGoalsScoredHalf-0}} : {{match.teamAwayGoalsScoredHalf-0}})
     
         <button ng-click="deleteMatch()" type="submit" class="btn btn-primary">Delete</button>
     </div>
@@ -42,35 +42,4 @@
             </tr>
         </tbody>
     </table>
-    
-    <div class="col-xs-6">
-        <table class="table">
-            <caption>Statistics for team home</caption>
-            <thead>
-            <tr>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="col-xs-6">
-        <table class="table">
-            <caption>Statistics for team away</caption>
-            <thead>
-            <tr>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
 </div>

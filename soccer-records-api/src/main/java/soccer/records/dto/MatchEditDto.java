@@ -20,13 +20,13 @@ public class MatchEditDto {
     private Date dateAndTime;
     private LocationDto location;
     @Min(0)
-    private Integer teamHomeGoalsScored;
+    private int teamHomeGoalsScored;
     @Min(0)
-    private Integer teamAwayGoalsScored;
+    private int teamAwayGoalsScored;
     @Min(0)
-    private Integer teamHomeGoalsScoredHalf;
+    private int teamHomeGoalsScoredHalf;
     @Min(0)
-    private Integer teamAwayGoalsScoredHalf;
+    private int teamAwayGoalsScoredHalf;
     
     @NotNull
     //@JsonIgnore
@@ -95,31 +95,38 @@ public class MatchEditDto {
         this.location = location;
     }
 
-    public Integer getTeamHomeGoalsScored(boolean halftime) {
-        if (halftime)
-            return teamHomeGoalsScoredHalf;
+    public int getTeamHomeGoalsScored() {
         return teamHomeGoalsScored;
     }
 
-    public void setTeamHomeGoalsScored(int teamHomeGoalsScored, boolean halftime) {
-        if (halftime)
-            this.teamHomeGoalsScoredHalf = teamHomeGoalsScored;
-        else
-            this.teamHomeGoalsScored = teamHomeGoalsScored;
+    public void setTeamHomeGoalsScored(int teamHomeGoalsScored) {
+        this.teamHomeGoalsScored = teamHomeGoalsScored;
     }
 
-    public Integer getTeamAwayGoalsScored(boolean halftime) {
-        if (halftime)
-            return teamAwayGoalsScoredHalf;
+    public int getTeamAwayGoalsScored() {
         return teamAwayGoalsScored;
     }
 
-    public void setTeamAwayGoalsScored(int teamAwayGoalsScored, boolean halftime) {
-        if (halftime)
-            this.teamAwayGoalsScoredHalf = teamAwayGoalsScored;
-        else
-            this.teamAwayGoalsScored = teamAwayGoalsScored;
-    } 
+    public void setTeamAwayGoalsScored(int teamAwayGoalsScored) {
+        this.teamAwayGoalsScored = teamAwayGoalsScored;
+    }
+
+    public int getTeamHomeGoalsScoredHalf() {
+        return teamHomeGoalsScoredHalf;
+    }
+
+    public void setTeamHomeGoalsScoredHalf(int teamHomeGoalsScoredHalf) {
+        this.teamHomeGoalsScoredHalf = teamHomeGoalsScoredHalf;
+    }
+
+    public int getTeamAwayGoalsScoredHalf() {
+        return teamAwayGoalsScoredHalf;
+    }
+
+    public void setTeamAwayGoalsScoredHalf(int teamAwayGoalsScoredHalf) {
+        this.teamAwayGoalsScoredHalf = teamAwayGoalsScoredHalf;
+    }
+ 
     
     public MatchEditDto() {
     }       

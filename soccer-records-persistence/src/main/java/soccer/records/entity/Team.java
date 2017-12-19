@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
@@ -39,26 +38,26 @@ public class Team extends Auditable<String,Long> {
     //@JoinColumn(name="TeamA_FK")
     private List<Match> matchesAway = new ArrayList<Match>();
 
-    @NotNull
+    /*@NotNull
     @Column(nullable = false)
-    private boolean isActive;    
+    private boolean isActive; */   
     
     public Team(Long teamId) {
         this.id = teamId; 
-        isActive = true;
+        //isActive = true;
     }
 
     public Team() {
-        isActive = true;
+        //isActive = true;
     }
 
-    public boolean isIsActive() {
+    /*public boolean isIsActive() {
         return isActive;
     }
 
     public void setIsActive(boolean isActive) {
         this.isActive = isActive;
-    }
+    }*/
 
     public String getName() {
         return name;

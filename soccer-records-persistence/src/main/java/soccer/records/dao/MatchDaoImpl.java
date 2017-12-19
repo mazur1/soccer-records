@@ -33,6 +33,15 @@ public class MatchDaoImpl extends DefaultCrudDaoImpl<Match,Long> implements Matc
             throw new DataAccessExceptions(e.getMessage());          
         }        
     }
+    
+    @Override
+    public List<Match> findAllActive() throws DataAccessExceptions {
+        try {
+            return em.createQuery("select p from Match p where p.isActive = :active", Match.class).setParameter("active", true).getResultList();
+        } catch (Exception e) {
+            throw new DataAccessExceptions(e.getMessage());
+        }
+    }
 
     // filters using streams: reads nicer, doesn't compile when there is a typo
     

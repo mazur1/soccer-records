@@ -65,6 +65,16 @@ public class PlayerResultDaoImpl extends DefaultCrudDaoImpl<PlayerResult,Long> i
     }*/
     
     @Override
+    public void delete(PlayerResult t) {
+        try {
+            t.setIsActive(false);
+            em.merge(t);
+        } catch (Exception e) {
+            throw new DataAccessExceptions(e.getMessage());
+        }
+    }
+    
+    @Override
     public List<PlayerResult> findByPlayerID(Long id) throws DataAccessExceptions {
         try{
             return em.createQuery("select pr from PlayerResult pr WHERE pr.player.id = :player", PlayerResult.class).setParameter("player", id).getResultList();

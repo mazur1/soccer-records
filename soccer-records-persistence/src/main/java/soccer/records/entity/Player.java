@@ -52,9 +52,9 @@ public class Player extends Auditable<String,Long> {
     //@JoinColumn(name="Team_FK")
     private Team team;
     
-    @NotNull
+    /*@NotNull
     @Column(nullable = false)
-    private boolean isActive;
+    private boolean isActive;*/
 
     @OneToMany()//(mappedBy = "player")
     @JoinColumn(name="Player_FK")
@@ -65,7 +65,7 @@ public class Player extends Auditable<String,Long> {
     }
 
     public Player() {
-       isActive = true;
+       //isActive = true;
     }
 
     /*public Long getId() {
@@ -116,13 +116,13 @@ public class Player extends Auditable<String,Long> {
         this.captain = captain;
     }
 
-    public boolean isIsActive() {
+    /*public boolean isIsActive() {
         return isActive;
     }
 
     public void setIsActive(boolean isActive) {
         this.isActive = isActive;
-    }
+    }*/
     
     public String getCountry() {
         return country;
@@ -161,13 +161,13 @@ public class Player extends Auditable<String,Long> {
     }
 
 
-    public Long getTeamId() {
+    /*public Long getTeamId() {
         return team.getId();
     }
 
     public void setTeamId(Long teamId) {
         this.team.setId(teamId);
-    }
+    }*/
 
     public Team getTeam() {
         return team;
@@ -175,10 +175,6 @@ public class Player extends Auditable<String,Long> {
 
     public void setTeam(Team team) {
         this.team = team;
-    }
-
-    public Team team() {
-        return this.team;
     }
 
     @Override

@@ -1,9 +1,5 @@
 package soccer.records.tests;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceUnit;
-import javax.validation.ConstraintViolationException;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -13,15 +9,10 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
-import org.springframework.transaction.annotation.Transactional;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
-import soccer.records.PersistenceAppContext;
 import soccer.records.dao.PlayerDao;
 import soccer.records.entity.Location;
 
@@ -32,7 +23,6 @@ import soccer.records.entity.Match;
 import soccer.records.enums.PlayerPost;
 import soccer.records.services.PlayerService;
 
-import soccer.records.exceptions.dao.DataAccessExceptions;
 
 import soccer.records.config.ServiceConfiguration;
 
@@ -88,8 +78,8 @@ public class PlayerTest extends AbstractTestNGSpringContextTests {
         m1.setLocation(l);
         m1.setTeamAway(t1);
         m1.setTeamHome(t2);
-        m1.setTeamAwayGoalsScored(1, false);
-        m1.setTeamAwayGoalsScored(2, false);
+        m1.setTeamAwayGoalsScored(1);
+        m1.setTeamAwayGoalsScored(2);
 
         return m1;
     }

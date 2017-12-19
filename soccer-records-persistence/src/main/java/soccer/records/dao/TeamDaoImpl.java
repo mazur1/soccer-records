@@ -52,7 +52,16 @@ public class TeamDaoImpl extends DefaultCrudDaoImpl<Team,Long> implements TeamDa
     @Override
     public List<Team> findAll() throws DataAccessExceptions {
         try {
-            return em.createQuery("select t from Team t where t.isActive = :active", Team.class).setParameter("active", true).getResultList();
+            return em.createQuery("select t from Team t", Team.class).getResultList();
+        } catch (Exception e) {
+            throw new DataAccessExceptions(e.getMessage());
+        }
+    }
+    
+    @Override
+    public List<Team> findAllActive() throws DataAccessExceptions {
+        try {
+            return em.createQuery("select p from Team p where p.isActive = :active", Team.class).setParameter("active", true).getResultList();
         } catch (Exception e) {
             throw new DataAccessExceptions(e.getMessage());
         }

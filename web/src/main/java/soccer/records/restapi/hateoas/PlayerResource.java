@@ -23,6 +23,7 @@ public class PlayerResource extends ResourceSupport {
     @JsonProperty("id") //ResourceSupport alrerady has getId() method
     private long dtoId;
     private String name;
+    private long teamId;
     private TeamDto team;
     private String surname;
     private int age;
@@ -52,6 +53,14 @@ public class PlayerResource extends ResourceSupport {
 
     public void setDtoId(long dtoId) {
         this.dtoId = dtoId;
+    }
+
+    public long getTeamId() {
+        return teamId;
+    }
+
+    public void setTeamId(long teamId) {
+        this.teamId = teamId;
     }
 
     public String getName() {
