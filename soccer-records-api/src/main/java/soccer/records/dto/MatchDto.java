@@ -5,8 +5,6 @@
  */
 package soccer.records.dto;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.util.Date;
 import java.util.Objects;
 import javax.validation.constraints.Min;
@@ -16,10 +14,20 @@ import javax.validation.constraints.NotNull;
  *
  * @author Michaela Bocanova
  */
-@JsonIdentityInfo(
+/*@JsonIdentityInfo(
   generator = ObjectIdGenerators.PropertyGenerator.class, 
-  property = "id")
+  property = "id")*/
 public class MatchDto extends AuditableDto<String> {
+    
+    private boolean isActive=true;
+
+    public boolean getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
+    }
     
     private Long id;
     private Date dateAndTime;
@@ -99,43 +107,38 @@ public class MatchDto extends AuditableDto<String> {
         this.location = location;
     }
 
-    public int getTeamHomeGoalsScored(boolean halftime) {
-        if (halftime)
-            return teamHomeGoalsScoredHalf;
+    public int getTeamHomeGoalsScored() {
         return teamHomeGoalsScored;
     }
 
-    public void setTeamHomeGoalsScored(int teamHomeGoalsScored, boolean halftime) {
-        if (halftime)
-            this.teamHomeGoalsScoredHalf = teamHomeGoalsScored;
-        else
-            this.teamHomeGoalsScored = teamHomeGoalsScored;
+    public void setTeamHomeGoalsScored(int teamHomeGoalsScored) {
+        this.teamHomeGoalsScored = teamHomeGoalsScored;
     }
 
-    public int getTeamAwayGoalsScored(boolean halftime) {
-        if (halftime)
-            return teamAwayGoalsScoredHalf;
+    public int getTeamAwayGoalsScored() {
         return teamAwayGoalsScored;
     }
 
-    public void setTeamAwayGoalsScored(int teamAwayGoalsScored, boolean halftime) {
-        if (halftime)
-            this.teamAwayGoalsScoredHalf = teamAwayGoalsScored;
-        else
-            this.teamAwayGoalsScored = teamAwayGoalsScored;
+    public void setTeamAwayGoalsScored(int teamAwayGoalsScored) {
+        this.teamAwayGoalsScored = teamAwayGoalsScored;
     }
-        
-    public int getTeamHomeGoalsReceived(boolean halftime) {
-        if (halftime)
-            return teamAwayGoalsScoredHalf;
-        return teamAwayGoalsScored;
+
+    public int getTeamHomeGoalsScoredHalf() {
+        return teamHomeGoalsScoredHalf;
+    }
+
+    public void setTeamHomeGoalsScoredHalf(int teamHomeGoalsScoredHalf) {
+        this.teamHomeGoalsScoredHalf = teamHomeGoalsScoredHalf;
+    }
+
+    public int getTeamAwayGoalsScoredHalf() {
+        return teamAwayGoalsScoredHalf;
+    }
+
+    public void setTeamAwayGoalsScoredHalf(int teamAwayGoalsScoredHalf) {
+        this.teamAwayGoalsScoredHalf = teamAwayGoalsScoredHalf;
     }
     
-    public int getTeamAwayGoalsReceived(boolean halftime) {
-        if (halftime)
-            return teamHomeGoalsScoredHalf;
-        return teamHomeGoalsScored;
-    }
     
     /**
      * Constructor assigns a specific id

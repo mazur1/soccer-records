@@ -22,4 +22,6 @@ public interface TeamFacade {
     TeamDto findTeamById(Long id);
     public List<MatchDto> getMatchesHome(Long id);
     public List<MatchDto> getMatchesAway(Long id);
+
+    List<TeamDto> findAllActiveTeams();
 }

@@ -75,6 +75,11 @@ public class PlayerResultServiceImpl implements PlayerResultService {
     }
     
     @Override
+    public List<PlayerResult> findAllActive() {
+        return playerResultDao.findAll();
+    }
+    
+    @Override
     public void changeGoals(PlayerResult pr, int goals){
         
         if(goals <= 0){
@@ -107,9 +112,9 @@ public class PlayerResultServiceImpl implements PlayerResultService {
                 totalAway += r.getGoalsScored();
         }
         
-        if(m.getTeamHomeGoalsScored(false) != totalHome)
+        if(m.getTeamHomeGoalsScored() != totalHome)
             throw new SoccerServiceException("total number of goals scored by players in team home is different from the score of match");
-        if(m.getTeamAwayGoalsScored(false) != totalAway)
+        if(m.getTeamAwayGoalsScored() != totalAway)
             throw new SoccerServiceException("total number of goals scored by players in team away is different from the score of match");
     }
     

@@ -45,7 +45,7 @@ public class PlayerFacadeImpl implements PlayerFacade {
     public Long createPlayer(PlayerCreateDto p) {
         
         Player mapped = beanMappingService.mapTo(p, Player.class);       
-        mapped.addTeam(teamService.findById(p.getTeam()));      
+        mapped.setTeam(teamService.findById(p.getTeamId()));      
         playerService.create(mapped);    
         return mapped.getId();
     }
@@ -54,7 +54,7 @@ public class PlayerFacadeImpl implements PlayerFacade {
     public void updatePlayer(PlayerEditDto p) {
         Player mapped = beanMappingService.mapTo(p, Player.class);
         
-        mapped.addTeam(teamService.findById(p.getTeam()));
+        mapped.setTeam(teamService.findById(p.getTeamId()));
         
         for (Long item : p.getPlayerResults()) {
             mapped.addPlayerResult(resultService.findById(item));
@@ -78,10 +78,15 @@ public class PlayerFacadeImpl implements PlayerFacade {
         return beanMappingService.mapTo(playerService.findById(id), PlayerDto.class);
     }
     
+    @Override
     public List<PlayerResultDto> getPlayerResults(Long id) {
         Player p = playerService.findById(id);
         List<PlayerResult> results = resultService.findByPlayer(p);
         return beanMappingService.mapTo(results, PlayerResultDto.class);
     }
     
+    @Override
+    public List<PlayerDto> findAllActivePlayers() {
+        return beanMappingService.mapTo(playerService.findAllActive(), PlayerDto.class);
+    }
 }

@@ -5,7 +5,9 @@
  */
 package soccer.records.dao;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 import soccer.records.exceptions.dao.DataAccessExceptions;
@@ -65,6 +67,16 @@ public class PlayerResultDaoImpl extends DefaultCrudDaoImpl<PlayerResult,Long> i
     }*/
     
     @Override
+    public void delete(PlayerResult t) {
+        try {
+            t.setIsActive(false);
+            em.merge(t);
+        } catch (Exception e) {
+            throw new DataAccessExceptions(e.getMessage());
+        }
+    }
+    
+    @Override
     public List<PlayerResult> findByPlayerID(Long id) throws DataAccessExceptions {
         try{
             return em.createQuery("select pr from PlayerResult pr WHERE pr.player.id = :player", PlayerResult.class).setParameter("player", id).getResultList();
@@ -97,6 +109,15 @@ public class PlayerResultDaoImpl extends DefaultCrudDaoImpl<PlayerResult,Long> i
             return em.createQuery("select pr from PlayerResult pr", PlayerResult.class).getResultList();
         } catch(Exception e){
             throw new DataAccessExceptions(e.getMessage());  
+        }          
+    }
+    
+    @Override
+    public List<PlayerResult> filterActive(List<PlayerResult> par0) throws DataAccessExceptions {
+        try {
+            return par0.stream().filter(p -> p.getIsActive() == true).collect(Collectors.toList());//return em.createQuery("select pr from PlayerResult pr where pr.isactive = :active", PlayerResult.class).setParameter("active", true).getResultList();
+        } catch (NullPointerException e) {
+            return new ArrayList<>();
         }          
     }
 

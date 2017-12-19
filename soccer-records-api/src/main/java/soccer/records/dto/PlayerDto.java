@@ -6,7 +6,9 @@
 package soccer.records.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 import javax.validation.constraints.Min;
 import soccer.records.enums.PlayerPost;
 
@@ -17,7 +19,7 @@ import soccer.records.enums.PlayerPost;
 /*@JsonIdentityInfo(
   generator = ObjectIdGenerators.PropertyGenerator.class, 
   property = "id")*/
-public class PlayerDto {
+public class PlayerDto extends AuditableDto<String> {
     
     private Long id;
     
@@ -39,7 +41,7 @@ public class PlayerDto {
     private TeamDto team;
 
     //@JsonIgnore
-    //private Set<PlayerResultDto> playerResults = new HashSet<>();
+    private Set<PlayerResultDto> playerResults = new HashSet<>();
 
     public PlayerDto() {
     }

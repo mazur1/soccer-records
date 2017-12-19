@@ -92,4 +92,9 @@ public class TeamFacadeImpl implements TeamFacade {
     public TeamDto findTeamById(Long id) {
         return beanMappingService.mapTo(teamService.findById(id), TeamDto.class);
     }
+    
+    @Override
+    public List<TeamDto> findAllActiveTeams() {
+        return beanMappingService.mapTo(teamService.findAllActive(), TeamDto.class);
+    }
 }

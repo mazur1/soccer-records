@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.util.List;
 import soccer.records.dto.TeamDto;
-import org.springframework.hateoas.ResourceSupport;
 import org.springframework.hateoas.core.Relation;
 import soccer.records.dto.MatchDto;
 import soccer.records.dto.PlayerDto;
@@ -18,7 +17,7 @@ import soccer.records.dto.TeamResultDto;
 
 @Relation(value = "team", collectionRelation = "teams")
 @JsonPropertyOrder({"id", "name"})
-public class TeamResource extends ResourceSupport {
+public class TeamResource extends AuditableResource<String> {
 
     @JsonProperty("id") //ResourceSupport alrerady has getId() method
     private long dtoId;
@@ -32,6 +31,7 @@ public class TeamResource extends ResourceSupport {
     private int ties;
 
     public TeamResource(TeamDto dto) {
+        super(dto);
         this.dtoId = dto.getId();
         this.name = dto.getName();
         this.players = dto.getPlayers();

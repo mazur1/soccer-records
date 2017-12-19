@@ -13,4 +13,9 @@ public interface PlayerDao extends DefaultCrudDao<Player,Long> {
     //public void delete(Player c);
     //public List<Player> findAll();
     public List<Player> findByName(String name,  String surname) throws DataAccessExceptions;
+
+    List<Player> filterActive(List<Player> par0) throws DataAccessExceptions;
+
+    List<Player> findAll() throws DataAccessExceptions;
+
 }

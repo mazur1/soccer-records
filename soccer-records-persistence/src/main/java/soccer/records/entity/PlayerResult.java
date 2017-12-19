@@ -43,8 +43,8 @@ public class PlayerResult extends Auditable<String,Long> {
     }
 
     public PlayerResult(Player p, Match m) {
-        this.setPlayer(p);
-        this.setMatch(m);
+        this.player=p;
+        this.match=m;
     }
 
     public int getGoalsScored() {

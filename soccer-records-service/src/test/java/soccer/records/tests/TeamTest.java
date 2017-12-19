@@ -7,10 +7,6 @@ package soccer.records.tests;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceUnit;
 import org.hibernate.service.spi.ServiceException;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
@@ -22,33 +18,20 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
-import org.springframework.transaction.annotation.Transactional;
 import org.testng.Assert;
-import static org.testng.Assert.fail;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
-import soccer.records.PersistenceAppContext;
 import soccer.records.config.ServiceConfiguration;
-import soccer.records.dao.PlayerResultDao;
 import soccer.records.dao.TeamDao;
 import soccer.records.entity.Match;
 
 import soccer.records.entity.Player;
-import soccer.records.entity.PlayerResult;
 import soccer.records.entity.Team;
 import soccer.records.enums.PlayerPost;
-import soccer.records.services.MatchService;
-import soccer.records.services.MatchServiceImpl;
-import soccer.records.services.PlayerResultService;
-import soccer.records.services.PlayerService;
-import soccer.records.services.PlayerServiceImpl;
 import soccer.records.services.TeamService;
-import soccer.records.services.TeamServiceImpl;
 
 @ContextConfiguration(classes = ServiceConfiguration.class)
 public class TeamTest extends AbstractTestNGSpringContextTests {
@@ -93,7 +76,7 @@ public class TeamTest extends AbstractTestNGSpringContextTests {
         p1.setCaptain(false);
         p1.setSurname("Suchý");
         p1.setPost(PlayerPost.GOLMAN);
-        p1.addTeam(t1);
+        p1.setTeam(t1);
         //playerDao.create(p1);
         p2 = new Player();
         p2.setId(2L);
@@ -102,7 +85,7 @@ public class TeamTest extends AbstractTestNGSpringContextTests {
         p2.setCaptain(false);
         p2.setSurname("Vysoký");
         p2.setPost(PlayerPost.GOLMAN);
-        p2.addTeam(t2);
+        p2.setTeam(t2);
         //playerDao.create(p2);
         m1 = new Match();
         m1.setId(1L);

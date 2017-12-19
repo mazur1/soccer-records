@@ -11,6 +11,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -34,7 +35,11 @@ public class AppUser extends Auditable<String,Long> {
     @Column(unique = true)
     @Size(max = 30, message = "not longer than 30 chars")
     private String username;
-    	
+    @PrePersist
+    public void prePersist() {
+	this.setUserName(username);
+    }
+    
     private String passwordHash;
 	
     //@Transient

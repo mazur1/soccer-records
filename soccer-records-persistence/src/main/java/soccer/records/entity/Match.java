@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -30,13 +30,13 @@ public class Match extends Auditable<String,Long> {
     @Embedded 
     private Location location;
     @Min(0)
-    private int teamHomeGoalsScored;
+    private int teamHomeGoalsScored=0;
     @Min(0)
-    private int teamAwayGoalsScored;
+    private int teamAwayGoalsScored=0;
     @Min(0)
-    private int teamHomeGoalsScoredHalf;
+    private int teamHomeGoalsScoredHalf=0;
     @Min(0)
-    private int teamAwayGoalsScoredHalf;
+    private int teamAwayGoalsScoredHalf=0;
     
     @NotNull
     @ManyToOne
@@ -47,20 +47,9 @@ public class Match extends Auditable<String,Long> {
     //@JoinColumn(name="TeamAway_FK")
     private Team teamAway;
     @OneToMany()//(mappedBy = "match")
-    //@JoinColumn(name="Match_FK")
+    @JoinColumn(name="Match_FK")
     private List<PlayerResult> playerResults = new ArrayList<>();
     
-    @NotNull
-    @Column(nullable = false)
-    private boolean isActive;
-
-    public boolean isIsActive() {
-        return isActive;
-    }
-
-    public void setIsActive(boolean isActive) {
-        this.isActive = isActive;
-    }
     
     public Team getTeamHome() {
         return teamHome;
@@ -110,7 +99,40 @@ public class Match extends Auditable<String,Long> {
         this.location = location;
     }
 
-    public int getTeamHomeGoalsScored(boolean halftime) {
+    public int getTeamHomeGoalsScored() {
+        return teamHomeGoalsScored;
+    }
+
+    public void setTeamHomeGoalsScored(int teamHomeGoalsScored) {
+        this.teamHomeGoalsScored = teamHomeGoalsScored;
+    }
+
+    public int getTeamAwayGoalsScored() {
+        return teamAwayGoalsScored;
+    }
+
+    public void setTeamAwayGoalsScored(int teamAwayGoalsScored) {
+        this.teamAwayGoalsScored = teamAwayGoalsScored;
+    }
+
+    public int getTeamHomeGoalsScoredHalf() {
+        return teamHomeGoalsScoredHalf;
+    }
+
+    public void setTeamHomeGoalsScoredHalf(int teamHomeGoalsScoredHalf) {
+        this.teamHomeGoalsScoredHalf = teamHomeGoalsScoredHalf;
+    }
+
+    public int getTeamAwayGoalsScoredHalf() {
+        return teamAwayGoalsScoredHalf;
+    }
+
+    public void setTeamAwayGoalsScoredHalf(int teamAwayGoalsScoredHalf) {
+        this.teamAwayGoalsScoredHalf = teamAwayGoalsScoredHalf;
+    }
+    
+
+    /*public int getTeamHomeGoalsScored(boolean halftime) {
         if (halftime)
             return teamHomeGoalsScoredHalf;
         return teamHomeGoalsScored;
@@ -146,7 +168,7 @@ public class Match extends Auditable<String,Long> {
         if (halftime)
             return teamHomeGoalsScoredHalf;
         return teamHomeGoalsScored;
-    }
+    }*/
     
     /**
      * Constructor assigns a specific id

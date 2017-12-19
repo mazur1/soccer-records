@@ -7,10 +7,8 @@ package soccer.records.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import javax.validation.constraints.Min;
 import soccer.records.enums.PlayerPost;
 
@@ -125,11 +123,11 @@ public class PlayerEditDto {
         playerResults.remove(id);
     }
     
-    public void setTeam(Long team) {
-        this.teamId = team;
+    public void setTeamId(Long teamId) {
+        this.teamId = teamId;
     }
 
-    public Long getTeam() {
+    public Long getTeamId() {
         return teamId;
     }    
     

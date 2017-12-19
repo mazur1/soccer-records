@@ -33,8 +33,8 @@ public class MatchServiceImpl implements MatchService {
             if(m.getTeamHome().equals(m.getTeamAway()))
                 throw new SoccerServiceException("Can't create a match between the same teams");
         }
-        if(m.getTeamHomeGoalsScored(true) > m.getTeamHomeGoalsScored(false) 
-                || m.getTeamAwayGoalsScored(true) > m.getTeamAwayGoalsScored(false))
+        if(m.getTeamHomeGoalsScoredHalf() > m.getTeamHomeGoalsScored() 
+                || m.getTeamAwayGoalsScoredHalf() > m.getTeamAwayGoalsScored())
             throw new SoccerServiceException("Number of goals scored during halftime cannot be bigger than total");
         
         for(PlayerResult r : m.getPlayerResults()) {
@@ -95,6 +95,11 @@ public class MatchServiceImpl implements MatchService {
     public List<Match> findAll() {
         return matchDao.findAll();
     }
+    
+    @Override
+    public List<Match> filterActive(List<Match> par0) {
+        return matchDao.filterActive(par0);
+    }
 
     @Override
     public Match findById(Long id) {
@@ -137,11 +142,11 @@ public class MatchServiceImpl implements MatchService {
         MatchResult result = new MatchResult();
         result.setMatch(m);
         
-        if(m.getTeamHomeGoalsScored(false) > m.getTeamHomeGoalsReceived(false)) {
+        if(m.getTeamHomeGoalsScored() > m.getTeamAwayGoalsScored()) {
             result.setWinner(m.getTeamHome());
             result.setLooser(m.getTeamAway());
         }
-        else if(m.getTeamAwayGoalsScored(false) > m.getTeamAwayGoalsReceived(false)) {
+        else if(m.getTeamAwayGoalsScored() > m.getTeamHomeGoalsScored()) {
             result.setWinner(m.getTeamAway());
             result.setLooser(m.getTeamHome());
         }

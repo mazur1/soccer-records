@@ -5,7 +5,6 @@
  */
 package soccer.records.dao;
 
-import java.util.List;
 import soccer.records.entity.DefaultEntity;
 import soccer.records.exceptions.dao.DataAccessExceptions;
 
@@ -46,11 +45,5 @@ public interface DefaultCrudDao<TEntity extends DefaultEntity<TKey>, TKey> {
      */
     void update(TEntity e) throws DataAccessExceptions;
     
-    /**
-     * Method retrieves all entities
-     * @return
-     * @throws DataAccessExceptions 
-     */
-    List<TEntity> findAll() throws DataAccessExceptions;
-    
+        
 }

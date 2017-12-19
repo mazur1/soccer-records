@@ -29,4 +29,6 @@ public interface PlayerResultService {
     void checkGoalsScoredInMatch(Match m);
 
     int getPlayerResult(Player p);
+
+    List<PlayerResult> findAllActive();
 }

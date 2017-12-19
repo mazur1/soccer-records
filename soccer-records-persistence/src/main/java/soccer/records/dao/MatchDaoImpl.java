@@ -88,6 +88,16 @@ public class MatchDaoImpl extends DefaultCrudDaoImpl<Match,Long> implements Matc
         }
     }
     
+        
+    @Override
+    public List<Match> filterActive(List<Match> par0) throws DataAccessExceptions {
+        try {
+            return par0.stream().filter(p -> p.getIsActive() == true).collect(Collectors.toList());//em.createQuery("select p from Match p where p.isActive = :active", Match.class).setParameter("active", true).getResultList();
+        } catch (NullPointerException e) {
+            return new ArrayList<>();
+        }
+    }
+    
     @Override
     public void delete(Match c) throws DataAccessExceptions{
         try {

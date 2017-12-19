@@ -46,6 +46,11 @@ public class AppUserServiceImpl implements AppUserService {
     public List<AppUser> findAll() {
         return userDao.findAll();
     }
+    
+    @Override
+    public List<AppUser> findAllActive() {
+        return userDao.filterActive(null);
+    }
 
     @Override
     public AppUser findById(Long id) {

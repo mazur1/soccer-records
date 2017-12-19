@@ -24,5 +24,7 @@ public interface AppUserFacade {
     boolean authorize(AppUserDto u, List<AppRole> roleAccess);
 
     void registerUser(AppUserRegisterDto userDto);
+
+    List<AppUserDto> findAllActiveUsers();
     
 }

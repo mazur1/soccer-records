@@ -7,7 +7,6 @@ package soccer.records.restapi.hateoas;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import org.springframework.hateoas.ResourceSupport;
 import org.springframework.hateoas.core.Relation;
 
 import soccer.records.dto.AppUserDto;
@@ -19,13 +18,14 @@ import soccer.records.dto.AppUserDto;
 
 @Relation(value = "user", collectionRelation = "users")
 @JsonPropertyOrder({"userId", "username"})
-public class UserResource extends ResourceSupport{
+public class UserResource extends AuditableResource<String> {
 
     @JsonProperty("id") 
     private Long userId;
     private String username;
     
     public UserResource(AppUserDto dto) {
+        super(dto);
         this.userId = dto.getId();
         username = dto.getUsername();
     }

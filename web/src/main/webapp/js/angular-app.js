@@ -19,6 +19,7 @@ soccerRecordspApp.config(['$routeProvider',
             when('/teams/:teamId', {templateUrl: 'partials/detail/team.html', controller: 'TeamDetailController'}).
             when('/players/:playerId', {templateUrl: 'partials/detail/player.html', controller: 'PlayerDetailController'}).            
             when('/matches/:matchId', {templateUrl: 'partials/detail/match.html', controller: 'MatchDetailController'}).
+            //when('/results/:resultId', {templateUrl: 'partials/detail/player_result.html', controller: 'PlayerResultDetailController'}).
             when('/newPlayer', {templateUrl: 'partials/admin/new_player.html', controller: 'NewPlayerController'}).
             when('/newmatch', {templateUrl: 'partials/admin/new_match.html', controller: 'NewMatchController'}).
             when('/newteam', {templateUrl: 'partials/admin/new_team.html', controller: 'NewTeamController'}).
@@ -75,7 +76,7 @@ function parseUserData($cookieStore, $rootScope){
  */
 
 /*
- * Shopping page with all categories and products
+ * 
  */
 soccerControllers.controller('DefaultController', function ($scope, $rootScope, $http) {
     
@@ -240,7 +241,7 @@ soccerControllers.controller('NewPlayerController',  function ($scope, $location
         'captain': false,
         'country': '',
         'city': '',
-        'team': null
+        'teamId': null
     };    
         
     $scope.create = function (player) {
@@ -280,7 +281,7 @@ soccerControllers.controller('MatchesController', function ($scope, $rootScope, 
     
 });
 
-soccerControllers.controller('MatchDetailController', function ($scope, $rootScope, $routeParams, $http) {
+soccerControllers.controller('MatchDetailController', function ($scope, $rootScope, $routeParams, $http, $location) {
                 
         var matchId = $routeParams.matchId;
         $http.get('/pa165/api/v1/matches/'+matchId).then(function (response) {
@@ -297,7 +298,7 @@ soccerControllers.controller('MatchDetailController', function ($scope, $rootSco
         
         var players = response.data['_embedded']['players'];             
         console.log('AJAX loaded all teams');  
-        //$scope.items2 = players;
+        $scope.items2 = players;
 
     }, function error(error) {
         console.log(error);
@@ -320,13 +321,13 @@ soccerControllers.controller('MatchDetailController', function ($scope, $rootSco
     };
     
     $scope.deleteResult = function(resultId) {
-        $http.delete('/pa165/api/v1/matches/'+matchId+'results', resultId)
+        $http.delete('/pa165/api/v1/results/'+resultId)
             .then(function success(response) {
             console.log('deleted match');
             //display confirmation alert
             $rootScope.successAlert = 'A result was deleted';
-            //change view to list
-            $location.path("/matches");
+            $location.path('/matches/'+matchId);
+            
         }, function error(response) {
             //display error
             $scope.errorAlert = 'Cannot delete match!';
@@ -341,23 +342,24 @@ soccerControllers.controller('MatchDetailController', function ($scope, $rootSco
     
     //set object bound to form fields
     $scope.playerResult = {
-        'player': null,
-        'goalsScored': null
+        'matchId': matchId,
+        'playerId': null,
+        'goalsScored': 0
     };
     // function called when submit button is clicked, creates match on server
     $scope.create = function (playerResult) {
     
         $http({
             method: 'POST',
-            url: '/pa165/api/v1/matches/'+matchId+'/results',
+            url: '/pa165/api/v1/results/create',
             data: playerResult
         }).then(function success(response) {
             console.log('created player result');
             var created= response.data;
             //display confirmation alert
             $rootScope.successAlert = 'A new player result was created';
-            //change view to list
-            $location.path("/matches");
+            $location.path("/matches/"+matchId);
+            
         }, function error(response) {
             //display error
             $scope.errorAlert = 'Cannot create player result!';
@@ -382,8 +384,8 @@ soccerControllers.controller('NewMatchController',
 
     //set object bound to form fields
     $scope.match = {
-        'teamHome': 0,
-        'teamAway': 0,
+        'teamHomeId': null,
+        'teamAwayId': null,
         'dateAndTime': null,
         'location': null,
         'teamHomeGoalsScored': 0,

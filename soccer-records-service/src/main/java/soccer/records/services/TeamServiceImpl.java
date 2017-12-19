@@ -39,6 +39,11 @@ public class TeamServiceImpl implements TeamService {
     public List<Team> findAll() {
         return teamDao.findAll();
     }
+    
+    @Override
+    public List<Team> findAllActive() {
+        return teamDao.filterActive(null);
+    }
 
     @Override
     public Team findById(Long id) {
@@ -69,7 +74,7 @@ public class TeamServiceImpl implements TeamService {
     public void setNullAllPlayersByTeam(Long id) {
         List<Player> players = teamDao.findById(id).getPlayers();
         for (Player p : players) {
-            p.addTeam(null);
+            p.setTeam(null);
             playerDao.update(p);
         }
         

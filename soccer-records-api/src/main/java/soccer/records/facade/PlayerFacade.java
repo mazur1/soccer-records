@@ -24,5 +24,7 @@ public interface PlayerFacade {
     PlayerDto findPlayerById(Long id);
 
     List<PlayerResultDto> getPlayerResults(Long id);
+
+    List<PlayerDto> findAllActivePlayers();
     
 }

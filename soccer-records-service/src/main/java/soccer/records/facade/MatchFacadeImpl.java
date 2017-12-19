@@ -87,7 +87,7 @@ public class MatchFacadeImpl implements MatchFacade {
     public void addPlayerResult(Long mId, PlayerResultCreateDto rDto) {
         Match m = matchService.findById(mId);
         PlayerResult r = beanMappingService.mapTo(rDto, PlayerResult.class);
-        r.setPlayer(playerService.findById(rDto.getPlayer()));
+        r.setPlayer(playerService.findById(rDto.getPlayerId()));
         matchService.addPlayerResult(m, r);
     }
     
@@ -115,5 +115,11 @@ public class MatchFacadeImpl implements MatchFacade {
         Match m = matchService.findById(id);
         List<PlayerResult> results = resultService.findByMatch(m);
         return beanMappingService.mapTo(results, PlayerResultDto.class);
+    }
+    
+    @Override
+    public List<MatchDto> filterActiveMatches(List<MatchDto> par0) {
+        List<Match> mapped = beanMappingService.mapTo(par0, Match.class);
+        return beanMappingService.mapTo(matchService.filterActive(mapped), MatchDto.class);
     }
 }

@@ -73,8 +73,8 @@ public class PlayerResultFacadeImpl implements PlayerResultFacade{
     public Long createPlayerResult(PlayerResultCreateDto t) {
         PlayerResult mapped = beanMappingService.mapTo(t, PlayerResult.class);
         
-        mapped.setMatch(match.findById(t.getMatch()));
-        mapped.setPlayer(player.findById(t.getPlayer()));        
+        mapped.setMatch(match.findById(t.getMatchId()));
+        mapped.setPlayer(player.findById(t.getPlayerId()));        
         
         return playerResult.create(mapped);
     }
@@ -98,8 +98,8 @@ public class PlayerResultFacadeImpl implements PlayerResultFacade{
     public void updatePlayerResult(PlayerResultEditDto t) {
         PlayerResult mapped = beanMappingService.mapTo(t, PlayerResult.class);
         
-        mapped.setMatch(match.findById(t.getMatch()));
-        mapped.setPlayer(player.findById(t.getPlayer()));  
+        mapped.setMatch(match.findById(t.getMatchId()));
+        mapped.setPlayer(player.findById(t.getPlayerId()));  
         
         playerResult.update(mapped);
     }
@@ -112,5 +112,10 @@ public class PlayerResultFacadeImpl implements PlayerResultFacade{
     @Override
     public int getPlayerResult(Long id) {
         return playerResult.getPlayerResult(player.findById(id));
+    }
+    
+    @Override
+    public List<PlayerResultDto> findAllActivePlayerResults() {
+        return beanMappingService.mapTo(playerResult.findAllActive(), PlayerResultDto.class);
     }
 }

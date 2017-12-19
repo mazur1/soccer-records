@@ -3,7 +3,7 @@
     <div class="form-group" ng-class="{'has-error': !(form.location.$valid)}">
         <label for="player" class="col-sm-2 control-label">player</label>
         <div class="col-sm-10">
-            <select id="player" class="form-control" ng-model="playerResult.player" convert-to-int>
+            <select id="player" class="form-control" ng-model="playerResult.playerId" convert-to-int required>
             <option ng-repeat="item in match.teamHome.players.concat(match.teamAway.players)" value="{{item.id}}">{{item.name.concat(' '+item.surname)}}</option>
             </select> 
             

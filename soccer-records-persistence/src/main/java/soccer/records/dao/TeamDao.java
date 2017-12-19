@@ -1,5 +1,6 @@
 package soccer.records.dao;
 
+import java.util.List;
 import soccer.records.entity.Team;
 import soccer.records.exceptions.dao.DataAccessExceptions;
 
@@ -43,5 +44,10 @@ public interface TeamDao extends DefaultCrudDao<Team,Long> {
         * @throws DataAccessExceptions
         */
         Team findByName(String name) throws DataAccessExceptions;
+
+    List<Team> filterActive(List<Team> par0) throws DataAccessExceptions;
+
+    List<Team> findAll() throws DataAccessExceptions;
+
     
 }

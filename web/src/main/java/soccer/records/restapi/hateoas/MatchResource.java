@@ -20,7 +20,9 @@ import soccer.records.dto.TeamDto;
 public class MatchResource extends AuditableResource<String> {
     
     @JsonProperty("id") 
-    private Long dtoId;
+    private long dtoId;
+    private long teamHomeId;
+    private long teamAwayId;
     private TeamDto teamHome;
     private TeamDto teamAway;
     private Date dateAndTime;
@@ -39,10 +41,10 @@ public class MatchResource extends AuditableResource<String> {
         teamAway = dto.getTeamAway();
         dateAndTime = dto.getDateAndTime();
         location = dto.getLocation();
-        teamHomeGoalsScored = dto.getTeamHomeGoalsScored(false);
-        teamAwayGoalsScored = dto.getTeamAwayGoalsScored(false);
-        teamHomeGoalsScoredHalf = dto.getTeamHomeGoalsScored(true);
-        teamAwayGoalsScoredHalf = dto.getTeamAwayGoalsScored(true);
+        teamHomeGoalsScored = dto.getTeamHomeGoalsScored();
+        teamAwayGoalsScored = dto.getTeamAwayGoalsScored();
+        teamHomeGoalsScoredHalf = dto.getTeamHomeGoalsScoredHalf();
+        teamAwayGoalsScoredHalf = dto.getTeamAwayGoalsScoredHalf();
         //playerResults;
     }
 
@@ -50,8 +52,24 @@ public class MatchResource extends AuditableResource<String> {
         return dtoId;
     }
 
-    public void setDtoId(Long dtoId) {
+    public void setDtoId(long dtoId) {
         this.dtoId = dtoId;
+    }
+
+    public long getTeamHomeId() {
+        return teamHomeId;
+    }
+
+    public void setTeamHomeId(long teamHomeId) {
+        this.teamHomeId = teamHomeId;
+    }
+
+    public long getTeamAwayId() {
+        return teamAwayId;
+    }
+
+    public void setTeamAwayId(long teamAwayId) {
+        this.teamAwayId = teamAwayId;
     }
     
     public TeamDto getTeamHome() {
@@ -75,6 +93,12 @@ public class MatchResource extends AuditableResource<String> {
     }
 
     public void setDateAndTime(Date dateAndTime) {
+        /*Date d;
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm");
+        try{
+            d = sdf.parse(date);
+            m.setDateAndTime(d);
+        } catch(ParseException e) {}*/
         this.dateAndTime = dateAndTime;
     }
 
@@ -117,6 +141,8 @@ public class MatchResource extends AuditableResource<String> {
     public void setTeamAwayGoalsScoredHalf(int teamAwayGoalsScoredHalf) {
         this.teamAwayGoalsScoredHalf = teamAwayGoalsScoredHalf;
     }
+
+    
 
     public List<PlayerResultDto> getPlayerResults() {
         return playerResults;

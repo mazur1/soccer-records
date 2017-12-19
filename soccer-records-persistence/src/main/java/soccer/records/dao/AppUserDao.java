@@ -31,5 +31,9 @@ public interface AppUserDao extends DefaultCrudDao<AppUser,Long> {
      * @throws DataAccessExceptions 
      */
     List<AppUser> findByRole(AppRole role) throws DataAccessExceptions;
+
+    List<AppUser> filterActive(List<AppUser> par0) throws DataAccessExceptions;
+
+    List<AppUser> findAll() throws DataAccessExceptions;
     
 }
