@@ -1,5 +1,6 @@
 package soccer.records.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -50,9 +51,9 @@ public class PlayerDaoImpl extends DefaultCrudDaoImpl<Player,Long> implements Pl
     @Override
     public List<Player> filterActive(List<Player> par0) throws DataAccessExceptions {
         try {
-            return par0.stream().filter(p -> p.isIsActive() == true).collect(Collectors.toList());//return em.createQuery("select p from Player p where p.isActive = :active", Player.class).setParameter("active", true).getResultList();
-        } catch (Exception e) {
-            throw new DataAccessExceptions(e.getMessage());
+            return par0.stream().filter(p -> p.getIsActive() == true).collect(Collectors.toList());//return em.createQuery("select p from Player p where p.isActive = :active", Player.class).setParameter("active", true).getResultList();
+        } catch (NullPointerException e) {
+            return new ArrayList<>();
         }
     }
 

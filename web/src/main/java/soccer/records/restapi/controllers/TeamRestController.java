@@ -70,7 +70,7 @@ public class TeamRestController {
     @RequestMapping(method = RequestMethod.GET)
     public HttpEntity<Resources<TeamResource>> teams() {
         log.info("rest teams()");
-        List<TeamDto> allTeams = teamFacade.findAllActiveTeams();
+        List<TeamDto> allTeams = teamFacade.findAllTeams();
         Resources<TeamResource> teamResources = new Resources<>(
                 teamResourceAssembler.toResources(allTeams),
                 linkTo(TeamRestController.class).withSelfRel(),

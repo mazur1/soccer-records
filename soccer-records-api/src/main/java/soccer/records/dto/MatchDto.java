@@ -19,6 +19,16 @@ import javax.validation.constraints.NotNull;
   property = "id")*/
 public class MatchDto extends AuditableDto<String> {
     
+    private boolean isActive=true;
+
+    public boolean getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
+    }
+    
     private Long id;
     private Date dateAndTime;
     private LocationDto location;

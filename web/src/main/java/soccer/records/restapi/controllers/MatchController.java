@@ -51,11 +51,16 @@ public class MatchController {
     @Autowired
     private EntityLinks entityLinks;
     
-    @RequestMapping(method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
-    public final HttpEntity<Resources<MatchResource>> getMatches() {
+    @RequestMapping(/*value = "/{active}",*/ method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+    public final HttpEntity<Resources<MatchResource>> getMatches(/*@PathVariable("active") boolean active*/) {
         
         log.debug("rest: getMatches()");
-        List<MatchResource> resourceCollection = matchResourceAssembler.toResources(matchFacade.filterActiveMatches(null));
+        List<MatchDto> all = matchFacade.findAllMatches();
+        List<MatchResource> resourceCollection;
+        //if(active)
+            resourceCollection = matchResourceAssembler.toResources(matchFacade.filterActiveMatches(all));
+        /*else
+            resourceCollection  = matchResourceAssembler.toResources(all);*/
         
         Resources<MatchResource> matchResources = new Resources<>(resourceCollection,
                 linkTo(MatchController.class).withSelfRel(),
@@ -64,13 +69,18 @@ public class MatchController {
 
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
-    public final HttpEntity<MatchResource> getMatch(@PathVariable("id") Long id) throws Exception {
+    @RequestMapping(value = /*{active}*/"/{id}", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+    public final HttpEntity<MatchResource> getMatch(@PathVariable("id") Long id/*, @PathVariable("active") boolean active*/) throws Exception {
         
         log.debug("rest: getMatch(" + String.valueOf(id) + ")");
         MatchDto matchDto = matchFacade.findMatchById(id);
-        if (matchDto == null) 
+        
+        if(matchDto == null){
             throw new ResourceNotFoundException("match " + id + " not found");
+        }
+        /*else if(active && !matchDto.getIsActive()){
+            throw new ResourceNotFoundException("match " + id + " not found");
+        }*/
         
         MatchResource resource = matchResourceAssembler.toResource(matchDto);
         resource.setPlayerResults(matchFacade.getPlayerResults(id));

@@ -1,5 +1,6 @@
 package soccer.records.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Repository;
@@ -62,9 +63,9 @@ public class TeamDaoImpl extends DefaultCrudDaoImpl<Team,Long> implements TeamDa
     @Override
     public List<Team> filterActive(List<Team> par0) throws DataAccessExceptions {
         try {
-            return par0.stream().filter(p -> p.isIsActive() == true).collect(Collectors.toList());//return em.createQuery("select p from Team p where p.isActive = :active", Team.class).setParameter("active", true).getResultList();
-        } catch (Exception e) {
-            throw new DataAccessExceptions(e.getMessage());
+            return par0.stream().filter(p -> p.getIsActive() == true).collect(Collectors.toList());//return em.createQuery("select p from Team p where p.isActive = :active", Team.class).setParameter("active", true).getResultList();
+        } catch (NullPointerException e) {
+            return new ArrayList<>();
         }
     }
 

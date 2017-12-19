@@ -31,7 +31,7 @@ public abstract class DefaultEntity<TKey> {
     @Column(nullable = false)
     private boolean isActive=true;
 
-    public boolean isIsActive() {
+    public boolean getIsActive() {
         return isActive;
     }
 
