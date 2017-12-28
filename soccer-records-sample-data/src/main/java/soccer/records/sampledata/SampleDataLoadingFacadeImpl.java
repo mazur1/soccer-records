@@ -128,6 +128,7 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         Match m03 = match(plzen, brno, "11-12-2017 10:30", "Sportovní areál Hamr Braník");
         Match m04 = match(liberec, plzen, "31-12-2017 11:00", "LIBEREC aréna");
         Match m05 = match(plzen, jablonec, "24-12-2017 10:00", "Stadion Kozel");
+        Match m06 = match(brno, jablonec, "12-12-2017 10:00", "Moravia");
         
 
 
@@ -202,10 +203,10 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         loc.setStreet("Vltavanù 1542");
         m.setLocation(loc);
         
-        m.setTeamAwayGoalsScoredHalf(1);
-        m.setTeamAwayGoalsScored(3);
-        m.setTeamHomeGoalsScoredHalf(2);
-        m.setTeamHomeGoalsScored(3);
+        //m.setTeamAwayGoalsScoredHalf(1);
+        //m.setTeamAwayGoalsScored(3);
+        //m.setTeamHomeGoalsScoredHalf(2);
+        //m.setTeamHomeGoalsScored(3);
         
         matchService.create(m);
         return m;
