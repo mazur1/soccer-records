@@ -14,7 +14,7 @@
         <label for="surname" class="col-sm-2 control-label">Surname</label>
         <div class="col-sm-10">
             <input placeholder="surname" id="surname" type="text" name="surname" class="form-control" ng-model="player.surname" required=""/>
-             <p class="help-block" ng-show="form.surname.$error.required">Name is required</p>
+             <p class="help-block" ng-show="form.surname.$error.required">Surame is required</p>
         </div>
     </div>    
 
@@ -29,9 +29,10 @@
         <label for="post" class="col-sm-2 control-label">Post</label>
         <div class="col-sm-10">
             
-        <select id="post" class="form-control" ng-model="player.post">
+        <select id="post" name="post" class="form-control" ng-model="player.post" required>
             <option ng-repeat="item in posts" value="{{item}}">{{item}}</option>
-        </select>            
+        </select>  
+        <p class="help-block" ng-show="form.post.$error.required">Post is required</p>
 
         </div>
     </div>        
@@ -61,9 +62,10 @@
         <label for="team" class="col-sm-2 control-label">Team</label>
         <div class="col-sm-10">
 
-        <select id="team" class="form-control" ng-model="player.teamId" convert-to-int>
+        <select id="team" name="team" class="form-control" ng-model="player.teamId" required>
             <option ng-repeat="item in teams" value="{{item.id}}">{{item.name}}</option>
-        </select>                
+        </select>  
+        <p class="help-block" ng-show="form.team.$error.required">Team is required</p>
 
         </div>
     </div>
