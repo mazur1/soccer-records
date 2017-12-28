@@ -17,10 +17,10 @@
     </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="player in players track by $index">
+        <tr ng-repeat="player in players | orderBy:'team.name' track by $index">
             <td><a href="#!/players/{{player.id}}">{{player.name}} {{player.surname}}</a></td>
-            <td><a href="#!/players/{{player.id}}">{{player.country}}</a></td>
-            <td><a href="#!/players/{{player.id}}">{{player.team.name}}</a></td>
+            <td>{{player.country}}</td>
+            <td><a href="#!/teams/{{player.team.id}}">{{player.team.name}}</a></td>
         </tr>
     </tbody>
 </table>

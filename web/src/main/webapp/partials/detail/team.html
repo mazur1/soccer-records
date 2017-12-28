@@ -13,11 +13,11 @@
         </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="match in team.matchesHome.concat(team.matchesAway) | limitTo:5 | orderBy:'dateAndTime':true track by $index ">
-                <td>{{team.name==match.teamHome.name ? match.teamAway.name : match.teamHome.name}}</td>
+            <tr ng-repeat="match in team.matchesHome.concat(team.matchesAway) | limitTo:5 | orderBy:'dateAndTime':true track by $index " ng-init="opponent=team.name==match.teamHome.name ? match.teamAway : match.teamHome">
+                <td><a href="#!/teams/{{opponent.id}}">{{opponent.name}}</a></td>
                 <td>{{match.dateAndTime}}</td>
                 <td>{{match.location.name}}</td>
-                <td align="right"><button type="submit" class="btn btn-primary btn-xs">Results</button></td>    
+                <td align="right"><a href="#!/matches/{{match.id}}"><button type="submit" class="btn btn-primary btn-xs">Results</button></a></td>    
             </tr>
         </tbody>
     </table>
@@ -33,7 +33,7 @@
         </thead>
         <tbody>
             <tr ng-repeat="player in team.players track by $index">
-                <td>{{player.name}} {{player.surname}}</td>
+                <td><a href="#!/players/{{player.id}}">{{player.name}} {{player.surname}}</a></td>
             </tr>
         </tbody>
     </table>
