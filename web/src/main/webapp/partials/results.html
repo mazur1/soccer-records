@@ -7,6 +7,7 @@
     <thead>
     <tr>
         <th>Player</th>
+        <th>Team</th>
         <th>Match</th>
         <th>Goals</th>
     </tr>
@@ -14,6 +15,7 @@
     <tbody>
         <tr ng-repeat="result in results track by $index">
             <td>{{result.player.name}} {{result.player.surname}}</td>
+            <td>{{result.player.team.name}}</td>
             <td>{{result.match.teamHome.name}} x {{result.match.teamAway.name}}</td>
             <td>{{result.goalsScored}}</td>
         </tr>

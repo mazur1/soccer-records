@@ -93,11 +93,12 @@ public class TeamRestController {
         TeamResource teamResource = teamResourceAssembler.toResource(teamDTO);
         teamResource.setMatchesHome(teamFacade.getMatchesHome(id));
         teamResource.setMatchesAway(teamFacade.getMatchesAway(id));
-
+        
         TeamResultDto tt = macthFacade.getTeamResult(id);
+
         teamResource.setTies(tt.getTies());
         teamResource.setWins(tt.getWins());
-        teamResource.setLooses(tt.getWins());
+        teamResource.setLooses(tt.getLosses());
         
         return new ResponseEntity<>(teamResource, HttpStatus.OK);
     }

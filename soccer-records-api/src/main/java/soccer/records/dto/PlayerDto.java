@@ -37,7 +37,7 @@ public class PlayerDto extends AuditableDto<String> {
     private String country;
     private String city;
     
-    @JsonIgnore
+    //@JsonIgnore
     private TeamDto team;
 
     //@JsonIgnore

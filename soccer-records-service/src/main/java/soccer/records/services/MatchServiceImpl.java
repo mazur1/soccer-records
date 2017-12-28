@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import javax.inject.Inject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import soccer.records.dao.MatchDao;
 import soccer.records.entity.Match;
@@ -20,8 +22,13 @@ import soccer.records.exceptions.service.SoccerServiceException;
 @Service
 public class MatchServiceImpl implements MatchService {
     
+    final static Logger log = LoggerFactory.getLogger(MatchServiceImpl.class);
+    
     @Inject
     private MatchDao matchDao;
+    
+    @Inject
+    private PlayerResultService resultService;
 
     /**
      * Helper method to validate Match match before create/update
@@ -136,17 +143,44 @@ public class MatchServiceImpl implements MatchService {
 	}
 	m.removePlayerResult(r);
     }
+    
+    
+    @Override
+    public int getTeamHomeGoalsScored(Match m) {
+
+        List<PlayerResult> results = resultService.findByMatch(m);
+        int goalsSum = 0;
+        for (PlayerResult result : results) {
+            if (m.getTeamHome() == result.getPlayer().getTeam()) { 
+                goalsSum += result.getGoalsScored();
+            }
+        }
+        return goalsSum;
+    }
+
+    
+    @Override
+    public int getTeamAwayGoalsScored(Match m) {
+        List<PlayerResult> results = resultService.findByMatch(m);
+        int goalsSum = 0;
+        for (PlayerResult result : results) {
+            if (m.getTeamAway() == result.getPlayer().getTeam()) { 
+                goalsSum += result.getGoalsScored();
+            }
+        }
+        return goalsSum;
+    }
         
     @Override
     public MatchResult getMatchResult(Match m) {
         MatchResult result = new MatchResult();
         result.setMatch(m);
         
-        if(m.getTeamHomeGoalsScored() > m.getTeamAwayGoalsScored()) {
+        if(getTeamHomeGoalsScored(m) > getTeamAwayGoalsScored(m)) {
             result.setWinner(m.getTeamHome());
             result.setLooser(m.getTeamAway());
         }
-        else if(m.getTeamAwayGoalsScored() > m.getTeamHomeGoalsScored()) {
+        else if(getTeamAwayGoalsScored(m) > getTeamHomeGoalsScored(m)) {
             result.setWinner(m.getTeamAway());
             result.setLooser(m.getTeamHome());
         }
@@ -159,7 +193,8 @@ public class MatchServiceImpl implements MatchService {
     public TeamResult getTeamResult(Team t) {
         TeamResult tResult = new TeamResult();
         tResult.setTeam(t);
-        List<Match> matches = matchDao.filterByTeam(t, null);
+        
+        List<Match> matches = matchDao.filterByTeam(t, matchDao.findAll());
         
         int wins=0, losses=0,ties=0;
         for(Match m : matches) {
