@@ -12,10 +12,7 @@ import java.util.Set;
 import javax.validation.constraints.Min;
 import soccer.records.enums.PlayerPost;
 
-/**
- *
- * @author 
- */
+
 /*@JsonIdentityInfo(
   generator = ObjectIdGenerators.PropertyGenerator.class, 
   property = "id")*/

@@ -5,10 +5,7 @@
  */
 package soccer.records.enums;
 
-/**
- *
- * @author 
- */
+
 public enum PlayerPost {
     ATTACKER, MIDFIELDER, DEFENDER, GOLMAN
 }

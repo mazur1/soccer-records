@@ -142,7 +142,7 @@ public class MatchDto extends AuditableDto<String> {
     
     /**
      * Constructor assigns a specific id
-     * @param id 
+     * @param id pk of entity
      */
     public MatchDto(Long id) {
          this.id = id;

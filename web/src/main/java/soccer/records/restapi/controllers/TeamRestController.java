@@ -83,6 +83,7 @@ public class TeamRestController {
      *
      * @param id team identifier
      * @return team detail
+     * @throws java.lang.Exception
      * @throws ResourceNotFoundException if team not found
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -106,6 +107,7 @@ public class TeamRestController {
      * Delete one team by id 
      *
      * @param id identifier for team
+     * @throws java.lang.Exception
      * @throws ResourceNotFoundException
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
@@ -123,6 +125,10 @@ public class TeamRestController {
      * Create one team from json data
      *
      * 
+     * @param teamCreateDto
+     * @param bindingResult
+     * @return 
+     * @throws java.lang.Exception
      * @throws InvalidRequestException
      */
     @RequestMapping(value = "/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
