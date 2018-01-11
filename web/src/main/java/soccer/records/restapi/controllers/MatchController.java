@@ -57,10 +57,16 @@ public class MatchController {
         log.debug("rest: getMatches()");
         List<MatchDto> all = matchFacade.findAllMatches();
         List<MatchResource> resourceCollection;
+        
         //if(active)
             resourceCollection = matchResourceAssembler.toResources(matchFacade.filterActiveMatches(all));
         /*else
             resourceCollection  = matchResourceAssembler.toResources(all);*/
+            
+        for (MatchResource matchResource : resourceCollection) {
+            matchResource.setTeamHomeGoalsScored(matchFacade.getTeamHomeGoalsScored(matchResource.getDtoId()));
+            matchResource.setTeamAwayGoalsScored(matchFacade.getTeamAwayGoalsScored(matchResource.getDtoId()));
+        }    
         
         Resources<MatchResource> matchResources = new Resources<>(resourceCollection,
                 linkTo(MatchController.class).withSelfRel(),
@@ -84,6 +90,8 @@ public class MatchController {
         
         MatchResource resource = matchResourceAssembler.toResource(matchDto);
         resource.setPlayerResults(matchFacade.getPlayerResults(id));
+        resource.setTeamHomeGoalsScored(matchFacade.getTeamHomeGoalsScored(id));
+        resource.setTeamAwayGoalsScored(matchFacade.getTeamAwayGoalsScored(id));
         
         return new ResponseEntity<>(resource, HttpStatus.OK);
     }

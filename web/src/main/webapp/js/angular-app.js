@@ -246,7 +246,7 @@ soccerControllers.controller('NewPlayerController',  function ($scope, $location
         
     $scope.create = function (player) {
     
-            alert(JSON.stringify(player));
+            //alert(JSON.stringify(player));
     
             $http({
                 method: 'POST',

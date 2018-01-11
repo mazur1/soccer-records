@@ -50,4 +50,8 @@ public interface MatchService {
     TeamResult getTeamResult(Team t);
 
     List<Match> filterActive(List<Match> par0);
+    
+    public int getTeamHomeGoalsScored(Match m);
+    
+    public int getTeamAwayGoalsScored(Match m);
 }

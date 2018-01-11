@@ -24,6 +24,7 @@ import soccer.records.services.BeanMappingService;
 import soccer.records.services.MatchService;
 import soccer.records.services.PlayerResultService;
 import soccer.records.services.PlayerService;
+import soccer.records.services.TeamResult;
 import soccer.records.services.TeamService;
 
 /**
@@ -106,6 +107,7 @@ public class MatchFacadeImpl implements MatchFacade {
     
     @Override
     public TeamResultDto getTeamResult(Long id) {
+        TeamResult tt = matchService.getTeamResult(teamService.findById(id));
         return beanMappingService.mapTo(matchService.getTeamResult(
                 teamService.findById(id)), TeamResultDto.class);
     }
@@ -121,5 +123,17 @@ public class MatchFacadeImpl implements MatchFacade {
     public List<MatchDto> filterActiveMatches(List<MatchDto> par0) {
         List<Match> mapped = beanMappingService.mapTo(par0, Match.class);
         return beanMappingService.mapTo(matchService.filterActive(mapped), MatchDto.class);
+    }
+    
+    @Override
+    public int getTeamHomeGoalsScored(Long id) {
+        return matchService.getTeamHomeGoalsScored(matchService.findById(id));
+
+    }
+    
+    @Override
+    public int getTeamAwayGoalsScored(Long id) {
+        return matchService.getTeamAwayGoalsScored(matchService.findById(id));
+
     }
 }

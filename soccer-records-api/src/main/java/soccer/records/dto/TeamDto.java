@@ -21,7 +21,7 @@ public class TeamDto extends AuditableDto<String> {
     private Long id;
     private String name;
  
-    //@JsonIgnore
+    @JsonIgnore
     private List<PlayerDto> players = new ArrayList<>();
     @JsonIgnore
     private List<MatchDto> matchesHome = new ArrayList<>();
