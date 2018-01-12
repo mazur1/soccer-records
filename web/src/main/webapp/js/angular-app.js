@@ -99,8 +99,8 @@ function parseUserData($cookieStore, $rootScope) {
 
 }
 
-function userIsLogged() {
-    var user = $cookieStore.get('user');
+function userIsLogged(cookieStore) {
+    var user = cookieStore.get('user');
     if (user !== undefined) {
         return user.logged;
     }
@@ -146,7 +146,6 @@ soccerControllers.controller('LoginController', function ($scope, $routeParams, 
             window.location.href = "/pa165/#!/home"
 
         }, function error(response) {
-            //display error
             setMessage($rootScope, "error", 'Login failed!');
         });
     };
@@ -157,7 +156,9 @@ soccerControllers.controller('LogoutController', function ($scope, $routeParams,
 
     $cookieStore.remove('user');
     $cookieStore.put('MsgRedirect', "Logout succesfull");
-    window.location.href = "/pa165/#!/home";
+    
+    var parts = window.location.href.split("#");
+    window.location.href = parts[0];
 
 });
 
