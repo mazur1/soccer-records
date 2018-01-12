@@ -31,6 +31,7 @@ public interface PlayerService {
     void update(Player p);
 
     List<Player> findAllActive();
-   
+    
+    List<Player> filterActive(List<Player> par0);
     
 }

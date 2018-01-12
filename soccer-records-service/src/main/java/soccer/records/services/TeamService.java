@@ -27,17 +27,17 @@ public interface TeamService {
 
     void update(Team t);
     
-    public void addPlayer(Team t, Player p);
-    public void removePlayer(Team t, Player p);
+    void addPlayer(Team t, Player p);
+    void removePlayer(Team t, Player p);
     
-    public void addMatchHome(Team t, Match m);
-    public void removeMatchHome(Team t, Match m);
+    void addMatchHome(Team t, Match m);
+    void removeMatchHome(Team t, Match m);
     
-    public void addMatchAway(Team t, Match m);
-    public void removeMatchAway(Team t, Match m);
+    void addMatchAway(Team t, Match m);
+    void removeMatchAway(Team t, Match m);
     
-    public void setNullAllPlayersByTeam(Long id);
+    void setNullAllPlayersByTeam(Long id);
 
-    List<Team> findAllActive();
+    List<Team> filterActive(List<Team> par0);
     
 }

@@ -2,25 +2,28 @@
 <br>
 
 <div class="col-xs-12">
+
 <h4 class="subtitle">Last matches</h4>
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Opponent</th>
-            <th>Date</th>
-            <th>Location</th>
-            <th style="text-align: right">Detail</th>
-        </tr>
-        </thead>
-        <tbody>
-            <tr ng-repeat="match in team.matchesHome.concat(team.matchesAway) | limitTo:5 | orderBy:'dateAndTime':true track by $index " ng-init="opponent=team.name==match.teamHome.name ? match.teamAway : match.teamHome">
-                <td><a href="#!/teams/{{opponent.id}}">{{opponent.name}}</a></td>
-                <td>{{match.dateAndTime}}</td>
-                <td>{{match.location.name}}</td>
-                <td align="right"><a href="#!/matches/{{match.id}}"><button type="submit" class="btn btn-primary btn-xs">Results</button></a></td>    
+    <div class="scroll-team-matches">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Opponent</th>
+                <th>Date</th>
+                <th>Location</th>
+                <th style="text-align: right">Detail</th>
             </tr>
-        </tbody>
-    </table>
+            </thead>
+            <tbody >
+                <tr ng-repeat="match in team.matchesHome.concat(team.matchesAway) | limitTo:5 | orderBy:'dateAndTime':true track by $index " ng-init="opponent=team.name==match.teamHome.name ? match.teamAway : match.teamHome">
+                    <td><a href="#!/teams/{{opponent.id}}">{{opponent.name}}</a></td>
+                    <td>{{match.dateAndTime}}</td>
+                    <td>{{match.location.name}}</td>
+                    <td align="right"><a href="#!/matches/{{match.id}}"><button type="submit" class="btn btn-primary btn-xs">Results</button></a></td>    
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <div class="col-xs-6">
@@ -63,4 +66,17 @@
             </tr>
         </tbody>
     </table>
+</div>
+
+<div class="col-xs-12">
+    <h4 ng-if="loggedUser.logged == true" class="subtitle">Administrative operations</h4>
+    <br>
+        <a ng-if="loggedUser.logged == true" ng-click="deleteTeam()" class="btn btn-primary">
+            <span class="glyphicon" aria-hidden="true"></span>
+            Delete team
+        </a>
+        <a ng-if="loggedUser.logged == true" href="#!/editteam/{{team.id}}" class="btn btn-primary">
+            <span class="glyphicon" aria-hidden="true"></span>
+            Edit team
+        </a>
 </div>

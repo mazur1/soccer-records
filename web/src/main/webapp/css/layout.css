@@ -168,3 +168,10 @@ div.title .line {
 }
 
 
+.scroll-team-matches {
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: 250px;
+
+
+}

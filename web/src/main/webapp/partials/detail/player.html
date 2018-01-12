@@ -6,3 +6,16 @@
 <li><b>Post: </b>{{player.post}}</li>
 <li><b>Cpatain: </b>{{true == player.captain ? 'Yes' : 'No' }}</li>
 
+<div class="col-xs-12">
+    <h4 ng-if="loggedUser.logged == true" class="subtitle">Administrative operations</h4>
+    <br>
+        <a ng-if="loggedUser.logged == true" ng-click="deletePlayer()" class="btn btn-primary">
+            <span class="glyphicon" aria-hidden="true"></span>
+            Delete player
+        </a>
+        <a ng-if="loggedUser.logged == true" href="#!/editplayer/{{player.id}}" class="btn btn-primary">
+            <span class="glyphicon" aria-hidden="true"></span>
+            Edit player
+        </a>
+
+</div>

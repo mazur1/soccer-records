@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import soccer.records.dto.MatchDto;
 import soccer.records.dto.TeamCreateDto;
 import soccer.records.dto.TeamDto;
+import soccer.records.dto.TeamEditDto;
 import soccer.records.entity.Match;
 import soccer.records.entity.Team;
 import soccer.records.services.BeanMappingService;
@@ -62,7 +63,7 @@ public class TeamFacadeImpl implements TeamFacade {
     }
     
     @Override
-    public void updateTeam(TeamDto t) {
+    public void updateTeam(TeamEditDto t) {
         Team mapped = beanMappingService.mapTo(t, Team.class);
         teamService.update(mapped);
     }
@@ -71,15 +72,6 @@ public class TeamFacadeImpl implements TeamFacade {
     public void deleteTeam(Long id) {
         //in case is possible to have player with id null
         teamService.setNullAllPlayersByTeam(id);
-//        for (Match m : teamService.findById(id).getMatchesAway()) {
-//            m.setTeamAway(null);
-//            matchService.update(m);
-//        }
-//        for (Match m : teamService.findById(id).getMatchesHome()) {
-//            m.setTeamHome(null);
-//            matchService.update(m);
-//        }
-        
         teamService.remove(teamService.findById(id));
     }
 
@@ -93,8 +85,14 @@ public class TeamFacadeImpl implements TeamFacade {
         return beanMappingService.mapTo(teamService.findById(id), TeamDto.class);
     }
     
+//    @Override
+//    public List<TeamDto> findAllActiveTeams() {
+//        return beanMappingService.mapTo(teamService.findAllActive(), TeamDto.class);
+//    }
+    
     @Override
-    public List<TeamDto> findAllActiveTeams() {
-        return beanMappingService.mapTo(teamService.findAllActive(), TeamDto.class);
+    public List<TeamDto> filterActiveTeams(List<TeamDto> par0) {
+        List<Team> mapped = beanMappingService.mapTo(par0, Team.class);
+        return beanMappingService.mapTo(teamService.filterActive(mapped), TeamDto.class);
     }
 }
