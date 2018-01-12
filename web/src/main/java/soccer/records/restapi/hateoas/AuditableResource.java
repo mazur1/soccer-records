@@ -13,7 +13,6 @@ import soccer.records.dto.AuditableDto;
  *
  * @author Michaela Bocanova
  * @param <TUser>
- * @param <TKey>
  */
 public abstract class AuditableResource<TUser> extends ResourceSupport {
         

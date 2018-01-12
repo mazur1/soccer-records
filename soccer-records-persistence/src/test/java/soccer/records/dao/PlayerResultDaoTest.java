@@ -5,22 +5,17 @@
  */
 package soccer.records.dao;
 
-import java.util.List;
-import javax.inject.Inject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 import soccer.records.PersistenceAppContext;
 import soccer.records.entity.Match;
 import soccer.records.entity.Player;
 import soccer.records.entity.PlayerResult;
 import soccer.records.entity.Team;
-import soccer.records.enums.PlayerPost;
 
 /**
  * Dao tests
@@ -33,28 +28,31 @@ import soccer.records.enums.PlayerPost;
 @Transactional
 public class PlayerResultDaoTest extends AbstractTestNGSpringContextTests {
     
-    @Inject
+    @Autowired
     private PlayerResultDao playerResultDao;
-    @Inject
+    @Autowired
     private PlayerDao playerDao;
-    @Inject
+    @Autowired
     private TeamDao teamDao;
-    @Inject
+    @Autowired
     private MatchDao matchDao;
     
     private PlayerResult pr1, pr2;
+    private Match m1;
+    private Team t1,t2;
+    private Player p1, p2;
     
-    @BeforeMethod
+    /*@BeforeMethod
     public void setUp() {
         
-        Team t1 = new Team();
+        t1 = new Team();
         t1.setName("A");
         teamDao.create(t1);
-        Team t2 = new Team();
+        t2 = new Team();
         t2.setName("H");
         teamDao.create(t2);
         
-        Player p1 = new Player();
+        p1 = new Player();
         p1.setName("Ján");
         p1.setAge(22);
         p1.setCaptain(false);
@@ -62,7 +60,7 @@ public class PlayerResultDaoTest extends AbstractTestNGSpringContextTests {
         p1.setPost(PlayerPost.GOLMAN);
         p1.setTeam(t1);
         playerDao.create(p1);
-        Player p2 = new Player();
+        p2 = new Player();
         p2.setName("Igor");
         p2.setAge(21);
         p2.setCaptain(false);
@@ -71,7 +69,7 @@ public class PlayerResultDaoTest extends AbstractTestNGSpringContextTests {
         p2.setTeam(t2);
         playerDao.create(p2);
         
-        Match m1 = new Match();
+        m1 = new Match();
         m1.setTeamAway(t1);
         m1.setTeamHome(t2);
         matchDao.create(m1);
@@ -112,4 +110,25 @@ public class PlayerResultDaoTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(actual, pr1);
     }
     
+    @Test
+    public void findAll() {
+        List<PlayerResult> actual = playerResultDao.findAll();
+        Assert.assertEquals(actual.size(), 2);
+    }
+    
+    @Test(expectedExceptions = DataAccessExceptions.class)
+    public void createWithEmptyPlayer() {
+        PlayerResult pr = new PlayerResult();
+        pr.setGoalsScored(0);
+        pr.setMatch(m1);
+        playerResultDao.create(pr1);
+    }
+    
+    @Test(expectedExceptions = DataAccessExceptions.class)
+    public void createWithEmptyMatch() {
+        PlayerResult pr = new PlayerResult();
+        pr.setGoalsScored(0);
+        pr.setPlayer(p1);
+        playerResultDao.create(pr1);
+    }*/
 }

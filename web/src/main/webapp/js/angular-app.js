@@ -9,24 +9,26 @@ var soccerControllers = angular.module('soccerControllers', []);
 soccerRecordspApp.config(['$routeProvider',
     function ($routeProvider) {
         $routeProvider.
-                when('/home', {templateUrl: 'partials/home.html', controller: 'DefaultController'}).
-                when('/login', {templateUrl: 'partials/admin/forms/login.html', controller: 'LoginController'}).
-                when('/logout', {templateUrl: 'partials/home.html', controller: 'LogoutController'}).
-                when('/teams', {templateUrl: 'partials/teams.html', controller: 'TeamsController'}).
-                when('/players', {templateUrl: 'partials/players.html', controller: 'PlayersController'}).
-                when('/matches', {templateUrl: 'partials/matches.html', controller: 'MatchesController'}).
-                when('/results', {templateUrl: 'partials/results.html', controller: 'ResultsController'}).
-                when('/teams/:teamId', {templateUrl: 'partials/detail/team.html', controller: 'TeamDetailController'}).
-                when('/players/:playerId', {templateUrl: 'partials/detail/player.html', controller: 'PlayerDetailController'}).
-                when('/matches/:matchId', {templateUrl: 'partials/detail/match.html', controller: 'MatchDetailController'}).
-                //when('/results/:resultId', {templateUrl: 'partials/detail/player_result.html', controller: 'PlayerResultDetailController'}).
-                when('/newPlayer', {templateUrl: 'partials/admin/new_player.html', controller: 'NewPlayerController'}).
-                when('/newmatch', {templateUrl: 'partials/admin/new_match.html', controller: 'NewMatchController'}).
-                when('/newteam', {templateUrl: 'partials/admin/new_team.html', controller: 'NewTeamController'}).
-                when('/editteam/:teamId', {templateUrl: 'partials/admin/edit_team.html', controller: 'EditTeamController'}).
-                when('/editplayer/:playerId', {templateUrl: 'partials/admin/edit_player.html', controller: 'EditPlayerController'}).
-                when('/newplayerresult', {templateUrl: 'partials/admin/new_player_result.html'}).
-                otherwise({redirectTo: '/home'});
+
+            when('/home', {templateUrl: 'partials/home.html', controller: 'DefaultController'}).
+            when('/login', {templateUrl: 'partials/admin/forms/login.html', controller: 'LoginController'}).
+            when('/logout', {templateUrl: 'partials/home.html',controller: 'LogoutController'}).
+            when('/teams', {templateUrl: 'partials/teams.html', controller: 'TeamsController'}).
+            when('/players', {templateUrl: 'partials/players.html', controller: 'PlayersController'}).
+            when('/matches', {templateUrl: 'partials/matches.html', controller: 'MatchesController'}).
+            when('/results', {templateUrl: 'partials/results.html', controller: 'ResultsController'}).
+            when('/teams/:teamId', {templateUrl: 'partials/detail/team.html', controller: 'TeamDetailController'}).
+            when('/players/:playerId', {templateUrl: 'partials/detail/player.html', controller: 'PlayerDetailController'}).            
+            when('/matches/:matchId', {templateUrl: 'partials/detail/match.html', controller: 'MatchDetailController'}).
+            //when('/results/:resultId', {templateUrl: 'partials/detail/player_result.html', controller: 'PlayerResultDetailController'}).
+            when('/newPlayer', {templateUrl: 'partials/admin/new_player.html', controller: 'NewPlayerController'}).
+            when('/newmatch', {templateUrl: 'partials/admin/new_match.html', controller: 'NewMatchController'}).
+            when('/newteam', {templateUrl: 'partials/admin/new_team.html', controller: 'NewTeamController'}).
+            when('/editteam/:teamId', {templateUrl: 'partials/admin/edit_team.html', controller: 'EditTeamController'}).
+            when('/editplayer/:playerId', {templateUrl: 'partials/admin/edit_player.html', controller: 'EditPlayerController'}).
+            when('/editmatch/:matchId', {templateUrl: 'partials/admin/edit_match.html', controller: 'EditMatchController'}).
+            when('/newplayerresult', {templateUrl: 'partials/admin/new_player_result.html'}).
+            otherwise({redirectTo: '/home'});
     }]);
 
 /*
@@ -279,7 +281,7 @@ soccerControllers.controller('EditPlayerController', function ($scope, $window, 
         },function (response) {
             setMessage($rootScope, "error", 'Player edit failed!');
         });
-    }
+    };
 
 });
 
@@ -479,6 +481,43 @@ soccerControllers.controller('NewMatchController', function ($scope, $routeParam
         
     };
 });
+
+soccerControllers.controller('EditMatchController', function ($scope, $window, $rootScope, $routeParams, $http) {
+    
+    var matchId = $routeParams.matchId;
+    
+    $http.get('/pa165/api/v1/matches/' + matchId).then(function (response) {
+            
+        console.log(response);    
+            
+        $scope.macth = response.data;
+        console.log('AJAX loaded detail of match ' + $scope.match.id);
+    
+    }, function error(error) {
+        //display error
+        $rootScope.errorAlert = error.data.message;
+    });
+    
+    $scope.editMatch = function (match) {
+        
+        $http({
+                method: 'PUT',
+                url: '/pa165/api/v1/matches/' + matchId,
+                data: match
+        })
+        .then(function(response) {
+            console.log('match succesfuly edited');
+            $window.location='/pa165/#!/matches';
+        
+        }, 
+        function(response) { 
+            console.log('match edit failed'); 
+            $rootScope.errorAlert = "match edit failed";
+        });
+    };
+    
+});
+
 
 soccerControllers.controller('ResultsController', function ($scope, $rootScope, $http) {
 

@@ -11,10 +11,7 @@ import soccer.records.dto.PlayerDto;
 import soccer.records.dto.PlayerEditDto;
 import soccer.records.dto.PlayerResultDto;
 
-/**
- *
- * @author 
- */
+
 public interface PlayerFacade {
  
     Long createPlayer(PlayerCreateDto p);

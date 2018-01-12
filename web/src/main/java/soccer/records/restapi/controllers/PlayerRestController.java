@@ -99,6 +99,7 @@ public class PlayerRestController {
      * Delete one player by id 
      *
      * @param id identifier for player
+     * @throws java.lang.Exception
      * @throws ResourceNotFoundException
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
@@ -126,6 +127,10 @@ public class PlayerRestController {
      * Create one players from json data
      *
      * 
+     * @param playerCreateDto
+     * @param bindingResult
+     * @return 
+     * @throws java.lang.Exception
      * @throws InvalidRequestException
      */
     @RequestMapping(value = "/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)

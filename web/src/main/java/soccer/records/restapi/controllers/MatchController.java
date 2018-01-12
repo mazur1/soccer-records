@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import soccer.records.dto.MatchCreateDto;
 import soccer.records.dto.MatchDto;
+import soccer.records.dto.MatchEditDto;
 import soccer.records.dto.PlayerResultCreateDto;
 import soccer.records.facade.MatchFacade;
 import soccer.records.restapi.exceptions.InvalidRequestException;
@@ -140,6 +141,17 @@ public class MatchController {
         
         MatchResource resource = matchResourceAssembler.toResource(matchFacade.findMatchById(id));
         return new ResponseEntity<>(resource, HttpStatus.OK);
+    }
+    
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public final void editMatch(@PathVariable("id") long id, @RequestBody @Valid MatchEditDto matchDto, BindingResult bindingResult) throws Exception {
+        log.debug("rest editTeam({})", id);
+        try {
+            matchFacade.updateMatch(matchDto);
+        } catch (Exception ex) {
+            log.debug("Cannot edit match with id {}", id);
+            throw new ResourceNotFoundException(ex.getMessage());
+        }
     }
     
     @RequestMapping(value = "/{id}/results/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE/*, produces = MediaType.APPLICATION_JSON_VALUE*/)

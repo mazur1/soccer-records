@@ -9,10 +9,7 @@ import java.util.Objects;
 import javax.validation.constraints.Min;
 import soccer.records.enums.PlayerPost;
 
-/**
- *
- * @author 
- */
+
 
 public class PlayerCreateDto {
     

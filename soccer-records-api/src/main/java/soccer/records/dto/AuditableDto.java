@@ -10,8 +10,7 @@ import java.util.Date;
 /**
  *
  * @author Michaela Bocanova
- * @param <TUser>
- * @param <TKey>
+ * @param <TUser> logged in user
  */
 public abstract class AuditableDto<TUser> {
         
