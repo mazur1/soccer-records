@@ -9,6 +9,7 @@ var soccerControllers = angular.module('soccerControllers', []);
 soccerRecordspApp.config(['$routeProvider',
     function ($routeProvider) {
         $routeProvider.
+
             when('/home', {templateUrl: 'partials/home.html', controller: 'DefaultController'}).
             when('/login', {templateUrl: 'partials/admin/forms/login.html', controller: 'LoginController'}).
             when('/logout', {templateUrl: 'partials/home.html',controller: 'LogoutController'}).
@@ -33,7 +34,8 @@ soccerRecordspApp.config(['$routeProvider',
 /*
  * alert closing functions defined in root scope to be available in every template
  */
-soccerRecordspApp.run(function($rootScope, $cookieStore) {
+soccerRecordspApp.run(function ($rootScope, $cookieStore) {
+
     $rootScope.hideSuccessAlert = function () {
         $rootScope.successAlert = undefined;
     };
@@ -42,306 +44,276 @@ soccerRecordspApp.run(function($rootScope, $cookieStore) {
     };
     $rootScope.hideErrorAlert = function () {
         $rootScope.errorAlert = undefined;
-    }; 
-  
+    };
+
     parseUserData($cookieStore, $rootScope);
 
-    if($cookieStore.get('MsgRedirect') !== undefined){
-        $rootScope.successAlert = $cookieStore.get('MsgRedirect');
+    if ($cookieStore.get('MsgRedirect') !== undefined) {
+        setMessage($rootScope, "success", $cookieStore.get('MsgRedirect'));
         $cookieStore.remove('MsgRedirect');
     }
+
 });
 
+function setMessage($rootScope, type, msg) {
+    switch (type) {
+        case "success":
+            $rootScope.successAlert = msg;
+            setTimeout(function () {
+                $(".alert-success").toggle(200);
+            }, 5000);
+            break;
+        case "warning":
+            $rootScope.warningAlert = msg;
+            setTimeout(function () {
+                $(".alert-warning").toggle(200);
+            }, 5000);
+            break;
+        case "error":
+            $rootScope.errorAlert = msg;
+            setTimeout(function () {
+                $(".alert-danger").toggle(200);
+            }, 5000);
+            break;
+        default:
+            break;
+    }
+}
 
-function parseUserData($cookieStore, $rootScope){
-    
-    if($cookieStore.get('user') === undefined){
+function parseUserData($cookieStore, $rootScope) {
+
+    if ($cookieStore.get('user') === undefined) {
         $cookieStore.put('user', {
             'name': "",
             'email': "",
             'logged': false
         });
     }
-    
+
     $rootScope.loggedUser = $cookieStore.get('user');
-    
-    if($rootScope.loggedUser.logged){         
-        $("#login").find("li").html('<a>Logged user: '+$rootScope.loggedUser.name + '</a>');      
+
+    if ($rootScope.loggedUser.logged) {
+        $("#login").find("li").html('<a>Logged user: ' + $rootScope.loggedUser.name + '</a>');
         $("#login").find("ul").append('<li><a href="#!/logout">Log out</a></li>')
     }
 
 }
 
+function userIsLogged() {
+    var user = $cookieStore.get('user');
+    if (user !== undefined) {
+        return user.logged;
+    }
+    return false;
+}
+
 /* Controllers */
 
-/*
- * Public default interface
- */
+/* Public default interface */
 
-/*
- * 
- */
 soccerControllers.controller('DefaultController', function ($scope, $rootScope, $http) {
-    
-
-    
+    // Home controller
 });
 
 soccerControllers.controller('LoginController', function ($scope, $routeParams, $http, $location, $rootScope, $cookieStore) {
-    
-        //set object bound to form fields
-        $scope.user = {
-            'usernname': '',
-            'password': ''
-        };
-        
-        // function called when submit button is clicked, creates product on server
-        $scope.login = function (user) {
-                    
-            console.log(user);        
-                    
-            $http({
-                method: 'POST',
-                url: '/pa165/api/v1/users/login/',
-                data: user
-            }).then(function success(response) {
-                
-                console.log('User succesfully logged');      
 
-                $cookieStore.remove('user');
+    //set object bound to form fields
+    $scope.user = {
+        'usernname': '',
+        'password': ''
+    };
 
-                $cookieStore.put('user', {
-                    'name': response.data.username,
-                    'email': "",
-                    'logged': true
-                });
-                
-                parseUserData($cookieStore, $rootScope);
-            
-               $cookieStore.put('MsgRedirect', "Login succesfull");
-            
-                $location.path("/home");
-                
-            }, function error(response) {
-                
-                //display error
-                $rootScope.errorAlert = 'Login failed!';
+    // function called when submit button is clicked, creates product on server
+    $scope.login = function (user) {
+
+        $http({
+            method: 'POST',
+            url: '/pa165/api/v1/users/login/',
+            data: user
+        }).then(function success(response) {
+
+            $cookieStore.remove('user');
+
+            $cookieStore.put('user', {
+                'name': response.data.username,
+                'email': "",
+                'logged': true
             });
-        };
-    
+
+            parseUserData($cookieStore, $rootScope);
+            setMessage($rootScope, "success", 'Login succesfull');
+
+            window.location.href = "/pa165/#!/home"
+
+        }, function error(response) {
+            //display error
+            setMessage($rootScope, "error", 'Login failed!');
+        });
+    };
+
 });
 
 soccerControllers.controller('LogoutController', function ($scope, $routeParams, $http, $location, $rootScope, $cookieStore) {
- 
-   $cookieStore.remove('user');
-   
-   var href = window.location.href;
-   var parts = href.split("#");
-   
-   $cookieStore.put('MsgRedirect', "Logout succesfull");
-   
-   window.location.href = parts[0];
-   
+
+    $cookieStore.remove('user');
+    $cookieStore.put('MsgRedirect', "Logout succesfull");
+    window.location.href = "/pa165/#!/home";
+
 });
 
 soccerControllers.controller('TeamsController', function ($scope, $rootScope, $http) {
-    
-    $http.get('/pa165/api/v1/teams').then(function(response) {        
-        var teams = response.data['_embedded']['teams'];             
-        console.log('AJAX loaded all teams');  
+
+    $http.get('/pa165/api/v1/teams').then(function (response) {
+        var teams = response.data['_embedded']['teams'];
+        console.log('AJAX loaded all teams');
         $scope.teams = teams;
-        
     }, function error(error) {
-        //display error
-        $rootScope.errorAlert = error.data.message;
+        setMessage($rootScope, "error", error.data.message);
     });
-    
+
 });
 
 soccerControllers.controller('EditTeamController', function ($scope, $window, $rootScope, $routeParams, $http) {
-    
+
     var teamId = $routeParams.teamId;
-    
+
     $http.get('/pa165/api/v1/teams/' + teamId).then(function (response) {
-            
-        console.log(response);    
-            
         $scope.team = response.data;
         console.log('AJAX loaded detail of team ' + $scope.team.name);
-    
     }, function error(error) {
-        //display error
-        $rootScope.errorAlert = error.data.message;
+        setMessage($rootScope, "error", error.data.message);
     });
-    
+
     $scope.editTeam = function (team) {
-        
+
         $http({
-                method: 'PUT',
-                url: '/pa165/api/v1/teams/' + teamId,
-                data: team
-        })
-        .then(function(response) {
-            console.log('team succesfuly edited');
-            $window.location='/pa165/#!/teams';
-        
-        }, 
-        function(response) { 
-            console.log('team edit failed'); 
-            $rootScope.errorAlert = "team edit failed";
+            method: 'PUT',
+            url: '/pa165/api/v1/teams/' + teamId,
+            data: team
+        }).then(function (response) {
+            setMessage($rootScope, "success", "Team succesfuly edited");
+            $window.location = '/pa165/#!/teams';
+        },function (response) {
+            setMessage($rootScope, "error", "Team edit failed");
         });
     }
-    
+
 });
 
 
-soccerControllers.controller('NewTeamController',  function ($scope, $rootScope, $window, $http) {
-        
+soccerControllers.controller('NewTeamController', function ($scope, $rootScope, $window, $http) {
+
     $scope.create = function (team) {
-    
-            $http({
-                method: 'POST',
-                url: '/pa165/api/v1/teams/create',
-                data: team
-            })
-            .then(function(response) {
-                console.log('team succesfuly created');
-                $window.location='/pa165/#!/teams';
-        
-            }, 
-            function(response) { 
-                console.log('new team create failed'); 
-                $rootScope.errorAlert = "new team create failed";
-            });
+
+        $http({
+            method: 'POST',
+            url: '/pa165/api/v1/teams/create',
+            data: team
+        }).then(function (response) {
+            setMessage($rootScope, "success", "Team succesfuly created");
+            $window.location = '/pa165/#!/teams';
+        },function (response) {
+            setMessage($rootScope, "success", "New team create failed");
+        });
     }
 });
 
 soccerControllers.controller('TeamDetailController', function ($scope, $window, $routeParams, $http, $rootScope) {
-    
+
     // get team id from URL fragment #/product/:productId
-        
+
     var teamId = $routeParams.teamId;
-    
+
     $http.get('/pa165/api/v1/teams/' + teamId).then(function (response) {
-            
-        console.log(response);    
-            
         $scope.team = response.data;
         console.log('AJAX loaded detail of team ' + $scope.team.name);
-    
     }, function error(error) {
-        //display error
-        $rootScope.errorAlert = error.data.message;
+        setMessage($rootScope, "error", error.data.message);
     });
-    
-    $scope.deleteTeam = function() {
-        $http.delete('/pa165/api/v1/teams/'+ teamId)
-            .then(function success(response) {
-            //display confirmation alert
-            $rootScope.successAlert = 'A team was deleted';
-            //change view to list
-            $window.location='/pa165/#!/teams';
+
+    $scope.deleteTeam = function () {
+        $http.delete('/pa165/api/v1/teams/' + teamId).then(function success(response) {
+            setMessage($rootScope, "success", "A team was deleted");
+            $window.location = '/pa165/#!/teams';
         }, function error(response) {
-            //display error
-            $scope.errorAlert = 'Cannot delete team!';
+            setMessage($rootScope, "error", "Cannot delete team!");
         });
-        
     };
 });
 
 soccerControllers.controller('PlayersController', function ($scope, $rootScope, $http) {
-    
-    $http.get('/pa165/api/v1/players').then(function(response) {
-        
-        var players = response.data['_embedded']['players'];             
-        console.log('AJAX loaded all players');  
-        $scope.players = players;
 
+    $http.get('/pa165/api/v1/players').then(function (response) {
+        var players = response.data['_embedded']['players'];
+        console.log('AJAX loaded all players');
+        $scope.players = players;
     }, function error(error) {
-        //display error
-        $rootScope.errorAlert = error.data.message;
+        setMessage($rootScope, "error", error.data.message);
     });
-    
+
 });
 
 soccerControllers.controller('EditPlayerController', function ($scope, $window, $rootScope, $routeParams, $http) {
-    
+
     $scope.posts = ['ATTACKER', 'MIDFIELDER', 'DEFENDER', 'GOLMAN'];
-    
+
     $http.get('/pa165/api/v1/teams/').then(function (response) {
         $scope.teams = response.data['_embedded']['teams'];
     });
-    
+
     var playerId = $routeParams.playerId;
-    
+
     $http.get('/pa165/api/v1/players/' + playerId).then(function (response) {
-            
-        console.log(response);    
-            
         $scope.player = response.data;
         console.log('AJAX loaded detail of player ' + $scope.player.name);
-    
     }, function error(error) {
-        //display error
-        $rootScope.errorAlert = error.data.message;
+        setMessage($rootScope, "error", error.data.message);
     });
-    
+
     $scope.editPlayer = function (player) {
-        
+
         $http({
-                method: 'PUT',
-                url: '/pa165/api/v1/players/' + playerId,
-                data: player
-        })
-        .then(function(response) {
-            console.log('player succesfuly edited');
-            $window.location='/pa165/#!/players';
-        
-        }, 
-        function(response) { 
-            console.log('player edit failed'); 
-            $rootScope.errorAlert = "player edit failed";
+            method: 'PUT',
+            url: '/pa165/api/v1/players/' + playerId,
+            data: player
+        }).then(function (response) {
+            $window.location = '/pa165/#!/players';
+        },function (response) {
+            setMessage($rootScope, "error", 'Player edit failed!');
         });
-    }
-    
+    };
+
 });
 
 soccerControllers.controller('PlayerDetailController', function ($scope, $window, $rootScope, $routeParams, $http) {
-        // get team id from URL fragment #/product/:productId
-        
-        var playerId = $routeParams.playerId;
-        $http.get('/pa165/api/v1/players/' + playerId).then(function (response) {
-            $scope.player = response.data;
-            console.log('AJAX loaded detail of team ' + $scope.player.name);
-    
+
+    var playerId = $routeParams.playerId;
+
+    $http.get('/pa165/api/v1/players/' + playerId).then(function (response) {
+        $scope.player = response.data;
+        console.log('AJAX loaded detail of team ' + $scope.player.name);
     }, function error(error) {
-        //display error
-        $rootScope.errorAlert = error.data.message;
+        setMessage($rootScope, "error", error.data.message);
     });
-    
-    $scope.deletePlayer = function() {
-        $http.delete('/pa165/api/v1/players/'+ playerId)
-            .then(function success(response) {
-            //display confirmation alert
-            $rootScope.successAlert = 'A player was deleted';
-            //change view to list
-            $window.location='/pa165/#!/players';
+
+    $scope.deletePlayer = function () {
+        $http.delete('/pa165/api/v1/players/' + playerId).then(function success(response) {
+            setMessage($rootScope, "success", 'A player was deleted');
+            $window.location = '/pa165/#!/players';
         }, function error(response) {
-            //display error
-            $scope.errorAlert = 'Cannot delete player!';
+            setMessage($rootScope, "error", 'Cannot delete player!');
         });
-        
     };
 });
 
-soccerControllers.controller('NewPlayerController',  function ($scope, $location, $rootScope, $window, $http) {
-        
+soccerControllers.controller('NewPlayerController', function ($scope, $location, $rootScope, $window, $http) {
+
     $scope.posts = ['ATTACKER', 'MIDFIELDER', 'DEFENDER', 'GOLMAN'];
-    
+
     $http.get('/pa165/api/v1/teams/').then(function (response) {
         $scope.teams = response.data['_embedded']['teams'];
     });
-        
+
     $scope.player = {
         'name': '',
         'surname': '',
@@ -351,107 +323,83 @@ soccerControllers.controller('NewPlayerController',  function ($scope, $location
         'country': '',
         'city': '',
         'teamId': null
-    };    
-        
+    };
+
     $scope.create = function (player) {
-    
-            //alert(JSON.stringify(player));
-    
-            $http({
-                method: 'POST',
-                url: '/pa165/api/v1/players/create/',
-                data: player
-            }).then(function success(response) {
-                
-                $rootScope.successAlert = "Player succesfuly created";
-                console.log('player succesfuly created');
-                $location.path("/players");
-                
-            }, function error(response) {
-                console.log('new player create failed'); 
-                $rootScope.errorAlert = "new player create failed";
-            }); 
-       
+
+        $http({
+            method: 'POST',
+            url: '/pa165/api/v1/players/create/',
+            data: player
+        }).then(function success(response) {
+            setMessage($rootScope, "success", "Player succesfuly created");
+            $location.path("/players");
+        }, function error(response) {
+            setMessage($rootScope, "error", "new player create failed");
+        });
+
     }
 });
 
 soccerControllers.controller('MatchesController', function ($scope, $rootScope, $http) {
-    
-    $http.get('/pa165/api/v1/matches').then(function(response) {
-        
-        var matches = response.data['_embedded']['matches'];             
-        console.log('AJAX loaded all matches');  
-        $scope.matches = matches;
 
+    $http.get('/pa165/api/v1/matches').then(function (response) {
+        var matches = response.data['_embedded']['matches'];
+        console.log('AJAX loaded all matches');
+        $scope.matches = matches;
     }, function error(error) {
-        console.log(error);
-        $rootScope.errorAlert = error.data.message;
+        setMessage($rootScope, "error", error.data.message);
     });
-    
+
 });
 
 soccerControllers.controller('MatchDetailController', function ($scope, $rootScope, $routeParams, $http, $location) {
-                
-        var matchId = $routeParams.matchId;
-        $http.get('/pa165/api/v1/matches/'+matchId).then(function (response) {
-            $scope.match = response.data;
-            /*$scope.sort = function(keyname){
-        $scope.sortKey = keyname;   //set the sortKey to the param passed
-        $scope.reverse = !$scope.reverse; //if true make it false and vice versa
-    }*/
-            console.log('AJAX loaded detail of match ' + $scope.match.toString());
-            
-    }, function error(error) {
-        console.log(error);
-        $rootScope.errorAlert = error.data.message;
-    });
+
+    var matchId = $routeParams.matchId;
     
-    /*$http.get('/pa165/api/v1/teams'+$scope.match.teamHome.id).then(function(response) {
-        
+    $http.get('/pa165/api/v1/matches/' + matchId).then(function (response) {
+        $scope.match = response.data;
+        /*$scope.sort = function(keyname){
+         $scope.sortKey = keyname;   //set the sortKey to the param passed
+         $scope.reverse = !$scope.reverse; //if true make it false and vice versa
+         }*/
+        console.log('AJAX loaded detail of match ' + $scope.match.toString());
+
+    }, function error(error) {
+        setMessage($rootScope, "error", error.data.message);
+    });
+
+    /*$http.get('/pa165/api/v1/teams'+$scope.match.teamHome.id).then(function(response) {    
         var players = response.data['_embedded']['players'];             
         console.log('AJAX loaded all teams');  
         $scope.items2 = players;
-
     }, function error(error) {
-        console.log(error);
-        $scope.errorAlert = error;
-    });*/   
-    
-    $scope.deleteMatch = function() {
-        $http.delete('/pa165/api/v1/matches/'+matchId)
-            .then(function success(response) {
-            console.log('deleted match');
-            //display confirmation alert
-            $rootScope.successAlert = 'A match was deleted';
-            //change view to list
+        setMessage($rootScope, "error", error.data.message);
+    });*/
+
+    $scope.deleteMatch = function () {
+        $http.delete('/pa165/api/v1/matches/' + matchId).then(function success(response) {
+            setMessage($rootScope, "success", "A match was deleted");
             $location.path("/matches");
         }, function error(response) {
-            //display error
-            $scope.errorAlert = 'Cannot delete match!';
+            setMessage($rootScope, "error", "Cannot delete match!");
         });
-        
     };
-    
-    $scope.deleteResult = function(resultId) {
-        $http.delete('/pa165/api/v1/results/'+resultId)
-            .then(function success(response) {
-            console.log('deleted match');
-            //display confirmation alert
-            $rootScope.successAlert = 'A result was deleted';
-            $location.path('/matches/'+matchId);
-            
+
+    $scope.deleteResult = function (resultId) {
+        $http.delete('/pa165/api/v1/results/' + resultId).then(function success(response) {
+            setMessage($rootScope, "success", "A result was deleted");
+            $location.path('/matches/' + matchId);
         }, function error(response) {
-            //display error
-            $scope.errorAlert = 'Cannot delete match!';
+            setMessage($rootScope, "error", "Cannot delete match!");
         });
-        
     };
-        
+
     $scope.IsHidden = true;
     $scope.ShowHide = function () {
         $scope.IsHidden = $scope.IsHidden ? false : true;
     };
-    
+
     //set object bound to form fields
     $scope.playerResult = {
         'matchId': matchId,
@@ -460,39 +408,31 @@ soccerControllers.controller('MatchDetailController', function ($scope, $rootSco
     };
     // function called when submit button is clicked, creates match on server
     $scope.create = function (playerResult) {
-    
+
         $http({
             method: 'POST',
             url: '/pa165/api/v1/results/create',
             data: playerResult
         }).then(function success(response) {
-            console.log('created player result');
-            var created= response.data;
-            //display confirmation alert
-            $rootScope.successAlert = 'A new player result was created';
-            $location.path("/matches/"+matchId);
-            
+            var created = response.data;
+            setMessage($rootScope, "success", "A new player result was created");
+            $location.path("/matches/" + matchId);
         }, function error(response) {
-            //display error
-            $scope.errorAlert = 'Cannot create player result!';
+            setMessage($rootScope, "error", "Cannot create player result!");
         });
     };
-    
+
 });
 
-soccerControllers.controller('NewMatchController', 
-    function ($scope, $routeParams, $http, $location, $rootScope) {
-        
-    $http.get('/pa165/api/v1/teams').then(function(response) {
-        
-        var teams = response.data['_embedded']['teams'];             
-        console.log('AJAX loaded all teams');  
-        $scope.items = teams;
+soccerControllers.controller('NewMatchController', function ($scope, $routeParams, $http, $location, $rootScope) {
 
+    $http.get('/pa165/api/v1/teams').then(function (response) {
+        var teams = response.data['_embedded']['teams'];
+        console.log('AJAX loaded all teams');
+        $scope.items = teams;
     }, function error(error) {
-        console.log(error);
         $scope.errorAlert = error;
-    });        
+    });
 
     //set object bound to form fields
     $scope.match = {
@@ -503,54 +443,42 @@ soccerControllers.controller('NewMatchController',
         'teamHomeGoalsScored': 0,
         'teamAwayGoalsScored': 0,
         'teamHomeGoalsScoredHalf': 0,
-        'teamAwayGoalsScoredHalf': 0       
+        'teamAwayGoalsScoredHalf': 0
     };
-    
+
     // function called when submit button is clicked, creates match on server
     $scope.create = function (match) {
-              
+
         alert(JSON.stringify(match));
+
+        /*
+        $http.get('/pa165/api/v1/teams/' + $scope.selectedTeamHomeId).then(function (response) {
+            $scope.match.teamHome = response.data;
+            console.log('AJAX loaded detail of team ' + $scope.team.name);
+        }, function error(error) {
+            setMessage($rootScope, "error", error.data.message);
+        });
         
-        /*$http.get('/pa165/api/v1/teams/' + $scope.selectedTeamHomeId).then(function (response) {
-            
-        console.log(response);    
-            
-        $scope.match.teamHome = response.data;
-        console.log('AJAX loaded detail of team ' + $scope.team.name);
-    
-    }, function error(error) {
-        //display error
-        console.log(error);
-        $scope.errorAlert = error;
-    });
-    $http.get('/pa165/api/v1/teams/' + $scope.selectedTeamAwayId).then(function (response) {
-            
-        console.log(response);    
-            
-        $scope.match.teamAway = response.data;
-        console.log('AJAX loaded detail of team ' + $scope.team.name);
-    
-    }, function error(error) {
-        //display error
-        console.log(error);
-        $scope.errorAlert = error;
-    });*/
-    
+        $http.get('/pa165/api/v1/teams/' + $scope.selectedTeamAwayId).then(function (response) {
+            $scope.match.teamAway = response.data;
+            console.log('AJAX loaded detail of team ' + $scope.team.name);
+        }, function error(error) {
+            setMessage($rootScope, "error", error.data.message);
+        });
+        */
+
         $http({
             method: 'POST',
             url: '/pa165/api/v1/matches/create',
             data: match
         }).then(function success(response) {
-            console.log('created match');
-            var created= response.data;
-            //display confirmation alert
-            $rootScope.successAlert = 'A new match was created';
-            //change view to list
+            var created = response.data;
+            setMessage($rootScope, "success", "A new match was created");
             $location.path("/matches");
         }, function error(response) {
-            //display error
-            $rootScope.errorAlert = 'Cannot create match!';
+            setMessage($rootScope, "error", "Cannot create match!");
         });
+        
     };
 });
 
@@ -592,20 +520,16 @@ soccerControllers.controller('EditMatchController', function ($scope, $window, $
 
 
 soccerControllers.controller('ResultsController', function ($scope, $rootScope, $http) {
-    
-    $http.get('/pa165/api/v1/results').then(function(response) {
-        
-        var results = response.data['_embedded']['playerResults'];             
-        console.log('AJAX loaded all matches');  
+
+    $http.get('/pa165/api/v1/results').then(function (response) {
+        var results = response.data['_embedded']['playerResults'];
+        console.log('AJAX loaded all matches');
         $scope.results = results;
-
     }, function error(error) {
-        console.log(error);
-        $rootScope.errorAlert = error.data.message;
+        setMessage($rootScope, "error", error.data.message);
     });
-    
-});
 
+});
 
 // defines new directive (HTML attribute "convert-to-int") for conversion between string and int
 // of the value of a selection list in a form
