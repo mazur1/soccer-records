@@ -113,15 +113,9 @@ public class PlayerRestController {
     }
     
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public final void editTeam(@PathVariable("id") long id, @RequestBody @Valid PlayerEditDto playerEditDto, BindingResult bindingResult) throws Exception {
-        log.debug("rest editTeam({})", id);
+    public final void editPlayer(@PathVariable("id") long id, @RequestBody @Valid PlayerEditDto playerEditDto, BindingResult bindingResult) throws Exception {
+        log.debug("rest editPlayer({})", id);
         try {
-            PlayerDto team = playerFacade.findPlayerById(id);
-            
-            if (playerEditDto.getName() != null) {
-                team.setName(playerEditDto.getName());
-            }
-            
             playerFacade.updatePlayer(playerEditDto);
         } catch (Exception ex) {
             log.debug("Cannot edit player with id {}", id);
