@@ -21,6 +21,16 @@ import soccer.records.enums.PlayerPost;
   property = "id")*/
 public class PlayerDto extends AuditableDto<String> {
     
+    private boolean isActive=true;
+
+    public boolean getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
+    }
+    
     private Long id;
     
     private String name;

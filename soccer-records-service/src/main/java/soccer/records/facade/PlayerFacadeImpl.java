@@ -89,4 +89,10 @@ public class PlayerFacadeImpl implements PlayerFacade {
     public List<PlayerDto> findAllActivePlayers() {
         return beanMappingService.mapTo(playerService.findAllActive(), PlayerDto.class);
     }
+    
+    @Override
+    public List<PlayerDto> filterActivePlayers(List<PlayerDto> par0) {
+        List<Player> mapped = beanMappingService.mapTo(par0, Player.class);
+        return beanMappingService.mapTo(playerService.filterActive(mapped), PlayerDto.class);
+    }
 }

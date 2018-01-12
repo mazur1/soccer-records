@@ -51,7 +51,7 @@ public interface MatchService {
 
     List<Match> filterActive(List<Match> par0);
     
-    public int getTeamHomeGoalsScored(Match m);
+    int getTeamHomeGoalsScored(Match m);
     
-    public int getTeamAwayGoalsScored(Match m);
+    int getTeamAwayGoalsScored(Match m);
 }

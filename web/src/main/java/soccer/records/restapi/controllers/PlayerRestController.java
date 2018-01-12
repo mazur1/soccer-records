@@ -66,8 +66,9 @@ public class PlayerRestController {
     public HttpEntity<Resources<PlayerResource>> players() {
         log.info("rest players()");
         List<PlayerDto> allPlayers = playerFacade.findAllPlayers();
+        List<PlayerDto> activePlayers = playerFacade.filterActivePlayers(allPlayers);
         Resources<PlayerResource> playerResources = new Resources<>(
-                playerResourceAssembler.toResources(allPlayers),
+                playerResourceAssembler.toResources(activePlayers),
                 linkTo(PlayerRestController.class).withSelfRel(),
                 linkTo(PlayerRestController.class).slash("/create").withRel("create"));
         return new ResponseEntity<>(playerResources, HttpStatus.OK);
