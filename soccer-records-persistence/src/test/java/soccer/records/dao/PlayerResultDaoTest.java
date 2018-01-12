@@ -5,23 +5,17 @@
  */
 package soccer.records.dao;
 
-import java.util.List;
-import javax.inject.Inject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
-import org.testng.Assert;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
 import soccer.records.PersistenceAppContext;
 import soccer.records.entity.Match;
 import soccer.records.entity.Player;
 import soccer.records.entity.PlayerResult;
 import soccer.records.entity.Team;
-import soccer.records.enums.PlayerPost;
-import soccer.records.exceptions.dao.DataAccessExceptions;
 
 /**
  * Dao tests
@@ -34,13 +28,13 @@ import soccer.records.exceptions.dao.DataAccessExceptions;
 @Transactional
 public class PlayerResultDaoTest extends AbstractTestNGSpringContextTests {
     
-    @Inject
+    @Autowired
     private PlayerResultDao playerResultDao;
-    @Inject
+    @Autowired
     private PlayerDao playerDao;
-    @Inject
+    @Autowired
     private TeamDao teamDao;
-    @Inject
+    @Autowired
     private MatchDao matchDao;
     
     private PlayerResult pr1, pr2;
@@ -48,7 +42,7 @@ public class PlayerResultDaoTest extends AbstractTestNGSpringContextTests {
     private Team t1,t2;
     private Player p1, p2;
     
-    @BeforeTest
+    /*@BeforeMethod
     public void setUp() {
         
         t1 = new Team();
@@ -116,7 +110,7 @@ public class PlayerResultDaoTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(actual, pr1);
     }
     
-       @Test
+    @Test
     public void findAll() {
         List<PlayerResult> actual = playerResultDao.findAll();
         Assert.assertEquals(actual.size(), 2);
@@ -136,5 +130,5 @@ public class PlayerResultDaoTest extends AbstractTestNGSpringContextTests {
         pr.setGoalsScored(0);
         pr.setPlayer(p1);
         playerResultDao.create(pr1);
-    }
+    }*/
 }

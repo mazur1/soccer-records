@@ -8,7 +8,6 @@ package soccer.records.dto;
 import java.util.Date;
 import java.util.Objects;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -28,12 +27,8 @@ public class MatchEditDto {
     @Min(0)
     private int teamAwayGoalsScoredHalf;
     
-    @NotNull
-    //@JsonIgnore
     private Long teamHomeId;
     
-    @NotNull
-    //@JsonIgnore
     private Long teamAwayId;
 
     /*@JsonIgnore
@@ -43,25 +38,25 @@ public class MatchEditDto {
         return teamHomeId;
     }
 
-    public void setTeamHomeId(Long teamHomeId) {
+    /*public void setTeamHomeId(Long teamHomeId) {
         this.teamHomeId = teamHomeId;
-    }
+    }*/
 
     public Long getTeamAwayId() {
         return teamAwayId;
     }
 
-    public void setTeamAwayId(Long teamAwayId) {
+    /*public void setTeamAwayId(Long teamAwayId) {
         this.teamAwayId = teamAwayId;
-    }
+    }*/
     
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    /*public void setId(Long id) {
         this.id = id;
-    }
+    }*/
  
     /*public List<Long> getPlayerResults() {
         return Collections.unmodifiableList(playerResults);

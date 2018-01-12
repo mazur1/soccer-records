@@ -25,6 +25,7 @@ soccerRecordspApp.config(['$routeProvider',
             when('/newteam', {templateUrl: 'partials/admin/new_team.html', controller: 'NewTeamController'}).
             when('/editteam/:teamId', {templateUrl: 'partials/admin/edit_team.html', controller: 'EditTeamController'}).
             when('/editplayer/:playerId', {templateUrl: 'partials/admin/edit_player.html', controller: 'EditPlayerController'}).
+            when('/editmatch/:matchId', {templateUrl: 'partials/admin/edit_match.html', controller: 'EditMatchController'}).
             when('/newplayerresult', {templateUrl: 'partials/admin/new_player_result.html'}).
             otherwise({redirectTo: '/home'});
     }]);
@@ -553,6 +554,41 @@ soccerControllers.controller('NewMatchController',
     };
 });
 
+soccerControllers.controller('EditMatchController', function ($scope, $window, $rootScope, $routeParams, $http) {
+    
+    var matchId = $routeParams.matchId;
+    
+    $http.get('/pa165/api/v1/matches/' + matchId).then(function (response) {
+            
+        console.log(response);    
+            
+        $scope.macth = response.data;
+        console.log('AJAX loaded detail of match ' + $scope.match.id);
+    
+    }, function error(error) {
+        //display error
+        $rootScope.errorAlert = error.data.message;
+    });
+    
+    $scope.editMatch = function (match) {
+        
+        $http({
+                method: 'PUT',
+                url: '/pa165/api/v1/matches/' + matchId,
+                data: match
+        })
+        .then(function(response) {
+            console.log('match succesfuly edited');
+            $window.location='/pa165/#!/matches';
+        
+        }, 
+        function(response) { 
+            console.log('match edit failed'); 
+            $rootScope.errorAlert = "match edit failed";
+        });
+    };
+    
+});
 
 
 soccerControllers.controller('ResultsController', function ($scope, $rootScope, $http) {
