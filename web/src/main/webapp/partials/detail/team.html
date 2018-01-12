@@ -75,5 +75,8 @@
             <span class="glyphicon" aria-hidden="true"></span>
             Delete team
         </a>
-
+        <a ng-if="loggedUser.logged == true" href="#!/editteam/{{team.id}}" class="btn btn-primary">
+            <span class="glyphicon" aria-hidden="true"></span>
+            Edit team
+        </a>
 </div>

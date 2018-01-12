@@ -28,6 +28,7 @@ import java.util.List;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import soccer.records.dto.PlayerCreateDto;
+import soccer.records.dto.PlayerEditDto;
 
 /**
  * SpringMVC controller for managing REST requests for the category resources. Conforms to HATEOAS principles.
@@ -111,7 +112,22 @@ public class PlayerRestController {
         }
     }
     
-    
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public final void editTeam(@PathVariable("id") long id, @RequestBody @Valid PlayerEditDto playerEditDto, BindingResult bindingResult) throws Exception {
+        log.debug("rest editTeam({})", id);
+        try {
+            PlayerDto team = playerFacade.findPlayerById(id);
+            
+            if (playerEditDto.getName() != null) {
+                team.setName(playerEditDto.getName());
+            }
+            
+            playerFacade.updatePlayer(playerEditDto);
+        } catch (Exception ex) {
+            log.debug("Cannot edit player with id {}", id);
+            throw new ResourceNotFoundException(ex.getMessage());
+        }
+    }
      /**
      * Create one players from json data
      *

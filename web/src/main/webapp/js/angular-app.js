@@ -23,6 +23,8 @@ soccerRecordspApp.config(['$routeProvider',
             when('/newPlayer', {templateUrl: 'partials/admin/new_player.html', controller: 'NewPlayerController'}).
             when('/newmatch', {templateUrl: 'partials/admin/new_match.html', controller: 'NewMatchController'}).
             when('/newteam', {templateUrl: 'partials/admin/new_team.html', controller: 'NewTeamController'}).
+            when('/editteam/:teamId', {templateUrl: 'partials/admin/edit_team.html', controller: 'EditTeamController'}).
+            when('/editplayer/:playerId', {templateUrl: 'partials/admin/edit_player.html', controller: 'EditPlayerController'}).
             when('/newplayerresult', {templateUrl: 'partials/admin/new_player_result.html'}).
             otherwise({redirectTo: '/home'});
     }]);
@@ -155,6 +157,42 @@ soccerControllers.controller('TeamsController', function ($scope, $rootScope, $h
     
 });
 
+soccerControllers.controller('EditTeamController', function ($scope, $window, $rootScope, $routeParams, $http) {
+    
+    var teamId = $routeParams.teamId;
+    
+    $http.get('/pa165/api/v1/teams/' + teamId).then(function (response) {
+            
+        console.log(response);    
+            
+        $scope.team = response.data;
+        console.log('AJAX loaded detail of team ' + $scope.team.name);
+    
+    }, function error(error) {
+        //display error
+        $rootScope.errorAlert = error.data.message;
+    });
+    
+    $scope.editTeam = function (team) {
+        
+        $http({
+                method: 'PUT',
+                url: '/pa165/api/v1/teams/' + teamId,
+                data: team
+        })
+        .then(function(response) {
+            console.log('team succesfuly edited');
+            $window.location='/pa165/#!/teams';
+        
+        }, 
+        function(response) { 
+            console.log('team edit failed'); 
+            $rootScope.errorAlert = "team edit failed";
+        });
+    }
+    
+});
+
 
 soccerControllers.controller('NewTeamController',  function ($scope, $rootScope, $window, $http) {
         
@@ -188,7 +226,6 @@ soccerControllers.controller('TeamDetailController', function ($scope, $window, 
         console.log(response);    
             
         $scope.team = response.data;
-        $scope.currentPage = 0;
         console.log('AJAX loaded detail of team ' + $scope.team.name);
     
     }, function error(error) {
@@ -223,6 +260,48 @@ soccerControllers.controller('PlayersController', function ($scope, $rootScope, 
         //display error
         $rootScope.errorAlert = error.data.message;
     });
+    
+});
+
+soccerControllers.controller('EditPlayerController', function ($scope, $window, $rootScope, $routeParams, $http) {
+    
+    $scope.posts = ['ATTACKER', 'MIDFIELDER', 'DEFENDER', 'GOLMAN'];
+    
+    $http.get('/pa165/api/v1/teams/').then(function (response) {
+        $scope.teams = response.data['_embedded']['teams'];
+    });
+    
+    var playerId = $routeParams.playerId;
+    
+    $http.get('/pa165/api/v1/players/' + playerId).then(function (response) {
+            
+        console.log(response);    
+            
+        $scope.player = response.data;
+        console.log('AJAX loaded detail of player ' + $scope.player.name);
+    
+    }, function error(error) {
+        //display error
+        $rootScope.errorAlert = error.data.message;
+    });
+    
+    $scope.editPlayer = function (player) {
+        
+        $http({
+                method: 'PUT',
+                url: '/pa165/api/v1/players/' + playerId,
+                data: player
+        })
+        .then(function(response) {
+            console.log('player succesfuly edited');
+            $window.location='/pa165/#!/players';
+        
+        }, 
+        function(response) { 
+            console.log('player edit failed'); 
+            $rootScope.errorAlert = "player edit failed";
+        });
+    }
     
 });
 

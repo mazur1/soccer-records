@@ -28,6 +28,7 @@ import java.util.List;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import soccer.records.dto.TeamCreateDto;
+import soccer.records.dto.TeamEditDto;
 import soccer.records.dto.TeamResultDto;
 import soccer.records.facade.MatchFacade;
 
@@ -123,6 +124,22 @@ public class TeamRestController {
         }
     }
     
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public final void editTeam(@PathVariable("id") long id, @RequestBody @Valid TeamEditDto teamEditDto, BindingResult bindingResult) throws Exception {
+        log.debug("rest editTeam({})", id);
+        try {
+            TeamDto team = teamFacade.findTeamById(id);
+            
+            if (teamEditDto.getName() != null) {
+                team.setName(teamEditDto.getName());
+            }
+            
+            teamFacade.updateTeam(team);
+        } catch (Exception ex) {
+            log.debug("Cannot edit team with id {}", id);
+            throw new ResourceNotFoundException(ex.getMessage());
+        }
+    }
      /**
      * Create one team from json data
      *
@@ -130,7 +147,7 @@ public class TeamRestController {
      * @throws InvalidRequestException
      */
     @RequestMapping(value = "/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public final HttpEntity<TeamResource> createProduct(@RequestBody @Valid TeamCreateDto teamCreateDto, BindingResult bindingResult) throws Exception {
+    public final HttpEntity<TeamResource> createTeam(@RequestBody @Valid TeamCreateDto teamCreateDto, BindingResult bindingResult) throws Exception {
         log.debug("rest createTeam()");
         if (bindingResult.hasErrors()) {
             log.error("failed validation {}", bindingResult.toString());

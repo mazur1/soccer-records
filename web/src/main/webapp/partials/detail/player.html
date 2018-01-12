@@ -13,5 +13,9 @@
             <span class="glyphicon" aria-hidden="true"></span>
             Delete player
         </a>
+        <a ng-if="loggedUser.logged == true" href="#!/editplayer/{{player.id}}" class="btn btn-primary">
+            <span class="glyphicon" aria-hidden="true"></span>
+            Edit player
+        </a>
 
 </div>
