@@ -9,6 +9,7 @@ import java.util.List;
 import soccer.records.dto.MatchDto;
 import soccer.records.dto.TeamCreateDto;
 import soccer.records.dto.TeamDto;
+import soccer.records.dto.TeamEditDto;
 
 /**
  *
@@ -16,7 +17,7 @@ import soccer.records.dto.TeamDto;
  */
 public interface TeamFacade {
     Long createTeam(TeamCreateDto t);
-    void updateTeam(TeamDto t);
+    void updateTeam(TeamEditDto t);
     void deleteTeam(Long id);
     List<TeamDto> findAllTeams();
     TeamDto findTeamById(Long id);

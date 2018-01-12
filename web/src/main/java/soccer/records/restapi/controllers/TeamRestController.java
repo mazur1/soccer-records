@@ -128,13 +128,7 @@ public class TeamRestController {
     public final void editTeam(@PathVariable("id") long id, @RequestBody @Valid TeamEditDto teamEditDto, BindingResult bindingResult) throws Exception {
         log.debug("rest editTeam({})", id);
         try {
-            TeamDto team = teamFacade.findTeamById(id);
-            
-            if (teamEditDto.getName() != null) {
-                team.setName(teamEditDto.getName());
-            }
-            
-            teamFacade.updateTeam(team);
+            teamFacade.updateTeam(teamEditDto);
         } catch (Exception ex) {
             log.debug("Cannot edit team with id {}", id);
             throw new ResourceNotFoundException(ex.getMessage());

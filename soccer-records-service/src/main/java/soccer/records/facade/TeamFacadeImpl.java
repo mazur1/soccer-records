@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import soccer.records.dto.MatchDto;
 import soccer.records.dto.TeamCreateDto;
 import soccer.records.dto.TeamDto;
+import soccer.records.dto.TeamEditDto;
 import soccer.records.entity.Match;
 import soccer.records.entity.Team;
 import soccer.records.services.BeanMappingService;
@@ -62,7 +63,7 @@ public class TeamFacadeImpl implements TeamFacade {
     }
     
     @Override
-    public void updateTeam(TeamDto t) {
+    public void updateTeam(TeamEditDto t) {
         Team mapped = beanMappingService.mapTo(t, Team.class);
         teamService.update(mapped);
     }
