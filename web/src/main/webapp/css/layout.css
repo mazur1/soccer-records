@@ -26,6 +26,26 @@ main .container{
     box-shadow: 10px 12px 37px -19px rgba(0,0,0,0.75);
 }
 
+main .container .row{
+ margin: 0px;   
+}
+
+.player-profile{
+    padding: 20px 4px;
+    background-color: #f5f4f4;
+    border-radius: 5px;
+}
+
+.player-profile table tr td{
+    padding: 3px 5px;
+}
+
+.player-profile table tr td:first-child{
+    font-weight: bold;
+}
+
+
+
 footer{
     margin-top: 20px;
     background-color: #2E2E2E;
