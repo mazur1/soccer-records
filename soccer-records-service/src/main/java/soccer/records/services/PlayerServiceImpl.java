@@ -33,6 +33,11 @@ public class PlayerServiceImpl implements PlayerService {
     public List<Player> findAllActive() {
         return playerDao.filterActive(null);
     }
+    
+    @Override
+    public List<Player> filterActive(List<Player> par0) {
+        return playerDao.filterActive(par0);
+    }
 
     @Override
     public Player findById(Long id) {

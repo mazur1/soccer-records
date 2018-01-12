@@ -41,8 +41,8 @@ public class TeamServiceImpl implements TeamService {
     }
     
     @Override
-    public List<Team> findAllActive() {
-        return teamDao.filterActive(null);
+    public List<Team> filterActive(List<Team> par0) {
+        return teamDao.filterActive(par0);
     }
 
     @Override

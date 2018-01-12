@@ -177,7 +177,7 @@ soccerControllers.controller('NewTeamController',  function ($scope, $rootScope,
     }
 });
 
-soccerControllers.controller('TeamDetailController', function ($scope, $routeParams, $http, $rootScope) {
+soccerControllers.controller('TeamDetailController', function ($scope, $window, $routeParams, $http, $rootScope) {
     
     // get team id from URL fragment #/product/:productId
         
@@ -188,12 +188,27 @@ soccerControllers.controller('TeamDetailController', function ($scope, $routePar
         console.log(response);    
             
         $scope.team = response.data;
+        $scope.currentPage = 0;
         console.log('AJAX loaded detail of team ' + $scope.team.name);
     
     }, function error(error) {
         //display error
         $rootScope.errorAlert = error.data.message;
     });
+    
+    $scope.deleteTeam = function() {
+        $http.delete('/pa165/api/v1/teams/'+ teamId)
+            .then(function success(response) {
+            //display confirmation alert
+            $rootScope.successAlert = 'A team was deleted';
+            //change view to list
+            $window.location='/pa165/#!/teams';
+        }, function error(response) {
+            //display error
+            $scope.errorAlert = 'Cannot delete team!';
+        });
+        
+    };
 });
 
 soccerControllers.controller('PlayersController', function ($scope, $rootScope, $http) {
@@ -211,7 +226,7 @@ soccerControllers.controller('PlayersController', function ($scope, $rootScope, 
     
 });
 
-soccerControllers.controller('PlayerDetailController', function ($scope, $rootScope, $routeParams, $http) {
+soccerControllers.controller('PlayerDetailController', function ($scope, $window, $rootScope, $routeParams, $http) {
         // get team id from URL fragment #/product/:productId
         
         var playerId = $routeParams.playerId;
@@ -223,6 +238,20 @@ soccerControllers.controller('PlayerDetailController', function ($scope, $rootSc
         //display error
         $rootScope.errorAlert = error.data.message;
     });
+    
+    $scope.deletePlayer = function() {
+        $http.delete('/pa165/api/v1/players/'+ playerId)
+            .then(function success(response) {
+            //display confirmation alert
+            $rootScope.successAlert = 'A player was deleted';
+            //change view to list
+            $window.location='/pa165/#!/players';
+        }, function error(response) {
+            //display error
+            $scope.errorAlert = 'Cannot delete player!';
+        });
+        
+    };
 });
 
 soccerControllers.controller('NewPlayerController',  function ($scope, $location, $rootScope, $window, $http) {

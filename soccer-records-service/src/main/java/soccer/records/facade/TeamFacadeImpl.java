@@ -71,15 +71,6 @@ public class TeamFacadeImpl implements TeamFacade {
     public void deleteTeam(Long id) {
         //in case is possible to have player with id null
         teamService.setNullAllPlayersByTeam(id);
-//        for (Match m : teamService.findById(id).getMatchesAway()) {
-//            m.setTeamAway(null);
-//            matchService.update(m);
-//        }
-//        for (Match m : teamService.findById(id).getMatchesHome()) {
-//            m.setTeamHome(null);
-//            matchService.update(m);
-//        }
-        
         teamService.remove(teamService.findById(id));
     }
 
@@ -93,8 +84,14 @@ public class TeamFacadeImpl implements TeamFacade {
         return beanMappingService.mapTo(teamService.findById(id), TeamDto.class);
     }
     
+//    @Override
+//    public List<TeamDto> findAllActiveTeams() {
+//        return beanMappingService.mapTo(teamService.findAllActive(), TeamDto.class);
+//    }
+    
     @Override
-    public List<TeamDto> findAllActiveTeams() {
-        return beanMappingService.mapTo(teamService.findAllActive(), TeamDto.class);
+    public List<TeamDto> filterActiveTeams(List<TeamDto> par0) {
+        List<Team> mapped = beanMappingService.mapTo(par0, Team.class);
+        return beanMappingService.mapTo(teamService.filterActive(mapped), TeamDto.class);
     }
 }

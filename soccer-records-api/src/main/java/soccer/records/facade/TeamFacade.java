@@ -20,8 +20,8 @@ public interface TeamFacade {
     void deleteTeam(Long id);
     List<TeamDto> findAllTeams();
     TeamDto findTeamById(Long id);
-    public List<MatchDto> getMatchesHome(Long id);
-    public List<MatchDto> getMatchesAway(Long id);
+    List<MatchDto> getMatchesHome(Long id);
+    List<MatchDto> getMatchesAway(Long id);
 
-    List<TeamDto> findAllActiveTeams();
+    List<TeamDto> filterActiveTeams(List<TeamDto> par0);
 }
