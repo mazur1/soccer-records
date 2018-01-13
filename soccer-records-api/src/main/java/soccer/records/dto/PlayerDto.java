@@ -92,14 +92,16 @@ public class PlayerDto extends AuditableDto<String> {
     public PlayerPost getPost() {
         return post;
     }    
-    
-    public void setIsCaptain(boolean captain) {
-        this.captain = captain;
-    }
 
     public boolean isCaptain() {
         return captain;
-    }    
+    }
+
+    public void setCaptain(boolean captain) {
+        this.captain = captain;
+    }
+    
+   
     
     public void setCountry(String country) {
         this.country = country;

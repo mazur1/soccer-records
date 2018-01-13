@@ -292,7 +292,11 @@ soccerControllers.controller('PlayerDetailController', function ($scope, $window
 
     $http.get('/pa165/api/v1/players/' + playerId).then(function (response) {
         $scope.player = response.data;
-        console.log('AJAX loaded detail of team ' + $scope.player.name);
+        var scored = 0;
+        for(var i = 0; i < $scope.player.playerResults.length; i++) {
+            scored = scored + $scope.player.playerResults[i].goalsScored;
+        }
+        $scope.scored = scored;
     }, function error(error) {
         setMessage($rootScope, "error", error.data.message);
     });
