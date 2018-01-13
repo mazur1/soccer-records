@@ -30,6 +30,15 @@ public class PlayerResultResource extends AuditableResource<String>{
     private MatchDto match;
     
     private int goalsScored;
+    private boolean isActive;
+
+    public boolean getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
+    }
     
     public PlayerResultResource(PlayerResultDto dto) {
         super(dto);
@@ -37,6 +46,7 @@ public class PlayerResultResource extends AuditableResource<String>{
         player = dto.getPlayer();
         match = dto.getMatch();
         goalsScored = dto.getGoalsScored();
+        isActive = dto.getIsActive();
     }
 
     public long getDtoId() {

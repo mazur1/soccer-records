@@ -1,7 +1,7 @@
 package soccer.records.dao;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -79,7 +79,7 @@ public class MatchDaoImpl extends DefaultCrudDaoImpl<Match,Long> implements Matc
     }
     
     @Override
-    public List<Match> filterByDateAndTime(Date d, List<Match> matches) throws DataAccessExceptions {
+    public List<Match> filterByDateAndTime(LocalDateTime d, List<Match> matches) throws DataAccessExceptions {
         
         try{
             return matches.stream().filter(p -> Objects.equals(d, p.getDateAndTime())).collect(Collectors.toList());       

@@ -65,8 +65,8 @@ public class MatchController {
             resourceCollection  = matchResourceAssembler.toResources(all);*/
             
         for (MatchResource matchResource : resourceCollection) {
-            matchResource.setTeamHomeGoalsScored(matchFacade.getTeamHomeGoalsScored(matchResource.getDtoId()));
-            matchResource.setTeamAwayGoalsScored(matchFacade.getTeamAwayGoalsScored(matchResource.getDtoId()));
+            //matchResource.setTeamHomeGoalsScored(matchFacade.getTeamHomeGoalsScored(matchResource.getDtoId()));
+            //matchResource.setTeamAwayGoalsScored(matchFacade.getTeamAwayGoalsScored(matchResource.getDtoId()));
         }    
         
         Resources<MatchResource> matchResources = new Resources<>(resourceCollection,
@@ -91,8 +91,8 @@ public class MatchController {
         
         MatchResource resource = matchResourceAssembler.toResource(matchDto);
         resource.setPlayerResults(matchFacade.getPlayerResults(id));
-        resource.setTeamHomeGoalsScored(matchFacade.getTeamHomeGoalsScored(id));
-        resource.setTeamAwayGoalsScored(matchFacade.getTeamAwayGoalsScored(id));
+        //resource.setTeamHomeGoalsScored(matchFacade.getTeamHomeGoalsScored(id));
+        //resource.setTeamAwayGoalsScored(matchFacade.getTeamAwayGoalsScored(id));
         
         return new ResponseEntity<>(resource, HttpStatus.OK);
     }
@@ -114,6 +114,18 @@ public class MatchController {
                 log.error("caused by : " + ex.getClass().getSimpleName() + ": " + ex.getMessage());
             }
             throw new ServerProblemException(rootCause.getMessage());
+        }
+    }
+    
+    @RequestMapping(value = "/{id}/score", method = RequestMethod.PUT)
+    public final void updateMatchScore(@PathVariable("id") long id) throws Exception {
+        
+        log.debug("rest editMatch({})", id);
+        try {
+            matchFacade.updateMatchScore(id);
+        } catch (Exception ex) {
+            log.debug("Cannot edit match with id {}", id);
+            throw new ResourceNotFoundException(ex.getMessage());
         }
     }
 
@@ -145,7 +157,7 @@ public class MatchController {
     
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     public final void editMatch(@PathVariable("id") long id, @RequestBody @Valid MatchEditDto matchDto, BindingResult bindingResult) throws Exception {
-        log.debug("rest editTeam({})", id);
+        log.debug("rest editMatch({})", id);
         try {
             matchFacade.updateMatch(matchDto);
         } catch (Exception ex) {

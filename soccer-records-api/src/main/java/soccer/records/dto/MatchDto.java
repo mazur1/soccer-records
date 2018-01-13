@@ -5,7 +5,7 @@
  */
 package soccer.records.dto;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -30,7 +30,7 @@ public class MatchDto extends AuditableDto<String> {
     }
     
     private Long id;
-    private Date dateAndTime;
+    private LocalDateTime dateAndTime;
     private LocationDto location;
     @Min(0)
     private int teamHomeGoalsScored;
@@ -91,11 +91,11 @@ public class MatchDto extends AuditableDto<String> {
         this.id = id;
     }
 
-    public Date getDateAndTime() {
+    public LocalDateTime getDateAndTime() {
         return dateAndTime;
     }
 
-    public void setDateAndTime(Date dateAndTime) {
+    public void setDateAndTime(LocalDateTime dateAndTime) {
         this.dateAndTime = dateAndTime;
     }
 

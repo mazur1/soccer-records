@@ -28,6 +28,7 @@ soccerRecordspApp.config(['$routeProvider',
             when('/editplayer/:playerId', {templateUrl: 'partials/admin/edit_player.html', controller: 'EditPlayerController'}).
             when('/editmatch/:matchId', {templateUrl: 'partials/admin/edit_match.html', controller: 'EditMatchController'}).
             when('/newplayerresult', {templateUrl: 'partials/admin/new_player_result.html'}).
+            when('/editplayerresult/:playerResultId', {templateUrl: 'partials/admin/edit_player_result.html'}).
             otherwise({redirectTo: '/home'});
     }]);
 
@@ -196,7 +197,7 @@ soccerControllers.controller('EditTeamController', function ($scope, $window, $r
         },function (response) {
             setMessage($rootScope, "error", "Team edit failed");
         });
-    }
+    };
 
 });
 
@@ -219,8 +220,6 @@ soccerControllers.controller('NewTeamController', function ($scope, $rootScope, 
 });
 
 soccerControllers.controller('TeamDetailController', function ($scope, $window, $routeParams, $http, $rootScope) {
-
-    // get team id from URL fragment #/product/:productId
 
     var teamId = $routeParams.teamId;
 
@@ -347,35 +346,37 @@ soccerControllers.controller('MatchesController', function ($scope, $rootScope, 
         var matches = response.data['_embedded']['matches'];
         console.log('AJAX loaded all matches');
         $scope.matches = matches;
+        formatDates($scope.matches);
     }, function error(error) {
         setMessage($rootScope, "error", error.data.message);
     });
 
 });
 
-soccerControllers.controller('MatchDetailController', function ($scope, $rootScope, $routeParams, $http, $location) {
+soccerControllers.controller('MatchDetailController', function ($scope, $rootScope, $routeParams, $http, $location, $route) {
 
     var matchId = $routeParams.matchId;
     
     $http.get('/pa165/api/v1/matches/' + matchId).then(function (response) {
         $scope.match = response.data;
-        /*$scope.sort = function(keyname){
-         $scope.sortKey = keyname;   //set the sortKey to the param passed
-         $scope.reverse = !$scope.reverse; //if true make it false and vice versa
-         }*/
         console.log('AJAX loaded detail of match ' + $scope.match.toString());
+        
+        $http.get('/pa165/api/v1/teams/'+$scope.match.teamHome.id).then(function(response) {    
+        var teamHome = response.data;             
+        console.log('AJAX loaded all players');  
+        $scope.playersHome = teamHome.players;
+        
+        });
+        $http.get('/pa165/api/v1/teams/'+$scope.match.teamAway.id).then(function(response) {    
+        var teamAway = response.data;             
+        console.log('AJAX loaded all players');  
+        $scope.playersAway = teamAway.players;
+        
+        });
 
     }, function error(error) {
         setMessage($rootScope, "error", error.data.message);
     });
-
-    /*$http.get('/pa165/api/v1/teams'+$scope.match.teamHome.id).then(function(response) {    
-        var players = response.data['_embedded']['players'];             
-        console.log('AJAX loaded all teams');  
-        $scope.items2 = players;
-    }, function error(error) {
-        setMessage($rootScope, "error", error.data.message);
-    });*/
 
     $scope.deleteMatch = function () {
         $http.delete('/pa165/api/v1/matches/' + matchId).then(function success(response) {
@@ -389,7 +390,7 @@ soccerControllers.controller('MatchDetailController', function ($scope, $rootSco
     $scope.deleteResult = function (resultId) {
         $http.delete('/pa165/api/v1/results/' + resultId).then(function success(response) {
             setMessage($rootScope, "success", "A result was deleted");
-            $location.path('/matches/' + matchId);
+            $route.reload();
         }, function error(response) {
             setMessage($rootScope, "error", "Cannot delete match!");
         });
@@ -399,9 +400,22 @@ soccerControllers.controller('MatchDetailController', function ($scope, $rootSco
     $scope.ShowHide = function () {
         $scope.IsHidden = $scope.IsHidden ? false : true;
     };
+    $scope.IsHiddenEdit = true;
+    $scope.ShowHideEdit = function (playerResult) {
+        $scope.IsHiddenEdit = false;
+        // player result in child scope
+        $http.get('/pa165/api/v1/results/' + playerResult.id).then(function (response) {
+        $scope.playerResultE = response.data;
+        console.log('AJAX loaded detail of match ' + $scope.match.toString());
+        
+    }, function error(error) {
+        setMessage($rootScope, "error", error.data.message);
+    });
+    };
 
     //set object bound to form fields
     $scope.playerResult = {
+        'id' : null,
         'matchId': matchId,
         'playerId': null,
         'goalsScored': 0
@@ -416,10 +430,48 @@ soccerControllers.controller('MatchDetailController', function ($scope, $rootSco
         }).then(function success(response) {
             var created = response.data;
             setMessage($rootScope, "success", "A new player result was created");
-            $location.path("/matches/" + matchId);
+            $route.reload();
         }, function error(response) {
             setMessage($rootScope, "error", "Cannot create player result!");
         });
+    };
+    
+    $scope.editResult = function (result) {
+        
+        var resultData = {
+        'playerId' : result.player.id,
+        'matchId' : result.match.id,
+        'goalsScored': result.goalsScored
+        };
+        
+        $http({
+            method: 'PUT',
+            url: '/pa165/api/v1/results/' + result.id,
+            data: resultData
+        })
+        .then(function success(response) {
+            console.log('result succesfuly edited');
+            $route.reload();
+        }, 
+        function error(response) { 
+            console.log('result edit failed'); 
+            $rootScope.errorAlert = "result edit failed";
+        });
+        
+    };
+    
+    $scope.updateMatchScore = function () {
+        
+        $http.put('/pa165/api/v1/matches/' + matchId + '/score')
+        .then(function success(response) {
+            console.log('match succesfuly edited');
+            $route.reload();
+        }, 
+        function error(response) { 
+            console.log('result edit failed'); 
+            $rootScope.errorAlert = "result edit failed";
+        });
+        
     };
 
 });
@@ -450,23 +502,7 @@ soccerControllers.controller('NewMatchController', function ($scope, $routeParam
     $scope.create = function (match) {
 
         alert(JSON.stringify(match));
-
-        /*
-        $http.get('/pa165/api/v1/teams/' + $scope.selectedTeamHomeId).then(function (response) {
-            $scope.match.teamHome = response.data;
-            console.log('AJAX loaded detail of team ' + $scope.team.name);
-        }, function error(error) {
-            setMessage($rootScope, "error", error.data.message);
-        });
-        
-        $http.get('/pa165/api/v1/teams/' + $scope.selectedTeamAwayId).then(function (response) {
-            $scope.match.teamAway = response.data;
-            console.log('AJAX loaded detail of team ' + $scope.team.name);
-        }, function error(error) {
-            setMessage($rootScope, "error", error.data.message);
-        });
-        */
-
+       
         $http({
             method: 'POST',
             url: '/pa165/api/v1/matches/create',
@@ -490,9 +526,8 @@ soccerControllers.controller('EditMatchController', function ($scope, $window, $
             
         console.log(response);    
             
-        $scope.macth = response.data;
+        $scope.match = response.data;
         console.log('AJAX loaded detail of match ' + $scope.match.id);
-    
     }, function error(error) {
         //display error
         $rootScope.errorAlert = error.data.message;
@@ -500,10 +535,21 @@ soccerControllers.controller('EditMatchController', function ($scope, $window, $
     
     $scope.editMatch = function (match) {
         
+        var matchData = {
+        'teamHomeId': match.teamHome.id,
+        'teamAwayId': match.teamAway.id,
+        'dateAndTime': match.dateAndTime,
+        'location': match.location,
+        'teamHomeGoalsScored': match.teamHomeGoalsScored,
+        'teamAwayGoalsScored': match.teamAwayGoalScored,
+        'teamHomeGoalsScoredHalf': match.teamHomeGoalsScoredHalf,
+        'teamAwayGoalsScoredHalf': match.teamAwayGoalScoredHalf
+        };
+    
         $http({
                 method: 'PUT',
                 url: '/pa165/api/v1/matches/' + matchId,
-                data: match
+                data: matchData
         })
         .then(function(response) {
             console.log('match succesfuly edited');
@@ -530,6 +576,68 @@ soccerControllers.controller('ResultsController', function ($scope, $rootScope, 
     });
 
 });
+
+soccerControllers.controller('EditPlayerResultController', function ($scope, $window, $rootScope, $routeParams, $http) {
+    
+    var resultId = $routeParams.resultId;
+    
+    $http.get('/pa165/api/v1/results/' + resultId).then(function (response) {
+            
+        console.log(response);    
+            
+        $scope.result = response.data;
+        console.log('AJAX loaded detail of result ' + $scope.result.id);
+    
+    }, function error(error) {
+        //display error
+        $rootScope.errorAlert = error.data.message;
+    });
+    
+    $scope.editResult = function (result) {
+        
+        $http({
+                method: 'PUT',
+                url: '/pa165/api/v1/results/' + resultId,
+                data: result
+        })
+        .then(function(response) {
+            console.log('result succesfuly edited');
+            $window.location='/pa165/#!/results';
+        
+        }, 
+        function(response) { 
+            console.log('result edit failed'); 
+            $rootScope.errorAlert = "result edit failed";
+        });
+    };
+    
+});
+
+function formatDates(matches) {
+    for (var i = 0; i < matches.length; ++i) {
+        formatDate(matches[i]);
+    }
+}
+function formatDate(match) {
+    var raw = match.dateAndTime;
+    //match.dateAndTime = raw.dayOfMonth+'.'+raw.monthValue+'.'+raw.year+' '+raw.hour+':'+raw.minute;
+    match.dateAndTime = moment(raw).format('YYYY-MM-DDTHH:mm');
+}
+/*soccerControllers.directive("formatDate", function() {
+    return {
+        require: 'ngModel',
+        link: function(scope, elem, attr, modelCtrl) {
+            modelCtrl.$formatters.push(function(modelValue) {
+                if (modelValue){
+                    return moment(modelValue).format("dd.MMM.yyyy HH:mm");
+                }
+                else {
+                    return null;
+                }
+            });
+        }
+    };
+});*/
 
 // defines new directive (HTML attribute "convert-to-int") for conversion between string and int
 // of the value of a selection list in a form

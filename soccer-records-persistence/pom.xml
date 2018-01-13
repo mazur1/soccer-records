@@ -110,11 +110,11 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-core</artifactId>
         </dependency>
-        <!--<dependency>
+        <dependency>
             <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-envers</artifactId>
+            <artifactId>hibernate-core</artifactId>
             <version>5.2.12.Final</version>
-        </dependency>-->
+        </dependency>
 
 	</dependencies>
 </project>

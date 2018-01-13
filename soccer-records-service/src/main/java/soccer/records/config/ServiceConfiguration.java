@@ -1,5 +1,6 @@
 package soccer.records.config;
 
+import java.util.Collections;
 import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;
 import org.dozer.loader.api.BeanMappingBuilder;
@@ -15,16 +16,12 @@ import soccer.records.dto.TeamDto;
 @Import(PersistenceAppContext.class)
 @ComponentScan(basePackages = "soccer.records")
 public class ServiceConfiguration {
-
-    /*@Bean
-    public TeamFacade teamFacade() {
-        return new TeamFacadeImpl();
-    }*/
     
     @Bean
     public Mapper dozer(){
-            DozerBeanMapper dozer = new DozerBeanMapper();		
-            //dozer.addMapping(new DozerCustomConfig());
+            DozerBeanMapper dozer = new DozerBeanMapper();
+            dozer.setMappingFiles(Collections.singletonList("dozerJdk8Converters.xml")); // + LocalDateTime mapping
+            
             return dozer;
     }
 

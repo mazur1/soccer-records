@@ -37,8 +37,6 @@ public interface MatchFacade {
 
     List<MatchDto> filterActiveMatches(List<MatchDto> par0);
     
-    int getTeamHomeGoalsScored(Long id);
-    
-    int getTeamAwayGoalsScored(Long id);
+    void updateMatchScore(Long id);
     
 }

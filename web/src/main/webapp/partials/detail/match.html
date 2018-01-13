@@ -24,6 +24,10 @@
             <span class="glyphicon" aria-hidden="true"></span>
             Edit match
         </a>
+        <a ng-if="loggedUser.logged == true" ng-click="updateMatchScore()" class="btn btn-primary">
+            <span class="glyphicon" aria-hidden="true"></span>
+            Update score
+        </a>
     </div>
 
     <div>
@@ -64,6 +68,10 @@
             </tbody>
         </table> 
     </div>-->
+ 
+        <br/>
+        <div class="col-xs-6" ng-hide = "IsHiddenEdit" ng-include="'/pa165/partials/admin/edit_player_result.html'"></div>
+        <br/>
     <table class="table table-striped">
         <thead>
         <tr>
@@ -72,10 +80,21 @@
         </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="playerResult in match.playerResults track by $index">
+            <tr ng-repeat="playerResult in match.playerResults track by $index" ng-if="playerResult.isActive">
+                <td>{{playerResult.id}}</td>
                 <td>{{playerResult.player.name + ' ' + playerResult.player.surname}}</td>
                 <td>{{playerResult.goalsScored-0}}</td>
-                <td><button ng-if="loggedUser.logged == true" ng-click="deleteResult(playerResult.id)" type="submit" class="btn btn-primary">Delete</button></td>
+                <!--<td><button ng-if="loggedUser.logged == true" ng-click="deleteResult(playerResult.id)" type="submit" class="btn btn-primary">Delete</button></td>-->
+                <td><a ng-if="loggedUser.logged == true" ng-click="deleteResult(playerResult.id)" class="btn btn-primary">
+                <span class="glyphicon" aria-hidden="true"></span>
+                Delete
+                </a></td>
+                <!--<td><a ng-if="loggedUser.logged == true" href="#!/editplayerresult/{{playerResult.id}}" class="btn btn-primary">
+                <span class="glyphicon" aria-hidden="true"></span>
+                Edit
+                </a></td>-->
+                <td><input ng-if="loggedUser.logged == true" type="button" value="Edit" ng-click="ShowHideEdit(playerResult)" /></td>
+        
             </tr>
         </tbody>
     </table>

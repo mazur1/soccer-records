@@ -16,6 +16,7 @@
         <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular-cookies.js"></script> 
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <script src="${pageContext.request.contextPath}/js/angular-app.js"></script>
+        <script src="https://cdn.jsdelivr.net/momentjs/2.14.1/moment.min.js"></script>
         
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/layout.css" />
     
