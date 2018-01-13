@@ -57,13 +57,17 @@ public class MatchServiceImpl implements MatchService {
             }
     }
     
-    private void validateMatches(Match m) {
+    private void validateMatches(Match m, boolean update) {
         if(m == null) return;
         
         List<Match> matches = matchDao.findAll();
         matches.stream().filter(p -> !Objects.equals(m, p)).collect(Collectors.toList());
+        List<Match> active = matchDao.filterActive(matches);
         
-        List<Match> byDate = matchDao.filterByDateAndTime(m.getDateAndTime(), matches);
+        if(update)
+            active.remove(m);
+        
+        List<Match> byDate = matchDao.filterByDateAndTime(m.getDateAndTime(), active);
         if(!byDate.isEmpty()) {
             List<Match> byTeam1 = matchDao.filterByTeam(m.getTeamAway(), matches);
             List<Match> byTeam2 = matchDao.filterByTeam(m.getTeamHome(), matches);
@@ -82,14 +86,14 @@ public class MatchServiceImpl implements MatchService {
     
     @Override
     public Long create(Match m) {
-        validateMatches(m);
+        validateMatches(m, false);
         matchDao.create(m);
         return m.getId();
     }
 
     @Override
     public void update(Match m){
-        validateMatches(m);
+        validateMatches(m, true);
         matchDao.update(m);
     }
 

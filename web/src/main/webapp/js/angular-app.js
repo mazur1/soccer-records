@@ -608,8 +608,8 @@ soccerControllers.controller('EditMatchController', function ($scope, $window, $
 
         formatDate($filter, match);
 
-        /*var matchData = {
-        'id' : match.id,
+        var matchData = {
+        'id' : matchId,
         'teamHomeId': match.teamHome.id,
         'teamAwayId': match.teamAway.id,
         'dateAndTime': match.dateAndTime,
@@ -618,12 +618,12 @@ soccerControllers.controller('EditMatchController', function ($scope, $window, $
         'teamAwayGoalsScored': match.teamAwayGoalScored,
         'teamHomeGoalsScoredHalf': match.teamHomeGoalsScoredHalf,
         'teamAwayGoalsScoredHalf': match.teamAwayGoalScoredHalf
-        };*/
+        };
     
         $http({
                 method: 'PUT',
                 url: '/pa165/api/v1/matches/' + matchId,
-                data: match
+                data: matchData
         })
         .then(function(response) {
             console.log('match succesfuly edited');
@@ -715,7 +715,7 @@ function formatDates(filter, matches, db) {
     db = typeof db !== 'undefined' ? db : true;
     
     for (var i = 0; i < matches.length; ++i) {
-        formatDate(filter,matches[i]);
+        formatDate(filter,matches[i], db);
     }
 }
 function formatDate(filter, match, db) {
@@ -723,13 +723,10 @@ function formatDate(filter, match, db) {
     db = typeof db !== 'undefined' ? db : true;
     
     if(db){
-        match.dateAndTime = filter('date')(new Date(match.dateAndTime),'dd.MM.yyyy HH:mm');
+        match.dateAndTime = filter('date')(new Date(match.dateAndTime),'yyyy-MM-dd HH:mm');
     } else {
         match.dateAndTime = new Date(match.dateAndTime);
     }
-    
-    //alert(match.dateAndTime);
-    
 }
 
 // defines new directive (HTML attribute "convert-to-int") for conversion between string and int
