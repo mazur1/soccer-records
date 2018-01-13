@@ -5,17 +5,23 @@
  */
 package soccer.records.dao;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
+import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 import soccer.records.PersistenceAppContext;
 import soccer.records.entity.Match;
 import soccer.records.entity.Player;
 import soccer.records.entity.PlayerResult;
 import soccer.records.entity.Team;
+import soccer.records.enums.PlayerPost;
+import soccer.records.exceptions.dao.DataAccessExceptions;
 
 /**
  * Dao tests
@@ -42,7 +48,7 @@ public class PlayerResultDaoTest extends AbstractTestNGSpringContextTests {
     private Team t1,t2;
     private Player p1, p2;
     
-    /*@BeforeMethod
+    @BeforeMethod
     public void setUp() {
         
         t1 = new Team();
@@ -121,7 +127,7 @@ public class PlayerResultDaoTest extends AbstractTestNGSpringContextTests {
         PlayerResult pr = new PlayerResult();
         pr.setGoalsScored(0);
         pr.setMatch(m1);
-        playerResultDao.create(pr1);
+        playerResultDao.create(pr);
     }
     
     @Test(expectedExceptions = DataAccessExceptions.class)
@@ -129,6 +135,6 @@ public class PlayerResultDaoTest extends AbstractTestNGSpringContextTests {
         PlayerResult pr = new PlayerResult();
         pr.setGoalsScored(0);
         pr.setPlayer(p1);
-        playerResultDao.create(pr1);
-    }*/
+        playerResultDao.create(pr);
+    }
 }

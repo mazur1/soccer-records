@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 import soccer.records.dto.MatchCreateDto;
 import soccer.records.dto.MatchDto;
 import soccer.records.dto.MatchEditDto;
-import soccer.records.dto.PlayerResultCreateDto;
 import soccer.records.facade.MatchFacade;
 import soccer.records.restapi.exceptions.InvalidRequestException;
 import soccer.records.restapi.exceptions.ResourceNotFoundException;
@@ -126,6 +125,22 @@ public class MatchController {
             throw new ResourceNotFoundException(ex.getMessage());
         }
     }
+    
+    @RequestMapping(value = "/score", method = RequestMethod.PUT)
+    public final void updateMatchScores() throws Exception {
+        
+        log.debug("rest editMatches({})");
+        try {
+            List<MatchDto> matches = matchFacade.filterActiveMatches(matchFacade.findAllMatches());
+            matches.stream().forEach((m) -> {
+                matchFacade.updateMatchScore(m.getId());
+            });
+            
+        } catch (Exception ex) {
+            log.debug("failed to edit matches {}");
+            throw new ResourceNotFoundException(ex.getMessage());
+        }
+    }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE/*, produces = MediaType.APPLICATION_JSON_VALUE*/)
     public final HttpEntity<MatchResource> createMatch(@RequestBody @Valid MatchCreateDto matchDto, BindingResult bindingResult) throws Exception {
@@ -165,7 +180,7 @@ public class MatchController {
         }
     }
     
-    @RequestMapping(value = "/{id}/results/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE/*, produces = MediaType.APPLICATION_JSON_VALUE*/)
+    /*@RequestMapping(value = "/{id}/results/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public final HttpEntity<MatchResource> addPlayerResult(@PathVariable("id") Long id, @RequestBody PlayerResultCreateDto rDto) throws Exception {
     
         log.debug("rest: addPlayerResult(" + String.valueOf(id) + ", result = " + rDto.toString() + ")");
@@ -186,7 +201,7 @@ public class MatchController {
         return new ResponseEntity<>(resource, HttpStatus.OK);
     }
     
-    @RequestMapping(value = "/{id}/results/{rid}", method = RequestMethod.DELETE/*, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE*/)
+    @RequestMapping(value = "/{id}/results/{rid}", method = RequestMethod.DELETE)
     public final HttpEntity<MatchResource> deletePlayerResult(@PathVariable("id") Long id, @PathVariable("rid") Long rid) throws Exception {
     
         log.debug("rest: removePlayerResult(" + String.valueOf(id) + ", result id = " + String.valueOf(rid) + ")");
@@ -204,6 +219,6 @@ public class MatchController {
         
         MatchResource resource = matchResourceAssembler.toResource(matchFacade.findMatchById(id));
         return new ResponseEntity<>(resource, HttpStatus.OK);
-    }
+    }*/
     
 }

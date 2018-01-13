@@ -7,6 +7,10 @@
     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
     New match
 </a>
+<a ng-if="loggedUser.logged == true" ng-click="updateMatchScores()" class="btn btn-primary">
+    <span class="glyphicon" aria-hidden="true"></span>
+    Update scores
+</a>
 
 <table class="table stripped">
     <thead>
