@@ -159,6 +159,7 @@ public class MatchController {
     public final void editMatch(@PathVariable("id") long id, @RequestBody @Valid MatchEditDto matchDto, BindingResult bindingResult) throws Exception {
         log.debug("rest editMatch({})", id);
         try {
+            
             matchFacade.updateMatch(matchDto);
         } catch (Exception ex) {
             log.debug("Cannot edit match with id {}", id);

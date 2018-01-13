@@ -248,7 +248,7 @@ soccerControllers.controller('TeamDetailController', function ($scope, $window, 
         $scope.team = response.data;
         console.log('AJAX loaded detail of team ' + $scope.team.name);
         $scope.matches = $scope.team.matchesHome.concat($scope.team.matchesAway);
-        formatDates($scope.matches);
+        //formatDates($scope.matches);
         
     }, function error(error) {
         setMessage($rootScope, "error", error.data.message);
@@ -390,13 +390,14 @@ soccerControllers.controller('NewPlayerController', function ($scope, $location,
 
 soccerControllers.controller('MatchesController', function ($scope, $rootScope, $http, $filter) {
 
-
     function loadMatches(){
         $http.get('/pa165/api/v1/matches').then(function (response) {
             var matches = response.data['_embedded']['matches'];
             console.log('AJAX loaded all matches');
             $scope.matches = matches;
-            formatDates($filter,$scope.matches,false);
+
+            formatDates($filter,$scope.matches);
+
         }, function error(error) {
             setMessage($rootScope, "error", error.data.message);
         });
@@ -570,6 +571,7 @@ soccerControllers.controller('NewMatchController', function ($scope, $routeParam
     // function called when submit button is clicked, creates match on server
     $scope.create = function (match) {
 
+        alert(JSON.stringify(match));
         formatDate($filter, match);
         
         $http({
@@ -588,12 +590,14 @@ soccerControllers.controller('NewMatchController', function ($scope, $routeParam
 });
 
 soccerControllers.controller('EditMatchController', function ($scope, $window, $rootScope, $routeParams, $http, $filter) {
-    
+
     var matchId = $routeParams.matchId;
     
     $http.get('/pa165/api/v1/matches/' + matchId).then(function (response) {   
         $scope.match = response.data;
+
         formatDate($filter, $scope.match, false); 
+
         console.log('AJAX loaded detail of match ' + $scope.match.id);
     }, function error(error) {
         //display error
@@ -601,9 +605,12 @@ soccerControllers.controller('EditMatchController', function ($scope, $window, $
     });
     
     $scope.editMatch = function (match) {
+
         formatDate($filter, match);
+
         var matchData = {
-            'id': match.id,
+
+            'id' : matchId,
             'teamHomeId': match.teamHome.id,
             'teamAwayId': match.teamAway.id,
             'dateAndTime': match.dateAndTime,
@@ -612,6 +619,7 @@ soccerControllers.controller('EditMatchController', function ($scope, $window, $
             'teamAwayGoalsScored': match.teamAwayGoalScored,
             'teamHomeGoalsScoredHalf': match.teamHomeGoalsScoredHalf,
             'teamAwayGoalsScoredHalf': match.teamAwayGoalScoredHalf,
+
         };
     
         $http({
@@ -721,9 +729,7 @@ function formatDate(filter, match, db) {
     } else {
         match.dateAndTime = new Date(match.dateAndTime);
     }
-    
-    //alert(match.dateAndTime);
-    
+
 }
 
 // defines new directive (HTML attribute "convert-to-int") for conversion between string and int
