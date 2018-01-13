@@ -394,7 +394,7 @@ soccerControllers.controller('NewPlayerController', function ($scope, $location,
     };
 });
 
-soccerControllers.controller('MatchesController', function ($scope, $rootScope, $http, $filter) {
+soccerControllers.controller('MatchesController', function ($scope, $rootScope, $http, $filter, $route) {
 
 
     function loadMatches(){
@@ -440,6 +440,20 @@ soccerControllers.controller('MatchesController', function ($scope, $rootScope, 
                 setMessage($rootScope, "error", "Match "+match.teamHome.name+" x "+match.teamAway.name+" "+match.dateAndTime+" activation failed");
             });
 
+    };
+    
+    $scope.updateMatchScores = function () {
+        
+        $http.put('/pa165/api/v1/matches/score')
+        .then(function success(response) {
+            console.log('matches succesfuly edited');
+            $route.reload();
+        }, 
+        function error(response) { 
+            console.log('match edit failed'); 
+            setMessage($rootScope, "error", response.data.message);
+        });
+        
     };
 
 });
