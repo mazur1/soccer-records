@@ -585,10 +585,6 @@ soccerControllers.controller('NewMatchController', function ($scope, $routeParam
         'teamAwayId': null,
         'dateAndTime': null,
         'location': null,
-        'teamHomeGoalsScored': 0,
-        'teamAwayGoalsScored': 0,
-        'teamHomeGoalsScoredHalf': 0,
-        'teamAwayGoalsScoredHalf': 0
     };
 
     // function called when submit button is clicked, creates match on server
@@ -632,10 +628,6 @@ soccerControllers.controller('EditMatchController', function ($scope, $window, $
             'teamAwayId': match.teamAway.id,
             'dateAndTime': match.dateAndTime,
             'location': match.location,
-            'teamHomeGoalsScored': match.teamHomeGoalsScored,
-            'teamAwayGoalsScored': match.teamAwayGoalScored,
-            'teamHomeGoalsScoredHalf': match.teamHomeGoalsScoredHalf,
-            'teamAwayGoalsScoredHalf': match.teamAwayGoalScoredHalf,
         };
     
         $http({
