@@ -18,16 +18,6 @@ import javax.validation.constraints.Min;
 public class PlayerResultDto extends AuditableDto<String> {
     
     private Long id;
-
-    private boolean isActive=true;
-
-    public boolean getIsActive() {
-        return isActive;
-    }
-
-    public void setIsActive(boolean isActive) {
-        this.isActive = isActive;
-    }
     
     @Min(0)
     private int goalsScored;
@@ -81,7 +71,7 @@ public class PlayerResultDto extends AuditableDto<String> {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + goalsScored;
+        //result = prime * result + goalsScored;
         result = prime * result + ((player == null) ? 0 : player.hashCode());
         result = prime * result + ((match == null) ? 0 : match.hashCode());
         return result;

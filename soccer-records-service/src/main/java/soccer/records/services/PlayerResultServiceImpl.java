@@ -25,22 +25,38 @@ public class PlayerResultServiceImpl implements PlayerResultService {
      * Helper method to validate match before create/update
      * @return 
      */
-    private void validate(PlayerResult pr) {
+    private void validate(PlayerResult pr, boolean update) {
+        if(pr == null) throw new SoccerServiceException("player result is null");
+        List<PlayerResult> results = playerResultDao.findAll();
+        if(update)
+            results.remove(playerResultDao.findById(pr.getId()));
+        
+        List<PlayerResult> active = playerResultDao.filterActive(results);
+        
+        PlayerResult found;
         if(pr.getMatch() == null)
             throw new SoccerServiceException("Can't create a player result without a match");
-        if(pr.getPlayer() == null)
-            throw new SoccerServiceException("Can't create a player result without a player");   
+        else if(pr.getPlayer() == null)
+            throw new SoccerServiceException("Can't create a player result without a player");  
+        /*else if((found = playerResultDao.findByBoth(pr.getPlayer().getId(), pr.getMatch().getId())) != null && found.getIsActive() )
+            throw new SoccerServiceException("player result already exists");  
+        
+        else if(!Objects.equals(pr.getPlayer().getTeam(), pr.getMatch().getTeamHome())
+                        && !Objects.equals(pr.getPlayer().getTeam(), pr.getMatch().getTeamAway()))
+                    throw new SoccerServiceException("Player result " + pr + " is from unparticipating team.");
+        */
     }
     
     @Override
     public Long create(PlayerResult pr){
-        validate(pr);
+        validate(pr, false);
         playerResultDao.create(pr);
         return pr.getId();
     }
 
     @Override
     public void update(PlayerResult pr){
+        validate(pr, true);
         playerResultDao.update(pr);
     }
 
@@ -51,6 +67,7 @@ public class PlayerResultServiceImpl implements PlayerResultService {
     
     @Override
     public PlayerResult findById(Long id){
+        
         return playerResultDao.findById(id);
     }
 
@@ -75,14 +92,10 @@ public class PlayerResultServiceImpl implements PlayerResultService {
     }
     
     @Override
-    public List<PlayerResult> findAllActive() {
-        return playerResultDao.findAll();
-    }
-    
-    @Override
     public List<PlayerResult> filterActive(List<PlayerResult> par0) {
         return playerResultDao.filterActive(par0);
     }
+    
     
     @Override
     public void changeGoals(PlayerResult pr, int goals){
@@ -106,11 +119,13 @@ public class PlayerResultServiceImpl implements PlayerResultService {
         return total;
     }
     
+    //?
     @Override
     public void checkGoalsScoredInMatch(Match m) {//optional check
         List<PlayerResult> results = playerResultDao.findByMatchID(m.getId());
+        List<PlayerResult> active = playerResultDao.filterActive(results);
         int totalHome = 0, totalAway = 0;
-        for(PlayerResult r : results) {
+        for(PlayerResult r : active) {
             if(Objects.equals(r.getPlayer().getTeam(), m.getTeamHome()))
                 totalHome += r.getGoalsScored();
             else if(Objects.equals(r.getPlayer().getTeam(), m.getTeamAway()))

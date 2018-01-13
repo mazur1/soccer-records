@@ -8,7 +8,7 @@
         <label for="player" class="col-sm-2 control-label">player</label>
         <div class="col-sm-10">
             <select id="player" class="form-control" ng-model="playerResult.playerId" convert-to-int required>
-            <option ng-repeat="item in playersHome.concat(playersAway)" value="{{item.id}}">{{item.name.concat(' '+item.surname)}}</option>
+            <option ng-repeat="item in playersHome.concat(playersAway)" value="{{item.id}}"  ng-if="item.isActive">{{item.name.concat(' '+item.surname)}}</option>
             </select> 
             
             <p class="help-block" ng-show="form.player.$error.required">player is required</p>
@@ -20,7 +20,7 @@
     <div class="form-group" >
         <label for="goalsScored" class="col-sm-2 control-label">goals scored</label>
         <div class="col-sm-10">
-            <input placeholder="0" id="goalsScored" type="number" name="goalsScored" class="form-control" ng-model="playerResult.goalsScored"/>
+            <input placeholder="0" id="goalsScored" type="number" min="0" name="goalsScored" class="form-control" ng-model="playerResult.goalsScored"/>
             <p></p>
         </div>
     </div>

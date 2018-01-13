@@ -63,7 +63,7 @@
         <div class="col-sm-10">
 
         <select id="team" name="team" class="form-control" ng-model="player.teamId" required>
-            <option ng-repeat="item in teams" value="{{item.id}}">{{item.name}}</option>
+            <option ng-repeat="item in teams" value="{{item.id}}" ng-if="item.isActive">{{item.name}}</option>
         </select>  
         <p class="help-block" ng-show="form.team.$error.required">Team is required</p>
 

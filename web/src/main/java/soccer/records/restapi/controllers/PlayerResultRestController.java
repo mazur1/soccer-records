@@ -63,9 +63,10 @@ public class PlayerResultRestController {
         
         log.debug("rest: getPlayersResults()");
         List<PlayerResultDto> all = playerResultFacade.findAllPlayerResults();
-        
-        List<PlayerResultResource> resourceCollection = PlayerResultResourceAssembler.toResources(playerResultFacade.filterActiveTeams(all));
-        
+        //List<PlayerResultResource> resourceCollection = PlayerResultResourceAssembler.toResources(all);
+
+        List<PlayerResultResource> resourceCollection = PlayerResultResourceAssembler.toResources(playerResultFacade.filterActivePlayerResults(all));
+
         Resources<PlayerResultResource> playerResultResources = new Resources<>(resourceCollection,
                 linkTo(PlayerResultRestController.class).withSelfRel(),
                 linkTo(PlayerResultRestController.class).slash("/create").withRel("create"));

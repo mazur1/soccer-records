@@ -16,6 +16,16 @@ import soccer.records.dto.AuditableDto;
  */
 public abstract class AuditableResource<TUser> extends ResourceSupport {
         
+    protected boolean isActive;
+
+    public boolean getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
+    }
+    
     protected TUser createdBy;
     
     protected Date creationDate;
@@ -25,6 +35,7 @@ public abstract class AuditableResource<TUser> extends ResourceSupport {
     protected Date lastModifiedDate;
 
     public AuditableResource(AuditableDto<TUser> dto) {
+        this.isActive = dto.getIsActive();
         this.createdBy = dto.getCreatedBy();
         this.creationDate = dto.getCreationDate();
         this.lastModifiedBy = dto.getLastModifiedBy();

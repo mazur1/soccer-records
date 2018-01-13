@@ -196,9 +196,6 @@ public class Match extends Auditable<String,Long> {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        if(id != null)
-            return prime * result + id.hashCode();
-        
         result = prime * result + ((dateAndTime == null) ? 0 : dateAndTime.hashCode());
         result = prime * result + ((location == null) ? 0 : location.hashCode());
         result = prime * result + ((teamHome == null) ? 0 : teamHome.hashCode());

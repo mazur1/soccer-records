@@ -2,7 +2,6 @@ package soccer.records.services;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,19 +57,19 @@ public class MatchServiceImpl implements MatchService {
     }
     
     private void validateMatches(Match m, boolean update) {
-        if(m == null) return;
+        if(m == null) throw new SoccerServiceException("match is null");
         
         List<Match> matches = matchDao.findAll();
-        matches.stream().filter(p -> !Objects.equals(m, p)).collect(Collectors.toList());
+        if(update)
+            matches.remove(matchDao.findById(m.getId()));
+        
         List<Match> active = matchDao.filterActive(matches);
         
-        if(update)
-            active.remove(m);
         
         List<Match> byDate = matchDao.filterByDateAndTime(m.getDateAndTime(), active);
         if(!byDate.isEmpty()) {
-            List<Match> byTeam1 = matchDao.filterByTeam(m.getTeamAway(), matches);
-            List<Match> byTeam2 = matchDao.filterByTeam(m.getTeamHome(), matches);
+            List<Match> byTeam1 = matchDao.filterByTeam(m.getTeamAway(), active);
+            List<Match> byTeam2 = matchDao.filterByTeam(m.getTeamHome(), active);
             
             if(!byTeam1.isEmpty())
                 throw new SoccerServiceException("Team " + m.getTeamAway() + " is participating in a different match at that time.");
@@ -129,7 +128,9 @@ public class MatchServiceImpl implements MatchService {
     
     @Override
     public void addPlayerResult(Match m, PlayerResult r) {
-	if (m.getPlayerResults().contains(r)) {
+        PlayerResult found = resultService.findByBoth(r.getPlayer(), m);
+        
+        if (found != null && found.getIsActive()) {
             throw new SoccerServiceException("Match already contains this player result. \n" +
                                         "Match: " + m.getId() + "\n" +
                                         "Player result: " + r.getId());
@@ -140,7 +141,9 @@ public class MatchServiceImpl implements MatchService {
     
     @Override
     public void removePlayerResult(Match m, PlayerResult r) {
-        if (!m.getPlayerResults().contains(r)) {
+        PlayerResult found = resultService.findByBoth(r.getPlayer(), m);
+        
+        if (found == null || !found.getIsActive()) {
             throw new SoccerServiceException("Match doesn't contain this player result. \n" +
                                         "Match: " + m.getId() + "\n" +
                                         "Player result: " + r.getId());
@@ -152,8 +155,9 @@ public class MatchServiceImpl implements MatchService {
     public void updateTeamHomeScore(Match m) {
 
         List<PlayerResult> results = resultService.findByMatch(m);
+        List<PlayerResult> active = resultService.filterActive(results);
         int goalsSum = 0;
-        for (PlayerResult result : results) {
+        for (PlayerResult result : active) {
             if (m.getTeamHome() == result.getPlayer().getTeam()) { 
                 goalsSum += result.getGoalsScored();
             }
@@ -164,6 +168,7 @@ public class MatchServiceImpl implements MatchService {
     @Override
     public void updateTeamAwayScore(Match m) {
         List<PlayerResult> results = resultService.findByMatch(m);
+        List<PlayerResult> active = resultService.filterActive(results);
         int goalsSum = 0;
         for (PlayerResult result : results) {
             if (m.getTeamAway() == result.getPlayer().getTeam()) { 

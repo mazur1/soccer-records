@@ -85,7 +85,7 @@ public class PlayerResult extends Auditable<String,Long> {
         int result = 1;
         result = prime * result + ((player == null) ? 0 : player.hashCode());
         result = prime * result + ((match == null) ? 0 : match.hashCode());
-        result = prime * result + goalsScored;
+        //result = prime * result + goalsScored;
         return result;
     }
 

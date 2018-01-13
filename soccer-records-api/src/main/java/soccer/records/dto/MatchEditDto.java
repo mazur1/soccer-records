@@ -129,6 +129,8 @@ public class MatchEditDto {
     @Override
     public int hashCode() {
         int hash = 7;
+        hash = 79 * hash + Objects.hashCode(this.teamHomeId);
+        hash = 79 * hash + Objects.hashCode(this.teamAwayId);
         return hash;
     }
 
@@ -144,11 +146,34 @@ public class MatchEditDto {
             return false;
         }
         final MatchEditDto other = (MatchEditDto) obj;
-        if (!Objects.equals(this.id, other.id)) {
+        if (this.teamHomeGoalsScored != other.teamHomeGoalsScored) {
+            return false;
+        }
+        if (this.teamAwayGoalsScored != other.teamAwayGoalsScored) {
+            return false;
+        }
+        if (this.teamHomeGoalsScoredHalf != other.teamHomeGoalsScoredHalf) {
+            return false;
+        }
+        if (this.teamAwayGoalsScoredHalf != other.teamAwayGoalsScoredHalf) {
+            return false;
+        }
+        if (!Objects.equals(this.dateAndTime, other.dateAndTime)) {
+            return false;
+        }
+        if (!Objects.equals(this.location, other.location)) {
+            return false;
+        }
+        if (!Objects.equals(this.teamHomeId, other.teamHomeId)) {
+            return false;
+        }
+        if (!Objects.equals(this.teamAwayId, other.teamAwayId)) {
             return false;
         }
         return true;
     }
+
+    
 
     @Override
     public String toString() {

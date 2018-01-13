@@ -30,6 +30,5 @@ public interface PlayerResultService {
 
     int getPlayerResult(Player p);
 
-    List<PlayerResult> findAllActive();
     List<PlayerResult> filterActive(List<PlayerResult> par0);
 }

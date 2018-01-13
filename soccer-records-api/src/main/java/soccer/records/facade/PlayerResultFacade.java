@@ -31,6 +31,6 @@ public interface PlayerResultFacade {
 
     int getPlayerResult(Long id);
 
-    List<PlayerResultDto> findAllActivePlayerResults();
-    List<PlayerResultDto> filterActiveTeams(List<PlayerResultDto> par0);
+    List<PlayerResultDto> filterActivePlayerResults(List<PlayerResultDto> par0);
+
 }

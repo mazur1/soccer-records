@@ -18,17 +18,7 @@ import javax.validation.constraints.NotNull;
   generator = ObjectIdGenerators.PropertyGenerator.class, 
   property = "id")*/
 public class MatchDto extends AuditableDto<String> {
-    
-    private boolean isActive=true;
-
-    public boolean getIsActive() {
-        return isActive;
-    }
-
-    public void setIsActive(boolean isActive) {
-        this.isActive = isActive;
-    }
-    
+        
     private Long id;
     private Date dateAndTime;
     private LocationDto location;
@@ -171,7 +161,16 @@ public class MatchDto extends AuditableDto<String> {
             return false;
         }
         final MatchDto other = (MatchDto) obj;
-        if (!Objects.equals(this.id, other.id)) {
+        if (this.teamHomeGoalsScored != other.teamHomeGoalsScored) {
+            return false;
+        }
+        if (this.teamAwayGoalsScored != other.teamAwayGoalsScored) {
+            return false;
+        }
+        if (this.teamHomeGoalsScoredHalf != other.teamHomeGoalsScoredHalf) {
+            return false;
+        }
+        if (this.teamAwayGoalsScoredHalf != other.teamAwayGoalsScoredHalf) {
             return false;
         }
         if (!Objects.equals(this.dateAndTime, other.dateAndTime)) {

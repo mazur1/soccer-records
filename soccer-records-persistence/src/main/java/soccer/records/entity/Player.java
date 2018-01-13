@@ -189,7 +189,7 @@ public class Player extends Auditable<String,Long> {
         result = prime * result + ((country == null) ? 0 : country.hashCode());
         result = prime * result + ((city == null) ? 0 : city.hashCode());
         result = prime * result + ((team == null) ? 0 : team.hashCode());
-        result = prime * result + ((playerResults == null) ? 0 : playerResults.hashCode());
+        //result = prime * result + ((playerResults == null) ? 0 : playerResults.hashCode());
         return result;
     }
  
@@ -242,9 +242,9 @@ public class Player extends Auditable<String,Long> {
             return false;
         }        
         
-        if (!playerResults.equals(other.getPlayerResults())){
+        /*if (!playerResults.equals(other.getPlayerResults())){
             return false;
-        }
+        }*/
 
         return true;
     }

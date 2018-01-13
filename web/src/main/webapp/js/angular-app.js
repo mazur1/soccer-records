@@ -391,7 +391,7 @@ soccerControllers.controller('NewPlayerController', function ($scope, $location,
             setMessage($rootScope, "error", response.data.message);
         });
 
-    }
+    };
 });
 
 soccerControllers.controller('MatchesController', function ($scope, $rootScope, $http, $filter) {
@@ -415,7 +415,7 @@ soccerControllers.controller('MatchesController', function ($scope, $rootScope, 
         if(confirm("Do you really want remove match: "+match.teamHome.name+" x "+match.teamAway.name+" "+match.dateAndTime+"?")){
             $http({
                 method: 'DELETE',
-                url: '/pa165/api/v1/matches/' + match.id,
+                url: '/pa165/api/v1/matches/' + match.id
             }).then(function (response) {
                 setMessage($rootScope, "success", "Match "+match.teamHome.name+" x "+match.teamAway.name+" "+match.dateAndTime+" succesfuly deleted");
                 loadMatches();
@@ -425,7 +425,22 @@ soccerControllers.controller('MatchesController', function ($scope, $rootScope, 
             });
         }
 
-    }
+    };
+    
+    $scope.activateMatch = function(match){
+        match.isActive = true;
+            $http({
+                method: 'PUT',
+                url: '/pa165/api/v1/matches/' + match.id,
+                data: match
+            }).then(function (response) {
+                setMessage($rootScope, "success", "Match "+match.teamHome.name+" x "+match.teamAway.name+" "+match.dateAndTime+" succesfuly activated");
+                loadMatches();
+            },function (response) {
+                setMessage($rootScope, "error", "Match "+match.teamHome.name+" x "+match.teamAway.name+" "+match.dateAndTime+" activation failed");
+            });
+
+    };
 
 });
 
@@ -517,6 +532,7 @@ soccerControllers.controller('MatchDetailController', function ($scope, $rootSco
     $scope.editResult = function (result) {
         
         var resultData = {
+        'id' : $scope.playerResultE.id,
         'playerId' : result.player.id,
         'matchId' : result.match.id,
         'goalsScored': result.goalsScored

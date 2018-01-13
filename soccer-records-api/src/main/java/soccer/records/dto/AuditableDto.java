@@ -6,6 +6,7 @@
 package soccer.records.dto;
 
 import java.util.Date;
+import java.util.Objects;
 
 /**
  *
@@ -14,6 +15,16 @@ import java.util.Date;
  */
 public abstract class AuditableDto<TUser> {
         
+    protected boolean isActive;
+
+    public boolean getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
+    }
+    
     protected TUser createdBy;
     
     protected Date creationDate;
@@ -53,5 +64,48 @@ public abstract class AuditableDto<TUser> {
     public void setLastModifiedDate(Date lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 97 * hash + (this.isActive ? 1 : 0);
+        hash = 97 * hash + Objects.hashCode(this.createdBy);
+        hash = 97 * hash + Objects.hashCode(this.creationDate);
+        hash = 97 * hash + Objects.hashCode(this.lastModifiedBy);
+        hash = 97 * hash + Objects.hashCode(this.lastModifiedDate);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final AuditableDto<?> other = (AuditableDto<?>) obj;
+        if (this.isActive != other.isActive) {
+            return false;
+        }
+        if (!Objects.equals(this.createdBy, other.createdBy)) {
+            return false;
+        }
+        if (!Objects.equals(this.creationDate, other.creationDate)) {
+            return false;
+        }
+        if (!Objects.equals(this.lastModifiedBy, other.lastModifiedBy)) {
+            return false;
+        }
+        if (!Objects.equals(this.lastModifiedDate, other.lastModifiedDate)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
     
 }
