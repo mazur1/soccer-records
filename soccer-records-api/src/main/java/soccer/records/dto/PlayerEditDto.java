@@ -111,10 +111,11 @@ public class PlayerEditDto {
         this.playerResults = playerResults;
     }
     
-    public void addPlayerResult(Long id)
+    public void addPlayerResult(Long id) 
     {
         playerResults.add(id);
     }
+    
     public void removePlayerResult(Long id)
     {
         playerResults.remove(id);
