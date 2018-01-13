@@ -388,14 +388,16 @@ soccerControllers.controller('NewPlayerController', function ($scope, $location,
     }
 });
 
-soccerControllers.controller('MatchesController', function ($scope, $rootScope, $http) {
+soccerControllers.controller('MatchesController', function ($scope, $rootScope, $http, $filter) {
 
     function loadMatches(){
         $http.get('/pa165/api/v1/matches').then(function (response) {
             var matches = response.data['_embedded']['matches'];
             console.log('AJAX loaded all matches');
             $scope.matches = matches;
-            //formatDates($scope.matches);
+
+            formatDates($filter,$scope.matches);
+
         }, function error(error) {
             setMessage($rootScope, "error", error.data.message);
         });
@@ -421,13 +423,13 @@ soccerControllers.controller('MatchesController', function ($scope, $rootScope, 
 
 });
 
-soccerControllers.controller('MatchDetailController', function ($scope, $rootScope, $routeParams, $http, $location, $route) {
+soccerControllers.controller('MatchDetailController', function ($scope, $rootScope, $routeParams, $http, $location, $route, $filter) {
 
     var matchId = $routeParams.matchId;
     
     $http.get('/pa165/api/v1/matches/' + matchId).then(function (response) {
         $scope.match = response.data;
-        formatDate($scope.match);
+        formatDate($filter, $scope.match, false);
         console.log('AJAX loaded detail of match ' + $scope.match.toString());
         
         $http.get('/pa165/api/v1/teams/'+$scope.match.teamHome.id).then(function(response) {    
@@ -568,9 +570,9 @@ soccerControllers.controller('NewMatchController', function ($scope, $routeParam
 
     // function called when submit button is clicked, creates match on server
     $scope.create = function (match) {
-        formatDate(match, $filter);
 
         alert(JSON.stringify(match));
+        formatDate($filter, match);
         
         $http({
             method: 'POST',
@@ -587,16 +589,15 @@ soccerControllers.controller('NewMatchController', function ($scope, $routeParam
     };
 });
 
-soccerControllers.controller('EditMatchController', function ($filter, $scope, $window, $rootScope, $routeParams, $http) {
-    
+soccerControllers.controller('EditMatchController', function ($scope, $window, $rootScope, $routeParams, $http, $filter) {
+
     var matchId = $routeParams.matchId;
     
-    $http.get('/pa165/api/v1/matches/' + matchId).then(function (response) {
-            
-        console.log(response);    
-            
+    $http.get('/pa165/api/v1/matches/' + matchId).then(function (response) {   
         $scope.match = response.data;
-        formatDate($scope.match, $filter);
+
+        formatDate($filter, $scope.match, false); 
+
         console.log('AJAX loaded detail of match ' + $scope.match.id);
     }, function error(error) {
         //display error
@@ -604,8 +605,11 @@ soccerControllers.controller('EditMatchController', function ($filter, $scope, $
     });
     
     $scope.editMatch = function (match) {
-        //ate(match);
-        var matchData = {
+
+        formatDate($filter, match);
+
+        /*var matchData = {
+        'id' : match.id,
         'teamHomeId': match.teamHome.id,
         'teamAwayId': match.teamAway.id,
         'dateAndTime': match.dateAndTime,
@@ -614,12 +618,12 @@ soccerControllers.controller('EditMatchController', function ($filter, $scope, $
         'teamAwayGoalsScored': match.teamAwayGoalScored,
         'teamHomeGoalsScoredHalf': match.teamHomeGoalsScoredHalf,
         'teamAwayGoalsScoredHalf': match.teamAwayGoalScoredHalf
-        };
+        };*/
     
         $http({
                 method: 'PUT',
                 url: '/pa165/api/v1/matches/' + matchId,
-                data: matchData
+                data: match
         })
         .then(function(response) {
             console.log('match succesfuly edited');
@@ -706,30 +710,27 @@ soccerControllers.controller('EditPlayerResultController', function ($scope, $wi
     
 });
 
-function formatDates(matches, filter) {
+function formatDates(filter, matches, db) {
+    
+    db = typeof db !== 'undefined' ? db : true;
+    
     for (var i = 0; i < matches.length; ++i) {
-        formatDate(matches[i], filter);
+        formatDate(filter,matches[i]);
     }
 }
-function formatDate(match, filter) {
-    var raw = match.dateAndTime;
-    match.dateAndTime = filter('date')(new Date(match.dateAndTime),'dd.MM.yyyy HH:mm');;
+function formatDate(filter, match, db) {
+    
+    db = typeof db !== 'undefined' ? db : true;
+    
+    if(db){
+        match.dateAndTime = filter('date')(new Date(match.dateAndTime),'dd.MM.yyyy HH:mm');
+    } else {
+        match.dateAndTime = new Date(match.dateAndTime);
+    }
+    
+    //alert(match.dateAndTime);
+    
 }
-/*soccerControllers.directive("formatDate", function() {
-    return {
-        require: 'ngModel',
-        link: function(scope, elem, attr, modelCtrl) {
-            modelCtrl.$formatters.push(function(modelValue) {
-                if (modelValue){
-                    return moment(modelValue).format("dd.MMM.yyyy HH:mm");
-                }
-                else {
-                    return null;
-                }
-            });
-        }
-    };
-});*/
 
 // defines new directive (HTML attribute "convert-to-int") for conversion between string and int
 // of the value of a selection list in a form

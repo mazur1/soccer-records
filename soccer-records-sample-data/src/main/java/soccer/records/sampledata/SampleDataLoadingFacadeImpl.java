@@ -123,12 +123,12 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         Player p410 = player("Marek", "Plašil", 31, PlayerPost.MIDFIELDER , false, jablonec, "Praha", "Czech Republic");
         Player p411 = player("Jan", "Shejbal", 33, PlayerPost.GOLMAN , false, jablonec, "Praha", "Czech Republic");
 
-        Match m01 = match(plzen, sparta, "16-12-2017 10:00", "Sportovní areál Hamr Braník");
-        Match m02 = match(brno, liberec, "17-12-2017 13:00", "Stadion Kozel");
-        Match m03 = match(plzen, brno, "11-12-2017 10:30", "Sportovní areál Hamr Braník");
-        Match m04 = match(liberec, plzen, "31-12-2017 11:00", "LIBEREC aréna");
-        Match m05 = match(plzen, jablonec, "24-12-2017 10:00", "Stadion Kozel");
-        Match m06 = match(brno, jablonec, "12-12-2017 10:00", "Moravia");
+        Match m01 = match(plzen, sparta, "16.12.2017 10:00", "Sportovní areál Hamr Braník");
+        Match m02 = match(brno, liberec, "17.12.2017 13:00", "Stadion Kozel");
+        Match m03 = match(plzen, brno, "11.12.2017 10:30", "Sportovní areál Hamr Braník");
+        Match m04 = match(liberec, plzen, "31.12.2017 11:00", "LIBEREC aréna");
+        Match m05 = match(plzen, jablonec, "24.12.2017 10:00", "Stadion Kozel");
+        Match m06 = match(brno, jablonec, "12.12.2017 10:00", "Moravia");
         
 
 
@@ -191,7 +191,7 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         m.setTeamHome(home);
         
         Date d;
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm");
         try{
             d = sdf.parse(date);
             m.setDateAndTime(d);
