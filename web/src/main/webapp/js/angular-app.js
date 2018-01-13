@@ -609,15 +609,17 @@ soccerControllers.controller('EditMatchController', function ($scope, $window, $
         formatDate($filter, match);
 
         var matchData = {
-        'id' : matchId,
-        'teamHomeId': match.teamHome.id,
-        'teamAwayId': match.teamAway.id,
-        'dateAndTime': match.dateAndTime,
-        'location': match.location,
-        'teamHomeGoalsScored': match.teamHomeGoalsScored,
-        'teamAwayGoalsScored': match.teamAwayGoalScored,
-        'teamHomeGoalsScoredHalf': match.teamHomeGoalsScoredHalf,
-        'teamAwayGoalsScoredHalf': match.teamAwayGoalScoredHalf
+
+            'id' : matchId,
+            'teamHomeId': match.teamHome.id,
+            'teamAwayId': match.teamAway.id,
+            'dateAndTime': match.dateAndTime,
+            'location': match.location,
+            'teamHomeGoalsScored': match.teamHomeGoalsScored,
+            'teamAwayGoalsScored': match.teamAwayGoalScored,
+            'teamHomeGoalsScoredHalf': match.teamHomeGoalsScoredHalf,
+            'teamAwayGoalsScoredHalf': match.teamAwayGoalScoredHalf,
+
         };
     
         $http({
@@ -727,6 +729,7 @@ function formatDate(filter, match, db) {
     } else {
         match.dateAndTime = new Date(match.dateAndTime);
     }
+
 }
 
 // defines new directive (HTML attribute "convert-to-int") for conversion between string and int
