@@ -14,6 +14,7 @@
             <tr><td>City:</td><td>{{player.city}}</td></tr>
             <tr><td>Post:</td><td>{{player.post[0].toUpperCase() + player.post.substring(1).toLowerCase()}}</td></tr>
             <tr><td>Captain:</td><td>{{true == player.captain ? 'Yes' : 'No' }}</td></tr>
+            <tr><td>Goals Scored:</td><td>{{scored}}</td></tr>
         </table>
     </div>
 </div>
@@ -31,5 +32,5 @@
             <span class="glyphicon" aria-hidden="true"></span>
             Edit player
         </a>
-
+    
 </div>

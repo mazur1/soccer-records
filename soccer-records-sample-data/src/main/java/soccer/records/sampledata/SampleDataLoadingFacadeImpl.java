@@ -133,6 +133,7 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
 
 
         PlayerResult pr01 = playerResult(m01, p01, 2);
+        PlayerResult pr12 = playerResult(m01, p01, 3);
         PlayerResult pr02 = playerResult(m01, p02, 1);
         
 
