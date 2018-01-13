@@ -15,7 +15,7 @@
         </select>-->
             
         <select id="teamHome" class="form-control" ng-model="match.teamHomeId" convert-to-int required="">
-            <option ng-repeat="item in items" value="{{item.id}}">{{item.name}}</option>
+            <option ng-repeat="item in items" value="{{item.id}}" ng-if="item.isActive">{{item.name}}</option>
         </select>   
         <p class="help-block" ng-show="form.teamHome.$error.required">team home is required</p>
         </div>
@@ -30,7 +30,7 @@
         </select>-->
             
         <select id="teamAway" class="form-control" ng-model="match.teamAwayId" convert-to-int required="">
-            <option ng-repeat="item in items" value="{{item.id}}">{{item.name}}</option>
+            <option ng-repeat="item in items" value="{{item.id}}" ng-if="item.isActive">{{item.name}}</option>
         </select>  
         <p class="help-block" ng-show="form.teamAway.$error.required">team away is required</p>
         </div>

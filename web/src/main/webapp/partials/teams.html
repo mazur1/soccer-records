@@ -15,7 +15,7 @@
     </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="team in teams track by $index">
+        <tr ng-repeat="team in teams track by $index" ng-if="team.isActive">
             <td><a href="#!/teams/{{team.id}}">{{team.name}}</a></td>
             <td ng-if="loggedUser.logged == true">
                 <button class="button" ng-click="deleteTeam(team)">Delete</button>              

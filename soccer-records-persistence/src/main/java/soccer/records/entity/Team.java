@@ -117,9 +117,9 @@ public class Team extends Auditable<String,Long> {
         int result = 1;
              
         result = prime * result + ((name == null) ? 0 : name.hashCode());
-        result = prime * result + ((players == null) ? 0 : players.hashCode());
-        result = prime * result + ((matchesHome == null) ? 0 : matchesHome.hashCode());
-        result = prime * result + ((matchesAway == null) ? 0 : matchesAway.hashCode());
+        //result = prime * result + ((players == null) ? 0 : players.hashCode());
+        //result = prime * result + ((matchesHome == null) ? 0 : matchesHome.hashCode());
+        //result = prime * result + ((matchesAway == null) ? 0 : matchesAway.hashCode());
         return result;
         
     }    
@@ -147,7 +147,7 @@ public class Team extends Auditable<String,Long> {
             return false;
         }
         
-        if (!matchesHome.equals(other.getMatchesHome())) {
+        /*if (!matchesHome.equals(other.getMatchesHome())) {
             return false;
         }
         
@@ -157,7 +157,7 @@ public class Team extends Auditable<String,Long> {
 
         if (!matchesHome.equals(other.getPlayers())) {
             return false;
-        }                       
+        }*/                       
         
         return true;
     }

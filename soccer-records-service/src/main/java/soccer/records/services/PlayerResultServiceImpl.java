@@ -28,8 +28,10 @@ public class PlayerResultServiceImpl implements PlayerResultService {
     private void validate(PlayerResult pr) {
         if(pr.getMatch() == null)
             throw new SoccerServiceException("Can't create a player result without a match");
-        if(pr.getPlayer() == null)
-            throw new SoccerServiceException("Can't create a player result without a player");   
+        else if(pr.getPlayer() == null)
+            throw new SoccerServiceException("Can't create a player result without a player");  
+        else if(playerResultDao.findByBoth(pr.getPlayer().getId(), pr.getMatch().getId()) != null)
+            throw new SoccerServiceException("player result already exists");  
     }
     
     @Override
@@ -51,6 +53,7 @@ public class PlayerResultServiceImpl implements PlayerResultService {
     
     @Override
     public PlayerResult findById(Long id){
+        
         return playerResultDao.findById(id);
     }
 
@@ -75,8 +78,8 @@ public class PlayerResultServiceImpl implements PlayerResultService {
     }
     
     @Override
-    public List<PlayerResult> findAllActive() {
-        return playerResultDao.findAll();
+    public List<PlayerResult> filterActive(List<PlayerResult> par0) {
+        return playerResultDao.filterActive(par0);
     }
     
     @Override
@@ -101,11 +104,13 @@ public class PlayerResultServiceImpl implements PlayerResultService {
         return total;
     }
     
+    //?
     @Override
     public void checkGoalsScoredInMatch(Match m) {//optional check
         List<PlayerResult> results = playerResultDao.findByMatchID(m.getId());
+        List<PlayerResult> active = playerResultDao.filterActive(results);
         int totalHome = 0, totalAway = 0;
-        for(PlayerResult r : results) {
+        for(PlayerResult r : active) {
             if(Objects.equals(r.getPlayer().getTeam(), m.getTeamHome()))
                 totalHome += r.getGoalsScored();
             else if(Objects.equals(r.getPlayer().getTeam(), m.getTeamAway()))

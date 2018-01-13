@@ -5,7 +5,6 @@
  */
 package soccer.records.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -17,17 +16,7 @@ import soccer.records.enums.PlayerPost;
   generator = ObjectIdGenerators.PropertyGenerator.class, 
   property = "id")*/
 public class PlayerDto extends AuditableDto<String> {
-    
-    private boolean isActive=true;
-
-    public boolean getIsActive() {
-        return isActive;
-    }
-
-    public void setIsActive(boolean isActive) {
-        this.isActive = isActive;
-    }
-    
+        
     private Long id;
     
     private String name;

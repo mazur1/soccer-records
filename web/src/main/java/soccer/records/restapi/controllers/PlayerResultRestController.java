@@ -62,7 +62,8 @@ public class PlayerResultRestController {
     public final HttpEntity<Resources<PlayerResultResource>> getPlayerResults() {
         
         log.debug("rest: getPlayersResults()");
-        List<PlayerResultResource> resourceCollection = PlayerResultResourceAssembler.toResources(playerResultFacade.findAllActivePlayerResults());
+        List<PlayerResultDto> all = playerResultFacade.findAllPlayerResults();
+        List<PlayerResultResource> resourceCollection = PlayerResultResourceAssembler.toResources(all);
         
         Resources<PlayerResultResource> playerResultResources = new Resources<>(resourceCollection,
                 linkTo(PlayerResultRestController.class).withSelfRel(),

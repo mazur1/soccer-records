@@ -1,7 +1,6 @@
 package soccer.records.dto;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import java.util.Objects;
 
 /**
  *
@@ -42,6 +41,31 @@ public class AppUserAuthenticationDto {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 59 * hash + Objects.hashCode(this.username);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final AppUserAuthenticationDto other = (AppUserAuthenticationDto) obj;
+        if (!Objects.equals(this.username, other.username)) {
+            return false;
+        }
+        return true;
     }
     
     @Override

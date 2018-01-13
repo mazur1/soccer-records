@@ -20,7 +20,7 @@
     </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="match in matches track by $index">
+        <tr ng-repeat="match in matches track by $index" ng-if="!loggedUser.logged && match.isActive || loggedUser.logged">
             <td><a href="#!/matches/{{match.id}}">{{match.id}}</a></td>
             <td><a href="#!/teams/{{match.teamHome.id}}">{{match.teamHome.name}}</a></td>
             <td><a href="#!/teams/{{match.teamAway.id}}">{{match.teamAway.name}}</a></td>
@@ -28,7 +28,8 @@
             <td>{{match.location.name}}</td>
             <td>{{match.teamHomeGoalsScored-0}} : {{match.teamAwayGoalsScored-0}}</td>
             <td ng-if="loggedUser.logged == true">
-                <button class="button" ng-click="deleteMatch(match)">Delete</button>              
+                <button class="button" ng-click="deleteMatch(match)">Delete</button>     
+                <button class="button" ng-click="activateMatch(match)" ng-if="!match.isActive">Activate</button>
             </td>            
         </tr>
     </tbody>

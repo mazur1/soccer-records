@@ -60,7 +60,7 @@ public class MatchController {
         List<MatchResource> resourceCollection;
         
         //if(active)
-            resourceCollection = matchResourceAssembler.toResources(matchFacade.filterActiveMatches(all));
+            resourceCollection = matchResourceAssembler.toResources(all);
         /*else
             resourceCollection  = matchResourceAssembler.toResources(all);*/
             

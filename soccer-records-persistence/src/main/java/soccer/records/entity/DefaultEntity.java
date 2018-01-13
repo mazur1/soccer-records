@@ -29,7 +29,7 @@ public abstract class DefaultEntity<TKey> {
     
     @NotNull
     @Column(nullable = false)
-    private boolean isActive=true;
+    protected boolean isActive=true;
 
     public boolean getIsActive() {
         return isActive;

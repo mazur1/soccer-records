@@ -69,8 +69,8 @@ public class MatchServiceImpl implements MatchService {
         
         List<Match> byDate = matchDao.filterByDateAndTime(m.getDateAndTime(), active);
         if(!byDate.isEmpty()) {
-            List<Match> byTeam1 = matchDao.filterByTeam(m.getTeamAway(), matches);
-            List<Match> byTeam2 = matchDao.filterByTeam(m.getTeamHome(), matches);
+            List<Match> byTeam1 = matchDao.filterByTeam(m.getTeamAway(), active);
+            List<Match> byTeam2 = matchDao.filterByTeam(m.getTeamHome(), active);
             
             if(!byTeam1.isEmpty())
                 throw new SoccerServiceException("Team " + m.getTeamAway() + " is participating in a different match at that time.");
@@ -129,7 +129,8 @@ public class MatchServiceImpl implements MatchService {
     
     @Override
     public void addPlayerResult(Match m, PlayerResult r) {
-	if (m.getPlayerResults().contains(r)) {
+        List<PlayerResult> active = resultService.filterActive(m.getPlayerResults());
+	if (active.contains(r)) {
             throw new SoccerServiceException("Match already contains this player result. \n" +
                                         "Match: " + m.getId() + "\n" +
                                         "Player result: " + r.getId());
@@ -140,7 +141,8 @@ public class MatchServiceImpl implements MatchService {
     
     @Override
     public void removePlayerResult(Match m, PlayerResult r) {
-        if (!m.getPlayerResults().contains(r)) {
+        List<PlayerResult> active = resultService.filterActive(m.getPlayerResults());
+        if (!active.contains(r)) {
             throw new SoccerServiceException("Match doesn't contain this player result. \n" +
                                         "Match: " + m.getId() + "\n" +
                                         "Player result: " + r.getId());
@@ -152,8 +154,9 @@ public class MatchServiceImpl implements MatchService {
     public void updateTeamHomeScore(Match m) {
 
         List<PlayerResult> results = resultService.findByMatch(m);
+        List<PlayerResult> active = resultService.filterActive(results);
         int goalsSum = 0;
-        for (PlayerResult result : results) {
+        for (PlayerResult result : active) {
             if (m.getTeamHome() == result.getPlayer().getTeam()) { 
                 goalsSum += result.getGoalsScored();
             }
@@ -164,6 +167,7 @@ public class MatchServiceImpl implements MatchService {
     @Override
     public void updateTeamAwayScore(Match m) {
         List<PlayerResult> results = resultService.findByMatch(m);
+        List<PlayerResult> active = resultService.filterActive(results);
         int goalsSum = 0;
         for (PlayerResult result : results) {
             if (m.getTeamAway() == result.getPlayer().getTeam()) { 

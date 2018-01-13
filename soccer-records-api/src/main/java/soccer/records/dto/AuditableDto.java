@@ -14,6 +14,16 @@ import java.util.Date;
  */
 public abstract class AuditableDto<TUser> {
         
+    protected boolean isActive;
+
+    public boolean getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
+    }
+    
     protected TUser createdBy;
     
     protected Date creationDate;
@@ -53,5 +63,6 @@ public abstract class AuditableDto<TUser> {
     public void setLastModifiedDate(Date lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
     }
+    
     
 }
