@@ -1,10 +1,25 @@
 <h1>{{player.name}} {{player.surname}}</h1>
-<li><b>Team: </b>{{player.team.name}}</li>
-<li><b>Age: </b>{{player.age}}</li>
-<li><b>Country: </b>{{player.country}}</li>
-<li><b>City: </b>{{player.city}}</li>
-<li><b>Post: </b>{{player.post}}</li>
-<li><b>Cpatain: </b>{{true == player.captain ? 'Yes' : 'No' }}</li>
+
+<br /><br />
+
+<div class="row player-profile">
+    <div class="col-md-4" style="text-align: center;">
+        <img src="images/profile.jpg" title="profile" alt="profile"/>
+    </div>
+    <div class="col-md-8">
+        <table>
+            <tr><td>Team:</td><td><a href="/pa165/#!/teams/{{player.team.id}}" title="Show team details">{{player.team.name}}</a></td></tr>
+            <tr><td>Age</td><td>{{player.age}}</td></tr>
+            <tr><td>Country:</td><td>{{player.country}}</td></tr>
+            <tr><td>City:</td><td>{{player.city}}</td></tr>
+            <tr><td>Post:</td><td>{{player.post[0].toUpperCase() + player.post.substring(1).toLowerCase()}}</td></tr>
+            <tr><td>Captain:</td><td>{{true == player.captain ? 'Yes' : 'No' }}</td></tr>
+            <tr><td>Goals Scored:</td><td>{{scored}}</td></tr>
+        </table>
+    </div>
+</div>
+
+<br /><br />
 
 <div class="col-xs-12">
     <h4 ng-if="loggedUser.logged == true" class="subtitle">Administrative operations</h4>
@@ -17,5 +32,5 @@
             <span class="glyphicon" aria-hidden="true"></span>
             Edit player
         </a>
-
+    
 </div>
