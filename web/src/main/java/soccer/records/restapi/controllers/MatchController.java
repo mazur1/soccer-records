@@ -58,17 +58,8 @@ public class MatchController {
         log.debug("rest: getMatches()");
         List<MatchDto> all = matchFacade.findAllMatches();
         List<MatchResource> resourceCollection;
-        
-        //if(active)
-            resourceCollection = matchResourceAssembler.toResources(matchFacade.filterActiveMatches(all));
-        /*else
-            resourceCollection  = matchResourceAssembler.toResources(all);*/
-            
-        for (MatchResource matchResource : resourceCollection) {
-            //matchResource.setTeamHomeGoalsScored(matchFacade.getTeamHomeGoalsScored(matchResource.getDtoId()));
-            //matchResource.setTeamAwayGoalsScored(matchFacade.getTeamAwayGoalsScored(matchResource.getDtoId()));
-        }    
-        
+        resourceCollection = matchResourceAssembler.toResources(matchFacade.filterActiveMatches(all));
+                  
         Resources<MatchResource> matchResources = new Resources<>(resourceCollection,
                 linkTo(MatchController.class).withSelfRel(),
                 linkTo(MatchController.class).slash("/create").withRel("create"));
@@ -99,7 +90,6 @@ public class MatchController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE/*, produces = MediaType.APPLICATION_JSON_VALUE*/)
     public final void deleteMatch(@PathVariable("id") long id) throws Exception {
-        
         log.debug("rest: deleteMatch(" + String.valueOf(id) + ")");
         try {
             matchFacade.deleteMatch(id);

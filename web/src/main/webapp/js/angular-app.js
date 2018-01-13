@@ -415,7 +415,7 @@ soccerControllers.controller('MatchesController', function ($scope, $rootScope, 
         if(confirm("Do you really want remove match: "+match.teamHome.name+" x "+match.teamAway.name+" "+match.dateAndTime+"?")){
             $http({
                 method: 'DELETE',
-                url: '/pa165/api/v1/players/' + match.id,
+                url: '/pa165/api/v1/matches/' + match.id,
             }).then(function (response) {
                 setMessage($rootScope, "success", "Match "+match.teamHome.name+" x "+match.teamAway.name+" "+match.dateAndTime+" succesfuly deleted");
                 loadMatches();
@@ -664,7 +664,7 @@ soccerControllers.controller('ResultsController', function ($scope, $rootScope, 
         if(confirm("Do you really want remove result?")){
             $http({
                 method: 'DELETE',
-                url: '/pa165/api/v1/players/' + result.id,
+                url: '/pa165/api/v1/results/' + result.id,
             }).then(function (response) {
                 setMessage($rootScope, "success", "Player result succesfuly deleted");
                 loadMatches();

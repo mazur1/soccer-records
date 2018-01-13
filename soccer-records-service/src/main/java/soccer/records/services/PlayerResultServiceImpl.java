@@ -80,6 +80,11 @@ public class PlayerResultServiceImpl implements PlayerResultService {
     }
     
     @Override
+    public List<PlayerResult> filterActive(List<PlayerResult> par0) {
+        return playerResultDao.filterActive(par0);
+    }
+    
+    @Override
     public void changeGoals(PlayerResult pr, int goals){
         
         if(goals <= 0){

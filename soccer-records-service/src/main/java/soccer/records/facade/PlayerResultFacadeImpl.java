@@ -118,4 +118,10 @@ public class PlayerResultFacadeImpl implements PlayerResultFacade{
     public List<PlayerResultDto> findAllActivePlayerResults() {
         return beanMappingService.mapTo(playerResult.findAllActive(), PlayerResultDto.class);
     }
+    
+    @Override
+    public List<PlayerResultDto> filterActiveTeams(List<PlayerResultDto> par0) {
+        List<PlayerResult> mapped = beanMappingService.mapTo(par0, PlayerResult.class);
+        return beanMappingService.mapTo(playerResult.filterActive(mapped), PlayerResultDto.class);
+    }
 }
