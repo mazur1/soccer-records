@@ -228,7 +228,7 @@ soccerControllers.controller('TeamDetailController', function ($scope, $window, 
         $scope.team = response.data;
         console.log('AJAX loaded detail of team ' + $scope.team.name);
         $scope.matches = $scope.team.matchesHome.concat($scope.team.matchesAway);
-        formatDates($scope.matches);
+        //formatDates($scope.matches);
         
     }, function error(error) {
         setMessage($rootScope, "error", error.data.message);
@@ -354,7 +354,7 @@ soccerControllers.controller('MatchesController', function ($scope, $rootScope, 
         var matches = response.data['_embedded']['matches'];
         console.log('AJAX loaded all matches');
         $scope.matches = matches;
-        formatDates($scope.matches);
+        //formatDates($scope.matches);
     }, function error(error) {
         setMessage($rootScope, "error", error.data.message);
     });
@@ -367,7 +367,7 @@ soccerControllers.controller('MatchDetailController', function ($scope, $rootSco
     
     $http.get('/pa165/api/v1/matches/' + matchId).then(function (response) {
         $scope.match = response.data;
-        formatDate($scope.match);
+        //formatDate($scope.match);
         console.log('AJAX loaded detail of match ' + $scope.match.toString());
         
         $http.get('/pa165/api/v1/teams/'+$scope.match.teamHome.id).then(function(response) {    
@@ -628,10 +628,9 @@ function formatDates(matches) {
 }
 function formatDate(match) {
     var raw = match.dateAndTime;
-    //match.dateAndTime = raw.dayOfMonth+'.'+raw.monthValue+'.'+raw.year+' '+raw.hour+':'+raw.minute;
     match.dateAndTime = moment(raw).format('DD.MM.YYYY HH:mm');
 }
-/*soccerControllers.directive("formatDate", function() {
+soccerControllers.directive("formatDate", function() {
     return {
         require: 'ngModel',
         link: function(scope, elem, attr, modelCtrl) {
@@ -645,7 +644,7 @@ function formatDate(match) {
             });
         }
     };
-});*/
+});
 
 // defines new directive (HTML attribute "convert-to-int") for conversion between string and int
 // of the value of a selection list in a form
