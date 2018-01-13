@@ -17,6 +17,11 @@
         <th>date and time</th>
         <th>location</th>
         <th>score</th>
+        <th ng-if="loggedUser.logged">isActive</th>
+        <!--<th ng-if="loggedUser.logged">createdBy</th>-->
+        <th ng-if="loggedUser.logged">creationDate</th>
+        <!--<th ng-if="loggedUser.logged">lastModifiedBy</th>-->
+        <th ng-if="loggedUser.logged">lastModifiedDate</th>
     </tr>
     </thead>
     <tbody>
@@ -27,6 +32,11 @@
             <td>{{match.dateAndTime | date : "dd.MM.y hh:mm" }}</td>
             <td>{{match.location.name}}</td>
             <td>{{match.teamHomeGoalsScored-0}} : {{match.teamAwayGoalsScored-0}}</td>
+            <td ng-if="loggedUser.logged">{{match.isActive}}</td>
+            <!--<td ng-if="loggedUser.logged">{{match.createdBy}}</td>-->
+            <td ng-if="loggedUser.logged">{{match.creationDate}}</td>
+            <!--<td ng-if="loggedUser.logged">{{match.lastModifiedBy}}</td>-->
+            <td ng-if="loggedUser.logged">{{match.lastModifiedDate}}</td>
             <td ng-if="loggedUser.logged == true">
                 <button class="button" ng-click="deleteMatch(match)">Delete</button>     
                 <button class="button" ng-click="activateMatch(match)" ng-if="!match.isActive">Activate</button>

@@ -532,7 +532,7 @@ soccerControllers.controller('MatchDetailController', function ($scope, $rootSco
     $scope.editResult = function (result) {
         
         var resultData = {
-        'id' : result.id,
+        'id' : $scope.playerResultE.id,
         'playerId' : result.player.id,
         'matchId' : result.match.id,
         'goalsScored': result.goalsScored

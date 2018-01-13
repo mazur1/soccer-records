@@ -26,25 +26,25 @@ public class PlayerResultServiceImpl implements PlayerResultService {
      * @return 
      */
     private void validate(PlayerResult pr, boolean update) {
-        if(pr == null) return;
-        
+        if(pr == null) throw new SoccerServiceException("player result is null");
         List<PlayerResult> results = playerResultDao.findAll();
+        if(update)
+            results.remove(playerResultDao.findById(pr.getId()));
+        
         List<PlayerResult> active = playerResultDao.filterActive(results);
         
-        if(update)
-            active.remove(pr);
-        
+        PlayerResult found;
         if(pr.getMatch() == null)
             throw new SoccerServiceException("Can't create a player result without a match");
         else if(pr.getPlayer() == null)
             throw new SoccerServiceException("Can't create a player result without a player");  
-        else if(playerResultDao.findByBoth(pr.getPlayer().getId(), pr.getMatch().getId()) != null )
+        /*else if((found = playerResultDao.findByBoth(pr.getPlayer().getId(), pr.getMatch().getId())) != null && found.getIsActive() )
             throw new SoccerServiceException("player result already exists");  
         
         else if(!Objects.equals(pr.getPlayer().getTeam(), pr.getMatch().getTeamHome())
                         && !Objects.equals(pr.getPlayer().getTeam(), pr.getMatch().getTeamAway()))
                     throw new SoccerServiceException("Player result " + pr + " is from unparticipating team.");
-            
+        */
     }
     
     @Override

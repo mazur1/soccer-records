@@ -57,14 +57,14 @@ public class MatchServiceImpl implements MatchService {
     }
     
     private void validateMatches(Match m, boolean update) {
-        if(m == null) return;
+        if(m == null) throw new SoccerServiceException("match is null");
         
         List<Match> matches = matchDao.findAll();
-        //matches.stream().filter(p -> !Objects.equals(m, p)).collect(Collectors.toList());
+        if(update)
+            matches.remove(matchDao.findById(m.getId()));
+        
         List<Match> active = matchDao.filterActive(matches);
         
-        if(update)
-            active.remove(m);
         
         List<Match> byDate = matchDao.filterByDateAndTime(m.getDateAndTime(), active);
         if(!byDate.isEmpty()) {
@@ -128,8 +128,9 @@ public class MatchServiceImpl implements MatchService {
     
     @Override
     public void addPlayerResult(Match m, PlayerResult r) {
-        List<PlayerResult> active = resultService.filterActive(m.getPlayerResults());
-	if (active.contains(r)) {
+        PlayerResult found = resultService.findByBoth(r.getPlayer(), m);
+        
+        if (found != null && found.getIsActive()) {
             throw new SoccerServiceException("Match already contains this player result. \n" +
                                         "Match: " + m.getId() + "\n" +
                                         "Player result: " + r.getId());
@@ -140,8 +141,9 @@ public class MatchServiceImpl implements MatchService {
     
     @Override
     public void removePlayerResult(Match m, PlayerResult r) {
-        List<PlayerResult> active = resultService.filterActive(m.getPlayerResults());
-        if (!active.contains(r)) {
+        PlayerResult found = resultService.findByBoth(r.getPlayer(), m);
+        
+        if (found == null || !found.getIsActive()) {
             throw new SoccerServiceException("Match doesn't contain this player result. \n" +
                                         "Match: " + m.getId() + "\n" +
                                         "Player result: " + r.getId());
