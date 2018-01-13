@@ -510,6 +510,7 @@ soccerControllers.controller('NewMatchController', function ($scope, $routeParam
     $scope.create = function (match) {
 
         alert(JSON.stringify(match));
+        match.dateAndTime = $filter('date')(new Date(match.dateAndTime),'yyyy-MM-dd HH:mm');
         
         $http({
             method: 'POST',
@@ -535,6 +536,7 @@ soccerControllers.controller('EditMatchController', function ($scope, $window, $
         console.log(response);    
             
         $scope.match = response.data;
+        $scope.match.dateAndTime = $filter('date')(new Date($scope.match.dateAndTime),'yyyy-MM-dd HH:mm');
         console.log('AJAX loaded detail of match ' + $scope.match.id);
     }, function error(error) {
         //display error
