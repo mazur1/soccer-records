@@ -165,13 +165,33 @@ soccerControllers.controller('LogoutController', function ($scope, $routeParams,
 
 soccerControllers.controller('TeamsController', function ($scope, $rootScope, $http) {
 
-    $http.get('/pa165/api/v1/teams').then(function (response) {
-        var teams = response.data['_embedded']['teams'];
-        console.log('AJAX loaded all teams');
-        $scope.teams = teams;
-    }, function error(error) {
-        setMessage($rootScope, "error", error.data.message);
-    });
+    function loadTeams(){
+        $http.get('/pa165/api/v1/teams').then(function (response) {
+            var teams = response.data['_embedded']['teams'];
+            console.log('AJAX loaded all teams');
+            $scope.teams = teams;
+        }, function error(error) {
+            setMessage($rootScope, "error", error.data.message);
+        });
+    }
+    
+    loadTeams();
+
+    $scope.deleteTeam = function(team){
+        
+        if(confirm("Do you really want remove team: "+team.name+"?")){
+            $http({
+                method: 'DELETE',
+                url: '/pa165/api/v1/teams/' + team.id,
+            }).then(function (response) {
+                setMessage($rootScope, "success", "Team "+team.name+" succesfuly deleted");
+                loadTeams();
+            },function (response) {
+                setMessage($rootScope, "error", "Team "+team.name+" deletion failed");
+            });
+        }
+
+    }
 
 });
 
@@ -246,14 +266,34 @@ soccerControllers.controller('TeamDetailController', function ($scope, $window, 
 
 soccerControllers.controller('PlayersController', function ($scope, $rootScope, $http) {
 
-    $http.get('/pa165/api/v1/players').then(function (response) {
-        var players = response.data['_embedded']['players'];
-        console.log('AJAX loaded all players');
-        $scope.players = players;
-    }, function error(error) {
-        setMessage($rootScope, "error", error.data.message);
-    });
+    function loadPlayers(){
+        $http.get('/pa165/api/v1/players').then(function (response) {
+            var players = response.data['_embedded']['players'];
+            console.log('AJAX loaded all players');
+            $scope.players = players;
+        }, function error(error) {
+            setMessage($rootScope, "error", error.data.message);
+        });        
+    }
+    
+    loadPlayers();
 
+    $scope.deletePlayer = function(player){
+        
+        if(confirm("Do you really want remove player: "+player.name+" "+player.surname+"?")){
+            $http({
+                method: 'DELETE',
+                url: '/pa165/api/v1/players/' + player.id,
+            }).then(function (response) {
+                setMessage($rootScope, "success", "Player "+player.name+" "+player.surname+" succesfuly deleted");
+                loadPlayers();
+            },function (response) {
+                setMessage($rootScope, "error", "Player "+player.name+" "+player.surname+" deletion failed");
+            });
+        }
+
+    }
+    
 });
 
 soccerControllers.controller('EditPlayerController', function ($scope, $window, $rootScope, $routeParams, $http) {
@@ -350,14 +390,34 @@ soccerControllers.controller('NewPlayerController', function ($scope, $location,
 
 soccerControllers.controller('MatchesController', function ($scope, $rootScope, $http) {
 
-    $http.get('/pa165/api/v1/matches').then(function (response) {
-        var matches = response.data['_embedded']['matches'];
-        console.log('AJAX loaded all matches');
-        $scope.matches = matches;
-        //formatDates($scope.matches);
-    }, function error(error) {
-        setMessage($rootScope, "error", error.data.message);
-    });
+    function loadMatches(){
+        $http.get('/pa165/api/v1/matches').then(function (response) {
+            var matches = response.data['_embedded']['matches'];
+            console.log('AJAX loaded all matches');
+            $scope.matches = matches;
+            //formatDates($scope.matches);
+        }, function error(error) {
+            setMessage($rootScope, "error", error.data.message);
+        });
+    }
+    
+    loadMatches();
+
+    $scope.deleteMatch = function(match){
+        
+        if(confirm("Do you really want remove match: "+match.teamHome.name+" x "+match.teamAway.name+" "+match.dateAndTime+"?")){
+            $http({
+                method: 'DELETE',
+                url: '/pa165/api/v1/players/' + match.id,
+            }).then(function (response) {
+                setMessage($rootScope, "success", "Match "+match.teamHome.name+" x "+match.teamAway.name+" "+match.dateAndTime+" succesfuly deleted");
+                loadMatches();
+            },function (response) {
+                setMessage($rootScope, "error", "Match "+match.teamHome.name+" x "+match.teamAway.name+" "+match.dateAndTime+" deletion failed");
+            });
+        }
+
+    }
 
 });
 
@@ -367,7 +427,7 @@ soccerControllers.controller('MatchDetailController', function ($scope, $rootSco
     
     $http.get('/pa165/api/v1/matches/' + matchId).then(function (response) {
         $scope.match = response.data;
-        //formatDate($scope.match);
+        formatDate($scope.match);
         console.log('AJAX loaded detail of match ' + $scope.match.toString());
         
         $http.get('/pa165/api/v1/teams/'+$scope.match.teamHome.id).then(function(response) {    
@@ -484,7 +544,7 @@ soccerControllers.controller('MatchDetailController', function ($scope, $rootSco
 
 });
 
-soccerControllers.controller('NewMatchController', function ($scope, $routeParams, $http, $location, $rootScope) {
+soccerControllers.controller('NewMatchController', function ($scope, $routeParams, $http, $location, $rootScope, $filter) {
 
     $http.get('/pa165/api/v1/teams').then(function (response) {
         var teams = response.data['_embedded']['teams'];
@@ -508,9 +568,9 @@ soccerControllers.controller('NewMatchController', function ($scope, $routeParam
 
     // function called when submit button is clicked, creates match on server
     $scope.create = function (match) {
+        formatDate(match, $filter);
 
         alert(JSON.stringify(match));
-        match.dateAndTime = $filter('date')(new Date(match.dateAndTime),'yyyy-MM-dd HH:mm');
         
         $http({
             method: 'POST',
@@ -527,7 +587,7 @@ soccerControllers.controller('NewMatchController', function ($scope, $routeParam
     };
 });
 
-soccerControllers.controller('EditMatchController', function ($scope, $window, $rootScope, $routeParams, $http) {
+soccerControllers.controller('EditMatchController', function ($filter, $scope, $window, $rootScope, $routeParams, $http) {
     
     var matchId = $routeParams.matchId;
     
@@ -536,7 +596,7 @@ soccerControllers.controller('EditMatchController', function ($scope, $window, $
         console.log(response);    
             
         $scope.match = response.data;
-        $scope.match.dateAndTime = $filter('date')(new Date($scope.match.dateAndTime),'yyyy-MM-dd HH:mm');
+        formatDate($scope.match, $filter);
         console.log('AJAX loaded detail of match ' + $scope.match.id);
     }, function error(error) {
         //display error
@@ -544,7 +604,7 @@ soccerControllers.controller('EditMatchController', function ($scope, $window, $
     });
     
     $scope.editMatch = function (match) {
-        formatDate(match);
+        //ate(match);
         var matchData = {
         'teamHomeId': match.teamHome.id,
         'teamAwayId': match.teamAway.id,
@@ -577,13 +637,36 @@ soccerControllers.controller('EditMatchController', function ($scope, $window, $
 
 soccerControllers.controller('ResultsController', function ($scope, $rootScope, $http) {
 
-    $http.get('/pa165/api/v1/results').then(function (response) {
-        var results = response.data['_embedded']['playerResults'];
-        console.log('AJAX loaded all matches');
-        $scope.results = results;
-    }, function error(error) {
-        setMessage($rootScope, "error", error.data.message);
-    });
+    function loadResults(){
+        $http.get('/pa165/api/v1/results').then(function (response) {
+            var results = response.data['_embedded']['playerResults'];
+            console.log('AJAX loaded all matches');
+            $scope.results = results;
+            
+            console.log(results);
+            
+        }, function error(error) {
+            setMessage($rootScope, "error", error.data.message);
+        });
+    }
+    
+    loadResults();
+    
+    $scope.deleteResult = function(result){
+        
+        if(confirm("Do you really want remove result?")){
+            $http({
+                method: 'DELETE',
+                url: '/pa165/api/v1/players/' + result.id,
+            }).then(function (response) {
+                setMessage($rootScope, "success", "Player result succesfuly deleted");
+                loadMatches();
+            },function (response) {
+                setMessage($rootScope, "error", "Player result deletion failed");
+            });
+        }
+
+    }
 
 });
 
@@ -623,16 +706,16 @@ soccerControllers.controller('EditPlayerResultController', function ($scope, $wi
     
 });
 
-function formatDates(matches) {
+function formatDates(matches, filter) {
     for (var i = 0; i < matches.length; ++i) {
-        formatDate(matches[i]);
+        formatDate(matches[i], filter);
     }
 }
-function formatDate(match) {
+function formatDate(match, filter) {
     var raw = match.dateAndTime;
-    match.dateAndTime = moment(raw).format('DD.MM.YYYY HH:mm');
+    match.dateAndTime = filter('date')(new Date(match.dateAndTime),'dd.MM.yyyy HH:mm');;
 }
-soccerControllers.directive("formatDate", function() {
+/*soccerControllers.directive("formatDate", function() {
     return {
         require: 'ngModel',
         link: function(scope, elem, attr, modelCtrl) {
@@ -646,7 +729,7 @@ soccerControllers.directive("formatDate", function() {
             });
         }
     };
-});
+});*/
 
 // defines new directive (HTML attribute "convert-to-int") for conversion between string and int
 // of the value of a selection list in a form
