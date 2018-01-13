@@ -61,19 +61,19 @@ function setMessage($rootScope, type, msg) {
         case "success":
             $rootScope.successAlert = msg;
             setTimeout(function () {
-                $(".alert-success").toggle(200);
+                $(".alert-success").fadeOut(200);
             }, 5000);
             break;
         case "warning":
             $rootScope.warningAlert = msg;
             setTimeout(function () {
-                $(".alert-warning").toggle(200);
+                $(".alert-warning").fadeOut(200);
             }, 5000);
             break;
         case "error":
             $rootScope.errorAlert = msg;
             setTimeout(function () {
-                $(".alert-danger").toggle(200);
+                $(".alert-danger").fadeOut(200);
             }, 5000);
             break;
         default:

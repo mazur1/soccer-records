@@ -36,14 +36,17 @@ main .container .row{
     border-radius: 5px;
 }
 
-.player-profile table tr td{
+.match-detail table tr td, .player-profile table tr td{
     padding: 3px 5px;
 }
 
-.player-profile table tr td:first-child{
+.match-detail table tr td:first-child, .player-profile table tr td:first-child{
     font-weight: bold;
 }
 
+.form-place{
+    background-color: #f5f4f4;
+}
 
 
 footer{
