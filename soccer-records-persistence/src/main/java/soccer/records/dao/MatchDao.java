@@ -1,6 +1,6 @@
 package soccer.records.dao;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import soccer.records.entity.Location;
 import soccer.records.entity.Match;
@@ -30,7 +30,7 @@ public interface MatchDao extends DefaultCrudDao<Match,Long> {
      */
     public List<Match> filterByTeams(Team t1, Team t2, List<Match> matches) throws DataAccessExceptions;
 
-    List<Match> filterByDateAndTime(LocalDateTime d, List<Match> matches);
+    List<Match> filterByDateAndTime(Date d, List<Match> matches);
 
     List<Match> filterByLocation(Location l, List<Match> matches);
 

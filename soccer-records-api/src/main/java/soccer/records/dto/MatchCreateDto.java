@@ -5,9 +5,7 @@
  */
 package soccer.records.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonSetter;
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Objects;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -18,7 +16,7 @@ import javax.validation.constraints.NotNull;
  */
 public class MatchCreateDto {
     
-    private LocalDateTime dateAndTime;
+    private Date dateAndTime;
     private LocationDto location;
     @Min(0)
     private int teamHomeGoalsScored;
@@ -46,16 +44,11 @@ public class MatchCreateDto {
     public MatchCreateDto() {
     }       
 
-    public LocalDateTime getDateAndTime() {
+    public Date getDateAndTime() {
         return dateAndTime;
     }
 
-    @JsonSetter
-    public void setDateAndTime(String dateAndTime) {
-        this.dateAndTime = LocalDateTime.parse(dateAndTime);
-    }
-    @JsonIgnore
-    public void setDateAndTime(LocalDateTime dateAndTime) {
+    public void setDateAndTime(Date dateAndTime) {
         this.dateAndTime = dateAndTime;
     }
 
