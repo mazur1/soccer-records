@@ -545,7 +545,7 @@ soccerControllers.controller('MatchDetailController', function ($scope, $rootSco
 
 });
 
-soccerControllers.controller('NewMatchController', function ($scope, $routeParams, $http, $location, $rootScope) {
+soccerControllers.controller('NewMatchController', function ($scope, $routeParams, $http, $location, $rootScope, $filter) {
 
     $http.get('/pa165/api/v1/teams').then(function (response) {
         var teams = response.data['_embedded']['teams'];
@@ -569,6 +569,8 @@ soccerControllers.controller('NewMatchController', function ($scope, $routeParam
 
     // function called when submit button is clicked, creates match on server
     $scope.create = function (match) {
+
+        match.dateAndTime = $filter('date')(new Date(match.dateAndTime),'yyyy-MM-dd HH:mm');
 
         alert(JSON.stringify(match));
         
