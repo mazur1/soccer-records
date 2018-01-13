@@ -148,6 +148,7 @@ soccerControllers.controller('LoginController', function ($scope, $routeParams, 
 
         }, function error(response) {
             setMessage($rootScope, "error", 'Login failed!');
+            console.log(response.data.message);
         });
     };
 
@@ -188,6 +189,7 @@ soccerControllers.controller('TeamsController', function ($scope, $rootScope, $h
                 loadTeams();
             },function (response) {
                 setMessage($rootScope, "error", "Team "+team.name+" deletion failed");
+                console.log(response.data.message);
             });
         }
 
@@ -216,7 +218,8 @@ soccerControllers.controller('EditTeamController', function ($scope, $window, $r
             setMessage($rootScope, "success", "Team succesfuly edited");
             $window.location = '/pa165/#!/teams';
         },function (response) {
-            setMessage($rootScope, "error", "Team edit failed");
+            setMessage($rootScope, "error", response.data.message);
+            console.log(response.data.message);
         });
     };
 
@@ -235,7 +238,7 @@ soccerControllers.controller('NewTeamController', function ($scope, $rootScope, 
             setMessage($rootScope, "success", "Team succesfuly created");
             $window.location = '/pa165/#!/teams';
         },function (response) {
-            setMessage($rootScope, "success", "New team create failed");
+            setMessage($rootScope, "success", response.data.message);
         });
     }
 });
@@ -248,7 +251,7 @@ soccerControllers.controller('TeamDetailController', function ($scope, $window, 
         $scope.team = response.data;
         console.log('AJAX loaded detail of team ' + $scope.team.name);
         $scope.matches = $scope.team.matchesHome.concat($scope.team.matchesAway);
-        //formatDates($scope.matches);
+        formatDates($scope.matches);
         
     }, function error(error) {
         setMessage($rootScope, "error", error.data.message);
@@ -260,6 +263,7 @@ soccerControllers.controller('TeamDetailController', function ($scope, $window, 
             $window.location = '/pa165/#!/teams';
         }, function error(response) {
             setMessage($rootScope, "error", "Cannot delete team!");
+            console.log(response.data.message);
         });
     };
 });
@@ -288,6 +292,7 @@ soccerControllers.controller('PlayersController', function ($scope, $rootScope, 
                 setMessage($rootScope, "success", "Player "+player.name+" "+player.surname+" succesfuly deleted");
                 loadPlayers();
             },function (response) {
+                console.log(response.data.message);
                 setMessage($rootScope, "error", "Player "+player.name+" "+player.surname+" deletion failed");
             });
         }
@@ -322,7 +327,7 @@ soccerControllers.controller('EditPlayerController', function ($scope, $window, 
         }).then(function (response) {
             $window.location = '/pa165/#!/players';
         },function (response) {
-            setMessage($rootScope, "error", 'Player edit failed!');
+            setMessage($rootScope, "error", response.data.message);
         });
     };
 
@@ -348,6 +353,7 @@ soccerControllers.controller('PlayerDetailController', function ($scope, $window
             setMessage($rootScope, "success", 'A player was deleted');
             $window.location = '/pa165/#!/players';
         }, function error(response) {
+            console.log(response.data.message);
             setMessage($rootScope, "error", 'Cannot delete player!');
         });
     };
@@ -382,7 +388,7 @@ soccerControllers.controller('NewPlayerController', function ($scope, $location,
             setMessage($rootScope, "success", "Player succesfuly created");
             $location.path("/players");
         }, function error(response) {
-            setMessage($rootScope, "error", "new player create failed");
+            setMessage($rootScope, "error", response.data.message);
         });
 
     }
@@ -390,14 +396,13 @@ soccerControllers.controller('NewPlayerController', function ($scope, $location,
 
 soccerControllers.controller('MatchesController', function ($scope, $rootScope, $http, $filter) {
 
+
     function loadMatches(){
         $http.get('/pa165/api/v1/matches').then(function (response) {
             var matches = response.data['_embedded']['matches'];
             console.log('AJAX loaded all matches');
             $scope.matches = matches;
-
-            formatDates($filter,$scope.matches);
-
+            formatDates($filter,$scope.matches,false);
         }, function error(error) {
             setMessage($rootScope, "error", error.data.message);
         });
@@ -415,6 +420,7 @@ soccerControllers.controller('MatchesController', function ($scope, $rootScope, 
                 setMessage($rootScope, "success", "Match "+match.teamHome.name+" x "+match.teamAway.name+" "+match.dateAndTime+" succesfuly deleted");
                 loadMatches();
             },function (response) {
+                console.log(response.data.message);
                 setMessage($rootScope, "error", "Match "+match.teamHome.name+" x "+match.teamAway.name+" "+match.dateAndTime+" deletion failed");
             });
         }
@@ -455,6 +461,7 @@ soccerControllers.controller('MatchDetailController', function ($scope, $rootSco
             $location.path("/matches");
         }, function error(response) {
             setMessage($rootScope, "error", "Cannot delete match!");
+            console.log(response.data.message);
         });
     };
 
@@ -464,6 +471,7 @@ soccerControllers.controller('MatchDetailController', function ($scope, $rootSco
             $route.reload();
         }, function error(response) {
             setMessage($rootScope, "error", "Cannot delete match!");
+            console.log(response.data.message);
         });
     };
 
@@ -502,7 +510,7 @@ soccerControllers.controller('MatchDetailController', function ($scope, $rootSco
             setMessage($rootScope, "success", "A new player result was created");
             $route.reload();
         }, function error(response) {
-            setMessage($rootScope, "error", "Cannot create player result!");
+            setMessage($rootScope, "error", response.data.message);
         });
     };
     
@@ -524,8 +532,7 @@ soccerControllers.controller('MatchDetailController', function ($scope, $rootSco
             $route.reload();
         }, 
         function error(response) { 
-            console.log('result edit failed'); 
-            $rootScope.errorAlert = "result edit failed";
+            setMessage($rootScope, "error", response.data.message);
         });
         
     };
@@ -539,7 +546,7 @@ soccerControllers.controller('MatchDetailController', function ($scope, $rootSco
         }, 
         function error(response) { 
             console.log('result edit failed'); 
-            $rootScope.errorAlert = "result edit failed";
+            setMessage($rootScope, "error", response.data.message);
         });
         
     };
@@ -571,7 +578,6 @@ soccerControllers.controller('NewMatchController', function ($scope, $routeParam
     // function called when submit button is clicked, creates match on server
     $scope.create = function (match) {
 
-        alert(JSON.stringify(match));
         formatDate($filter, match);
         
         $http({
@@ -583,21 +589,19 @@ soccerControllers.controller('NewMatchController', function ($scope, $routeParam
             setMessage($rootScope, "success", "A new match was created");
             $location.path("/matches");
         }, function error(response) {
-            setMessage($rootScope, "error", "Cannot create match!");
+            setMessage($rootScope, "error", response.data.message);
         });
         
     };
 });
 
 soccerControllers.controller('EditMatchController', function ($scope, $window, $rootScope, $routeParams, $http, $filter) {
-
+    
     var matchId = $routeParams.matchId;
     
     $http.get('/pa165/api/v1/matches/' + matchId).then(function (response) {   
         $scope.match = response.data;
-
         formatDate($filter, $scope.match, false); 
-
         console.log('AJAX loaded detail of match ' + $scope.match.id);
     }, function error(error) {
         //display error
@@ -605,12 +609,9 @@ soccerControllers.controller('EditMatchController', function ($scope, $window, $
     });
     
     $scope.editMatch = function (match) {
-
         formatDate($filter, match);
-
         var matchData = {
-
-            'id' : matchId,
+            'id': match.id,
             'teamHomeId': match.teamHome.id,
             'teamAwayId': match.teamAway.id,
             'dateAndTime': match.dateAndTime,
@@ -619,7 +620,6 @@ soccerControllers.controller('EditMatchController', function ($scope, $window, $
             'teamAwayGoalsScored': match.teamAwayGoalScored,
             'teamHomeGoalsScoredHalf': match.teamHomeGoalsScoredHalf,
             'teamAwayGoalsScoredHalf': match.teamAwayGoalScoredHalf,
-
         };
     
         $http({
@@ -634,7 +634,7 @@ soccerControllers.controller('EditMatchController', function ($scope, $window, $
         }, 
         function(response) { 
             console.log('match edit failed'); 
-            $rootScope.errorAlert = "match edit failed";
+            setMessage($rootScope, "error", response.data.message);
         });
     };
     
@@ -668,6 +668,7 @@ soccerControllers.controller('ResultsController', function ($scope, $rootScope, 
                 setMessage($rootScope, "success", "Player result succesfuly deleted");
                 loadMatches();
             },function (response) {
+                console.log(response.data.message);
                 setMessage($rootScope, "error", "Player result deletion failed");
             });
         }
@@ -689,7 +690,7 @@ soccerControllers.controller('EditPlayerResultController', function ($scope, $wi
     
     }, function error(error) {
         //display error
-        $rootScope.errorAlert = error.data.message;
+        setMessage($rootScope, "error", error.data.message);
     });
     
     $scope.editResult = function (result) {
@@ -706,7 +707,7 @@ soccerControllers.controller('EditPlayerResultController', function ($scope, $wi
         }, 
         function(response) { 
             console.log('result edit failed'); 
-            $rootScope.errorAlert = "result edit failed";
+            setMessage($rootScope, "error", response.data.message);
         });
     };
     
@@ -729,7 +730,9 @@ function formatDate(filter, match, db) {
     } else {
         match.dateAndTime = new Date(match.dateAndTime);
     }
-
+    
+    //alert(match.dateAndTime);
+    
 }
 
 // defines new directive (HTML attribute "convert-to-int") for conversion between string and int
