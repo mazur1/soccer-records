@@ -48,34 +48,7 @@
         </div>
     </div>
     
-    <div class="form-group" >
-        <label for="teamHomeGoalsScoredHalf" class="col-sm-2 control-label">team home goals half</label>
-        <div class="col-sm-10">
-            <input placeholder="0" id="teamHomeGoalsScoredHalf" type="number" min="0" name="teamHomeGoalsScoredHalf" class="form-control" ng-model="match.teamHomeGoalsScoredHalf"/>
-            <p></p>
-        </div>
-    </div>
-    <div class="form-group" >
-        <label for="teamAwayGoalsScoredHalf" class="col-sm-2 control-label">team away goals half</label>
-        <div class="col-sm-10">
-            <input placeholder="0" id="teamAwayGoalsScoredHalf" type="number" min="0" name="teamAwayGoalsScoredHalf" class="form-control" ng-model="match.teamAwayGoalScoredHalf"/>
-            <p></p>
-        </div>
-    </div>
-    <div class="form-group" >
-        <label for="teamHomeGoalsScored" class="col-sm-2 control-label">team home goals</label>
-        <div class="col-sm-10">
-            <input placeholder="0" id="teamHomeGoalsScored" type="number" min="0" name="teamHomeGoalsScored" class="form-control" ng-model="match.teamHomeGoalsScored"/>
-            <p></p>
-        </div>
-    </div>
-    <div class="form-group" >
-        <label for="teamAwayGoalsScored" class="col-sm-2 control-label">team away goals</label>
-        <div class="col-sm-10">
-            <input placeholder="0" id="teamAwayGoalsScored" type="number" min="0" name="teamAwayGoalsScored" class="form-control" ng-model="match.teamAwayGoalScored"/>
-            <p></p>
-        </div>
-    </div>
+
 
     <button ng-disabled="!form.$valid" class="btn btn-primary" type="submit" ng-click="editMatch(match)">update</button>    
    
