@@ -602,21 +602,21 @@ soccerControllers.controller('EditMatchController', function ($scope, $window, $
     
     $scope.editMatch = function (match) {
         formatDate($filter, match);
-        var matchData = {
-        'teamHomeId': match.teamHome.id,
-        'teamAwayId': match.teamAway.id,
-        'dateAndTime': match.dateAndTime,
-        'location': match.location,
-        'teamHomeGoalsScored': match.teamHomeGoalsScored,
-        'teamAwayGoalsScored': match.teamAwayGoalScored,
-        'teamHomeGoalsScoredHalf': match.teamHomeGoalsScoredHalf,
-        'teamAwayGoalsScoredHalf': match.teamAwayGoalScoredHalf
-        };
+//        var matchData = {
+//        'teamHomeId': match.teamHome.id,
+//        'teamAwayId': match.teamAway.id,
+//        'dateAndTime': match.dateAndTime,
+//        'location': match.location,
+//        'teamHomeGoalsScored': match.teamHomeGoalsScored,
+//        'teamAwayGoalsScored': match.teamAwayGoalScored,
+//        'teamHomeGoalsScoredHalf': match.teamHomeGoalsScoredHalf,
+//        'teamAwayGoalsScoredHalf': match.teamAwayGoalScoredHalf
+//        };
     
         $http({
                 method: 'PUT',
                 url: '/pa165/api/v1/matches/' + matchId,
-                data: matchData
+                data: match
         })
         .then(function(response) {
             console.log('match succesfuly edited');
@@ -708,7 +708,7 @@ function formatDates(filter, matches, db) {
     db = typeof db !== 'undefined' ? db : true;
     
     for (var i = 0; i < matches.length; ++i) {
-        formatDate(filter,matches[i]);
+        formatDate(filter,matches[i], db);
     }
 }
 function formatDate(filter, match, db) {
@@ -721,7 +721,7 @@ function formatDate(filter, match, db) {
         match.dateAndTime = new Date(match.dateAndTime);
     }
     
-    alert(match.dateAndTime);
+    //alert(match.dateAndTime);
     
 }
 
