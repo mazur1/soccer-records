@@ -32,5 +32,5 @@ public interface PlayerResultFacade {
     int getPlayerResult(Long id);
 
     List<PlayerResultDto> filterActivePlayerResults(List<PlayerResultDto> par0);
-    
+
 }

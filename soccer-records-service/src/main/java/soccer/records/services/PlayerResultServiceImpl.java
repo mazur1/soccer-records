@@ -96,6 +96,7 @@ public class PlayerResultServiceImpl implements PlayerResultService {
         return playerResultDao.filterActive(par0);
     }
     
+    
     @Override
     public void changeGoals(PlayerResult pr, int goals){
         

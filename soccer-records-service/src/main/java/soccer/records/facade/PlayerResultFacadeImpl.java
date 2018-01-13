@@ -119,4 +119,5 @@ public class PlayerResultFacadeImpl implements PlayerResultFacade{
         List<PlayerResult> mapped = beanMappingService.mapTo(par0, PlayerResult.class);
         return beanMappingService.mapTo(playerResult.filterActive(mapped), PlayerResultDto.class);
     }
+ 
 }

@@ -3,19 +3,29 @@
     <div class="line"></div>
 </div>
 
-<div class="row">
+<div class="row match-detail">
     <div class="col-xs-6">
-        <li><b>Team Home: </b>{{match.teamHome.name}}</li>
-        <li><b>Team Away: </b>{{match.teamAway.name}}</li>
-        <li><b>Date ant time: </b>{{match.dateAndTime}}</li>
-        <li><b>location: </b>{{match.location.name}}</li>
-        <li><b>city: </b>{{match.location.city}}</li>
-        <li><b>street: </b>{{match.location.street}}</li>
-        <li><b>zip: </b>{{match.location.zip}}</li>
-        <li><b>state: </b>{{match.location.state}}</li>
+            
         
-        Result: <span style="color: red; font-weight: bold;">{{match.teamHomeGoalsScored-0}} : {{match.teamAwayGoalsScored-0}}</span> ({{match.teamHomeGoalsScoredHalf-0}} : {{match.teamAwayGoalsScoredHalf-0}})
+        <br /><br />
+        
+        <table>
+            <tr><td><b>Result:</b> </td><td><span style="color: red; font-weight: bold;">{{match.teamHomeGoalsScored-0}} : {{match.teamAwayGoalsScored-0}}</span> ({{match.teamHomeGoalsScoredHalf-0}} : {{match.teamAwayGoalsScoredHalf-0}})</td></tr>
     
+            <tr><td><b>Team Home:</b></td><td>{{match.teamHome.name}}</td></tr>
+            <tr><td><b>Team Away: </b></td><td>{{match.teamAway.name}}</td></tr>
+            <tr><td><b>Date and time: </b></td><td>{{match.dateAndTime | date : "dd.MM.y hh:mm" }}</td></tr>
+            <tr><td><b>location: </b></td><td>{{match.location.name}}</td></tr>
+            <tr><td><b>city: </b></td><td>{{match.location.city}}</td></tr>
+            <tr><td><b>street: </b></td><td>{{match.location.street}}</td></tr>
+            <tr><td><b>zip: </b></td><td>{{match.location.zip}}</td></tr>
+            <tr><td><b>state: </b></td><td>{{match.location.state}}</td></tr>
+        </table>
+        
+        <br /><br />
+
+        <br />
+        
         <a ng-if="loggedUser.logged == true" ng-click="deleteMatch()" class="btn btn-primary">
             <span class="glyphicon" aria-hidden="true"></span>
             Delete match
@@ -29,49 +39,17 @@
             Update score
         </a>
     </div>
-
-    <div>
-    <input ng-if="loggedUser.logged == true" type="button" value="Add player result" ng-click="ShowHide()" />
-        <br/>
-        <div class="col-xs-6" ng-hide = "IsHidden" ng-include="'/pa165/partials/admin/new_player_result.html'"></div>
-        <br/>
-    </div>
     
-    <br/>
-    <!--<form class="form-inline">
-        <div class="form-group">
-            <label >Search</label>
-            <input type="text" ng-model="search" class="form-control" placeholder="Search">
-        </div>
-    </form>-->
-    <div>
-        <!--<table class="table table-striped table-hover">
-            <thead>
-                <tr>
-                    <th ng-click="sort('id')">Id
-                        <span class="glyphicon sort-icon" ng-show="sortKey=='id'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-                    </th>
-                    <th ng-click="sort('name')">Name
-                        <span class="glyphicon sort-icon" ng-show="sortKey=='name'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-                    </th>
-                    <th ng-click="sort('goals')">Goals
-                        <span class="glyphicon sort-icon" ng-show="sortKey=='goals'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="playerResult in match.playerResults">
-                <td>{{playerResult.player.name + ' ' + playerResult.player.surname}}</td>
-                <td>{{playerResult.player.goalsScored-0}}</td>
-                <td><button ng-click="deleteResult(playerResult.id)" type="submit" class="btn btn-primary">Delete</button></td>
-                </tr>
-            </tbody>
-        </table> 
-    </div>-->
- 
-        <br/>
-        <div class="col-xs-6" ng-hide = "IsHiddenEdit" ng-include="'/pa165/partials/admin/edit_player_result.html'"></div>
-        <br/>
+    <div class="form-place col-xs-12" style="margin-top: 15px;padding: 9px 6px">
+        
+        <input ng-if="loggedUser.logged == true" type="button" value="Add player result" ng-click="ShowHide()" /> 
+        
+        <div style="border: 1px #ccc solid;margin-top: 15px;padding: 9px 6px" class="col-xs-12" ng-hide = "IsHidden" ng-include="'/pa165/partials/admin/new_player_result.html'"></div>
+        
+        <div style="border: 1px #ccc solid;margin-top: 15px;padding: 9px 6px" class="col-xs-12" ng-hide = "IsHiddenEdit" ng-include="'/pa165/partials/admin/edit_player_result.html'"></div>
+        
+    </div>
+
     <table class="table table-striped">
         <thead>
         <tr>
