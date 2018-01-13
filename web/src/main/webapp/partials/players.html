@@ -21,6 +21,9 @@
             <td><a href="#!/players/{{player.id}}">{{player.name}} {{player.surname}}</a></td>
             <td>{{player.country}}</td>
             <td><a href="#!/teams/{{player.team.id}}">{{player.team.name}}</a></td>
+            <td ng-if="loggedUser.logged == true">
+                <button class="button" ng-click="deletePlayer(player)">Delete</button>              
+            </td>
         </tr>
     </tbody>
 </table>

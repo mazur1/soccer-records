@@ -18,6 +18,9 @@
             <td>{{result.player.team.name}}</td>
             <td>{{result.match.teamHome.name}} x {{result.match.teamAway.name}}</td>
             <td>{{result.goalsScored}}</td>
+            <td ng-if="loggedUser.logged == true">
+                <button class="button" ng-click="deleteResult(result)">Delete</button>              
+            </td>
         </tr>
     </tbody>
 </table>
