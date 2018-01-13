@@ -602,21 +602,22 @@ soccerControllers.controller('EditMatchController', function ($scope, $window, $
     
     $scope.editMatch = function (match) {
         formatDate($filter, match);
-//        var matchData = {
-//        'teamHomeId': match.teamHome.id,
-//        'teamAwayId': match.teamAway.id,
-//        'dateAndTime': match.dateAndTime,
-//        'location': match.location,
-//        'teamHomeGoalsScored': match.teamHomeGoalsScored,
-//        'teamAwayGoalsScored': match.teamAwayGoalScored,
-//        'teamHomeGoalsScoredHalf': match.teamHomeGoalsScoredHalf,
-//        'teamAwayGoalsScoredHalf': match.teamAwayGoalScoredHalf
-//        };
+        var matchData = {
+            'id': match.id,
+            'teamHomeId': match.teamHome.id,
+            'teamAwayId': match.teamAway.id,
+            'dateAndTime': match.dateAndTime,
+            'location': match.location,
+            'teamHomeGoalsScored': match.teamHomeGoalsScored,
+            'teamAwayGoalsScored': match.teamAwayGoalScored,
+            'teamHomeGoalsScoredHalf': match.teamHomeGoalsScoredHalf,
+            'teamAwayGoalsScoredHalf': match.teamAwayGoalScoredHalf,
+        };
     
         $http({
                 method: 'PUT',
                 url: '/pa165/api/v1/matches/' + matchId,
-                data: match
+                data: matchData
         })
         .then(function(response) {
             console.log('match succesfuly edited');

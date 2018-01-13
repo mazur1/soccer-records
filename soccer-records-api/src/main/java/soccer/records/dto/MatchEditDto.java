@@ -38,25 +38,25 @@ public class MatchEditDto {
         return teamHomeId;
     }
 
-    /*public void setTeamHomeId(Long teamHomeId) {
+    public void setTeamHomeId(Long teamHomeId) {
         this.teamHomeId = teamHomeId;
-    }*/
+    }
 
     public Long getTeamAwayId() {
         return teamAwayId;
     }
 
-    /*public void setTeamAwayId(Long teamAwayId) {
+    public void setTeamAwayId(Long teamAwayId) {
         this.teamAwayId = teamAwayId;
-    }*/
+    }
     
     public Long getId() {
         return id;
     }
 
-    /*public void setId(Long id) {
+    public void setId(Long id) {
         this.id = id;
-    }*/
+    }
  
     /*public List<Long> getPlayerResults() {
         return Collections.unmodifiableList(playerResults);
