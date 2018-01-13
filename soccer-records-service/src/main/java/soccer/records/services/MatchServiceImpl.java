@@ -144,9 +144,8 @@ public class MatchServiceImpl implements MatchService {
 	m.removePlayerResult(r);
     }
     
-    
     @Override
-    public int getTeamHomeGoalsScored(Match m) {
+    public void updateTeamHomeScore(Match m) {
 
         List<PlayerResult> results = resultService.findByMatch(m);
         int goalsSum = 0;
@@ -155,12 +154,11 @@ public class MatchServiceImpl implements MatchService {
                 goalsSum += result.getGoalsScored();
             }
         }
-        return goalsSum;
+        m.setTeamHomeGoalsScored(goalsSum);
     }
-
-    
+ 
     @Override
-    public int getTeamAwayGoalsScored(Match m) {
+    public void updateTeamAwayScore(Match m) {
         List<PlayerResult> results = resultService.findByMatch(m);
         int goalsSum = 0;
         for (PlayerResult result : results) {
@@ -168,7 +166,7 @@ public class MatchServiceImpl implements MatchService {
                 goalsSum += result.getGoalsScored();
             }
         }
-        return goalsSum;
+        m.setTeamAwayGoalsScored(goalsSum);
     }
         
     @Override
@@ -176,11 +174,11 @@ public class MatchServiceImpl implements MatchService {
         MatchResult result = new MatchResult();
         result.setMatch(m);
         
-        if(getTeamHomeGoalsScored(m) > getTeamAwayGoalsScored(m)) {
+        if(m.getTeamHomeGoalsScored() > m.getTeamAwayGoalsScored()) {
             result.setWinner(m.getTeamHome());
             result.setLooser(m.getTeamAway());
         }
-        else if(getTeamAwayGoalsScored(m) > getTeamHomeGoalsScored(m)) {
+        else if(m.getTeamAwayGoalsScored() > m.getTeamHomeGoalsScored()) {
             result.setWinner(m.getTeamAway());
             result.setLooser(m.getTeamHome());
         }

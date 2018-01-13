@@ -19,6 +19,16 @@ public class PlayerResultDto extends AuditableDto<String> {
     
     private Long id;
 
+    private boolean isActive=true;
+
+    public boolean getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
+    }
+    
     @Min(0)
     private int goalsScored;
 

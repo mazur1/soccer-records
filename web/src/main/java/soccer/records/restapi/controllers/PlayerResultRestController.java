@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import soccer.records.dto.PlayerResultCreateDto;
 import soccer.records.dto.PlayerResultDto;
+import soccer.records.dto.PlayerResultEditDto;
 
 
 import soccer.records.facade.PlayerResultFacade;
@@ -126,6 +127,17 @@ public class PlayerResultRestController {
         
         PlayerResultResource resource = PlayerResultResourceAssembler.toResource(playerResultFacade.findPlayerResultById(id));
         return new ResponseEntity<>(resource, HttpStatus.OK);
+    }
+    
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public final void editPlayerResult(@PathVariable("id") long id, @RequestBody @Valid PlayerResultEditDto dto, BindingResult bindingResult) throws Exception {
+        log.debug("rest editPlayerResult({})", id);
+        try {
+            playerResultFacade.updatePlayerResult(dto);
+        } catch (Exception ex) {
+            log.debug("Cannot edit result with id {}", id);
+            throw new ResourceNotFoundException(ex.getMessage());
+        }
     }
     
 }

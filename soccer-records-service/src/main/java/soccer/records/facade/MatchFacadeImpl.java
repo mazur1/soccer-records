@@ -126,14 +126,9 @@ public class MatchFacadeImpl implements MatchFacade {
     }
     
     @Override
-    public int getTeamHomeGoalsScored(Long id) {
-        return matchService.getTeamHomeGoalsScored(matchService.findById(id));
-
-    }
-    
-    @Override
-    public int getTeamAwayGoalsScored(Long id) {
-        return matchService.getTeamAwayGoalsScored(matchService.findById(id));
-
+    public void updateMatchScore(Long id) {
+        Match m = matchService.findById(id);
+        matchService.updateTeamHomeScore(m);
+        matchService.updateTeamAwayScore(m);
     }
 }

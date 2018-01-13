@@ -9,9 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDateTime;
 import soccer.records.entity.*;
 import soccer.records.enums.AppRole;
 import soccer.records.enums.PlayerPost;
@@ -123,12 +121,12 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         Player p410 = player("Marek", "Plašil", 31, PlayerPost.MIDFIELDER , false, jablonec, "Praha", "Czech Republic");
         Player p411 = player("Jan", "Shejbal", 33, PlayerPost.GOLMAN , false, jablonec, "Praha", "Czech Republic");
 
-        Match m01 = match(plzen, sparta, "16-12-2017 10:00", "Sportovní areál Hamr Braník");
-        Match m02 = match(brno, liberec, "17-12-2017 13:00", "Stadion Kozel");
-        Match m03 = match(plzen, brno, "11-12-2017 10:30", "Sportovní areál Hamr Braník");
-        Match m04 = match(liberec, plzen, "31-12-2017 11:00", "LIBEREC aréna");
-        Match m05 = match(plzen, jablonec, "24-12-2017 10:00", "Stadion Kozel");
-        Match m06 = match(brno, jablonec, "12-12-2017 10:00", "Moravia");
+        Match m01 = match(plzen, sparta, LocalDateTime.now(), "Sportovní areál Hamr Braník");
+        Match m02 = match(brno, liberec, LocalDateTime.now().plusDays(1), "Stadion Kozel");
+        Match m03 = match(plzen, brno, LocalDateTime.now().plusDays(2), "Sportovní areál Hamr Braník");
+        Match m04 = match(liberec, plzen, LocalDateTime.now().plusDays(3), "LIBEREC aréna");
+        Match m05 = match(plzen, jablonec, LocalDateTime.now().plusDays(4), "Stadion Kozel");
+        Match m06 = match(brno, jablonec, LocalDateTime.now().plusDays(5), "Moravia");
         
 
 
@@ -185,17 +183,11 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         return p;
     }
     
-    private Match match(Team home, Team away, String date, String locName) throws IOException {
+    private Match match(Team home, Team away, LocalDateTime date, String locName) throws IOException {
         Match m = new Match();
         m.setTeamAway(away);
         m.setTeamHome(home);
-        
-        Date d;
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
-        try{
-            d = sdf.parse(date);
-            m.setDateAndTime(d);
-        } catch(ParseException e) {}
+        m.setDateAndTime(date);
         
         Location loc = new Location();
         loc.setName(locName);

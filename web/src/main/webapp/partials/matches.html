@@ -24,7 +24,7 @@
             <td><a href="#!/matches/{{match.id}}">{{match.id}}</a></td>
             <td><a href="#!/teams/{{match.teamHome.id}}">{{match.teamHome.name}}</a></td>
             <td><a href="#!/teams/{{match.teamAway.id}}">{{match.teamAway.name}}</a></td>
-            <td>{{match.dateAndTime | date:'dd-MM-yyyy HH:mm'}}</td>
+            <td>{{match.dateAndTime}}</td>
             <td>{{match.location.name}}</td>
             <td>{{match.teamHomeGoalsScored-0}} : {{match.teamAwayGoalsScored-0}}</td>
             
