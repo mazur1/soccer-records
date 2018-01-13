@@ -55,7 +55,7 @@ public class RestSpringMvcConfig extends WebMvcConfigurerAdapter {
         ObjectMapper objectMapper = beanFactory.getBean("_halObjectMapper", ObjectMapper.class);
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-        objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH));
+        objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.ENGLISH));
         return objectMapper;
     }
 

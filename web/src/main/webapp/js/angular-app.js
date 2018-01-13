@@ -228,7 +228,8 @@ soccerControllers.controller('TeamDetailController', function ($scope, $window, 
         $scope.team = response.data;
         console.log('AJAX loaded detail of team ' + $scope.team.name);
         $scope.matches = $scope.team.matchesHome.concat($scope.team.matchesAway);
-        formatDates(matches);
+        formatDates($scope.matches);
+        
     }, function error(error) {
         setMessage($rootScope, "error", error.data.message);
     });

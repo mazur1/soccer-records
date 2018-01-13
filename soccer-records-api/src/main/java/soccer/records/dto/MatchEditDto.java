@@ -5,7 +5,7 @@
  */
 package soccer.records.dto;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Objects;
 import javax.validation.constraints.Min;
 
@@ -16,7 +16,7 @@ import javax.validation.constraints.Min;
 public class MatchEditDto {
     
     private Long id;
-    private LocalDateTime dateAndTime;
+    private Date dateAndTime;
     private LocationDto location;
     @Min(0)
     private int teamHomeGoalsScored;
@@ -74,11 +74,11 @@ public class MatchEditDto {
         playerResults.remove(r);
     }*/
 
-    public LocalDateTime getDateAndTime() {
+    public Date getDateAndTime() {
         return dateAndTime;
     }
 
-    public void setDateAndTime(LocalDateTime dateAndTime) {
+    public void setDateAndTime(Date dateAndTime) {
         this.dateAndTime = dateAndTime;
     }
 

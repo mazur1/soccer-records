@@ -2,11 +2,7 @@ package soccer.records.restapi.hateoas;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import org.springframework.hateoas.core.Relation;
 import soccer.records.dto.LocationDto;
@@ -29,9 +25,7 @@ public class MatchResource extends AuditableResource<String> {
     private long teamAwayId;
     private TeamDto teamHome;
     private TeamDto teamAway;
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    private LocalDateTime dateAndTime;
+    private Date dateAndTime;
     private LocationDto location;
     private int teamHomeGoalsScored;
     private int teamAwayGoalsScored;
@@ -93,12 +87,14 @@ public class MatchResource extends AuditableResource<String> {
     public void setTeamAway(TeamDto teamAway) {
         this.teamAway = teamAway;
     }
-    
-    public LocalDateTime getDateAndTime() {
+
+    //@JsonDeserialize(using = LocalDateDeserializer.class)
+    public Date getDateAndTime() {
         return dateAndTime;
     }
 
-    public void setDateAndTime(LocalDateTime dateAndTime) {
+    //@JsonDeserialize(using = LocalDateDeserializer.class)
+    public void setDateAndTime(Date dateAndTime) {
         this.dateAndTime = dateAndTime;
     }
 

@@ -1,8 +1,8 @@
 package soccer.records.entity;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
@@ -23,8 +25,8 @@ import javax.validation.constraints.NotNull;
 @Table(name="SoccerMatch")
 public class Match extends Auditable<String,Long> {
 
-    //@Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime dateAndTime;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateAndTime;
     @Embedded 
     private Location location;
     @Min(0)
@@ -81,11 +83,11 @@ public class Match extends Auditable<String,Long> {
         playerResults.remove(r);
     }
 
-    public LocalDateTime getDateAndTime() {
+    public Date getDateAndTime() {
         return dateAndTime;
     }
 
-    public void setDateAndTime(LocalDateTime dateAndTime) {
+    public void setDateAndTime(Date dateAndTime) {
         this.dateAndTime = dateAndTime;
     }
 
