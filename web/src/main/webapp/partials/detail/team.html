@@ -15,7 +15,7 @@
             </tr>
             </thead>
             <tbody >
-                <tr ng-repeat="match in team.matchesHome.concat(team.matchesAway) | limitTo:5 | orderBy:'dateAndTime':true track by $index " ng-init="opponent=team.name==match.teamHome.name ? match.teamAway : match.teamHome">
+                <tr ng-repeat="match in matches | limitTo:5 | orderBy:'dateAndTime':true track by $index " ng-init="opponent=team.name==match.teamHome.name ? match.teamAway : match.teamHome">
                     <td><a href="#!/teams/{{opponent.id}}">{{opponent.name}}</a></td>
                     <td>{{match.dateAndTime}}</td>
                     <td>{{match.location.name}}</td>
