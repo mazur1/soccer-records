@@ -629,6 +629,7 @@ soccerControllers.controller('EditMatchController', function ($scope, $window, $
         })
         .then(function(response) {
             console.log('match succesfuly edited');
+            setMessage($rootScope, "success", "Match succesfuly edited");
             $window.location='/pa165/#!/matches';
         
         }, 
