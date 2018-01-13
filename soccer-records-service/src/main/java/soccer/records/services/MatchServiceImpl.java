@@ -2,7 +2,6 @@ package soccer.records.services;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,7 +60,7 @@ public class MatchServiceImpl implements MatchService {
         if(m == null) return;
         
         List<Match> matches = matchDao.findAll();
-        matches.stream().filter(p -> !Objects.equals(m, p)).collect(Collectors.toList());
+        //matches.stream().filter(p -> !Objects.equals(m, p)).collect(Collectors.toList());
         List<Match> active = matchDao.filterActive(matches);
         
         if(update)

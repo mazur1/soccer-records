@@ -25,24 +25,38 @@ public class PlayerResultServiceImpl implements PlayerResultService {
      * Helper method to validate match before create/update
      * @return 
      */
-    private void validate(PlayerResult pr) {
+    private void validate(PlayerResult pr, boolean update) {
+        if(pr == null) return;
+        
+        List<PlayerResult> results = playerResultDao.findAll();
+        List<PlayerResult> active = playerResultDao.filterActive(results);
+        
+        if(update)
+            active.remove(pr);
+        
         if(pr.getMatch() == null)
             throw new SoccerServiceException("Can't create a player result without a match");
         else if(pr.getPlayer() == null)
             throw new SoccerServiceException("Can't create a player result without a player");  
-        else if(playerResultDao.findByBoth(pr.getPlayer().getId(), pr.getMatch().getId()) != null)
+        else if(playerResultDao.findByBoth(pr.getPlayer().getId(), pr.getMatch().getId()) != null )
             throw new SoccerServiceException("player result already exists");  
+        
+        else if(!Objects.equals(pr.getPlayer().getTeam(), pr.getMatch().getTeamHome())
+                        && !Objects.equals(pr.getPlayer().getTeam(), pr.getMatch().getTeamAway()))
+                    throw new SoccerServiceException("Player result " + pr + " is from unparticipating team.");
+            
     }
     
     @Override
     public Long create(PlayerResult pr){
-        validate(pr);
+        validate(pr, false);
         playerResultDao.create(pr);
         return pr.getId();
     }
 
     @Override
     public void update(PlayerResult pr){
+        validate(pr, true);
         playerResultDao.update(pr);
     }
 
