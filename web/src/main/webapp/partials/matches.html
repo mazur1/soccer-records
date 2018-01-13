@@ -27,7 +27,9 @@
             <td>{{match.dateAndTime}}</td>
             <td>{{match.location.name}}</td>
             <td>{{match.teamHomeGoalsScored-0}} : {{match.teamAwayGoalsScored-0}}</td>
-            
+            <td ng-if="loggedUser.logged == true">
+                <button class="button" ng-click="deleteMatch(match)">Delete</button>              
+            </td>            
         </tr>
     </tbody>
 </table>
