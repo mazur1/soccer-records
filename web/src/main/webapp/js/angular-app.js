@@ -428,14 +428,23 @@ soccerControllers.controller('MatchesController', function ($scope, $rootScope, 
     };
     
     $scope.activateMatch = function(match){
-        match.isActive = true;
+        formatDate($filter, match);
+        var matchData = {
+            'id': match.id,
+            'teamHomeId': match.teamHome.id,
+            'teamAwayId': match.teamAway.id,
+            'dateAndTime': match.dateAndTime,
+            'location': match.location,
+            'isActive': true
+        };
+        //match.isActive = true;
             $http({
                 method: 'PUT',
                 url: '/pa165/api/v1/matches/' + match.id,
-                data: match
+                data: matchData
             }).then(function (response) {
                 setMessage($rootScope, "success", "Match "+match.teamHome.name+" x "+match.teamAway.name+" "+match.dateAndTime+" succesfuly activated");
-                loadMatches();
+                $route.reload();
             },function (response) {
                 setMessage($rootScope, "error", "Match "+match.teamHome.name+" x "+match.teamAway.name+" "+match.dateAndTime+" activation failed");
             });
